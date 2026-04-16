@@ -1,0 +1,131 @@
+name: gyaawa
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_screenutil: ^5.9.3
+  google_fonts: ^8.0.2
+  shimmer: ^3.0.0
+  flutter_svg: ^2.0.16
+  cached_network_image: ^3.4.1
+  loading_animation_widget: ^1.3.0
+  country_code_picker: ^3.4.1
+  dropdown_button2: ^2.3.9
+  carousel_slider:
+
+  get: ^4.6.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/svg/
+    - assets/fonts/rubik/
+    - assets/fonts/inter/
+    - assets/fonts/onest/
+
+
+  fonts:
+    - family: rubikLight
+      fonts:
+        - asset: assets/fonts/rubik/Rubik-Light.ttf
+
+    - family: rubikRegular
+      fonts:
+        - asset: assets/fonts/rubik/Rubik-Regular.ttf
+
+    - family: rubikMedium
+      fonts:
+        - asset: assets/fonts/rubik/Rubik-Medium.ttf
+
+    - family: rubikSemiBold
+      fonts:
+        - asset: assets/fonts/rubik/Rubik-SemiBold.ttf
+
+    - family: rubikBold
+      fonts:
+        - asset: assets/fonts/rubik/Rubik-Bold.ttf
+
+    - family: rubikExtraBold
+      fonts:
+        - asset: assets/fonts/rubik/Rubik-ExtraBold.ttf
+
+    - family: rubikBlack
+      fonts:
+        - asset: assets/fonts/rubik/Rubik-Black.ttf
+
+
+    - family: interLight
+      fonts:
+        - asset: assets/fonts/inter/Inter_18pt-Light.ttf
+
+    - family: interRegular
+      fonts:
+        - asset: assets/fonts/inter/Inter_18pt-Regular.ttf
+
+    - family: interMedium
+      fonts:
+        - asset: assets/fonts/inter/Inter_18pt-Medium.ttf
+
+    - family: interSemiBold
+      fonts:
+        - asset: assets/fonts/inter/Inter_18pt-SemiBold.ttf
+
+    - family: interBold
+      fonts:
+        - asset: assets/fonts/inter/Inter_18pt-Bold.ttf
+
+    - family: interExtraBold
+      fonts:
+        - asset: assets/fonts/inter/Inter_18pt-ExtraBold.ttf
+
+
+    # 🔥 Onest Fonts
+    - family: onestThin
+      fonts:
+        - asset: assets/fonts/onest/Onest-Thin.ttf
+
+    - family: onestExtraLight
+      fonts:
+        - asset: assets/fonts/onest/Onest-ExtraLight.ttf
+
+    - family: onestLight
+      fonts:
+        - asset: assets/fonts/onest/Onest-Light.ttf
+
+    - family: onestRegular
+      fonts:
+        - asset: assets/fonts/onest/Onest-Regular.ttf
+
+    - family: onestMedium
+      fonts:
+        - asset: assets/fonts/onest/Onest-Medium.ttf
+
+    - family: onestSemiBold
+      fonts:
+        - asset: assets/fonts/onest/Onest-SemiBold.ttf
+
+    - family: onestBold
+      fonts:
+        - asset: assets/fonts/onest/Onest-Bold.ttf
+
+    - family: onestExtraBold
+      fonts:
+        - asset: assets/fonts/onest/Onest-ExtraBold.ttf
+
+    - family: onestBlack
+      fonts:
+        - asset: assets/fonts/onest/Onest-Black.ttf
