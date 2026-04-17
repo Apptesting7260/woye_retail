@@ -13,7 +13,6 @@ import '../../../../shared/theme/font_family.dart';
 import '../../../../shared/theme/font_style.dart';
 import '../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../shared/widgets/custom_rounded_button.dart';
-import '../../../navigation_bar/view/nav_bar.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -63,8 +62,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                      width: 130,
                      color: AppColors.buttonColor,
                     onPressed: () {
-                    // Get.toNamed(AppRoutes.loginScreen);
-                      Get.offAll(() => MainScreen());
+                     Get.toNamed(AppRoutes.loginScreen);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

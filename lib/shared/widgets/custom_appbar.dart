@@ -35,7 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: REdgeInsets.only(left: 1, right: appbarRightPadding ?? 22.w),
+      padding: REdgeInsets.only(left: 15, right: appbarRightPadding ?? 22.w),
       child: AppBar(
         automaticallyImplyLeading: false,
         leading: isLeading

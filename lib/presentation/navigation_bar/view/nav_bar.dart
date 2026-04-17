@@ -5,6 +5,7 @@ import 'package:gyaawa/Utils/sized_box.dart';
 import '../../../shared/theme/colors.dart';
 import '../../../shared/theme/font_family.dart';
 import '../../electronics/home/view/home_screen.dart';
+import '../../electronics/product_ditails/product_ditails_screen/produt_screen.dart';
 import '../controller/nav_bar_controller.dart';
 
 class MainScreen extends StatelessWidget {
@@ -14,7 +15,7 @@ class MainScreen extends StatelessWidget {
 
   List<Widget> get screens => [
     const HomeScreen(),
-    const HomeScreen(),
+    const ProductDetailsScreen(),
     const HomeScreen(),
     const HomeScreen(),
     const HomeScreen(),

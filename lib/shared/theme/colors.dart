@@ -20,12 +20,16 @@ class AppColors {
   static Color greyTextColor = const Color(0XFF4A5565);
   static Color greyLightColor = const Color(0XFF949494);
   static Color redBgClr = const Color(0XFFF6F3F4);
+  static Color royalBlueClr = const Color(0XFF193CB8);
+  static Color lightBlueClr = const Color(0XFFDBEAFE);
   static Color buttonColor = const Color(0XFF36454F);
   static Color buttonHideColor = const Color(0XFF717182);
   static Color blackTextColor = const Color(0XFF181725);
   static Color errorColor = const Color(0xFFFB2C36);
   static Color filledClr = const Color(0xFFF2F2F2);
   static Color borderClr = const Color(0xFFD8D8D8);
+  static Color yellowLightClr = const Color(0xFFFEF9C2);
+  static Color brownLightClr = const Color(0xFF894B00);
   static Color greyClr = const Color(0xFF8E8E93);
   static Color blueTextColor = const Color(0xFF1E2939);
   static Color boldRed = const Color(0xFFD4183D);
