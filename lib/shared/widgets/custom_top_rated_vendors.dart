@@ -4,6 +4,7 @@ import 'package:gyaawa/shared/widgets/image.dart';
 import '../theme/colors.dart';
 import '../theme/font_family.dart';
 import '../theme/font_style.dart';
+import 'custom_elevated_button.dart';
 
 class TechCorpStoreCard extends StatelessWidget {
   final String brandName;
@@ -20,6 +21,7 @@ class TechCorpStoreCard extends StatelessWidget {
   final List<String> badges;
   final String responseTime;
   final String shippingTime;
+  final VoidCallback? onVisitTap;
 
   const TechCorpStoreCard({
     Key? key,
@@ -35,6 +37,7 @@ class TechCorpStoreCard extends StatelessWidget {
     required this.bannerImageUrl,
     required this.popularProducts,
     required this.badges,
+    this.onVisitTap,
     this.responseTime = "< 2 hours",
     this.shippingTime = "1-2 days",
   }) : super(key: key);
@@ -42,8 +45,19 @@ class TechCorpStoreCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child:Container(
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withOpacity(0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            )
+          ],
+        ), child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
@@ -65,8 +79,8 @@ class TechCorpStoreCard extends StatelessWidget {
                 top: 8,
                 right: 8,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -100,7 +114,6 @@ class TechCorpStoreCard extends StatelessWidget {
               ),
             ],
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
             child: Column(
@@ -121,8 +134,8 @@ class TechCorpStoreCard extends StatelessWidget {
                 ),
                 hBox(8),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: AppColors.filledClr,
                     borderRadius: BorderRadius.circular(6),
@@ -138,7 +151,7 @@ class TechCorpStoreCard extends StatelessWidget {
                   children: [
                     ...List.generate(
                       5,
-                          (i) =>
+                      (i) =>
                           Icon(Icons.star, color: AppColors.starClr, size: 20),
                     ),
                     wBox(6),
@@ -160,26 +173,35 @@ class TechCorpStoreCard extends StatelessWidget {
                   children: [
                     _infoChip(value: "$products", label: "Products"),
                     wBox(8),
-                    _infoChip(value: "$yearsActive+", label: "Years Active", isHighlighted: true),
+                    _infoChip(
+                        value: "$yearsActive+",
+                        label: "Years Active",
+                        isHighlighted: true),
                   ],
                 ),
                 hBox(16),
                 Row(
                   children: [
-                    _dotInfo(color: AppColors.greenTextClr, text: "Response: $responseTime"),
+                    _dotInfo(
+                        color: AppColors.greenTextClr,
+                        text: "Response: $responseTime"),
                     wBox(19),
-                    _dotInfo(color: AppColors.blueClr, text: "Shipping: $shippingTime"),
+                    _dotInfo(
+                        color: AppColors.blueClr,
+                        text: "Shipping: $shippingTime"),
                   ],
                 ),
-              hBox(20),
+                hBox(20),
                 Text(
                   "Popular Products",
                   style: AppFontStyle.text_14_500(AppColors.black,
                       fontFamily: AppFontFamily.interSemiBold),
                 ),
-              hBox(8),
+                hBox(8),
                 Row(
-                  children: List.generate(popularProducts.length > 3 ? 3 : popularProducts.length, (index) {
+                  children: List.generate(
+                      popularProducts.length > 3 ? 3 : popularProducts.length,
+                      (index) {
                     final item = popularProducts[index];
                     return Expanded(
                       child: Padding(
@@ -189,7 +211,7 @@ class TechCorpStoreCard extends StatelessWidget {
                           children: [
                             AppImage(
                               path: item["image"] ?? "",
-                             width: 95,
+                              width: 95,
                               height: 95,
                               fit: BoxFit.cover,
                               borderRadius: 10,
@@ -210,30 +232,28 @@ class TechCorpStoreCard extends StatelessWidget {
                     );
                   }),
                 ),
-                hBox(30),
-
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 13),
-                    decoration: BoxDecoration(
-                      color: AppColors.buttonColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Visit $brandName Store",
-                          style: AppFontStyle.text_14_500(AppColors.white,
-                              fontFamily: AppFontFamily.interMedium),
+                hBox(10),
+                CustomElevatedButton(
+                  onPressed: onVisitTap ?? () {},
+                  color: AppColors.buttonColor,
+                  borderRadius: BorderRadius.circular(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Visit $brandName Store",
+                        style: AppFontStyle.text_13_500(
+                          AppColors.white,
+                          fontFamily: AppFontFamily.interMedium,
                         ),
-                        const SizedBox(width: 6),
-                        Icon(Icons.arrow_forward, color: AppColors.white,
-                            size: 16),
-                      ],
-                    ),
+                      ),
+                     wBox(6),
+                       Icon(
+                        Icons.arrow_forward,
+                        color: AppColors.white,
+                        size: 20,
+                      ),
+                    ],
                   ),
                 ),
                 hBox(10),
@@ -242,23 +262,21 @@ class TechCorpStoreCard extends StatelessWidget {
                   runSpacing: 6,
                   children: badges
                       .map(
-                        (badge) =>
-                        Container(
+                        (badge) => Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
-                            color: AppColors.white,
+                            color: AppColors.overlayColor,
                             borderRadius: BorderRadius.circular(6),
-                            border: Border.all(color: AppColors.borderClr),
-                          ),
+                            ),
                           child: Text(
                             badge,
-                            style: AppFontStyle.text_10_500(AppColors
-                                .greyTextColor,
+                            style: AppFontStyle.text_10_500(
+                                AppColors.black,
                                 fontFamily: AppFontFamily.interMedium),
                           ),
                         ),
-                  )
+                      )
                       .toList(),
                 ),
               ],
@@ -266,8 +284,10 @@ class TechCorpStoreCard extends StatelessWidget {
           ),
         ],
       ),
+      )
     );
   }
+
   Widget _dotInfo({required Color color, required String text}) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -280,7 +300,7 @@ class TechCorpStoreCard extends StatelessWidget {
             shape: BoxShape.circle,
           ),
         ),
-wBox(6),
+        wBox(6),
         Text(
           text,
           style: AppFontStyle.text_10_500(
@@ -314,7 +334,7 @@ wBox(6),
                 fontFamily: AppFontFamily.interBold,
               ),
             ),
-          hBox(5),
+            hBox(5),
             Text(
               label,
               style: AppFontStyle.text_13_400(

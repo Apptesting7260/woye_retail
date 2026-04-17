@@ -149,7 +149,7 @@ class CustomTextFormField extends StatelessWidget {
           enabled: enabled ?? true,
           controller: controller,
           autofocus: autofocus ?? false,
-          style: textStyle ?? AppFontStyle.text_16_400(AppColors.greyTextColor, fontFamily: AppFontFamily.interRegular),
+          style: textStyle ?? AppFontStyle.text_15_400(AppColors.greyLightColor, fontFamily: AppFontFamily.interRegular),
           obscureText: obscureText!,
           textInputAction: textInputAction,
           keyboardType: textInputType,

@@ -87,6 +87,14 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverToBoxAdapter(child: hBox(10)),
           SliverToBoxAdapter(
             child: techCorpSliderWidget(),
+          ),   SliverToBoxAdapter(child: hBox(10)),
+          SliverToBoxAdapter(
+            child: vendorCardWidget(),
+          ), SliverToBoxAdapter(
+            child: newArrivalsWidget(),
+          ),SliverToBoxAdapter(child: hBox(30)),
+          SliverToBoxAdapter(
+            child: bestSellersWidget(),
           ),
           // SliverFillRemaining(
           //   child: _pages[_selectedIndex],
@@ -113,7 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const Spacer(),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.subcategoriesScreen);
+                },
                 child: Row(
                   children: [
                     Text(
@@ -1059,7 +1069,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget techCorpSliderWidget() {
     return SizedBox(
-      height: 880,
+      height: 805,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: controller.productList.length,
@@ -1082,12 +1092,14 @@ class _HomeScreenState extends State<HomeScreen> {
               logoImageUrl: product["logoImageUrl"],
               popularProducts: List<Map<String, String>>.from(product["popularProducts"]),
               badges: List<String>.from(product["badges"]),
+              onVisitTap: () {},
             ),
           );
         },
       ),
     );
   }
+
   Widget topRatedVendorWidget() {
     return Column(
       children: [
@@ -1257,6 +1269,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
+
   Widget topProductListWidget() {
 
     return Column(
@@ -1319,6 +1332,199 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: (){}
         ),
         hBox(20),
+      ],
+    );
+  }
+  Widget vendorCardWidget() {
+    return Container(
+      margin: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(20.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(width: 0.9,color: AppColors.borderClr),
+        gradient: AppColors.gradientClr,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Want to Become a Vendor?",
+            textAlign: TextAlign.center,
+          style: AppFontStyle.text_20_500(AppColors.blueTextColor,
+              fontFamily: AppFontFamily.interBold)),
+         hBox(10),
+          Text(
+            "Join our growing marketplace of successful sellers and reach millions of potential customers worldwide",
+            textAlign: TextAlign.center,
+              maxLines: 3,
+              style: AppFontStyle.text_14_400(AppColors.greyTextColor,
+                  fontFamily: AppFontFamily.interRegular)),
+          hBox(20),
+          CustomElevatedButton(
+            height: 45.h,
+            borderRadius: BorderRadius.circular(10.r),
+            color: AppColors.buttonColor,
+            text: "Start Selling  →",
+            onPressed: () {
+            },
+          ),
+          hBox(12),
+          CustomElevatedButton(
+            height: 45.h,
+            color: Colors.white,
+            textColor: Colors.black,
+            text: "Learn More About Selling",
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget newArrivalsWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          decoration: BoxDecoration(
+            color: AppColors.lightBlueClr,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            "✨ Fresh & New",
+            style: AppFontStyle.text_16_500(
+              AppColors.royalBlueClr,
+              fontFamily: AppFontFamily.interMedium,
+            ),
+          ),
+        ),
+        hBox(10),
+        Text(
+          "New Arrivals",
+          style: AppFontStyle.text_30_600(
+            AppColors.blueTextColor,
+            fontFamily: AppFontFamily.interBold,
+          ),
+        ),hBox(10),
+        Padding(
+          padding: const EdgeInsets.only(left: 16,right: 12),
+          child: Text(
+            "Be the first to discover our latest products from top brands and emerging designers",
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            style: AppFontStyle.text_15_400(
+              AppColors.buttonHideColor,
+              fontFamily: AppFontFamily.interRegular,
+            ),
+          ),
+        ),
+        hBox(20),
+
+        GridView.builder(
+          itemCount: 6,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(10),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 0.65,
+          ),
+          itemBuilder: (context, index) {
+            return ProductCard(
+              image: "https://picsum.photos/200",
+              title: "Premium Wireless Laptop ",
+              brand: "Brand",
+              price: 1000,
+              oldPrice: 12,
+              rating: 4.5,
+              reviews: 120,
+              Seller: "Best Seller",
+              tag: "New",
+              discount: 10,
+            );
+          },
+        ),    hBox(20),
+        CustomElevatedButton(
+          width: 280,
+          height: 40,
+          text: "Shop More New Arrivals   →",
+          color: AppColors.buttonColor,
+            onPressed: (){}
+
+        ),
+      ],
+    );
+  }
+  Widget bestSellersWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          decoration: BoxDecoration(
+            color: AppColors.yellowLightClr,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            "🏆 Customer Favorites",
+            style: AppFontStyle.text_16_500(
+              AppColors.brownLightClr,
+              fontFamily: AppFontFamily.interMedium,
+            ),
+          ),
+        ),
+        hBox(10),
+        Text(
+          "Best Sellers ",
+          style: AppFontStyle.text_30_600(
+            AppColors.blueTextColor,
+            fontFamily: AppFontFamily.interBold,
+          ),
+        ),hBox(10),
+        Padding(
+          padding: const EdgeInsets.only(left: 16,right: 12),
+          child: Text(
+            "The most loved products by our community, proven by thousands of satisfied customers",
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            style: AppFontStyle.text_15_400(
+              AppColors.buttonHideColor,
+              fontFamily: AppFontFamily.interRegular,
+            ),
+          ),
+        ),
+        hBox(20),
+        GridView.builder(
+          itemCount: 6,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(10),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 0.65,
+          ),
+          itemBuilder: (context, index) {
+            return ProductCard(
+              image: "https://picsum.photos/200",
+              title: "Premium Wireless Laptop ",
+              brand: "Brand",
+              price: 1000,
+              oldPrice: 12,
+              rating: 4.5,
+              reviews: 120,
+              Seller: "Best Seller",
+              tag: "New",
+              discount: 10,
+            );
+          },
+        ),
       ],
     );
   }

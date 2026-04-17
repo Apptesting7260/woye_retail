@@ -18,4 +18,8 @@ class ImageConstants {
   static String welcomeSvg = "$svgPath/welcome.svg";
   static String cartSvg = "$svgPath/cart.svg";
   static String notificationSvg = "$svgPath/notification.svg";
+  static String gridViewSvg = "$svgPath/grid_view.svg";
+  static String menuSvg = "$svgPath/menu.svg";
+  static String filterSvg = "$svgPath/filter.svg";
+  static String closeSvg = "$svgPath/close.svg";
 }

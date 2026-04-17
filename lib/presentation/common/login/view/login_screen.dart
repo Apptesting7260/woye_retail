@@ -65,16 +65,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(15),
                 hintText: "Phone Number",
                 textInputType: TextInputType.phone,
-                hintStyle: AppFontStyle.text_15_400(AppColors.greyLightColor,
-                    fontFamily: AppFontFamily.interRegular),
                   prefixIcon: CountryCodePicker(
                     textStyle:AppFontStyle.text_15_400(AppColors.greyTextColor,
                         fontFamily: AppFontFamily.interRegular),
                   padding: const EdgeInsets.only(left: 10),
                   showFlag: false,
-
                   showDropDownButton: true,
-
                   // onChanged: (CountryCode countryCode) {
                   // },
                 ),
