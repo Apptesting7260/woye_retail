@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/Utils/sized_box.dart';
+import 'package:gyaawa/presentation/acccount/profile_screen.dart';
+import 'package:gyaawa/presentation/wishlist/view/wishlist_screen.dart';
 import '../../../shared/theme/colors.dart';
 import '../../../shared/theme/font_family.dart';
 import '../../electronics/home/view/home_screen.dart';
@@ -17,8 +19,8 @@ class MainScreen extends StatelessWidget {
     const HomeScreen(),
     const SearchScreen(),
     const HomeScreen(),
-    const HomeScreen(),
-    const HomeScreen(),
+    const WishlistScreen(),
+    const ProfileScreen(),
   ];
 
   @override

@@ -4,6 +4,8 @@ class AppColors {
   static Color white = Colors.white;
   static Color black = Colors.black;
   static Color red = Colors.red;
+  static Color primary = const Color.fromRGBO(6, 132, 75, 1);
+  static Color lightText = const Color.fromRGBO(148, 148, 148, 1);
   static const Color darkRed1 = Color.fromRGBO(204, 0, 0, 1.0);
   static const Color darkRed2 = Color.fromRGBO(170, 0, 0, 1.0);
   static const LinearGradient blueGradient = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFF00D3F3), Color(0xFF2B7FFF),],);
@@ -36,17 +38,23 @@ class AppColors {
   static Color boldRed = const Color(0xFFD4183D);
   static Color blueLightColor = const Color(0xFF364153);
   static Color blueButtonColor = const Color(0xFF181725);
+  static Color greenButtonColor = const Color(0xFFDCFCE7);
   static Color brownTextClr = const Color(0xFF733E0A);
   static Color greenTextClr = const Color(0xFF00A63E);
   static Color blueClr = const Color(0xFF2B7FFF);
   static Color pinkButtonClr = const Color(0xFFF6339A);
+  static Color pinkTextClr = const Color(0xFFAD46FF);
   static Color greyColors = const Color(0xFF6A7282);
+  static Color lightButtonClr = const Color(0xFFECEEF2);
   static Color starClr = const Color(0xFFFDC700);
   static Color greenLightClr = const Color(0xFF00C950);
   static Color searchText = const Color(0xFFF3F3F5);
+  static Color cardBorder = const Color(0xFFFFC9C9);
+  static Color yellowButtonClr = const Color(0xFFF0B100);
   static Color arrowIconColor = const Color(0xFF99A1AF);
   static Color overlayColor = const Color(0x1A36454F);
-
+  static const LinearGradient lightWarmGradient = LinearGradient(
+    begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color.fromRGBO(254, 242, 242, 1), Color.fromRGBO(255, 247, 237, 1),],);
   static const LinearGradient cardBgGradient = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
     colors: [Color.fromRGBO(54, 69, 79, 0.1), Color.fromRGBO(96, 125, 139, 0.1),],
   );
