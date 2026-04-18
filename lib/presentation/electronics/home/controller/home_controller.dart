@@ -1,21 +1,17 @@
 import 'dart:async';
-
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/get.dart';
-
 class HomeController extends GetxController {
 
-  var currentSliderIndex = 0.obs;
-  var hours = 23.obs;
-  var minutes = 45.obs;
-  var seconds = 12.obs;
-
+  RxInt currentSliderIndex = 0.obs;
+  RxInt hours = 23.obs;
+  RxInt minutes = 45.obs;
+  RxInt seconds = 12.obs;
+  RxInt selectedIndex = 0.obs;
   @override
   void onInit() {
     super.onInit();
     startTimer();
   }
-
   void startTimer() {
     ever(seconds, (_) {});
     Timer.periodic(Duration(seconds: 1), (timer) {

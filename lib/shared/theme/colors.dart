@@ -19,6 +19,7 @@ class AppColors {
   static Color transparent = Colors.transparent;
   static Color greyTextColor = const Color(0XFF4A5565);
   static Color greyLightColor = const Color(0XFF949494);
+  static Color backGroundColor = const Color(0XFFF9FAFB);
   static Color redBgClr = const Color(0XFFF6F3F4);
   static Color royalBlueClr = const Color(0XFF193CB8);
   static Color lightBlueClr = const Color(0XFFDBEAFE);
@@ -41,6 +42,9 @@ class AppColors {
   static Color pinkButtonClr = const Color(0xFFF6339A);
   static Color greyColors = const Color(0xFF6A7282);
   static Color starClr = const Color(0xFFFDC700);
+  static Color greenLightClr = const Color(0xFF00C950);
+  static Color searchText = const Color(0xFFF3F3F5);
+  static Color arrowIconColor = const Color(0xFF99A1AF);
   static Color overlayColor = const Color(0x1A36454F);
 
   static const LinearGradient cardBgGradient = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
