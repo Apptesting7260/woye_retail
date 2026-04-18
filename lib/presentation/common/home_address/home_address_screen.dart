@@ -14,7 +14,7 @@ class HomeAddressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Material(
-        color: Colors.white,
+        color: AppColors.backGroundColor,
         child: Padding(
           padding: REdgeInsets.only(
               left: 16.h, top: 20.h, right: 24.h, bottom: 20.h),

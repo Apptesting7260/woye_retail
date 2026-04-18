@@ -28,7 +28,6 @@ class _ResultFilterScreenState extends State<ResultFilterScreen> {
       ),
       child: Column(
         children: [
-
       Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -65,7 +64,7 @@ class _ResultFilterScreenState extends State<ResultFilterScreen> {
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: const Icon(Icons.close),
-              )
+              ),
             ],
           ),
           Text(
@@ -223,7 +222,7 @@ class _ResultFilterScreenState extends State<ResultFilterScreen> {
                             fontFamily: AppFontFamily.interMedium,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                       wBox(8),
                         Container(
                           height: 20,
                           width: 20,

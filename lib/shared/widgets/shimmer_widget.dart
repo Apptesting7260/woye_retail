@@ -1,8 +1,185 @@
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../Utils/sized_box.dart';
+import '../theme/colors.dart';
 
-//main use
+class ShimmerWidget extends StatelessWidget {
+  final Color? baseClr;
+  final Color? highlightColor;
+  final Color? shimmerClr;
+  final BorderRadius? borderRadius;
+  final BoxBorder? border;
+  final bool isRestaurantCard;
+
+  const ShimmerWidget({
+    super.key,
+    this.baseClr,
+    this.highlightColor,
+    this.shimmerClr,
+    this.borderRadius,
+    this.border,
+    this.isRestaurantCard = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: baseClr ?? AppColors.greyClr.withOpacity(0.4),
+      highlightColor: highlightColor ?? AppColors.greyLightColor,
+      child: isRestaurantCard ? restaurantCardShimmer() : simpleSimmer(),
+    );
+  }
+
+  Widget simpleSimmer() {
+    return Container(
+      width: double.maxFinite,
+      height: 220.h,
+      decoration: BoxDecoration(
+        border: border,
+        color: shimmerClr ?? AppColors.greyClr.withOpacity(0.4),
+        borderRadius: borderRadius ?? BorderRadius.circular(20.r),
+      ),
+    );
+  }
+
+  Widget restaurantCardShimmer() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: borderRadius ?? BorderRadius.circular(20.r),
+        border: border,
+      ),
+      padding: REdgeInsets.only(bottom: 50),
+      width: Get.width * 0.78,
+      // child: Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     hBox(225.h),
+      //     // Container(
+      //     //   height: 160.h,
+      //     //   width: double.infinity,
+      //     //   decoration: BoxDecoration(
+      //     //     color: shimmerClr ?? AppColors.gray.withOpacity(0.4),
+      //     //     borderRadius: BorderRadius.circular(20.r),
+      //     //   ),
+      //     // ),
+      //     Container(
+      //       height: 13.h,
+      //       width: Get.width * 0.7 .w,
+      //       decoration: BoxDecoration(
+      //         borderRadius: BorderRadius.circular(1.r),
+      //         color: shimmerClr ?? AppColors.gray.withOpacity(0.4),
+      //       ),
+      //
+      //     ),
+      //     hBox(8.h),
+      //     // Category text
+      //     Row(
+      //       children: [
+      //         Container(
+      //           height: 12.h,
+      //           width: 120.w,
+      //           decoration: BoxDecoration(
+      //             borderRadius: BorderRadius.circular(1.r),
+      //             color: shimmerClr ?? AppColors.gray.withOpacity(0.4),
+      //           ),
+      //         ),
+      //         wBox(10.w),
+      //         Container(
+      //           height: 12.h,
+      //           width: 120.w,
+      //           decoration: BoxDecoration(
+      //             borderRadius: BorderRadius.circular(1.r),
+      //             color: shimmerClr ?? AppColors.gray.withOpacity(0.4),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //     hBox(12.h),
+      //     Row(
+      //       children: [
+      //         Container(
+      //           height: 10.h,
+      //           width: Get.width * 0.22.w,
+      //           decoration: BoxDecoration(
+      //             borderRadius: BorderRadius.circular(1.r),
+      //             color: shimmerClr ?? AppColors.gray.withOpacity(0.4),
+      //           ),
+      //         ),
+      //         wBox(10.w),
+      //         Container(
+      //           height: 10.h,
+      //           width: Get.width * 0.22.w,
+      //           decoration: BoxDecoration(
+      //             borderRadius: BorderRadius.circular(1.r),
+      //             color: shimmerClr ?? AppColors.gray.withOpacity(0.4),
+      //           ),
+      //         ),
+      //         wBox(10.w),
+      //         Container(
+      //           height: 10.h,
+      //           width: Get.width * 0.22.w,
+      //           decoration: BoxDecoration(
+      //             borderRadius: BorderRadius.circular(1.r),
+      //             color: shimmerClr ?? AppColors.gray.withOpacity(0.4),
+      //           ),
+      //         ),
+      //       ],
+      //     )
+      //   ],
+      // ),
+    );
+  }
+}
+
+
+class ShimmerWidgetHomeScreen extends StatelessWidget {
+  final Color? baseClr;
+  final Color? highlightColor;
+  final Color? shimmerClr;
+  final BorderRadius? borderRadius;
+  final BoxBorder? border;
+  final bool isRestaurantCard;
+
+  const ShimmerWidgetHomeScreen({
+    super.key,
+    this.baseClr,
+    this.highlightColor,
+    this.shimmerClr,
+    this.borderRadius,
+    this.border,
+    this.isRestaurantCard = false,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: baseClr ?? AppColors.greyClr.withOpacity(0.2),
+      highlightColor: highlightColor ?? AppColors.lightText,
+      child : SizedBox(/*height: 315.h,*/
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(height: 210.h, width: Get.width*0.78,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(20.r)),),
+            hBox(10.h),
+            Container(height: 20.h, width: Get.width*0.78,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(15.r)),),
+            hBox(10.h),
+            Container(height: 20.h, width: Get.width*0.50,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(15.r)),),
+            hBox(10.h),
+            Container(height: 20.h, width: Get.width*0.30,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(15.r)),),
+          ],
+        ),
+      ),
+    );
+  }
+}
 class ShimmerBox extends StatelessWidget {
   const ShimmerBox({super.key, required this.width, required this.height, this.radius, this.isCircle});
 
@@ -31,330 +208,3 @@ class ShimmerBox extends StatelessWidget {
     );
   }
 }
-
-// Widget productGrid() {
-//   return GridView.builder(
-//     shrinkWrap: true,
-//     physics: NeverScrollableScrollPhysics(),
-//     itemCount: controller.products.length,
-//     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//         crossAxisCount: 2,
-//         mainAxisSpacing: 0,
-//         crossAxisSpacing: 0,
-//         childAspectRatio: 0.70),
-//     itemBuilder: (context, index) {
-//       final product = controller.products[index];
-//
-//       return Column(
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Stack(
-//             children: [
-//               ClipRRect(
-//                 borderRadius: BorderRadius.only(
-//                     topLeft: Radius.circular(16),
-//                     topRight: Radius.circular(16)),
-//                 child: AppImage(
-//                   path: product["image"],
-//                   height: 167,
-//                   width: 180,
-//                   fit: BoxFit.cover,
-//                 ),
-//               ),
-//               Positioned(
-//                 top: 10,
-//                 left: 10,
-//                 child: Container(
-//                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-//                   decoration: BoxDecoration(
-//                     color: AppColors.white,
-//                     borderRadius: BorderRadius.circular(6),
-//                   ),
-//                   child: Text(
-//                     "New",
-//                     style: AppFontStyle.text_10_500(
-//                       AppColors.buttonColor,
-//                       fontFamily: AppFontFamily.interMedium,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               Positioned(
-//                 top: 40,
-//                 left: 10,
-//                 child: Container(
-//                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-//                   decoration: BoxDecoration(
-//                     color: AppColors.buttonColor,
-//                     borderRadius: BorderRadius.circular(8),
-//                   ),
-//                   child: Text(
-//                     "Best Seller",
-//                     style: AppFontStyle.text_10_500(
-//                       AppColors.white,
-//                       fontFamily: AppFontFamily.interMedium,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               Positioned(
-//                 top: 70,
-//                 left: 10,
-//                 child: Container(
-//                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-//                   decoration: BoxDecoration(
-//                     color: AppColors.boldRed,
-//                     borderRadius: BorderRadius.circular(6),
-//                   ),
-//                   child: Text(
-//                     product["discount"],
-//                     style: TextStyle(
-//                       fontSize: 11,
-//                       color: Colors.white,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               Positioned(
-//                 top: 8,
-//                 right: 8,
-//                 child: Container(
-//                   padding: EdgeInsets.all(6),
-//                   decoration: BoxDecoration(
-//                     color: AppColors.white,
-//                     borderRadius: BorderRadius.circular(8),
-//                   ),
-//                   child: Icon(Icons.favorite_border, size: 18),
-//                 ),
-//               ),
-//             ],
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(10),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   product["brand"],
-//                   style: AppFontStyle.text_12_400(
-//                     AppColors.buttonHideColor,
-//                     fontFamily: AppFontFamily.interRegular,
-//                   ),
-//                 ),
-//                 wBox(4),
-//                 Text(
-//                   product["name"],
-//                   maxLines: 2,
-//                   overflow: TextOverflow.ellipsis,
-//                   style: AppFontStyle.text_12_500(
-//                     AppColors.black,
-//                     fontFamily: AppFontFamily.interMedium,
-//                   ),
-//                 ),
-//                 wBox(6),
-//                 Row(
-//                   children: [
-//                     Icon(Icons.star, color: Colors.amber, size: 14),
-//                     Icon(Icons.star, color: Colors.amber, size: 14),
-//                     Icon(Icons.star, color: Colors.amber, size: 14),
-//                     Icon(Icons.star, color: Colors.amber, size: 14),
-//                     SizedBox(width: 4),
-//                     Text(
-//                       "${product["rating"]} (${product["reviews"]})",
-//                       style: AppFontStyle.text_12_400(
-//                         AppColors.buttonHideColor,
-//                         fontFamily: AppFontFamily.interRegular,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 wBox(6),
-//                 Row(
-//                   children: [
-//                     Text(
-//                       product["price"],
-//                       style: AppFontStyle.text_14_600(
-//                         AppColors.buttonColor,
-//                         fontFamily: AppFontFamily.interBold,
-//                       ),
-//                     ),
-//                     wBox(6),
-//                     Text(
-//                       product["originalPrice"],
-//                       overflow: TextOverflow.ellipsis,
-//                       style: AppFontStyle.text_12_400(
-//                         AppColors.buttonHideColor,
-//                         fontFamily: AppFontFamily.interRegular,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }
-// Widget festiveSlider() {
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: [
-//       CarouselSlider.builder(
-//         itemCount: controller.dummyData.length,
-//         options: CarouselOptions(
-//           height: 167,
-//           autoPlay: false,
-//           viewportFraction: 0.85,
-//           padEnds: false,
-//           enlargeCenterPage: false,
-//           onPageChanged: (index, reason) {
-//             controller.currentSliderIndex.value = index;
-//           },
-//         ),
-//         itemBuilder: (context, index, realIndex) {
-//           final slideItem = controller.dummyData[index];
-//
-//           return Padding(
-//             padding: const EdgeInsets.only(left: 20),
-//             child: ClipRRect(
-//               borderRadius: BorderRadius.only(
-//                 topRight: Radius.circular(20),
-//                 topLeft: Radius.circular(20),
-//               ),
-//               child: Stack(
-//                 children: [
-//                   Image.network(
-//                     slideItem["image"],
-//                     width: 367,
-//                     height: 167,
-//                     fit: BoxFit.cover,
-//                     errorBuilder: (context, error, stackTrace) =>
-//                         Container(color: Colors.grey.shade300),
-//                   ),
-//                   Positioned(
-//                     bottom: 10,
-//                     left: 10,
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Text(
-//                           slideItem["title"],
-//                           style: AppFontStyle.text_17_600(
-//                             AppColors.white,
-//                             fontFamily: AppFontFamily.interBold,
-//                           ),
-//                         ),
-//                         Text(
-//                           slideItem["subtitle"],
-//                           style: AppFontStyle.text_14_400(
-//                             AppColors.white,
-//                             fontFamily: AppFontFamily.interRegular,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                   Positioned(
-//                     bottom: 65,
-//                     left: 10,
-//                     child: Container(
-//                       padding:
-//                           EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-//                       decoration: BoxDecoration(
-//                         color: AppColors.white.withAlpha(50),
-//                         borderRadius: BorderRadius.circular(8),
-//                       ),
-//                       child: Text(
-//                         "🎁 Christmas Special",
-//                         style: AppFontStyle.text_10_500(
-//                           AppColors.white,
-//                           fontFamily: AppFontFamily.interMedium,
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           );
-//         },
-//       ),
-//       hBox(30),
-//       Obx(() {
-//         final item =
-//             controller.dummyData[controller.currentSliderIndex.value];
-//         final tags = item["tags"] as List<String>;
-//
-//         return Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 30),
-//           child: Column(
-//             children: [
-//               Text(
-//                 item["desc"],
-//                 maxLines: 3,
-//                 style: AppFontStyle.text_14_400(
-//                   AppColors.greyTextColor,
-//                   fontFamily: AppFontFamily.interRegular,
-//                 ),
-//               ),
-//               hBox(15),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                 children: [
-//                   Text(
-//                     tags[0],
-//                     style: AppFontStyle.text_14_400(
-//                       AppColors.greyTextColor,
-//                       fontFamily: AppFontFamily.interRegular,
-//                     ),
-//                   ),
-//                   Text(
-//                     tags[1],
-//                     style: AppFontStyle.text_14_400(
-//                       AppColors.greyTextColor,
-//                       fontFamily: AppFontFamily.interRegular,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               hBox(15),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                 children: [
-//                   Text(
-//                     tags[2],
-//                     style: AppFontStyle.text_14_400(
-//                       AppColors.greyTextColor,
-//                       fontFamily: AppFontFamily.interRegular,
-//                     ),
-//                   ),
-//                   Text(
-//                     tags[3],
-//                     style: AppFontStyle.text_14_400(
-//                       AppColors.greyTextColor,
-//                       fontFamily: AppFontFamily.interRegular,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               hBox(15),
-//               CustomElevatedButton(
-//                 color: AppColors.buttonColor,
-//                 text: item["buttonText"],
-//                 textStyle: AppFontStyle.text_14_500(
-//                   fontFamily: AppFontFamily.interMedium,
-//                   AppColors.white,
-//                 ),
-//                 onPressed: () {},
-//               ),
-//             ],
-//           ),
-//         );
-//       }),
-//     ],
-//   );
-// }

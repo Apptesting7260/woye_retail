@@ -1,6 +1,7 @@
 
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
+import '../presentation/acccount/sub_screen/edit_profile.dart';
 import '../presentation/common/login/view/login_screen.dart';
 import '../presentation/common/sign_up/signup_screen.dart';
 import '../presentation/common/verify/view/verify_screen.dart';
@@ -31,6 +32,7 @@ class AppRoutes {
   static const String departmentsStoreScreen = '/departmentsStoreScreen';
   static const String searchResultScreen = '/searchResultScreen';
   static const String resultFilterScreen = '/resultFilterScreen';
+  static const String editProfile = '/editProfile';
 
   static List<GetPage> pages = <GetPage>[
   GetPage(name: signupScreen, page: () => const SignupScreen()),
@@ -39,6 +41,7 @@ class AppRoutes {
     GetPage(name: allCategoriesScreen, page: () => const AllCategoriesScreen(),binding: AllCategoryBinding()),
     GetPage(name: categoryScreen, page: () => const CategoryScreen()),
     GetPage(name: searchResultScreen, page: () => const SearchResultScreen()),
+    GetPage(name: editProfile, page: () => const EditProfile()),
     GetPage(name: departmentsStoreScreen, page: () => const DepartmentsStoreScreen(),binding: DepartmentsStoreBinding()),
     GetPage(name: subcategoriesScreen, page: () => const SubcategoriesScreen(),binding: SubCategoriesBinding()),
     GetPage(name: homeScreen, page: () => const HomeScreen(),binding: HomeBinding()),
