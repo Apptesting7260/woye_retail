@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            scaffoldBackgroundColor: AppColors.white,
+            scaffoldBackgroundColor: AppColors.backGroundColor,
             dividerColor: Colors.transparent,
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
             )

@@ -8,6 +8,7 @@ import 'package:gyaawa/shared/theme/font_style.dart';
 import '../../../../Core/Constant/image_constant.dart';
 import '../../../../shared/theme/colors.dart';
 import '../../../../shared/theme/font_family.dart';
+import '../../../navigation_bar/view/nav_bar.dart';
 import '../../welcome/view/welcome_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -16,7 +17,9 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Get.offAll(() => WelcomeScreen());
+      // Get.offAll(() => WelcomeScreen());
+      Get.offAll(() => MainScreen());
+
     });
 
     return Scaffold(

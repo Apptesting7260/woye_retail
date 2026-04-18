@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gyaawa/Utils/sized_box.dart';
 
 import '../theme/colors.dart';
 import '../theme/font_family.dart';
@@ -37,160 +38,150 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child:  Container(
+      child: Container(
+        width: 180,
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
                   child: AppImage(
                     path: image,
-                    height: 167,
-                    width: 180,
+                    height: 160,
+                    width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
-                Positioned(
-                  top: 10,
-                  left: 10,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      tag,
-                      style: AppFontStyle.text_10_500(
-                        AppColors.buttonColor,
-                        fontFamily: AppFontFamily.interMedium,
-                      ),
-                    ),
+
+                if (tag.isNotEmpty)
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    child: _buildTag(tag, AppColors.white, AppColors.buttonColor),
                   ),
-                ),
-                Positioned(
-                  top: 40,
-                  left: 10,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColors.buttonColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                       Seller,
-                      style: AppFontStyle.text_10_500(
-                        AppColors.white,
-                        fontFamily: AppFontFamily.interMedium,
-                      ),
-                    ),
+
+                if (Seller.isNotEmpty)
+                  Positioned(
+                    top: 35,
+                    left: 8,
+                    child: _buildTag(Seller, AppColors.buttonColor, Colors.white),
                   ),
-                ),
-                Positioned(
-                  top: 70,
-                  left: 10,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColors.boldRed,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
+
+                if (discount > 0)
+                  Positioned(
+                    top: 62,
+                    left: 8,
+                    child: _buildTag(
                       "-$discount%",
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      AppColors.boldRed,
+                      Colors.white,
                     ),
                   ),
-                ),
+
                 Positioned(
                   top: 8,
                   right: 8,
                   child: Container(
-                    padding: EdgeInsets.all(6),
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       color: AppColors.white,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Icon(Icons.favorite_border, size: 18),
+                    child: const Icon(Icons.favorite_border, size: 18),
                   ),
                 ),
               ],
             ),
-
-            const SizedBox(height: 8),
-            Text(
-              brand,
-              style: AppFontStyle.text_12_400(
-                AppColors.buttonHideColor,
-                fontFamily: AppFontFamily.interRegular,
+           hBox(8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    brand,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppFontStyle.text_12_400(
+                      AppColors.buttonHideColor,
+                      fontFamily: AppFontFamily.interRegular,
+                    ),
+                  ),
+                  Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppFontStyle.text_12_500(
+                      AppColors.black,
+                      fontFamily: AppFontFamily.interMedium,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.amber, size: 14),
+                      const SizedBox(width: 2),
+                      Text(
+                        "$rating ($reviews)",
+                        style: AppFontStyle.text_12_400(
+                          AppColors.buttonHideColor,
+                          fontFamily: AppFontFamily.interRegular,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "GHS $price",
+                        style: AppFontStyle.text_14_600(
+                          AppColors.buttonColor,
+                          fontFamily: AppFontFamily.interBold,
+                        ),
+                      ),
+                      wBox(4),
+                      Text(
+                        "GHS $oldPrice",
+                        style: AppFontStyle.text_12_400(
+                          AppColors.buttonHideColor,
+                          fontFamily: AppFontFamily.interRegular,
+                        ).copyWith(
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-
-            Text(
-              title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: AppFontStyle.text_12_500(
-                AppColors.black,
-                fontFamily: AppFontFamily.interMedium,
-              ),
-            ),
-
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                Icon(Icons.star, color: Colors.amber, size: 14),
-                Icon(Icons.star, color: Colors.amber, size: 14),
-                Icon(Icons.star, color: Colors.amber, size: 14),
-                Icon(Icons.star, color: Colors.amber, size: 14),
-                Text(
-                  "$rating ($reviews)",
-               style: AppFontStyle.text_12_400(
-                    AppColors.buttonHideColor,
-                    fontFamily: AppFontFamily.interRegular,
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                Text(
-                  "GHS $price",
-                  style: AppFontStyle.text_14_600(
-                    AppColors.buttonColor,
-                    fontFamily: AppFontFamily.interBold,
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  "GHS $oldPrice",
-                  overflow: TextOverflow.ellipsis,
-                  style:  AppFontStyle.text_12_400(
-                    AppColors.buttonHideColor,
-                    fontFamily: AppFontFamily.interRegular,
-                  ),
-                ),
-              ],
-            ),
+            hBox(10),
           ],
         ),
-    ),
+      ),
+    );
+  }
+
+  Widget _buildTag(String text, Color bgColor, Color textColor) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Text(
+        text,
+        style: AppFontStyle.text_10_500(
+          textColor,
+          fontFamily: AppFontFamily.interMedium,
+        ),
+      ),
     );
   }
 }
-

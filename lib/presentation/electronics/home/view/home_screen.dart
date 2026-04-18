@@ -29,10 +29,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController controller = Get.put(HomeController());
-  int _selectedIndex = 0;
+  // int _selectedIndex = 0;
   //
   // final List<Widget> _pages = const [
-  //   // AllCategoriesScreen(),
+  //   AllCategoriesScreen(),
   //   // FeaturedScreen(),
   //   // EditorChoiceScreen(),
   //   // GiftScreen(),
@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverToBoxAdapter(
             child: bestSellersWidget(),
           ),
-          // SliverFillRemaining(
+          // SliverToBoxAdapter(
           //   child: _pages[_selectedIndex],
           // ),
           SliverToBoxAdapter(child: hBox(100)),
@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Spacer(),
               InkWell(
                 onTap: () {
-                  Get.toNamed(AppRoutes.subcategoriesScreen);
+                  Get.toNamed(AppRoutes.allCategoriesScreen);
                 },
                 child: Row(
                   children: [
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        print(controller.dummyCategories[index]["name"]);
+                       Get.toNamed(AppRoutes.categoryScreen);
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.r),

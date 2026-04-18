@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gyaawa/Core/Constant/image_constant.dart';
-import 'package:gyaawa/Utils/sized_box.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:gyaawa/presentation/electronics/search/view/result_filter_screen.dart';
+import '../../../../Core/Constant/image_constant.dart';
+import '../../../../Routes/app_routes.dart';
+import '../../../../Utils/sized_box.dart';
 import '../../../../shared/theme/colors.dart';
 import '../../../../shared/theme/font_family.dart';
 import '../../../../shared/theme/font_style.dart';
@@ -9,14 +13,14 @@ import '../../../../shared/widgets/custom_dropdown.dart';
 import '../../../../shared/widgets/custom_product_card.dart';
 import '../../../common/tab_bar/common_tab_bar.dart';
 
-class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key});
+class SearchResultScreen extends StatefulWidget {
+  const SearchResultScreen({super.key});
 
   @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
+  State<SearchResultScreen> createState() => _SearchResultScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
+class _SearchResultScreenState extends State<SearchResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +31,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               const CustomCategoryBar(),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -36,7 +40,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "Electronics",
+                          "Search Result",
                           style: AppFontStyle.text_20_500(
                             AppColors.black,
                             fontFamily: AppFontFamily.interBold,
@@ -44,7 +48,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         ),
                         hBox(2),
                         Text(
-                          "36 products found",
+                          "20 products found for Smart Watch",
                           style: AppFontStyle.text_14_400(
                             AppColors.buttonHideColor,
                             fontFamily: AppFontFamily.interRegular,
@@ -68,6 +72,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 decoration: BoxDecoration(
+                  color: AppColors.white,
                   border: Border.all(color: AppColors.borderClr),
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -94,9 +99,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       height: 35,
                       width: 75,
                       decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color:AppColors.borderClr )
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color:AppColors.borderClr )
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
@@ -114,7 +119,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 ),
                               ),
                             ),
-
                             Expanded(
                               child: Container(
                                 color: Colors.transparent,
@@ -140,21 +144,31 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         border: Border.all(color: AppColors.overlayColor),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            ImageConstants.filterSvg,
-                            width: 15,
-                          ),
-                         wBox(6),
-                          Text(
-                            "Filters",
-                            style: AppFontStyle.text_12_500(
-                              AppColors.black,
-                              fontFamily: AppFontFamily.interMedium,
+                      child: InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (_) => const ResultFilterScreen(),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              ImageConstants.filterSvg,
+                              width: 15,
                             ),
-                          ),
-                        ],
+                            wBox(6),
+                            Text(
+                              "Filters",
+                              style: AppFontStyle.text_12_500(
+                                AppColors.black,
+                                fontFamily: AppFontFamily.interMedium,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -167,7 +181,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
       ),
     );
   }
-
   Widget bestSellersWidget() {
     return GridView.builder(
       itemCount: 25,
@@ -176,7 +189,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
       padding: const EdgeInsets.all(10),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 10,
+        crossAxisSpacing: 4,
         mainAxisSpacing: 10,
         childAspectRatio: 0.69,
       ),
