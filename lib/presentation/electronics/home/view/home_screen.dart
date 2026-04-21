@@ -8,7 +8,6 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:gyaawa/presentation/electronics/home/controller/home_controller.dart';
 import 'package:gyaawa/shared/widgets/custom_elevated_button.dart';
 import 'package:gyaawa/shared/widgets/image.dart';
-import '../../../../Core/Constant/image_constant.dart';
 import '../../../../Routes/app_routes.dart';
 import '../../../../Utils/sized_box.dart';
 import '../../../../shared/theme/colors.dart';
@@ -17,7 +16,7 @@ import '../../../../shared/theme/font_style.dart';
 import '../../../../shared/widgets/custom_product_card.dart';
 import '../../../../shared/widgets/custom_top_rated_vendors.dart';
 import '../../../../shared/widgets/festival_banner.dart';
-import '../../../common/home_address/home_address_screen.dart';
+import '../../../common/home_address/view/home_address_screen.dart';
 import '../../../common/tab_bar/common_tab_bar.dart';
 
 class HomeScreen extends StatefulWidget {

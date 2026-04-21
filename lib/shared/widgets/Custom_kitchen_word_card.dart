@@ -9,23 +9,25 @@ import 'package:gyaawa/shared/widgets/image.dart';
 
 import '../theme/colors.dart';
 
-class CustomEditsCard extends StatelessWidget {
-   String? image;
+class CustomKitchenWordCard extends StatelessWidget {
+  String? image;
    String? title;
    String? socialCount;
    String? searchCount;
    String? subTitle;
-   String? editor;
+   String? percentage;
    String? description;
-   String? expert;
-   String? salePrize;
-   String? regularPrize;
+  String? dayLeft;
+  String? salePrize;
+  String? regularPrize;
    double? rating;
    int? totalReviews;
    VoidCallback? onFavTap;
    VoidCallback? onTap;
+   VoidCallback? save;
 
-   CustomEditsCard({
+
+   CustomKitchenWordCard({
     super.key,
      this.image,
      this.title,
@@ -33,14 +35,15 @@ class CustomEditsCard extends StatelessWidget {
      this.description,
      this.searchCount,
      this.subTitle,
-     this.editor,
+     this.percentage,
      this.salePrize,
      this.regularPrize,
      this.rating,
      this.totalReviews,
-     this.expert,
+     this.dayLeft,
     this.onFavTap,
     this.onTap,
+    this.save,
   });
 
   @override
@@ -76,42 +79,39 @@ class CustomEditsCard extends StatelessWidget {
                   left: 10,
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.buttonColor,
-                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.errorColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(percentage ?? "",
+                        style: AppFontStyle.text_15_600(AppColors.white,
+                            fontFamily: AppFontFamily.interBold)),
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Container(
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: AppColors.black,
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
                       children: [
-                        SvgPicture.asset(
-                          ImageConstants.kingSvg,
-                          width: 15,
-                        ),
-                        wBox(4),
-                        Text(editor ?? '',
+                        Icon(Icons.watch_later_outlined,color: AppColors.white,size: 15,),
+                        wBox(5),
+                        Text("$dayLeft",
                             style: AppFontStyle.text_10_500(AppColors.white,
-                                fontFamily: AppFontFamily.interBold)),
+                                fontFamily: AppFontFamily.interMedium)),
                       ],
                     ),
                   ),
                 ),
                 Positioned(
                   bottom: 10,
-                  left: 10,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: AppColors.yellowButtonClr,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text("+$expert",
-                        style: AppFontStyle.text_10_500(AppColors.white,
-                            fontFamily: AppFontFamily.interMedium)),
-                  ),
-                ),
-                Positioned(
-                  top: 10,
                   right: 10,
                   child: GestureDetector(
                     onTap: onFavTap,
@@ -136,23 +136,15 @@ class CustomEditsCard extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: AppColors.lightButtonClr,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text("$subTitle ",
-                          style: AppFontStyle.text_10_500(AppColors.buttonColor,
-                              fontFamily: AppFontFamily.interMedium)),
-                    ),
-                    hBox(10),
-                    Text(
-                        title ?? "",
+                    Text("$title ",
                         maxLines: 2,
                         style: AppFontStyle.text_15_600(AppColors.black,
                             fontFamily: AppFontFamily.interBold)),
+                    hBox(10),
+                    Text(
+                        subTitle ?? "",
+                        style: AppFontStyle.text_12_500(AppColors.buttonColor,
+                            fontFamily: AppFontFamily.interMedium)),
                     hBox(10),
                     Row(
                       children: [
@@ -178,22 +170,22 @@ class CustomEditsCard extends StatelessWidget {
                                 fontFamily: AppFontFamily.interRegular)),
                       ],
                     ),
-                    hBox(8),
-                    Text(
-                      maxLines: 4,
-                     description ?? "",
-                      style: AppFontStyle.text_12_400(AppColors.greyTextColor,
-                          fontFamily: AppFontFamily.interRegular),
-                    ),
-                    hBox(10),
+                    // hBox(8),
+                    // Text(
+                    //   maxLines: 4,
+                    //   description ?? "",
+                    //   style: AppFontStyle.text_12_400(AppColors.greyTextColor,
+                    //       fontFamily: AppFontFamily.interRegular),
+                    // ),
+                     hBox(6),
                     Row(
                       children: [
-                         Text(
-                           salePrize ?? "",
-                          style: AppFontStyle.text_20_500(AppColors.buttonColor,
+                        Text(
+                          salePrize ?? "",
+                          style: AppFontStyle.text_20_500(AppColors.redTextClr,
                               fontFamily: AppFontFamily.interBold),
                         ),
-                       wBox(6),
+                        wBox(6),
                         Text(
                           regularPrize ?? "",
                           style: AppFontStyle.text_16_400(AppColors.greyColors,
@@ -203,11 +195,34 @@ class CustomEditsCard extends StatelessWidget {
                     ),
                     hBox(12),
                     CustomElevatedButton(
-                      onPressed: onTap ?? () {},
-                      color: AppColors.buttonColor,
+                      onPressed: save ?? () {},
+                      color: AppColors.greenButtonColor,
                       width: double.infinity,
                       height: 42,
-                      text: "Add to Cart",
+                      text: "You Save: GHS 200.00",
+                      textColor: AppColors.greenBtnTextClr,
+                    ),
+
+                    hBox(12),
+                    CustomElevatedButton(
+                      onPressed: onTap ?? () {},
+                      color: AppColors.errorColor,
+                      width: double.infinity,
+                      height: 42,
+                     child:  Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.shopping_cart_outlined,size: 18,color: AppColors.white,),
+                          wBox(5),
+                          Text(
+                            "Add To Cart",
+                            style: AppFontStyle.text_14_500(
+                              AppColors.white,
+                              fontFamily: AppFontFamily.interMedium,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ]),
             ),
@@ -215,4 +230,5 @@ class CustomEditsCard extends StatelessWidget {
         ),
       ),
     );
-  }}
+  }
+}

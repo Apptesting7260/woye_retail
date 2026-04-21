@@ -3,12 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:gyaawa/Utils/sized_box.dart';
+import 'package:gyaawa/presentation/common/home_address/sub_screen/select_delivery_address.dart';
+import 'package:gyaawa/presentation/common/tab_bar/sub_screen/view/featured_screen.dart';
 import 'package:gyaawa/shared/theme/font_style.dart';
 
 import '../../../../Core/Constant/image_constant.dart';
 import '../../../../shared/theme/colors.dart';
 import '../../../../shared/theme/font_family.dart';
-import '../../../navigation_bar/view/nav_bar.dart';
 import '../../welcome/view/welcome_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -17,9 +18,9 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
+      Get.offAll(() => SelectDeliveryAddress());
       // Get.offAll(() => WelcomeScreen());
-      Get.offAll(() => MainScreen());
-
+      // Get.offAll(() => FeaturedScreen());
     });
 
     return Scaffold(
@@ -35,7 +36,6 @@ class SplashScreen extends StatelessWidget {
                   height: 669,
                   width: 371,
                 ),
-
                 Positioned(
                   top: 70,
                   left: 180,

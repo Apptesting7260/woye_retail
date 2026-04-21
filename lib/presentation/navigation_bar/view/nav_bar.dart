@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/Utils/sized_box.dart';
 import 'package:gyaawa/presentation/acccount/profile_screen.dart';
+import 'package:gyaawa/presentation/electronics/cart/view/cart_screen.dart';
 import 'package:gyaawa/presentation/wishlist/view/wishlist_screen.dart';
 import '../../../shared/theme/colors.dart';
 import '../../../shared/theme/font_family.dart';
@@ -18,7 +19,7 @@ class MainScreen extends StatelessWidget {
   List<Widget> get screens => [
     const HomeScreen(),
     const SearchScreen(),
-    const HomeScreen(),
+    const CartScreen(),
     const WishlistScreen(),
     const ProfileScreen(),
   ];
