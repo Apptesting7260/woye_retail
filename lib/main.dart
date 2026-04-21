@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/presentation/common/splash/view/splash_screen.dart';
@@ -15,6 +16,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return ScreenUtilInit(
       designSize: Size(375, 812),
       builder: (context, child) {
@@ -24,7 +29,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: AppColors.backGroundColor,
             dividerColor: Colors.transparent,
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            )
+            ),
           ),
           getPages: AppRoutes.pages,
           home: SplashScreen(),

@@ -10,6 +10,9 @@ class ImageConstants {
   static String noDataImage = "$svgPath/no_data_image.svg";
   static String orderSvg = "$svgPath/order.svg";
   static String walletSvg = "$svgPath/wallet.svg";
+  static String moneySvg = "$svgPath/money.svg";
+  static String mtnSvg = "$svgPath/mtn.svg";
+  static String bubbleSvg = "$svgPath/bubble.svg";
   static String splashSvg = "$svgPath/splash.svg";
   static String loginSvg = "$svgPath/login.svg";
   static String peopleSvg = "$svgPath/people.svg";
@@ -36,4 +39,9 @@ class ImageConstants {
   static String favoriteSvg = "$svgPath/favorite.svg";
   static String kingSvg = "$svgPath/king.svg";
   static String tradeSvg = "$svgPath/trade.svg";
+  static String sellerSvg = "$svgPath/seller.svg";
+  static String arrivalsSvg = "$svgPath/arrivals.svg";
+  static String backIconSvg = "$svgPath/back_icon.svg";
+  static String starSvg = "$svgPath/star.svg";
+  static String shareSvg = "$svgPath/share.svg";
 }

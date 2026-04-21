@@ -193,6 +193,8 @@ class PopularProductCard extends StatelessWidget {
   final String trending;
   final String salePrize;
   final String regularPrize;
+  final double rating;
+  final int totalReviews;
   final String trade;
   final VoidCallback? onTap;
   final VoidCallback? onFavTap;
@@ -211,6 +213,8 @@ class PopularProductCard extends StatelessWidget {
     required this.onTap,
     required this.salePrize,
     required this.regularPrize,
+    required this.rating,
+    required this.totalReviews,
     required this.trade,
     this.onFavTap,
   });
@@ -364,11 +368,13 @@ class PopularProductCard extends StatelessWidget {
                         }),
                       ),
                       wBox(6),
-                      Text("4.9",
+                      Text(
+                          rating.toStringAsFixed(1),
                           style: AppFontStyle.text_12_500(AppColors.black,
                               fontFamily: AppFontFamily.interMedium)),
                       wBox(6),
-                      Text("(1247)",
+                      Text(
+                          "($totalReviews)",
                           style: AppFontStyle.text_12_400(
                               AppColors.greyColors,
                               fontFamily: AppFontFamily.interRegular)),

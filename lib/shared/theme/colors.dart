@@ -35,6 +35,7 @@ class AppColors {
   static Color brownLightClr = const Color(0xFF894B00);
   static Color greyClr = const Color(0xFF8E8E93);
   static Color blueTextColor = const Color(0xFF1E2939);
+  static Color blueColor = const Color(0xFF1C398E);
   static Color boldRed = const Color(0xFFD4183D);
   static Color blueLightColor = const Color(0xFF364153);
   static Color blueButtonColor = const Color(0xFF181725);
@@ -47,9 +48,15 @@ class AppColors {
   static Color greyColors = const Color(0xFF6A7282);
   static Color lightButtonClr = const Color(0xFFECEEF2);
   static Color starClr = const Color(0xFFFDC700);
+  static Color btnClr = const Color(0xFFE7E5F8);
+  static Color redTextClr = const Color(0xFFE7000B);
   static Color greenLightClr = const Color(0xFF00C950);
+  static Color greenBtnTextClr = const Color(0xFF008236);
+  static Color fillClr2 = const Color(0xFFEFF6FF);
   static Color searchText = const Color(0xFFF3F3F5);
   static Color cardBorder = const Color(0xFFFFC9C9);
+  static Color yellowCardBorder = const Color(0xFFFFF085);
+  static Color yellowLightBtnClr = const Color(0xFFF0FDF4);
   static Color yellowButtonClr = const Color(0xFFF0B100);
   static Color arrowIconColor = const Color(0xFF99A1AF);
   static Color overlayColor = const Color(0x1A36454F);
@@ -60,4 +67,95 @@ class AppColors {
   );
   static const LinearGradient primaryGradient = LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight,
     colors: [Color.fromRGBO(253, 199, 0, 1), Color.fromRGBO(255, 105, 0, 1),],
-  );}
+  );static const LinearGradient darkGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(16, 24, 40, 1),
+      Color.fromRGBO(30, 41, 57, 1),
+      Color.fromRGBO(16, 24, 40, 1),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
+  static const LinearGradient greenGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(5, 223, 114, 1),
+      Color.fromRGBO(0, 166, 62, 1),
+    ],
+  );
+  static const LinearGradient purpleGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(194, 122, 255, 1),
+      Color.fromRGBO(152, 16, 250, 1),
+    ],
+  );
+  static const LinearGradient orangeGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(253, 199, 0, 1),
+      Color.fromRGBO(245, 73, 0, 1),
+    ],
+  );
+  static const LinearGradient categoryBarGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color.fromRGBO(54, 69, 79, 1),
+      Color.fromRGBO(54, 69, 79, 1),
+      Color.fromRGBO(60, 77, 87, 1),
+      Color.fromRGBO(66, 84, 96, 1),
+      Color.fromRGBO(72, 92, 104, 1),
+      Color.fromRGBO(78, 100, 113, 1),
+      Color.fromRGBO(84, 108, 121, 1),
+      Color.fromRGBO(90, 117, 130, 1),
+      Color.fromRGBO(96, 125, 139, 1),
+    ],
+    stops: [0.0, 0.5, 0.5714, 0.6429, 0.7143, 0.7857, 0.8571, 0.9286, 1.0],
+  );
+  static const LinearGradient pinkRedGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color.fromRGBO(246, 51, 154, 1),
+      Color.fromRGBO(255, 32, 86, 1),
+      Color.fromRGBO(251, 44, 54, 1),
+    ],
+  );
+  static const LinearGradient purpleBlueGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(152, 16, 250, 1),
+      Color.fromRGBO(67, 45, 215, 1),
+    ],
+  );
+  static const LinearGradient greenTealGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(0, 201, 80, 1),
+      Color.fromRGBO(0, 150, 137, 1),
+    ],
+  );
+  static const LinearGradient blueCyanGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(21, 93, 252, 1),
+      Color.fromRGBO(0, 146, 184, 1),
+    ],
+  );
+  static const LinearGradient redGreenGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(251, 44, 54, 1),
+      Color.fromRGBO(0, 166, 62, 1),
+    ],
+  );
+}

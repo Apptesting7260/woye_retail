@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gyaawa/Core/Constant/image_constant.dart';
-import '../../../Utils/sized_box.dart';
-import '../../../shared/theme/colors.dart';
-import '../../../shared/theme/font_family.dart';
-import '../../../shared/theme/font_style.dart';
+
+import '../../../../Utils/sized_box.dart';
+import '../../../../shared/theme/colors.dart';
+import '../../../../shared/theme/font_family.dart';
+import '../../../../shared/theme/font_style.dart';
 
 class HomeAddressScreen extends StatelessWidget {
   const HomeAddressScreen({super.key});
