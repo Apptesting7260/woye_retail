@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           getPages: UserRoutes.pages,
-          home: SplashScreen(),
+          // home: SplashScreen(),
         );
       },
     );
