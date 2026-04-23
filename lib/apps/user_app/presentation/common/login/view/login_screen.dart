@@ -140,6 +140,7 @@ class LoginScreen extends StatelessWidget {
                       return CustomTextFormField(
                         height: 52,
                         hintText: "Phone Number",
+                        showBorder: true,
                         textInputType: TextInputType.phone,
                         prefixIcon: CountryCodePicker(
                           textStyle: AppFontStyle.text_15_400(AppColors.greyTextColor,

@@ -27,24 +27,20 @@ class ShippingPaymentScreen extends StatelessWidget {
             children: [
               CustomCategoryBar(),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-
                         GestureDetector(
                           onTap: () => Get.back(),
-                          child: Icon(Icons.arrow_back_ios,
-                              color: Colors.black, size: 23),
+                          child: Icon(Icons.arrow_back_ios, color: Colors.black, size: 23),
                         ),
                         wBox(10),
                         Text(
                           "Delivery Address",
-                          style: AppFontStyle.text_22_600(AppColors.black,
-                              fontFamily: AppFontFamily.interBold),
+                          style: AppFontStyle.text_22_600(AppColors.black, fontFamily: AppFontFamily.interBold),
                         ),
                       ],
                     ),
@@ -54,8 +50,7 @@ class ShippingPaymentScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         borderRadius: BorderRadius.circular(8),
-                        border:
-                            Border.all(color: AppColors.borderClr, width: 0.6),
+                        border: Border.all(color: AppColors.borderClr, width: 0.6),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -65,14 +60,12 @@ class ShippingPaymentScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Icon(Icons.location_on_outlined,
-                                    size: 16, color: AppColors.greyTextColor),
+                                Icon(Icons.location_on_outlined, size: 16, color: AppColors.greyTextColor),
                                 wBox(6),
                                 Text(
                                   "Shipping Information",
                                   style: AppFontStyle.text_13_400(
-                                      AppColors.greyTextColor,
-                                      fontFamily: AppFontFamily.interRegular),
+                                      AppColors.greyTextColor, fontFamily: AppFontFamily.interRegular),
                                 ),
                               ],
                             ),
@@ -83,24 +76,21 @@ class ShippingPaymentScreen extends StatelessWidget {
                                 Text(
                                   "Delivery Address",
                                   style: AppFontStyle.text_16_600(
-                                      AppColors.black,
-                                      fontFamily: AppFontFamily.interBold),
+                                      AppColors.black, fontFamily: AppFontFamily.interBold),
                                 ),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Get.toNamed(UserRoutes.selectDeliveryAddress);
+                                  },
                                   child: Row(
                                     children: [
                                       Text(
                                         "Change Address",
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.buttonColor,
-                                            fontFamily:
-                                                AppFontFamily.interRegular),
+                                            AppColors.buttonColor, fontFamily: AppFontFamily.interRegular),
                                       ),
                                       wBox(2),
-                                      Icon(Icons.arrow_forward,
-                                          size: 12,
-                                          color: AppColors.buttonColor),
+                                      Icon(Icons.arrow_forward, size: 12, color: AppColors.buttonColor),
                                     ],
                                   ),
                                 ),
@@ -111,10 +101,8 @@ class ShippingPaymentScreen extends StatelessWidget {
                               width: double.infinity,
                               padding: const EdgeInsets.all(14),
                               decoration: BoxDecoration(
-                                color: AppColors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                    color: AppColors.cardBorder, width: 1),
+                                color: AppColors.white, borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: AppColors.cardBorder, width: 1),
                               ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,9 +110,7 @@ class ShippingPaymentScreen extends StatelessWidget {
                                   Text(
                                     "Home",
                                     style: AppFontStyle.text_15_600(
-                                        AppColors.black,
-                                        fontFamily:
-                                            AppFontFamily.onestSemiBold),
+                                        AppColors.black, fontFamily: AppFontFamily.onestSemiBold),
                                   ),
                                   wBox(12),
                                   Expanded(
@@ -132,9 +118,7 @@ class ShippingPaymentScreen extends StatelessWidget {
                                       "D 888 Abc Road, Greenfield, Abc Manchester, 199, South Africa",
                                       maxLines: 2,
                                       style: AppFontStyle.text_13_400(
-                                          AppColors.buttonHideColor,
-                                          fontFamily:
-                                              AppFontFamily.interRegular),
+                                          AppColors.buttonHideColor, fontFamily: AppFontFamily.interRegular),
                                     ),
                                   ),
                                 ],
@@ -144,8 +128,7 @@ class ShippingPaymentScreen extends StatelessWidget {
                             Text(
                               "Shipping Method",
                               style: AppFontStyle.text_14_500(
-                                  AppColors.buttonHideColor,
-                                  fontFamily: AppFontFamily.interMedium),
+                                  AppColors.buttonHideColor, fontFamily: AppFontFamily.interMedium),
                             ),
                             hBox(10),
                             Obx(() => Column(
@@ -157,41 +140,26 @@ class ShippingPaymentScreen extends StatelessWidget {
                                       child: Container(
                                         width: double.infinity,
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 14, vertical: 14),
-                                        decoration: BoxDecoration(
+                                            horizontal: 14, vertical: 14), decoration: BoxDecoration(
                                           color: AppColors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          border: Border.all(
-                                              color: AppColors.borderClr,
-                                              width: 0.6),
+                                          borderRadius: BorderRadius.circular(12),
+                                          border: Border.all(color: AppColors.borderClr, width: 0.6),
                                         ),
                                         child: Row(
                                           children: [
-                                            _shippingRadio(controller
-                                                    .selectedShipping.value ==
-                                                "Standard Shipping (3-5 days)"),
+                                            _shippingRadio(controller.selectedShipping.value == "Standard Shipping (3-5 days)"),
                                             wBox(12),
                                             Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                     "Standard Shipping (3-5 days)",
-                                                    style: AppFontStyle
-                                                        .text_14_500(
-                                                            AppColors.black,
-                                                            fontFamily:
-                                                                AppFontFamily
-                                                                    .interMedium)),
+                                                    style: AppFontStyle.text_14_500(
+                                                            AppColors.black, fontFamily: AppFontFamily.interMedium)),
                                                 hBox(2),
                                                 Text("Included",
                                                     style: AppFontStyle.text_12_400(
-                                                        AppColors
-                                                            .buttonHideColor,
-                                                        fontFamily:
-                                                            AppFontFamily
-                                                                .interRegular)),
+                                                        AppColors.buttonHideColor, fontFamily: AppFontFamily.interRegular)),
                                               ],
                                             ),
                                           ],
@@ -408,52 +376,36 @@ class ShippingPaymentScreen extends StatelessWidget {
                                             Expanded(
                                                 child: Text("Cash on Delivery",
                                                     style: AppFontStyle.text_14_500(
-                                                        AppColors.black,
-                                                        fontFamily:
-                                                            AppFontFamily
-                                                                .interMedium))),
-                                            _radioIcon(controller
-                                                    .selectedPayment.value ==
-                                                2),
+                                                        AppColors.black, fontFamily: AppFontFamily.interMedium))),
+                                            _radioIcon(controller.selectedPayment.value == 2),
                                           ],
                                         ),
                                       ),
                                     ),
                                     hBox(10),
                                     GestureDetector(
-                                      onTap: () =>
-                                          controller.selectedPayment.value = 3,
+                                      onTap: () => controller.selectedPayment.value = 3,
                                       child: Container(
-                                        width: double.infinity,
-                                        height: 60,
+                                        width: double.infinity, height: 60,
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 14, vertical: 14),
                                         decoration: BoxDecoration(
-                                          color: AppColors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
+                                          color: AppColors.white, borderRadius: BorderRadius.circular(12),
                                           border: Border.all(
-                                              color: AppColors.borderClr,
-                                              width: 0.6),
+                                              color: AppColors.borderClr, width: 0.6),
                                         ),
                                         child: Row(
                                           children: [
                                             SvgPicture.asset(
-                                              ImageConstants.bubbleSvg,
-                                              width: 30,
+                                              ImageConstants.bubbleSvg, width: 30,
                                             ),
                                             wBox(12),
                                             Expanded(
                                                 child: Text(
                                                     "•••• •••• •••• 8888",
                                                     style: AppFontStyle.text_14_500(
-                                                        AppColors.black,
-                                                        fontFamily:
-                                                            AppFontFamily
-                                                                .interMedium))),
-                                            _radioIcon(controller
-                                                    .selectedPayment.value ==
-                                                3),
+                                                        AppColors.black, fontFamily: AppFontFamily.interMedium))),
+                                            _radioIcon(controller.selectedPayment.value == 3),
                                           ],
                                         ),
                                       ),
