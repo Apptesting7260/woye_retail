@@ -3,7 +3,36 @@ import 'package:flutter/material.dart';
 class AppColors {
   static Color white = Colors.white;
   static Color black = Colors.black;
+  static Color goldStar = const Color.fromRGBO(248, 189, 0, 1);
+  static Color chartBlueClr = const Color(0xFF3B82F6);
+  static Color chartYellowClr = const Color(0xFFF59E0B);
+  static Color lightBlackClr = const Color(0xFF212121);
+  static Color borderClrDropdown = const Color(0xFFD0D0D0);
+  static Color blackClr = const Color(0xFF181725);
+  static Color whiteShadow = const Color(0xFFECECF0);
+  static Color greenClr = const Color(0xFF00A63E);
+  static Color yellowClr = const Color(0xFFD08700);
+  static Color orange = const Color(0xFFF54A00);
+  static Color greenClrRatingBar = const Color(0xFF00BF6F);
+  static Color backgroundClr = const Color(0xFFF9FAFB);
+
   static Color red = Colors.red;
+  static Color darkText = const Color.fromRGBO(24, 23, 37, 1);
+  static Color mediumText = const Color.fromRGBO(106, 110, 122, 1);
+  static Color ultraLightPrimary2 = const Color(0XFFDAE6E0);
+  static Color hintText = const Color.fromRGBO(106, 110, 122, 1);
+  static Color grey = const Color.fromRGBO(107, 107, 107, 1);
+  static Color ultraLightPrimary = const Color.fromRGBO(6, 132, 75, 0.1);
+  static Color cardBgColor = const Color(0xFFF1F1F1);
+  static Color textFieldBorder = const Color.fromRGBO(216, 216, 216, 1);
+  static Color bgColor = const Color.fromRGBO(241, 241, 241, 1);
+  static Color greyBackground = const Color.fromRGBO(232, 232, 233, 1);
+  static Color greyPerson = const Color.fromRGBO(107, 107, 107, 0.6);
+  static Color imageBgColor = const Color(0xFFE6F3ED);
+  static Color cyanClr = const Color(0xFFBEDBFF);
+  static Color lightPrimary = const Color.fromRGBO(6, 132, 75, 0.2);
+  static Color purpleColor = const Color(0xFF9810FA);
+
   static Color primary = const Color.fromRGBO(6, 132, 75, 1);
   static Color lightText = const Color.fromRGBO(148, 148, 148, 1);
   static const Color darkRed1 = Color.fromRGBO(204, 0, 0, 1.0);
@@ -54,6 +83,7 @@ class AppColors {
   static Color greenBtnTextClr = const Color(0xFF008236);
   static Color fillClr2 = const Color(0xFFEFF6FF);
   static Color searchText = const Color(0xFFF3F3F5);
+  static Color hintStyleText = const Color(0xFF9E9E9E);
   static Color cardBorder = const Color(0xFFFFC9C9);
   static Color yellowCardBorder = const Color(0xFFFFF085);
   static Color yellowLightBtnClr = const Color(0xFFF0FDF4);
