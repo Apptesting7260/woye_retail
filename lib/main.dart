@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/shared/theme/colors.dart';
-
 import 'apps/user_app/presentation/common/splash/view/splash_screen.dart';
 import 'apps/user_app/user_routes/app_routes.dart';
 
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           getPages: UserRoutes.pages,
-          // home: SplashScreen(),
+          home: SplashScreen(),
         );
       },
     );
