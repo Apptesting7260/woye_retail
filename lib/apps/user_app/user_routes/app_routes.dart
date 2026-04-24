@@ -1,6 +1,10 @@
 
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:gyaawa/apps/user_app/presentation/common/home_address/sub_screen/add_new_door_delivery_address.dart';
 import '../presentation/acccount/sub_screen/edit_profile.dart';
+import '../presentation/common/home_address/bindings/door_delivery_bindings.dart';
+import '../presentation/common/home_address/bindings/pickup_station_bindings.dart';
+import '../presentation/common/home_address/sub_screen/pickup_station_screen.dart';
 import '../presentation/common/home_address/sub_screen/select_delivery_address.dart';
 import '../presentation/common/login/binding/login_bindings.dart';
 import '../presentation/common/login/view/login_screen.dart';
@@ -44,13 +48,15 @@ class UserRoutes {
   static const String editorChoiceScreen = '/editorChoiceScreen';
   static const String shippingPaymentScreen = '/shippingPaymentScreen';
   static const String selectDeliveryAddress = '/selectDeliveryAddress';
+  static const String addNewDoorDeliveryAddress = '/addNewDoorDeliveryAddress';
+  static const String pickupStationScreen = '/pickupStationScreen';
 
   static List<GetPage> pages = <GetPage>[
     GetPage(name: signupScreen, page: () =>  SignupScreen(),binding: SignupBinding()),
     GetPage(name: editorChoiceScreen, page: () => const EditorChoiceScreen()),
     GetPage(name: shippingPaymentScreen, page: () =>  ShippingPaymentScreen()),
     GetPage(name: loginScreen, page: () =>  LoginScreen(),binding: LoginBinding()),
-    GetPage(name: selectDeliveryAddress, page: () =>  SelectDeliveryAddress()),
+    GetPage(name: selectDeliveryAddress, page: () => const SelectDeliveryAddress()),
     GetPage(name: verifyScreen, page: () => const VerifyScreen()),
     GetPage(name: allCategoriesScreen, page: () => const AllCategoriesScreen(),binding: AllCategoryBinding()),
     GetPage(name: categoryScreen, page: () => const CategoryScreen()),
@@ -63,6 +69,8 @@ class UserRoutes {
     GetPage(name: homeScreen, page: () => const HomeScreen(),binding: HomeBinding()),
     GetPage(name: productDetailsScreen, page: () => const ProductDetailsScreen(),binding: ProductDetailsBindings()),
     GetPage(name: resultFilterScreen, page: () => const ResultFilterScreen(),binding: SearchResultBindings()),
+    GetPage(name: addNewDoorDeliveryAddress, page: () => const AddNewDoorDeliveryAddress(),binding: DoorDeliveryBindings()),
+    GetPage(name: pickupStationScreen, page: () =>  PickupStationScreen(),binding: PickupStationBindings()),
 
   ];
 }

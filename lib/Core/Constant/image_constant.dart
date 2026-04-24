@@ -78,6 +78,7 @@ class ImageConstants {
   static String backIconSvg = "$svgPath/back_icon.svg";
   static String starSvg = "$svgPath/star.svg";
   static String shareSvg = "$svgPath/share.svg";
+  static String homeSvg = "$svgPath/home.svg";
 
 
   static String clear = "$svgPath/clear.svg";

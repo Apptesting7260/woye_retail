@@ -15,6 +15,7 @@ class AppColors {
   static Color orange = const Color(0xFFF54A00);
   static Color greenClrRatingBar = const Color(0xFF00BF6F);
   static Color backgroundClr = const Color(0xFFF9FAFB);
+  static Color lightBlueTextClr = const Color(0xFF1447E6);
 
   static Color red = Colors.red;
   static Color darkText = const Color.fromRGBO(24, 23, 37, 1);

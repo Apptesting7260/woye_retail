@@ -23,7 +23,8 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLength,
     this.hintText,
     this.hintStyle,
-    this. prefixIcon,
+    this.prefixIcon,
+    this.showBorder = true,
     this.prefixConstraints,
     this.suffix,
     this.suffixConstraints,
@@ -114,42 +115,46 @@ class CustomTextFormField extends StatelessWidget {
   final TapRegionCallback? onTapOutside;
 
   final List<TextInputFormatter>? inputFormatters;
-
+  final bool showBorder;
   final Function()? onEditingComplete;
 
   final Function(String)? onFieldSubmitted;
 
   final String? labelText;
   final AutovalidateMode? autoValidateMode;
-   final int? errorMaxLines;
+  final int? errorMaxLines;
+
   @override
   Widget build(BuildContext context) {
     return alignment != null
         ? Align(
-            alignment: alignment ?? Alignment.center,
-            child: textFormFieldWidget,
-          )
+      alignment: alignment ?? Alignment.center,
+      child: textFormFieldWidget,
+    )
         : textFormFieldWidget;
   }
 
-  Widget get textFormFieldWidget => SizedBox(
+  Widget get textFormFieldWidget =>
+      SizedBox(
         width: width ?? double.maxFinite,
         height: height,
         child: TextFormField(
-          readOnly:readOnly ?? false,
+          readOnly: readOnly ?? false,
           buildCounter: buildCounter,
           // expands: true,
           onTap: onTap,
           maxLength: maxLength,
-          onTapOutside:onTapOutside ?? (event) {
+          onTapOutside: onTapOutside ?? (event) {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           onChanged: onChanged,
-          autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
+          autovalidateMode: autoValidateMode ??
+              AutovalidateMode.onUserInteraction,
           enabled: enabled ?? true,
           controller: controller,
           autofocus: autofocus ?? false,
-          style: textStyle ?? AppFontStyle.text_15_400(AppColors.greyLightColor, fontFamily: AppFontFamily.interRegular),
+          style: textStyle ?? AppFontStyle.text_15_400(
+              AppColors.greyLightColor, fontFamily: AppFontFamily.interRegular),
           obscureText: obscureText!,
           textInputAction: textInputAction,
           keyboardType: textInputType,
@@ -163,48 +168,64 @@ class CustomTextFormField extends StatelessWidget {
         ),
       );
 
-  InputDecoration get decoration => InputDecoration(
-    errorStyle: AppFontStyle.text_12_400(
-      AppColors.errorColor,
-      fontFamily: AppFontFamily.interMedium,
-    ),
-    prefixIcon: prefixIcon,
-    prefixIconConstraints: prefixConstraints,
-    suffix: suffix,
-    suffixIconConstraints: suffixConstraints,
-    contentPadding: contentPadding,
-    labelText: labelText,
-    errorMaxLines: errorMaxLines,
-    hintText: hintText ?? "",
-    hintStyle: hintStyle ??
-        AppFontStyle.text_15_400(
-          AppColors.hintStyleText,
-          fontFamily: AppFontFamily.interRegular,
+  InputDecoration get decoration =>
+      InputDecoration(
+        border: showBorder
+            ? OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.borderClr, width: 1),
+          borderRadius: borderRadius ?? BorderRadius.circular(14.r),
+        )
+            : InputBorder.none,
+
+        enabledBorder: showBorder
+            ? OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.borderClr, width: 1),
+          borderRadius: borderRadius ?? BorderRadius.circular(14.r),
+        )
+            : InputBorder.none,
+
+        focusedBorder: showBorder
+            ? OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.borderClr, width: 1.5),
+          borderRadius: borderRadius ?? BorderRadius.circular(14.r),
+        )
+            : InputBorder.none,
+
+        errorBorder: showBorder
+            ? OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.errorColor, width: 1),
+          borderRadius: borderRadius ?? BorderRadius.circular(14.r),
+        )
+            : InputBorder.none,
+
+        focusedErrorBorder: showBorder
+            ? OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.errorColor, width: 1.5),
+          borderRadius: borderRadius ?? BorderRadius.circular(14.r),
+        )
+            : InputBorder.none,
+
+        errorStyle: AppFontStyle.text_12_400(
+          AppColors.errorColor,
+          fontFamily: AppFontFamily.interMedium,
         ),
-    fillColor: fillColor ?? AppColors.white,
-    filled: filled,
-    border: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.borderClr, width: 1),
-      borderRadius: borderRadius ?? BorderRadius.circular(14.r),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.borderClr, width: 1),
-      borderRadius: borderRadius ?? BorderRadius.circular(14.r),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.borderClr, width: 1.5),
-      borderRadius: borderRadius ?? BorderRadius.circular(14.r),
-    ),
-    errorBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.errorColor, width: 1),
-      borderRadius: borderRadius ?? BorderRadius.circular(14.r),
-    ),
-    focusedErrorBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.errorColor, width: 1.5),
-      borderRadius: borderRadius ?? BorderRadius.circular(14.r),
-    ),
-  );}
-/// Extension on [CustomTextFormField] to facilitate inclusion of all types of border style etc
+        prefixIcon: prefixIcon,
+        prefixIconConstraints: prefixConstraints,
+        suffix: suffix,
+        suffixIconConstraints: suffixConstraints,
+        contentPadding: contentPadding,
+        labelText: labelText,
+        errorMaxLines: errorMaxLines,
+        hintText: hintText ?? "",
+        hintStyle: hintStyle ??
+            AppFontStyle.text_15_400(
+              AppColors.hintStyleText,
+              fontFamily: AppFontFamily.interRegular,
+            ),
+        fillColor: fillColor ?? AppColors.white,
+        filled: filled,
+      );
+}/// Extension on [CustomTextFormField] to facilitate inclusion of all types of border style etc
 extension TextFormFieldStyleHelper on CustomTextFormField {
   static OutlineInputBorder get fillPrimary => OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.h),
