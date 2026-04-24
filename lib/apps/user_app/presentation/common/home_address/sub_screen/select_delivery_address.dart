@@ -220,10 +220,7 @@ class _SelectDeliveryAddressState extends State<SelectDeliveryAddress> {
                           ),
                         ),
                         onPressed: (){}),
-
                     hBox(28),
-
-                    // ── PICKUP STATION ──
                     Row(
                       children: [
                         const Icon(Icons.storefront_outlined, size: 16, color: Colors.grey),
@@ -235,10 +232,8 @@ class _SelectDeliveryAddressState extends State<SelectDeliveryAddress> {
                     ),
 
                     hBox(10),
-
                     Obx(() {
                       final selectedPickup = controller.selectedPickup.value;
-
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
@@ -349,7 +344,8 @@ class _SelectDeliveryAddressState extends State<SelectDeliveryAddress> {
                           );
                         },
                       );
-                    }),                    hBox(10),
+                    }),
+                    hBox(10),
                     CustomElevatedButton(
                         color: AppColors.btnClr,
                         borderSide: BorderSide(color: AppColors.borderClr),
@@ -372,7 +368,6 @@ class _SelectDeliveryAddressState extends State<SelectDeliveryAddress> {
                           ),
                         ),
                         onPressed: (){}),
-
                     hBox(30),
                   ],
                 ),
