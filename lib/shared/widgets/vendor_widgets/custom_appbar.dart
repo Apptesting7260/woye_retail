@@ -5,7 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
 import '../../../Core/Constant/image_constant.dart';
-import '../../../apps/vendor_app/vendor_app_routes/vendor_app_routes.dart';
+import '../../../routes/vendor_routes/vendor_app_routes.dart';
 import '../../theme/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {

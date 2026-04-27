@@ -5,10 +5,10 @@ import 'package:gyaawa/Utils/sized_box.dart';
 import 'package:gyaawa/shared/theme/colors.dart';
 import 'package:gyaawa/shared/widgets/custom_appbar.dart';
 import '../../../../../../../Core/Constant/image_constant.dart';
+import '../../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../../shared/theme/font_family.dart';
 import '../../../../../../../shared/theme/font_style.dart';
 import '../../../../../../../shared/widgets/Custom_search_field.dart';
-import '../../../../../user_routes/app_routes.dart';
 import '../controller/all_category_controller.dart';
 
 class AllCategoriesScreen extends StatelessWidget {

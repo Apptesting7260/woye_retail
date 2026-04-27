@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/shared/widgets/custom_elevated_button.dart';
 import '../../../../../../Utils/sized_box.dart';
+import '../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
-import '../../../../user_routes/app_routes.dart';
+import '../../app_bar/common_app_bar.dart';
 import '../../tab_bar/common_tab_bar.dart';
 import '../controller/select_delivery_address_controller.dart';
 
@@ -31,20 +32,9 @@ class _SelectDeliveryAddressState extends State<SelectDeliveryAddress> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Get.back(),
-                          child: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
-                        ),
-                        wBox(10),
-                        Text(
-                          "Select Delivery Address",
-                          style: AppFontStyle.text_22_600(AppColors.black, fontFamily: AppFontFamily.interBold),
-                        ),
-                      ],
+                    CommonAppBar(
+                      title: "Select Delivery Address",
                     ),
-                    hBox(24),
                     Row(
                       children: [
                         Icon(Icons.location_on_outlined, size: 24, color: AppColors.black),

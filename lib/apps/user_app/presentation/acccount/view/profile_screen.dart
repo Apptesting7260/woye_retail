@@ -7,11 +7,11 @@ import 'package:gyaawa/shared/widgets/custom_elevated_button.dart';
 
 import '../../../../../Core/Constant/image_constant.dart';
 import '../../../../../Utils/sized_box.dart';
+import '../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../shared/theme/colors.dart';
 import '../../../../../shared/theme/font_family.dart';
 import '../../../../../shared/theme/font_style.dart';
 import '../../../../../shared/widgets/shimmer_widget.dart';
-import '../../../user_routes/app_routes.dart';
 import '../../common/tab_bar/common_tab_bar.dart';
 import '../controller/profile_controller.dart';
 

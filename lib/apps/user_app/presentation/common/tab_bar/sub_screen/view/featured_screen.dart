@@ -6,8 +6,8 @@ import 'package:gyaawa/Utils/sized_box.dart';
 import 'package:gyaawa/shared/theme/colors.dart';
 import 'package:gyaawa/shared/theme/font_family.dart';
 import 'package:gyaawa/shared/theme/font_style.dart';
+import '../../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../../shared/widgets/Custom_featured_card.dart';
-import '../../../../../user_routes/app_routes.dart';
 import '../../common_tab_bar.dart';
 import '../controller/featured_controller.dart';
 

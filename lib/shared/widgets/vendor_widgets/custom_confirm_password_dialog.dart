@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../../Core/Constant/image_constant.dart';
 import '../../../Utils/sized_box.dart';
-import '../../../apps/vendor_app/vendor_app_routes/vendor_app_routes.dart';
+import '../../../routes/vendor_routes/vendor_app_routes.dart';
 import '../../theme/colors.dart';
 import '../../theme/font_family.dart';
 import '../../theme/font_style.dart';

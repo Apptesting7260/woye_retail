@@ -10,6 +10,7 @@ import 'package:gyaawa/apps/user_app/presentation/common/login/controller/login_
 
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Utils/sized_box.dart';
+import '../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
@@ -17,7 +18,6 @@ import '../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../../shared/widgets/custom_rounded_button.dart';
 import '../../../../../../shared/widgets/custom_text_form_field.dart';
-import '../../../../user_routes/app_routes.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
