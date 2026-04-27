@@ -38,7 +38,8 @@ class RestaurantOrderListScreen extends StatefulWidget {
 }
 
 class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
-  final RestaurantOrderController controller = Get.find<RestaurantOrderController>();
+  // final RestaurantOrderController controller = Get.find<RestaurantOrderController>();
+   final RestaurantOrderController controller = Get.put (RestaurantOrderController());
   // VendorAccountStatusController vendorAccountStatusController = Get.put(VendorAccountStatusController());
 
   final navController = Get.isRegistered<RestaurantNavbarController>() ? Get.find<RestaurantNavbarController>() : Get.put(RestaurantNavbarController());
@@ -141,16 +142,16 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                   width: Get.width,
                   boxShadow: const [],
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                  border: Border.all(color: AppColors.primary.withAlpha(180)),
+                  border: Border.all(color: AppColors.greenClr.withAlpha(180)),
                   borderRadius: BorderRadius.circular(10),
-                  color: AppColors.primary.withAlpha(40),
+                  color: AppColors.greenClr.withAlpha(40),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "📋 Order Status Flow",
                         style: AppFontStyle.text_16_600(
-                          AppColors.primary,
+                          AppColors.greenClr,
                           fontFamily: AppFontFamily.gilroySemiBold,
                         ),
                       ),
@@ -159,20 +160,20 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                         text:  TextSpan(
                             children: [
                               TextSpan(text: "Pending",
-                                style: AppFontStyle.text_14_400(
-                                AppColors.primary,
+                                style: AppFontStyle.text_14_500(
+                                AppColors.greenBtnTextClr,
                                 fontFamily: AppFontFamily.gilroySemiBold,
                                 ),
                               ),
                               TextSpan(text: " → Accept/Reject → ",
                                 style: AppFontStyle.text_14_400(
-                                  AppColors.primary,
+                                  AppColors.greenTextClr,
                                   fontFamily: AppFontFamily.gilroyRegular,
                                 ),
                               ),
                               TextSpan(text: "Preparing/Cancelled",
-                                style: AppFontStyle.text_14_400(
-                                  AppColors.primary,
+                                style: AppFontStyle.text_14_500(
+                                  AppColors.greenBtnTextClr,
                                   fontFamily: AppFontFamily.gilroySemiBold,
                                 ),
                               ),
@@ -184,20 +185,20 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                         text:  TextSpan(
                             children: [
                               TextSpan(text: "Preparing",
-                                style: AppFontStyle.text_14_400(
-                                AppColors.primary,
+                                style: AppFontStyle.text_14_500(
+                                AppColors.greenBtnTextClr,
                                 fontFamily: AppFontFamily.gilroySemiBold,
                                 ),
                               ),
                               TextSpan(text: " → Mark Ready → ",
                                 style: AppFontStyle.text_14_400(
-                                  AppColors.primary,
+                                  AppColors.greenTextClr,
                                   fontFamily: AppFontFamily.gilroyRegular,
                                 ),
                               ),
                               TextSpan(text: "Ready For Pickup",
-                                style: AppFontStyle.text_14_400(
-                                  AppColors.primary,
+                                style: AppFontStyle.text_14_500(
+                                  AppColors.greenBtnTextClr,
                                   fontFamily: AppFontFamily.gilroySemiBold,
                                 ),
                               ),
@@ -209,20 +210,20 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                         text:  TextSpan(
                             children: [
                               TextSpan(text: "Ready For Pickup",
-                                style: AppFontStyle.text_14_400(
-                                AppColors.primary,
+                                style: AppFontStyle.text_14_500(
+                                AppColors.greenBtnTextClr,
                                 fontFamily: AppFontFamily.gilroySemiBold,
                                 ),
                               ),
                               TextSpan(text: " →  Simulate Pickup  → ",
                                 style: AppFontStyle.text_14_400(
-                                  AppColors.primary,
+                                  AppColors.greenTextClr,
                                   fontFamily: AppFontFamily.gilroyRegular,
                                 ),
                               ),
                               TextSpan(text: "Out for Delivery",
-                                style: AppFontStyle.text_14_400(
-                                  AppColors.primary,
+                                style: AppFontStyle.text_14_500(
+                                  AppColors.greenBtnTextClr,
                                   fontFamily: AppFontFamily.gilroySemiBold,
                                 ),
                               ),
@@ -234,20 +235,20 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                         text:  TextSpan(
                             children: [
                               TextSpan(text: "Out for Delivery",
-                                style: AppFontStyle.text_14_400(
-                                AppColors.primary,
+                                style: AppFontStyle.text_14_500(
+                                AppColors.greenBtnTextClr,
                                 fontFamily: AppFontFamily.gilroySemiBold,
                                 ),
                               ),
                               TextSpan(text: " →  Simulate Delivery → ",
                                 style: AppFontStyle.text_14_400(
-                                  AppColors.primary,
+                                  AppColors.greenTextClr,
                                   fontFamily: AppFontFamily.gilroyRegular,
                                 ),
                               ),
                               TextSpan(text: " Delivered",
-                                style: AppFontStyle.text_14_400(
-                                  AppColors.primary,
+                                style: AppFontStyle.text_14_500(
+                                  AppColors.greenBtnTextClr,
                                   fontFamily: AppFontFamily.gilroySemiBold,
                                 ),
                               ),
@@ -491,7 +492,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                       CustomElevatedButton(
                         padding: EdgeInsets.zero,
                         borderRadius: BorderRadius.circular(10),
-                        color: AppColors.primary,
+                        color: AppColors.blueLightColor,
                         width: 120,
                         height: 36,
                         onPressed: (){

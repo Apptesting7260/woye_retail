@@ -128,7 +128,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                        hBox(22),
                        Text(
                          key: controller.totalMenuItemKey,
-                         "Restaurant Products",style: AppFontStyle.text_20_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold),
+                         "Retail Products",style: AppFontStyle.text_20_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold),
                        ),
                        hBox(12),
                        productListWithPagination(),
@@ -245,7 +245,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                            children: [
                              AppImage(
                                path: ImageConstants.starLogo,
-                               color: AppColors.yellow,
+                               color: AppColors.blueLightColor,
                                height: 16,
                                width: 16,
                              ),
@@ -692,6 +692,8 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
         height: 55,
         onPressed: ()async{
           final result = await Get.toNamed(VendorAppRoutes.restaurantAddProductScreen);
+          print("👉 navigating to: ${VendorAppRoutes.restaurantAddProductScreen}");
+
           if (result == true) {
             controller.currentPage.value = 1;
             controller.getProductListApi(isShowLoading: false);

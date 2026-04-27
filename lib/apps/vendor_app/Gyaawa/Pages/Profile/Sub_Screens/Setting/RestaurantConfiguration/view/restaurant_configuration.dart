@@ -173,7 +173,7 @@ class _RestaurantConfigurationScreenState extends State<RestaurantConfigurationS
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               header(
-                title:  "Restaurant Configuration",
+                title:  "Retail Configuration",
                 description: "Configure opening hours, menu categories, and cuisine preferences",
               ),
               hBox(16),

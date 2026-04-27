@@ -53,6 +53,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
 
   @override
   Widget build(BuildContext context) {
+    print("controller.userModel.step${controller.userModel.step}");
     return Container(
       color: AppColors.white,
       child: SafeArea(
@@ -99,6 +100,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                               CustomAppBar(
                                 isPop: controller.profileApiData.value.isProfileComplete == true ? true : false,
                                 isLeading: controller.userModel.step == 3,
+                                
                               ),
                             if (controller.userModel.step == 1 || controller.userModel.step == 2)
                             hBox(75.h),

@@ -26,7 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.borderRadius,
     this.width,
     this.height,
-    this.color = const Color.fromRGBO(6, 132, 75, 1),
+    this.color = const Color.fromRGBO(54, 65, 83, 1),
     this.textColor,
     this.isLoading,
     this.text = "",

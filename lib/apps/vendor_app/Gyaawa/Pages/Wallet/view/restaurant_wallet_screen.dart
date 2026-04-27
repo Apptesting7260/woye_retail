@@ -42,8 +42,8 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
-  final RestaurantWalletsController controller =
-      Get.find<RestaurantWalletsController>();
+  // final RestaurantWalletsController controller = Get.find<RestaurantWalletsController>();
+  final RestaurantWalletsController controller = Get.put (RestaurantWalletsController());
 
   @override
   void initState() {

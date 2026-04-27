@@ -28,8 +28,8 @@ class RestaurantOrderController extends GetxController {
 
   RxString userRole = "".obs;
 
-  final List<String> iconList = [ImageConstants.cartIcon,ImageConstants.timer,ImageConstants.done,ImageConstants.time];
-  List<Color> cardColor = [AppColors.primary,AppColors.yellow,AppColors.greenClr,AppColors.purpleColor];
+  final List<String> iconList = [ImageConstants.greenCartSvg,ImageConstants.timer,ImageConstants.done,ImageConstants.time];
+  List<Color> cardColor = [AppColors.greenTextClr,AppColors.yellow,AppColors.greenClr,AppColors.purpleColor];
   List<String> cardTitle = ["Today's Orders","Pending Orders","Completed Orders","Avg Prep Time"];
   GlobalKey<FormState> fromKeyExport = GlobalKey<FormState>();
 

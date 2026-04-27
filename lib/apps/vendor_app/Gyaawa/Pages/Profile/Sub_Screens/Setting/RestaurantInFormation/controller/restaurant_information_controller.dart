@@ -111,7 +111,9 @@ class FillRestaurantDetailsController extends GetxController {
   UserModel userModel = UserModel();
   UserPreference pref = UserPreference();
 
-  RxString userRole = "".obs;
+  RxString userRole = "3".obs;
+
+
 
   void getInitData() async {
     userModel = await pref.getUser();
@@ -393,6 +395,8 @@ class FillRestaurantDetailsController extends GetxController {
                 ),
                 barrierDismissible: true,
               );
+
+
               },
             );
           }
@@ -577,19 +581,42 @@ class FillRestaurantDetailsController extends GetxController {
       if (registerData.value.status == true) {
         rxUpdateProfileRequestStatus(ApiStatus.COMPLETED);
         pref.saveStep(int.parse(registerData.value.data?.step.toString() ?? ""));
-        if (userModel.step == 3) {
-          getProfileDetailsApi(isShowLoading: false,fromUpdateProfile: true);
-          if(value.message != "") {
+        // if (userModel.step == 3) {
+        //   getProfileDetailsApi(isShowLoading: false,fromUpdateProfile: true);
+        //   if(value.message != "") {
+        //     Utils.showToast(value.message ?? "");
+        //   }
+        //   // Get.back();
+        //   final profileController = Get.find<CommonProfileController>();
+        //   await profileController.getProfileDetailsApi();
+        // } else {
+        //   Get.offAndToNamed(VendorAppRoutes.chooseRestaurantCategoriesScreen);
+        //   Utils.showToast("Registration successfully completed");
+        // }
+        final step = int.tryParse(
+            registerData.value.data?.step?.toString() ?? "0"
+        ) ?? 0;
+
+        print("👉 API STEP: $step");
+
+        if (step == 3) {
+          print("✅ STEP 3 → Stay on same screen");
+
+          getProfileDetailsApi(isShowLoading: false, fromUpdateProfile: true);
+
+          if (value.message != "") {
             Utils.showToast(value.message ?? "");
           }
-          // Get.back();
+
           final profileController = Get.find<CommonProfileController>();
           await profileController.getProfileDetailsApi();
+
         } else {
+          print("➡️ NOT STEP 3 → NAVIGATING");
+
           Get.offAndToNamed(VendorAppRoutes.chooseRestaurantCategoriesScreen);
           Utils.showToast("Registration successfully completed");
         }
-
         update();
       } else if (registerData.value.status == false) {
         rxUpdateProfileRequestStatus(ApiStatus.ERROR);
