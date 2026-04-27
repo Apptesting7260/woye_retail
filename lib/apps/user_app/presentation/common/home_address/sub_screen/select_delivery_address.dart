@@ -5,6 +5,7 @@ import '../../../../../../Utils/sized_box.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
+import '../../../../user_routes/app_routes.dart';
 import '../../tab_bar/common_tab_bar.dart';
 import '../controller/select_delivery_address_controller.dart';
 
@@ -185,7 +186,6 @@ class _SelectDeliveryAddressState extends State<SelectDeliveryAddress> {
                                         ],
                                       ),
                                     ),
-
                                     const Icon(Icons.edit_outlined,
                                         size: 18, color: Colors.grey),
                                   ],
@@ -367,7 +367,9 @@ class _SelectDeliveryAddressState extends State<SelectDeliveryAddress> {
                             ],
                           ),
                         ),
-                        onPressed: (){}),
+                        onPressed: (){
+                          Get.toNamed(UserRoutes.pickupStationScreen);
+                        }),
                     hBox(30),
                   ],
                 ),

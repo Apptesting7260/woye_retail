@@ -24,8 +24,11 @@ import '../../../../common_appbar_header/common_appbar_header.dart';
 import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 import '../controller/res_review_controller.dart';
 
-class ResReviewScreen extends GetView<ResReviewController> {
-  const ResReviewScreen({super.key});
+// class ResReviewScreen extends GetView<ResReviewController> {
+class ResReviewScreen extends StatelessWidget {
+   ResReviewScreen({super.key});
+  final ResReviewController controller = Get.put(ResReviewController());
+
 
   @override
   Widget build(BuildContext context) {

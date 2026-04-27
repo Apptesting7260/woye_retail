@@ -16,6 +16,9 @@ class AppColors {
   static Color greenClrRatingBar = const Color(0xFF00BF6F);
   static Color backgroundClr = const Color(0xFFF9FAFB);
   static Color lightBlueTextClr = const Color(0xFF1447E6);
+  static Color cardBgClr = const Color(0xFFF6F6F6);
+  static Color btnShadeOrange = const Color(0xFFFFEDD4);
+  static Color darkRedColor = const Color(0xFF9F0712);
 
   static Color red = Colors.red;
   static Color darkText = const Color.fromRGBO(24, 23, 37, 1);
@@ -34,7 +37,7 @@ class AppColors {
   static Color lightPrimary = const Color.fromRGBO(6, 132, 75, 0.2);
   static Color purpleColor = const Color(0xFF9810FA);
 
-  static Color primary = const Color.fromRGBO(6, 132, 75, 1);
+  static Color primary = const Color.fromRGBO(54, 65, 83, 1);
   static Color lightText = const Color.fromRGBO(148, 148, 148, 1);
   static const Color darkRed1 = Color.fromRGBO(204, 0, 0, 1.0);
   static const Color darkRed2 = Color.fromRGBO(170, 0, 0, 1.0);
@@ -84,6 +87,7 @@ class AppColors {
   static Color greenBtnTextClr = const Color(0xFF008236);
   static Color fillClr2 = const Color(0xFFEFF6FF);
   static Color searchText = const Color(0xFFF3F3F5);
+  static Color cartGreenLightClr = const Color(0xFFDCF2E4);
   static Color hintStyleText = const Color(0xFF9E9E9E);
   static Color cardBorder = const Color(0xFFFFC9C9);
   static Color yellowCardBorder = const Color(0xFFFFF085);
@@ -91,6 +95,9 @@ class AppColors {
   static Color yellowButtonClr = const Color(0xFFF0B100);
   static Color arrowIconColor = const Color(0xFF99A1AF);
   static Color overlayColor = const Color(0x1A36454F);
+  static Color darkBurntOrange = const Color(0xFF9F2D00);
+  static Color purpleDarkColor = const Color(0xFF59168B);
+
   static const LinearGradient lightWarmGradient = LinearGradient(
     begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color.fromRGBO(254, 242, 242, 1), Color.fromRGBO(255, 247, 237, 1),],);
   static const LinearGradient cardBgGradient = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,

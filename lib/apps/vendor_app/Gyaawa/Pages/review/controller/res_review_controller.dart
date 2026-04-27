@@ -236,7 +236,7 @@ class ResReviewController extends GetxController{
   List<Color> ratingBarColor = [AppColors.greenClrRatingBar,AppColors.greenLightClr,AppColors.goldStar.withAlpha(200),AppColors.yellow,AppColors.red,];
   List<double> ratingValue = [0.8,0.5,0.5,0.3,0.2];
 
-  final List<String> iconList = [ImageConstants.starLogo,ImageConstants.messages,ImageConstants.share,ImageConstants.alert];
+  final List<String> iconList = [ImageConstants.starLogo,ImageConstants.messages,ImageConstants.share,ImageConstants.alertSvgLogo];
   List<Color> cardColor = [AppColors.yellowClr,AppColors.blueClr,AppColors.greenClr,AppColors.orange,];
   List<Color> ratingCardColor = [AppColors.greenClr,AppColors.blueTextColor,AppColors.purpleColor];
   List<String> cardTitle = ["Overall Rating","Total Reviews","Response Rate","Pending Responses"];

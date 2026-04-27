@@ -39,7 +39,8 @@ class RestaurantDashboardScreen extends StatefulWidget {
 
 class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
 
-  final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
+  // final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
+  final RestaurantDashboardController controller = Get.put (RestaurantDashboardController());
   // final FillRestaurantDetailsController fillResController = Get.put(FillRestaurantDetailsController());
 
   @override
@@ -146,7 +147,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
       Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: AppColors.primary.withAlpha(10),
+          color: AppColors.blueLightColor,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14),
@@ -168,27 +169,28 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(controller.fillRestaurantDetailsController.profileApiData.value.vendor?.shopName?.capitalize ?? "",
-                      style: AppFontStyle.text_16_600(AppColors.black,
+                      style: AppFontStyle.text_16_600(AppColors.white,
                           fontFamily: AppFontFamily.gilroyMedium)),
                   Text(controller.fillRestaurantDetailsController.profileApiData.value.vendor?.type?.toString().capitalizeFirst ?? "",
-                      style: AppFontStyle.text_14_400(AppColors.greyClr,
+                      style: AppFontStyle.text_14_400(AppColors.white,
                           fontFamily: AppFontFamily.gilroyMedium)),
                 ],
               ),
-             const Spacer(),
-             Obx(
-               ()=> CustomWideSwitch(
-                    width: 42,
-                    height: 23,
-                    activeColor: AppColors.primary,
-                    inactiveColor: AppColors.borderClr,
-                    value: controller.isShopOpen.value,
-                    onChanged: (value) {
-                      pt("value $value");
-                      // controller.toggleSwitch(value);
-                    },
-                  ),
-             ),
+
+             // const Spacer(),
+             // Obx(
+             //   ()=> CustomWideSwitch(
+             //        width: 42,
+             //        height: 23,
+             //        activeColor: AppColors.primary,
+             //        inactiveColor: AppColors.borderClr,
+             //        value: controller.isShopOpen.value,
+             //        onChanged: (value) {
+             //          pt("value $value");
+             //          // controller.toggleSwitch(value);
+             //        },
+             //      ),
+             // ),
             ],
           ),
         ),

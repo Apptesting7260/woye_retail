@@ -13,12 +13,12 @@ import '../../../../../../../../shared/theme/colors.dart';
 import '../../../../../../../../shared/theme/font_family.dart';
 import '../../../../../../../../shared/theme/font_style.dart';
 import '../../../../../../../../shared/widgets/custom_appbar.dart';
-import '../../../../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../../../../shared/widgets/image.dart';
 import '../../../../../../../../shared/widgets/shimmer_widget.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/app_container.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_checkbox.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
+import '../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../../Profile/Sub_Screens/Setting/RestaurantInFormation/view/restaurant_information_screen.dart';
@@ -615,7 +615,7 @@ class ResManagePaymentMethod extends GetView<ResManagePaymentMethodController>{
       color: AppColors.white,
       child: CustomCheckboxTile(
         maxLines: 10,
-        style: AppFontStyle.text_14_400(AppColors.blueLightColor,fontFamily: AppFontFamily.gilroyRegular),
+        style: AppFontStyle.text_14_400(AppColors.blueTextColor,fontFamily: AppFontFamily.gilroyRegular),
         title: "I agree to the payment processing terms and conditions. I confirm that this account is owned by the registered restaurant business and will be used only for legitimate restaurant transactions.",
         value: controller.isAgree,
          onChanged: (status) {

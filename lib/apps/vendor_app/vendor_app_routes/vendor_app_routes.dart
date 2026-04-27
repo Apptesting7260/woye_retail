@@ -1,7 +1,12 @@
 
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/HelpCenter/SubScreens/Res_Vendor_Agreement/res_vedor_areement.dart';
+import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Notifications/controller/notifications_binding.dart';
+import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Notifications/view/notification_screen.dart';
 
 import '../../user_app/presentation/acccount/view/profile_screen.dart';
+import '../Gyaawa/Pages/ChooseRestaurantCategories/bindings/res_category_cuisines_binding.dart';
+import '../Gyaawa/Pages/ChooseRestaurantCategories/view/choose_restaurant_categories_screen.dart';
 import '../Gyaawa/Pages/Dashboard/controller/restaurant_dashboard_binding.dart';
 import '../Gyaawa/Pages/Dashboard/view/restaurant_dashboard_screen.dart';
 import '../Gyaawa/Pages/OrdersDetails/SubScreens/OrderDetails/view/resaurant_order_details_screen.dart';
@@ -17,6 +22,7 @@ import '../Gyaawa/Pages/Profile/Sub_Screens/OrderTransactionHistory/res_order_tr
 import '../Gyaawa/Pages/Profile/Sub_Screens/Product_Review/view/restaurant_product_review_screen.dart';
 import '../Gyaawa/Pages/Profile/Sub_Screens/RestaurantCategory/SubScreens/view/restaurant_all_category_items.dart';
 import '../Gyaawa/Pages/Profile/Sub_Screens/RestaurantCategory/view/restaurant_category_screen.dart';
+import '../Gyaawa/Pages/Profile/Sub_Screens/Restaurant_Details/view/restaurant_details_screen.dart';
 import '../Gyaawa/Pages/Profile/Sub_Screens/Setting/AddMenuCategories/view/restaurant_add_menu_category_screen.dart';
 import '../Gyaawa/Pages/Profile/Sub_Screens/Setting/AddNewUser/binding/res_add_new_user_binding.dart';
 import '../Gyaawa/Pages/Profile/Sub_Screens/Setting/AddNewUser/view/res_add_new_user_screen.dart';
@@ -54,6 +60,15 @@ import '../Gyaawa/Pages/review/subscreens/bulk_responds/view/res_bulk_responds_s
 import '../Gyaawa/Pages/review/subscreens/export_reviews/view/export_reviews_screen.dart';
 import '../Gyaawa/Pages/review/subscreens/single_response/view/res_single_review_respose_screen.dart';
 import '../Gyaawa/Restaurant_navbar/view/restaurant_navbar.dart';
+import '../Gyaawa/vendor_common/HelpCenter/SubScreens/FAQ/binding/res_faqs_binding.dart';
+import '../Gyaawa/vendor_common/HelpCenter/SubScreens/FAQ/view/restaurant_faq_screen.dart';
+import '../Gyaawa/vendor_common/HelpCenter/SubScreens/RestaurantPrivacyPolicy/view/restaurant_privacy_policy_screen.dart';
+import '../Gyaawa/vendor_common/HelpCenter/SubScreens/RestaurantSupport/binding/res_support_binding.dart';
+import '../Gyaawa/vendor_common/HelpCenter/SubScreens/RestaurantSupport/view/restaurant_support_screen.dart';
+import '../Gyaawa/vendor_common/HelpCenter/SubScreens/RestaurantT&C/view/restaurant_tnc_screen.dart';
+import '../Gyaawa/vendor_common/Notifications/sub_screens/create_notification/view/res_create_notification_screen.dart';
+import '../Gyaawa/vendor_common/Notifications/sub_screens/notification_settings/binding/res_notification_settings_bindings.dart';
+import '../Gyaawa/vendor_common/Notifications/sub_screens/notification_settings/view/res_notification_settings_screen.dart';
 
 class VendorAppRoutes {
   static const String splashScreen = '/splashScreen';
@@ -81,7 +96,7 @@ class VendorAppRoutes {
   static const String restaurantAddProductScreen = '/RestaurantAddProductScreen';
   static const String restaurantInformationScreens = '/restaurantInformationScreens';
   static const String restaurantProductReviewScreen = '/restaurantProductReviewScreen';
-  // static const String editRestaurantDetailsScreen = '/editRestaurantDetailsScreen';
+   static const String editRestaurantDetailsScreen = '/editRestaurantDetailsScreen';
   static const String restaurantCategoryScreen = '/restaurantCategoryScreen';
   static const String resOrderTranHisScreen = '/resOrderTranHisScreen';
   static const String restaurantAllCategoryItems = '/restaurantAllCategoryItems';
@@ -137,13 +152,13 @@ class VendorAppRoutes {
   //   GetPage(name: twoFaScreen, page: () => const TwoFaScreen()),
   //   GetPage(name: orderTransactionDetailsScreen, page: () => const OrderTransactionDetailsScreen(),binding: OrderTransactionDetailsBinding()),
   //   GetPage(name: signUpScreen, page: () => SignUpScreen(index: Get.parameters["index"] ?? ""),binding: SignUpBinding()),
-  //   GetPage(name: createProfileScreen, page: () => CreateProfileScreen()),
+  //  GetPage(name: createProfileScreen, page: () => CreateProfileScreen()),
   //   GetPage(name: selectRoleScreen, page: () => SelectRoleScreen()),
-  //   GetPage(name: chooseRestaurantCategoriesScreen, page: () => ChooseRestaurantCategoriesScreen(),binding: ResCategoriesCuisinesBinding()),
+     GetPage(name: chooseRestaurantCategoriesScreen, page: () => ChooseRestaurantCategoriesScreen(),binding: ResCategoriesCuisinesBinding()),
   //   GetPage(name: forgotPaswordScreen, page: () => ForgotPaswordScreen()),
   //   GetPage(name: otpScreen, page: () => OtpScreen()),
   //   GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
-  //   GetPage(name: restaurantDetailsScreen, page: () => RestaurantDetailsScreen()),
+     GetPage(name: restaurantDetailsScreen, page: () => RestaurantDetailsScreen()),
     GetPage(name: restaurantDashboardScreen, page: () => const RestaurantDashboardScreen(),binding: RestaurantDashBoardBinding()),
     GetPage(name: restaurantNavbarScreen, page: () => const RestaurantNavbarScreen(navbarInitialIndex: 0),bindings:
   [RestaurantDashBoardBinding(),RestaurantMenuBinding(),]),
@@ -157,17 +172,17 @@ class VendorAppRoutes {
     GetPage(name: restaurantOrderListScreen, page: () => const RestaurantOrderListScreen(),binding: ResOrdersBinding()),
     GetPage(name: restaurantMoreOrderDetailsScreen, page: () => RestaurantMoreOrderDetailsScreen()),
     GetPage(name: restaurantProductReviewScreen, page: () => RestaurantProductReviewScreen()),
-    // GetPage(name: editRestaurantDetailsScreen,page: () => EditRestaurantDetailsScreen()),
+     // GetPage(name: editRestaurantDetailsScreen,page: () => EditRestaurantDetailsScreen()),
     GetPage(name: restaurantCategoryScreen, page: () => RestaurantCategoryScreen()),
     GetPage(name: restaurantAllCategoryItems, page: () => RestaurantAllCategoryItems()),
     GetPage(name: restaurantSettingScreen, page: () => const RestaurantSettingScreen(),binding: RestaurantSettingBinding()),
     GetPage(name: restaurantAddOnScreen, page: () => RestaurantAddAddonScreen()),
     // GetPage(name: restaurantNotificationScreen, page: () => RestaurantNotificationScreen()),
     // GetPage(name: restaurantHelpCenterScreen, page: () => const RestaurantHelpCenterScreen(),binding: ResHelpCenterBinding()),
-    // GetPage(name: restaurantFaqScreen, page: () => const RestaurantFaqScreen(),binding: ResFaqsBinding()),
-    // GetPage(name: restaurantPrivacyPolicyScreen, page: () => const RestaurantPrivacyPolicyScreen(),binding: ResFaqsBinding()),
-    // GetPage(name: restaurantSupportScreen, page: () => const RestaurantSupportScreen(),binding: ResSupportBinding()),
-    // GetPage(name: restaurantTnCScreen, page: () => const RestaurantTncScreen(),binding: ResFaqsBinding()),
+     GetPage(name: restaurantFaqScreen, page: () => const RestaurantFaqScreen(),binding: ResFaqsBinding()),
+     GetPage(name: restaurantPrivacyPolicyScreen, page: () => const RestaurantPrivacyPolicyScreen(),binding: ResFaqsBinding()),
+     GetPage(name: restaurantSupportScreen, page: () => const RestaurantSupportScreen(),binding: ResSupportBinding()),
+     GetPage(name: restaurantTnCScreen, page: () => const RestaurantTncScreen(),binding: ResFaqsBinding()),
     GetPage(name: restaurantInformationScreens, page: () => const RestaurantInformationScreens()),
     GetPage(name: restaurantAddProductScreen, page: () => RestaurantAddProductScreen()),
     GetPage(name: restaurantMyAccountScreen, page: () => RestaurantMyAccountScreen()),
@@ -200,121 +215,12 @@ class VendorAppRoutes {
     GetPage(name: resRequestPayoutScreen, page: () =>  const ResRequestPayoutScreen(),binding: ResRequestPayloadBinding()),
     GetPage(name: resDownloadStatementScreen, page: () =>  const ResDownloadStatementScreen()),
     // GetPage(name: resProfileDetailsScreen, page: () =>  const ResProfileDetailsScreen(),binding: ResProfileDetailsBinding()),
-    // GetPage(name: resCreateNotificationScreen, page: () =>  const ResCreateNotificationScreen()),
-    // GetPage(name: resNotificationSettingsScreen, page: () =>  const ResNotificationSettingsScreen(),binding: ResNotificationSettingsBindings()),
-    // GetPage(name: restaurantVendorAgreementCScreen, page: () =>  const RestaurantVendorAgreementCScreen(),binding: ResFaqsBinding()),
+     GetPage(name: resCreateNotificationScreen, page: () =>  const ResCreateNotificationScreen()),
+     GetPage(name: resNotificationSettingsScreen, page: () =>  const ResNotificationSettingsScreen(),binding: ResNotificationSettingsBindings()),
+     GetPage(name: restaurantVendorAgreementCScreen, page: () =>  const RestaurantVendorAgreementCScreen(),binding: ResFaqsBinding()),
   //
-  //   //>>>>>>>>>>Grocery<<<<<<<<<<<<<<<\\
-  //   GetPage(name: groceryMenuFilterScreen, page: () => const GroceryMenuFilterScreen(),binding: GroceryMenuBinding()),
-  //   GetPage(name: groceryExportMenuItemScreen, page: () => const GroceryExportMenuItemScreen(),binding: GroceryExportMenuBinding()),
-  //   GetPage(name: fillGroceryShopDetailsScreen, page: () => const FillGroceryDetailsScreens()),
-  //   GetPage(name: chooseGroceryCategoriesScreen, page: () => GroceryChooseCategoriesScreen()),
-  //   GetPage(name: groceryProductDetailsScreen, page: () => GroceryProductDetailsScreen()),
-  //   // GetPage(name: groceryWithdrawScreen, page: () => GroceryWithdrawScreen()),
-  //   // GetPage(name: groceryBankAccDetailsScreen, page: () => GroceryBankAccountDetailsScreen()),
-  //   // GetPage(name: addGroceryBankAccDetailsScreen, page: () => AddGroceryBankDetails()),
-  //   GetPage(name: groceryOrderDetailsScreen, page: () => GroceryOrderDetailsScreen()),
-  //   GetPage(name: groceryMoreOrderDetailsScreen, page: () => GroceryMoreOrderDetailsScreen()),
-  //   GetPage(name: groceryNavBar, page: () => const GroceryNavbarScreen(navbarInitialIndex: 0),bindings: [GroceryReviewBindings(),SignOutBinding(),GroceryWalletBinding(),GroceryOrdersBinding(),GroceryDashboardBindings(),GroceryMenuBinding(),SignOutBinding(),GroceryInformationBindings()]),
-  //   GetPage(name: groceryShopDetailsScreen, page: () => GroceryShopDetailsScreen()),
-  //   GetPage(name: groceryProductReviewScreen, page: () => GroceryProductReviewScreen()),
-  //   // GetPage(name: groceryBankAccountDetailsScreen, page: () => GroceryBankAccountDetailsScreen()),
-  //   GetPage(name: groceryCategoryScreen, page: () => GroceryCategoryScreen()),
-  //   GetPage(name: grocerySettingScreen, page: () => const GrocerySettingScreen(),bindings: [GrocerySettingBinding()]),
-  //   GetPage(name: groceryAddMenuCategoryScreen, page: () => const GroceryAddMenuCategoryScreen()),
-  //   GetPage(name: groceryRequestPayoutScreen, page: () => const GroceryRequestPayoutScreen(),binding: GroceryRequestPayloadBinding()),
-  //   GetPage(name: groceryManagePaymentMethod, page: () => const GroceryManagePaymentMethod(),binding: GroceryPaymentMethodBinding()),
-  //   GetPage(name: groceryDownloadStatementScreen, page: () => const GroceryDownloadStatementScreen()),
-  //   GetPage(name: groceryExportReviewsScreen, page: () => const GroceryExportReviewsScreen(),binding: GroceryReviewBindings()),
-  //   GetPage(name: groceryBulkRespondsScreen, page: () => const GroceryBulkRespondsScreen(),binding: GroceryReviewBindings()),
-  //   GetPage(name: grocerySingleReviewResponseScreen, page: () => const GrocerySingleReviewResponseScreen(),binding: GroceryReviewBindings()),
-  //
-  //   GetPage(name: groceryComplianceAndLicensesScreen, page: () => const GroceryComplianceAndLicensesScreen(),binding: GroceryComplianceAndLicensesBinding()),
-  //   GetPage(name: groceryUploadComplianceDocumentsScreen, page: () => const GroceryUploadComplianceDocumentsScreen(),binding: GroceryUploadComplianceDocumentBinding()),
-  //   GetPage(name: groceryDocumentDetailsScreen, page: () => const GroceryDocumentDetailsScreen(),binding: GroceryDocumentDetailsBinding()),
-  //   GetPage(name: groceryUserAccessScreen, page: () => const GroceryUserAccessScreen(),binding: GroceryUserAccessBinding()),
-  //   GetPage(name: groceryAddNewUserScreen, page: () => const GroceryAddNewUserScreen(),binding: GroceryAddNewUserBinding()),
-  //   GetPage(name: grocerySecuritySettingsScreen, page: () => const GrocerySecuritySettingsScreen(),bindings:[GrocerySecuritySettingBinding(),GroceryInformationBindings()]),
-  //
-  //
-  //   GetPage(name: groceryConfigurationScreen, page: () => const GroceryConfigurationScreen(),binding: GrocerySettingBinding()),
-  //   GetPage(name: groceryInformationScreens, page: () => const GroceryInformationScreens(),bindings: [GroceryInformationBindings()]),
-  //   // GetPage(name: groceryHelpCenterScreen, page: () => GroceryHelpCenterScreen()),
-  //   GetPage(name: groceryMyAccountScreen, page: () => GroceryMyAccountScreen()),
-  //   GetPage(name: groceryEditProductScreen, page: () => GroceryEditProductScreen()),
-  //   GetPage(name: groceryAllCategoryItems, page: () => GroceryAllCategoryItems()),
-  //   GetPage(name: groceryNotificationScreen, page: () => GroceryNotificationScreen()),
-  //   // GetPage(name: groceryFaqScreen, page: () => GroceryFaqScreen()),
-  //   // GetPage(name: groceryPrivacyPolicyScreen, page: () => const GroceryPrivacyPolicyScreen()),
-  //   // GetPage(name: grocerySupportScreen, page: () => GrocerySupportScreen()),
-  //   // GetPage(name: groceryTncScreen, page: () => const GroceryTncScreen()),
-  //   // GetPage(name: grocerySupportQuarryReplyScreen, page: () => GrocerySupportQuarryReplyScreen()),
-  //   GetPage(name: groceryAddProductScreen, page: () => GroceryAddProductScreen()),
-  //   GetPage(name: groceryOrderListScreen, page: () =>const GroceryOrderListScreen(),),
-  //   GetPage(name: groceryMenuItemDetailsScreen, page: () =>const GroceryMenuItemDetailsScreen(),binding : GroceryMenuItemDetailsBinding()),
-  //   GetPage(name: groceryBulkUploadMenuItems, page: () =>const GroceryBulkUploadMenuItems(),binding : GroceryMenuItemDetailsBinding()),
-  //   GetPage(name: groceryExportOrdersScreen, page: () =>const GroceryExportOrdersScreen(),binding : GroceryOrdersBinding()),
-  //
-  //   ///Pharmacy routes
-  //   GetPage(name: fillPharmacyDetailsScreen, page: () => const FillPharmacyDetailsScreen()),
-  //   GetPage(name: choosePharmacyCategoriesScreen, page: () => ChoosePharmacyCategories()),
-  //   GetPage(name: pharmacyNavBar, page: () =>  PharmacyNavbarScreen(navbarInitialIndex: 0),bindings: [PharmacyProductBinding(),SignOutBinding(),PharmacyReviewBinding()]),
-  //   GetPage(name: pharmacyOrderDetails, page: () => const PharmacyOrderDetails()),
-  //   GetPage(name: pharmacyMoreOrderDetails, page: () =>  PharmacyMoreOrderDetails()),
-  //   GetPage(name: pharmacyAddProductScreen, page: () => PharmacyAddProductScreen()),
-  //   // GetPage(name: pharmacyWithdrawScreen, page: () => PharmacyWithdrawScreen()),
-  //   // GetPage(name: pharmacyBankAccountDetailsScreen, page: () => PharmacyBankAccountDetailsScreen()),
-  //   GetPage(name: addPharmacyBankDetails, page: () => AddPharmacyBankDetails()),
-  //   GetPage(name: pharmacyProductDetailsScreen, page: () => PharmacyProductDetailsScreen()),
-  //   GetPage(name: pharmacyEditProfileScreen, page: () => PharmacyEditProfile()),
-  //   GetPage(name: pharmacyCategoryScreen, page: () => PharmacyCategoryScreen()),
-  //   GetPage(name: pharmacyBulkUploadMenuItems, page: () =>const PharmacyBulkUploadMenuItems(),binding : pharmacyMenuItemDetailsBinding()),
-  //   GetPage(name: pharmacyMenuItemDetails, page: () => PharmacyMenuItemsScreen(),binding : PharmacyMenuItemDetailsBindings()),
-  //   GetPage(name: pharmacyExportReviews, page: () => const PharmacyexportreviewsScreen(),binding: PharmacyReviewsBinding() ),
-  //   GetPage(name: pharmacyRequestPayoutScreen, page: () => const PharmacyRequestPayoutScreen(),binding: PharmacyRequestPayloadBinding()),
-  //   GetPage(name: pharmacyManagePaymentMethod, page: () => const PharmacyManagePaymentMethod(),binding: PharmacyPaymentMethodBinding()),
-  //   GetPage(name: pharmacyDownloadStatement, page: () =>  const PharmacyDownloadStatementScreen()),
-  //
-  //
-  //   // GetPage(name: pharmacyHelpCenterScreen, page: () => PharmacyHelpCenterScreen()),
-  //   // GetPage(name: pharmacyFAQScreen, page: () => PharmacyFaqScreen()),
-  //   // GetPage(name: pharmacyTnCScreen, page: () => const PharmacyTncScreen()),
-  //   // GetPage(name: pharmacyPrivacyPolicyScreen, page: () => const PharmacyPrivacyPolicyScreen()),
-  //   // GetPage(name: pharmacySupportScreen, page: () => PharmacySupportScreen()),
-  //   GetPage(name: pharmacyProductReviewScreen, page: () => PharmacyProductReviewScreen()),
-  //   GetPage(name: pharmacyMyAccountScreen, page: () => PharmacyMyAccountScreen()),
-  //   GetPage(name: pharmacyNotificationScreen, page: () => PharmacyNotificationScreen()),
-  //   GetPage(name: pharmacyProfileDetailsScreen, page: () => PharmacyProfileDetailsScreen()),
-  //   GetPage(name: pharmacyMenuFilterScreen, page: () => const PharmacyMenuFilterScreen()),
-  //   GetPage(name: pharmacyPrescriptionVerificationScreen, page: () => const PharmacyPrescriptionVerificationScreen(),binding: PrescriptionBinding()),
-  //   // GetPage(name: editPharmacyDetailsScreen,page: () => EditPharmacyDetailsScreen()),
-  //   // GetPage(name: pharmacySupportQueryReplyScreen, page: () => PharmacySupportQueryReplyScreen()),
-  //   GetPage(name: pharmacySubCategoryItems, page: () => PharmacySubCategoryItems()),
-  // GetPage(name: pharmacyEditProductScreen, page: () => const PharmacyEditProductScreen(),binding: PharmaEditProductBinding()),
-  // GetPage(name: pharmacyOrderListScreen, page: () => const PharmacyOrderListScreen()),
-  // GetPage(name: pharmacyBulkUploadMenuItems, page: () => const PharmacyOrderListScreen()),
-  // GetPage(name: pharmacyExportMenuItemScreen, page: () => const Pharmacyexportmenuitemscreen(), binding: pharmacyPharmacyExportBinding()),
-  //   GetPage(name: pharmacybulkrespondsscreen, page: () => const Pharmacybulkrespondsscreen(),binding: PharmacyReviewsBinding()),
-  //   GetPage(name: pharmacySingleReview, page: () => const PharmacySingleReviewResponseScreen(),binding: PharmacyReviewsBinding()),
-  //
-  //
-  //   GetPage(name: pharmacySettingScreen, page: () => const PharmacySettingScreen()),
-  //   GetPage(name: pharmacyInformationScreens, page: () => const PharmacyInformationScreens(),bindings: [PharmacyInformationBindings()]),
-  //   GetPage(name: pharmacyConfigurationScreen, page: () => const PharmacyConfigurationScreen(),binding: PharmacySettingBinding()),
-  //   GetPage(name: pharmacyComplianceAndLicensesScreen, page: () => const PharmacyComplianceAndLicensesScreen(),binding: PharmacyComplianceAndLicensesBinding()),
-  //   GetPage(name: pharmacyUserAccessScreen, page: () => const PharmacyUserAccessScreen(),binding: PharmacyUserAccessBinding()),
-  //   GetPage(name: pharmacySecuritySettingsScreen, page: () => const PharmacySecuritySettingsScreen(),bindings: [PharmacySecuritySettingBinding(),PharmacyInformationBindings()]),
-  //   GetPage(name: pharmacyAddMenuCategoryScreen, page: () => const PharmacyAddMenuCategoryScreen(),bindings:[PharmacySettingBinding()]),
-  //   GetPage(name: pharmacyUploadComplianceDocumentsScreen, page: () => const PharmacyUploadComplianceDocumentsScreen(),binding:PharmacyUploadComplianceDocumentBinding()),
-  //   GetPage(name: pharmacyDocumentDetailsScreen, page: () => const PharmacyDocumentDetailsScreen(),binding:PharmacyDocumentDetailsBinding()),
-  //   GetPage(name: pharmacyAddNewUserScreen, page: () => const PharmacyAddNewUserScreen(),binding:PharmacyAddNewUserBinding()),
-  //   GetPage(name: printPrescriptionLabelsScreen, page: () =>  const PrintPrescriptionLabelsScreen(),binding:PrintPrescriptionLabelsBinding()),
-  //   GetPage(name: pharmacyExportScreen, page: () => const PharmacyExportScreen(),binding:pharmacyPharmacyExportBinding()),
-  //
-
-
     // //---------------------------------Notification----------------------------------------
-    // GetPage(name: notificationScreen, page: () => const NotificationScreen() , binding: NotificationsBinding()),
+    GetPage(name: notificationScreen, page: () => const NotificationScreen() , binding: NotificationsBinding()),
     //
     // GetPage(name: maintenance, page: () => const MaintenanceModeScreen(),binding: MaintenanceBinding()),
 

@@ -12,11 +12,14 @@ import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/common_export
 import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/common_get_category_model.dart';
 import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/common_response_model.dart';
 import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/dashboard_model.dart';
+import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/faq_privacy_term_condition_model.dart';
 import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/order_list_model.dart';
 import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/product_delete_model.dart';
+import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/support_chat_reply_model.dart';
 import '../../Core/Constant/app_urls.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/ChooseRestaurantCategories/model/new_categories_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/ChooseRestaurantCategories/model/update_categories_model.dart';
+import '../../apps/vendor_app/Gyaawa/Pages/FillRestaurantDetails/model/profile_details_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/OrdersDetails/SubScreens/OrderDetails/model/order_accept_reject_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/OrdersDetails/SubScreens/OrderDetails/model/resaurant_order_details_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/Products/Sub_screen/EditProduct/Model/res_single_product_model.dart';
@@ -30,6 +33,7 @@ import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/AddNewUse
 import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/SubScreens/DocumentsDetail/model/res_document_details_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/model/get_compliance_and_licenses_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/profile_details_model.dart';
+import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/register_vendor_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/update_information_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/UserAccessControl/model/res_user_access_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/Wallet/Subscreen_wallet/manage_payment_method/model/all_bank_list_model.dart';
@@ -38,8 +42,14 @@ import '../../apps/vendor_app/Gyaawa/Pages/Wallet/Subscreen_wallet/request_payou
 import '../../apps/vendor_app/Gyaawa/Pages/Wallet/model/vender_wallet_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/review/model/reviews_model.dart';
 import '../../apps/vendor_app/Gyaawa/Pages/review/subscreens/bulk_responds/model/get_bulk_review_res_model.dart';
+import '../../apps/vendor_app/Gyaawa/vendor_common/HelpCenter/SubScreens/FAQ/model/faq_model.dart';
+import '../../apps/vendor_app/Gyaawa/vendor_common/HelpCenter/SubScreens/RestaurantSupport/model/create_support_model.dart';
+import '../../apps/vendor_app/Gyaawa/vendor_common/HelpCenter/SubScreens/RestaurantSupport/model/restaurant_get_support_model.dart';
 import '../../apps/vendor_app/Gyaawa/vendor_common/Models/add_addon_model.dart';
 import '../../apps/vendor_app/Gyaawa/vendor_common/Models/choose_common_categories_model.dart';
+import '../../apps/vendor_app/Gyaawa/vendor_common/Models/status_check_model.dart';
+import '../../apps/vendor_app/Gyaawa/vendor_common/Models/support_chat_model.dart';
+import '../../apps/vendor_app/Gyaawa/vendor_common/Notifications/model/notification_model.dart';
 import '../../apps/vendor_app/Gyaawa/vendor_common/UserPasswordChange/UpdatePasswordModel/update_password_model.dart';
 import '../../apps/vendor_app/Gyaawa/vendor_common/mapbox/model/mapbox_model.dart';
 import '../Model/user_model.dart';
@@ -49,22 +59,49 @@ import '../user_preference_controller.dart';
 class Repository {
   final _apiService = NetworkApiServices();
 
-  String token = "";
+  String token = "5487|PahRTR7gf4yGxBwqovUXHF5zXm4o9uQotkrOcaAT0b3d6ef0";
   UserModel userModel = UserModel();
   var pref = UserPreference();
-  String tokenFcm = "";
+  String tokenFcm = "ehO2k6DKQlGPWuTZ8rjS0k:APA91bFcisbaa-IqSyojCtpolQxWrVKFRkmDA-7Qc_vyCY7tB0GtfF6GukQPtB-1ww-SgAwoJhMQO7SMPdPOn-xEfiAUYkTxjtLlm5r2yuV3Hayi_fr4fnk";
+
+  // Future<void> initializeUser() async {
+  //   // tokenFcm = await FirebaseMessaging.instance.getToken() ?? "";
+  //   userModel = await pref.getUser();
+  //   token = userModel.token ?? '';
+  //   log("Token $token");
+  //   log("Step ${userModel.step}");
+  // }
 
   Future<void> initializeUser() async {
-    // tokenFcm = await FirebaseMessaging.instance.getToken() ?? "";
+    // 👉 agar already static token set hai to override mat karo
+    if (token.isNotEmpty) {
+      log("⚠️ Using static token: $token");
+      return;
+    }
+
+    // 👉 warna normal flow
     userModel = await pref.getUser();
+
     token = userModel.token ?? '';
-    log("Token $token");
-    log("Step ${userModel.step}");
+
+    log("Token from pref: $token");
+    log("Step from pref: ${userModel.step}");
   }
   Future<dynamic> getProfileApi() async {
-    await initializeUser();
+     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.getProfile, token);
     return ProfileDetailsModel.fromJson(response);
+  }
+  Future<RegisterVendorModel> profileDetailsApi(var data) async {
+     await initializeUser();
+    dynamic response =
+    await _apiService.postApi2(data, AppUrls.profileDetails, token);
+    return RegisterVendorModel.fromJson(response);
+  }
+  Future<dynamic> resGetProfileApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.getProfile, token);
+    return ResProfileDetailsModel.fromJson(response);
   }
   Future<CommonExportModel> exportProductApi(var data) async {
     await initializeUser();
@@ -265,13 +302,13 @@ class Repository {
   }
 
   Future<dynamic> getChooseCategoriesApi(var data) async {
-    await initializeUser();
+    // await initializeUser();
     dynamic response =
     await _apiService.postApi(data, AppUrls.getChooseCategories, token);
     return ChooseCategoriesModel.fromJson(response);
   }
   Future<dynamic> categoriesCuisinesAddApi(var data) async {
-    await initializeUser();
+    // await initializeUser();
     dynamic response =
     await _apiService.postApi2(data, AppUrls.categoryCuisineSave, token);
     return UpdateCategoriesModel.fromJson(response);
@@ -432,6 +469,97 @@ class Repository {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.getWalletUrl,token);
     return GetPayOutModel.fromJson(response);
+  }
+
+  /*------------------- notifications -----------------------*/
+
+
+  Future<dynamic> getNotificationsApi({Map<String, dynamic>? queryParameters}) async {
+    await initializeUser();
+    dynamic response = await _apiService.getApiWithParams(AppUrls.notificationsUrl, token,queryParameters:queryParameters );
+    return NotificationModel.fromJson(response);
+  }
+
+  Future<StatusCheckModel> markAllReadApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.markAllRead, token);
+    return StatusCheckModel.fromJson(response);
+  }
+
+  Future<StatusCheckModel> markAsReadApi(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data,AppUrls.markAsRead, token);
+    return StatusCheckModel.fromJson(response);
+  }
+
+  Future<StatusCheckModel> notificationRemove(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data,AppUrls.notificationRemove, token);
+    return StatusCheckModel.fromJson(response);
+  }
+
+  Future<dynamic> seenNotificationsApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.notificationsSeenUrl, token);
+    return StatusCheckModel.fromJson(response);
+  }
+
+  Future<CommonResponseModel> createNotificationsApi(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi2(data,AppUrls.notificationSend, token);
+    return CommonResponseModel.fromJson(response);
+  }
+
+  Future<CommonResponseModel> notificationSettings(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi2(data,AppUrls.notificationPreferences, token);
+    return CommonResponseModel.fromJson(response);
+  }
+  Future<CommonResponseModel> notificationTemplete() async {
+    await initializeUser();
+    final response = await _apiService.getApi(AppUrls.notificationsTemplate, token,);
+    return CommonResponseModel.fromJson(response);
+  }
+
+ //<<<<<<<<<<<<<<<<<<<<<<<<<help support>>>>>>>>>>>>>>>>>>>>>>
+  Future<dynamic> getFaqPrivacyTcApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.faqPrivacyTcUrl, token);
+    return FaqPrivacyTcModel.fromJson(response);
+  }
+
+  Future<GetPagesModel> getFaqPrivacyTc() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.getPages, token);
+    return GetPagesModel.fromJson(response);
+  }
+
+  /* ------------------------------ Support  ---------------------------------*/
+  Future<dynamic> gatSupportApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.getSupportUrl, token);
+    log("repo support response ====>>> $response");
+    return RestaurantGetSupportModel.fromJson(response);
+  }
+
+  Future<dynamic> createSupportApi(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.createSupportUrl, token);
+    return CreateSupportModel.fromJson(response);
+  }
+
+  /*------------------- support chat api -----------------------*/
+
+  Future<dynamic> supportChatApi(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.supportChatUrl, token);
+    return SupportChatModel.fromJson(response);
+  }
+
+  Future<dynamic> markAsClosedChatApi(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.markAsClosedChatReplyUrl, token);
+    return SupportChatReplyModel.fromJson(response);
   }
 
 

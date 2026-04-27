@@ -18,14 +18,14 @@ class RestaurantMenuController extends GetxController{
 
   RxList<Color> categoryColors = [AppColors.blueClr,AppColors.redTextClr,AppColors.primary].obs;
 
-  RxList<String> cardListTitle = ["Total Menu Items","Available","Seasonal/Limited","Total Orders","Average Rating"].obs;
+  RxList<String> cardListTitle = ["Total Products","In Stock","Low Stock","Out of Stock",].obs;
   RxList<String> showList = ["5","10","50","100"].obs;
   RxList<String> priceRangeList =  ["0-15", "15-30", "30-45", "45-60","60+"].obs;
   RxList<String> preparationTimeList =  ["0-15", "10-20", "20-30", "30+"].obs;
   RxList<String> shortByList =  ["A-Z", "Z-A","Low to High", "High to Low", "Most Orders","Highest Rating"].obs;
   RxList<String> availabilityList = ["Breakfast","Lunch","Dinner", "Snacks","Desserts","Beverages","Appetizers","Main Course","Sides","All Day"].obs;
-  RxList<String> cardListImage = [ImageConstants.dollarImg,ImageConstants.available,ImageConstants.starSvg,ImageConstants.totalOrders,ImageConstants.starSvg].obs;
-  List<Color> iconClr = [AppColors.primary,AppColors.primary,AppColors.yellow,AppColors.blueClr,AppColors.yellow,];
+  RxList<String> cardListImage = [ImageConstants.greenCartSvg,ImageConstants.available,ImageConstants.alertSvgLogo,ImageConstants.favoriteSvg,].obs;
+  List<Color> iconClr = [AppColors.greenLightClr,AppColors.greenTextClr,AppColors.yellow,AppColors.greenTextClr,];
 
   final repo = Repository();
   RxInt currentPage = 1.obs;

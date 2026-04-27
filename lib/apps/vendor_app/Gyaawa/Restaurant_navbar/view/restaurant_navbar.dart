@@ -58,7 +58,8 @@ class _RestaurantNavbarScreenState extends State<RestaurantNavbarScreen> {
       userModel = await pref.getUser();
       userRole  = userModel.userRole ?? "";
       // final controller = Get.find<RestaurantNavbarController>();
-      // controller.setNavItemsByRole(userRole.toLowerCase());
+      final controller = Get.put(RestaurantNavbarController());
+      controller.setNavItemsByRole(userRole.toLowerCase());
     });
   }
 
@@ -68,6 +69,10 @@ class _RestaurantNavbarScreenState extends State<RestaurantNavbarScreen> {
         init: RestaurantNavbarController(
             navbarCurrentIndex: widget.navbarInitialIndex),
         builder: (navbarController) {
+
+          print("======== NAVBAR DEBUG ========");
+          print("👉 navItems length: ${navbarController.navItems.length}");
+          print("👉 current index: ${navbarController.navbarCurrentIndex}");
           return PopScope(
             canPop: false,
             onPopInvokedWithResult: (didPop, result) {
@@ -98,6 +103,7 @@ class _RestaurantNavbarScreenState extends State<RestaurantNavbarScreen> {
                 children:
                 navbarController.navItems.map((e) => e.screen).toList(),
               ),
+
               bottomNavigationBar:
               navbarController.showBottomBar &&
                   MediaQuery.of(context).viewInsets.bottom == 0

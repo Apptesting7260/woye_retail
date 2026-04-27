@@ -108,7 +108,7 @@ class RestaurantNavbarController extends GetxController {
         NavItem(
           title: "Reviews",
           icon: ImageConstants.review,
-          screen: const ResReviewScreen(),
+          screen:  ResReviewScreen(),
         ),
       ];
 
@@ -138,7 +138,7 @@ class RestaurantNavbarController extends GetxController {
         NavItem(
           title: "Reviews",
           icon: ImageConstants.review,
-          screen: const ResReviewScreen(),
+          screen:  ResReviewScreen(),
         ),
       ];
     }

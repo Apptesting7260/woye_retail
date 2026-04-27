@@ -27,9 +27,9 @@ class RestaurantBulkUploadMenuItems extends GetView<RestaurantMenuController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Bulk Upload Menu Items",style: AppFontStyle.text_20_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold)),
+              Text("Bulk Upload Retail Items",style: AppFontStyle.text_20_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold)),
               hBox(2),
-              Text("Upload a CSV file with your menu items to add multiple items at once.",
+              Text("Upload a CSV file with your retail items to add multiple items at once.",
                   maxLines: 3,
                   style: AppFontStyle.text_16_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyRegular,
                   ),

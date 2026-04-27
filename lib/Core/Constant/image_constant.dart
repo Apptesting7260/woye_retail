@@ -41,6 +41,8 @@ class ImageConstants {
   static String addOnDelete = "$svgPath/addOnDelete.svg";
 
   static String doneLogo = "$svgPath/done.svg";
+  static String menu2 = "$svgPath/menu2.svg";
+  static String greenCartSvg = "$svgPath/green_cart.svg";
   static String noDataImage = "$svgPath/no_data_image.svg";
   static String orderSvg = "$svgPath/order.svg";
   static String walletSvg = "$svgPath/wallet.svg";
@@ -144,7 +146,8 @@ class ImageConstants {
   static String save = "$svgPath/save.svg";
   static String walletsLogo = "$svgPath/wallets-outlined.svg";
   static String walletsFilledLogo = "$svgPath/solar--wallet-linear-wallet.svg";
-  static String editSvgLogo = "$svgPath/edit.svg";
+  static String editSvgLogo = "$svgPath/edit_svg_logo.svg";
+  static String alertSvgLogo = "$svgPath/alert_svg.svg";
 
   static String listFilledLogo = "$svgPath/icon-park-outline--list-two.svg";
   static String listLogo = "$svgPath/list-outlined.svg";

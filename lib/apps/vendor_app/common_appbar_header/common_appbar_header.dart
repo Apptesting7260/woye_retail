@@ -2,6 +2,7 @@
   import 'package:get/get.dart';
   import 'package:cached_network_image/cached_network_image.dart';
   import 'package:flutter_svg/flutter_svg.dart';
+  import 'package:gyaawa/Utils/sized_box.dart';
 
 import '../../../Core/Constant/image_constant.dart';
 import '../../../main.dart';
@@ -85,24 +86,37 @@ class _CommonAppbarHeaderState extends State<CommonAppbarHeader> {
           },
         ),
 
-        /// ---------- ACTIONS ----------
         actions: [
-          GestureDetector(
-            onTap: () {
-              Get.toNamed(VendorAppRoutes.notificationScreen);
-            },
-            child: Container(
-              height: 43,
-              width: 43,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: AppColors.darkText.withOpacity(0.08),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(VendorAppRoutes.notificationScreen);
+                },
+                child: Container(
+                  height: 43,
+                  width: 43,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: AppColors.darkText.withOpacity(0.08),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.5),
+                    child: Obx(()=>SvgPicture.asset( controller.profileApiData.value.vendor?.notificationBadges != "1" ? ImageConstants.notificationIcon : ImageConstants.notificationBadge)),
+                  ),
+                ),
+              ),wBox(10),
+              Container(
+                height: 43,
+                width: 43,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.darkText.withOpacity(0.08),
+                ),
+                child: SvgPicture.asset(  ImageConstants.menu2,
+                  fit: BoxFit.scaleDown,),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.5),
-                child: Obx(()=>SvgPicture.asset( controller.profileApiData.value.vendor?.notificationBadges != "1" ? ImageConstants.notificationIcon : ImageConstants.notificationBadge)),
-              ),
-            ),
+            ],
           ),
 
           const SizedBox(width: 10),
@@ -134,8 +148,6 @@ class _CommonAppbarHeaderState extends State<CommonAppbarHeader> {
         ],
       );
     }
-
-
 }
 
 /*

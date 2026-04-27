@@ -19,7 +19,8 @@ class MapboxSearchField extends StatelessWidget {
     this.validator,
   });
 
-  final MapboxService mapboxService = Get.find<MapboxService>();
+  // final MapboxService mapboxService = Get.find<MapboxService>();
+  final MapboxService mapboxService = Get.put(MapboxService());
 
   @override
   Widget build(BuildContext context) {
