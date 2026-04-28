@@ -9,13 +9,13 @@ import 'package:gyaawa/shared/widgets/custom_elevated_button.dart';
 import 'package:gyaawa/shared/widgets/image.dart';
 
 import '../../../../../../Utils/sized_box.dart';
+import '../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/custom_product_card.dart';
 import '../../../../../../shared/widgets/custom_top_rated_vendors.dart';
 import '../../../../../../shared/widgets/festival_banner.dart';
-import '../../../../user_routes/app_routes.dart';
 import '../../../common/home_address/view/home_address_screen.dart';
 import '../../../common/tab_bar/common_tab_bar.dart';
 import '../controller/home_controller.dart';

@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Utils/sized_box.dart';
+import '../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../../shared/widgets/custom_rounded_button.dart';
-import '../../../../user_routes/app_routes.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -51,7 +51,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ],
             ),
-            hBox(50),
+            hBox(20),
             Padding(
               padding: const EdgeInsets.only(left: 15),
               child: Row(

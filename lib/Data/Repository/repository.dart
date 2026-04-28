@@ -2,56 +2,59 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:gyaawa/apps/vendor_app/Gyaawa/Pages/ChooseRestaurantCategories/model/res_category_cusion_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/Pages/OrdersDetails/model/restro_order_list_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/Pages/RestaurantAddProduct/Models/restaurant_get_addon_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/Pages/RestaurantAddProduct/Models/restaurant_get_cuisine_type_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/Pages/menu/model/restaurant_menu_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/common_add_product_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/common_export_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/common_get_category_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/common_response_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/dashboard_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/faq_privacy_term_condition_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/order_list_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/product_delete_model.dart';
-import 'package:gyaawa/apps/vendor_app/Gyaawa/vendor_common/Models/support_chat_reply_model.dart';
+import 'package:gyaawa/apps/user_app/presentation/common/sign_up/model/sign_up_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/new_categories_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/res_category_cusion_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/update_categories_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/FillRestaurantDetails/model/profile_details_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/model/restaurant_menu_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/choose_common_categories_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_export_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_get_category_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_response_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/dashboard_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/order_list_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/product_delete_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../Core/Constant/app_urls.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/ChooseRestaurantCategories/model/new_categories_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/ChooseRestaurantCategories/model/update_categories_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/FillRestaurantDetails/model/profile_details_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/OrdersDetails/SubScreens/OrderDetails/model/order_accept_reject_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/OrdersDetails/SubScreens/OrderDetails/model/resaurant_order_details_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Products/Sub_screen/EditProduct/Model/res_single_product_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/OrderTransactionHistory/model/res_order_transaction_history.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Product_Review/model/review_replay_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Product_Review/model/reviews_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/RestaurantCategory/SubScreens/model/all_category_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/AddMenuCategories/model/restaurant_get_selected_categories_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/AddNewUser/model/get_user_details_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/SubScreens/DocumentsDetail/model/res_document_details_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/model/get_compliance_and_licenses_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/profile_details_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/register_vendor_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/update_information_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Profile/Sub_Screens/Setting/UserAccessControl/model/res_user_access_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Wallet/Subscreen_wallet/manage_payment_method/model/all_bank_list_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Wallet/Subscreen_wallet/manage_payment_method/model/bank_details_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Wallet/Subscreen_wallet/request_payout/model/res_req_payout_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/Wallet/model/vender_wallet_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/review/model/reviews_model.dart';
-import '../../apps/vendor_app/Gyaawa/Pages/review/subscreens/bulk_responds/model/get_bulk_review_res_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/HelpCenter/SubScreens/FAQ/model/faq_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/HelpCenter/SubScreens/RestaurantSupport/model/create_support_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/HelpCenter/SubScreens/RestaurantSupport/model/restaurant_get_support_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/Models/add_addon_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/Models/choose_common_categories_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/Models/status_check_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/Models/support_chat_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/Notifications/model/notification_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/UserPasswordChange/UpdatePasswordModel/update_password_model.dart';
-import '../../apps/vendor_app/Gyaawa/vendor_common/mapbox/model/mapbox_model.dart';
+import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/order_accept_reject_model.dart';
+import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/resaurant_order_details_model.dart';
+import '../../apps/vendor_app/view/Pages/OrdersDetails/model/restro_order_list_model.dart';
+import '../../apps/vendor_app/view/Pages/Products/Sub_screen/EditProduct/Model/res_single_product_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/OrderTransactionHistory/model/res_order_transaction_history.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Product_Review/model/review_replay_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Product_Review/model/reviews_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/SubScreens/model/all_category_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/AddMenuCategories/model/restaurant_get_selected_categories_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/AddNewUser/model/get_user_details_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/SubScreens/DocumentsDetail/model/res_document_details_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/model/get_compliance_and_licenses_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/profile_details_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/register_vendor_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/update_information_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/UserAccessControl/model/res_user_access_model.dart';
+import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/Models/restaurant_get_addon_model.dart';
+import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/Models/restaurant_get_cuisine_type_model.dart';
+import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/manage_payment_method/model/all_bank_list_model.dart';
+import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/manage_payment_method/model/bank_details_model.dart';
+import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/request_payout/model/res_req_payout_model.dart';
+import '../../apps/vendor_app/view/Pages/Wallet/model/vender_wallet_model.dart';
+import '../../apps/vendor_app/view/Pages/review/model/reviews_model.dart';
+import '../../apps/vendor_app/view/Pages/review/subscreens/bulk_responds/model/get_bulk_review_res_model.dart';
+import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/FAQ/model/faq_model.dart';
+import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/RestaurantSupport/model/create_support_model.dart';
+import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/RestaurantSupport/model/restaurant_get_support_model.dart';
+import '../../apps/vendor_app/view/vendor_common/Models/add_addon_model.dart';
+import '../../apps/vendor_app/view/vendor_common/Models/common_add_product_model.dart';
+import '../../apps/vendor_app/view/vendor_common/Models/faq_privacy_term_condition_model.dart';
+import '../../apps/vendor_app/view/vendor_common/Models/status_check_model.dart';
+import '../../apps/vendor_app/view/vendor_common/Models/support_chat_model.dart';
+import '../../apps/vendor_app/view/vendor_common/Models/support_chat_reply_model.dart';
+import '../../apps/vendor_app/view/vendor_common/Notifications/model/notification_model.dart';
+import '../../apps/vendor_app/view/vendor_common/UserPasswordChange/UpdatePasswordModel/update_password_model.dart';
+import '../../apps/vendor_app/view/vendor_common/mapbox/model/mapbox_model.dart';
 import '../Model/user_model.dart';
 import '../network/network_api_services.dart';
 import '../user_preference_controller.dart';
@@ -59,11 +62,16 @@ import '../user_preference_controller.dart';
 class Repository {
   final _apiService = NetworkApiServices();
 
-  String token = "5487|PahRTR7gf4yGxBwqovUXHF5zXm4o9uQotkrOcaAT0b3d6ef0";
+  String token = "";
   UserModel userModel = UserModel();
   var pref = UserPreference();
-  String tokenFcm = "ehO2k6DKQlGPWuTZ8rjS0k:APA91bFcisbaa-IqSyojCtpolQxWrVKFRkmDA-7Qc_vyCY7tB0GtfF6GukQPtB-1ww-SgAwoJhMQO7SMPdPOn-xEfiAUYkTxjtLlm5r2yuV3Hayi_fr4fnk";
+  String tokenFcm = "";
 
+  Future<void> initializeUser() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // token = prefs.getString('auth_token') ?? '';
+       userModel = await pref.getUser();
+  }
   // Future<void> initializeUser() async {
   //   // tokenFcm = await FirebaseMessaging.instance.getToken() ?? "";
   //   userModel = await pref.getUser();
@@ -72,21 +80,32 @@ class Repository {
   //   log("Step ${userModel.step}");
   // }
 
-  Future<void> initializeUser() async {
-    // 👉 agar already static token set hai to override mat karo
-    if (token.isNotEmpty) {
-      log("⚠️ Using static token: $token");
-      return;
-    }
 
-    // 👉 warna normal flow
-    userModel = await pref.getUser();
+  // Future<void> initializeUser() async {
+  //   // 👉 agar already static token set hai to override mat karo
+  //   if (token.isNotEmpty) {
+  //     log("⚠️ Using static token: $token");
+  //     return;
+  //   }
+  //
+  //   // 👉 warna normal flow
+  //   userModel = await pref.getUser();
+  //
+  //   token = userModel.token ?? '';
+  //
+  //   log("Token from pref: $token");
+  //   log("Step from pref: ${userModel.step}");
+  // }
 
-    token = userModel.token ?? '';
 
-    log("Token from pref: $token");
-    log("Step from pref: ${userModel.step}");
+  // >>>>>>>>>>>>>>>>>>>>>>>> vendor SignUp>>>>>>>>>>>>>>>
+  Future<dynamic> createVendorApi(var data) async {
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.vendorSignUp, "");
+    return SignUpResponseModel.fromJson(response);
   }
+
+
   Future<dynamic> getProfileApi() async {
      await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.getProfile, token);
@@ -300,7 +319,7 @@ class Repository {
     dynamic response = await _apiService.postApi2(data,AppUrls.createUpdateUser,token);
     return CommonResponseModel.fromJson(response);
   }
-
+  //
   Future<dynamic> getChooseCategoriesApi(var data) async {
     // await initializeUser();
     dynamic response =

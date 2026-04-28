@@ -18,12 +18,11 @@ class HomeAddressScreen extends StatelessWidget {
         color: AppColors.backGroundColor,
         child: Padding(
           padding: REdgeInsets.only(
-              left: 16.h, top: 20.h, right: 24.h, bottom: 20.h),
+              left: 16.h, top: 10.h, right: 24.h, bottom: 20.h),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,8 +1,14 @@
 class AppUrls {
   // static const String baseUrl = "https://nbttech.xyz/woy/vendor-api";
-  static const String baseUrl = "https://nbturls.in/woy/vendor-api";
+  // static const String baseUrl = "https://nbturls.in/woy/vendor-api";
+  static const String baseUrl = "http://127.0.0.1:8000";
   static const String baseUrlFroMaintenance = "https://nbturls.in/woy/api";
   static const String paymentBaseUrl = "https://api.paystack.co";
+
+
+  // >>>>>>>>>>>>>>>>> vendor SignUp>>>>>>>>>>>>>>>>>>>>>>
+  static String get vendorSignUp => '$baseUrl/vendor-api/sign-up';
+  static String get vendorVerifyOtp => '$baseUrl/vendor-api/verify-otp';
 
   /* ---------------- Mapbox -----------------------------------------  */
 
@@ -10,7 +16,6 @@ class AppUrls {
 
   /* ---------------- Authentication -----------------------------------------  */
 
-  static const String createVendor = "$baseUrl/sign-up";
   // static const String createVendor = "$baseUrl/vendor-create";
   static const String login = "$baseUrl/sign-in";
   static const String twoFactorOtpVerify = "$baseUrl/TwoFactorOtpVerify";

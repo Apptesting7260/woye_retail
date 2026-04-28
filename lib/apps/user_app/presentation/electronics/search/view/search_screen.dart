@@ -4,10 +4,10 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:gyaawa/shared/widgets/Custom_search_field.dart';
 import '../../../../../../Utils/sized_box.dart';
+import '../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
-import '../../../../user_routes/app_routes.dart';
 import '../controller/search_controller.dart';
 
 class SearchScreen extends StatefulWidget {

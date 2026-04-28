@@ -89,7 +89,8 @@ import 'package:get/get.dart';
 import 'package:gyaawa/shared/theme/font_family.dart';
 import 'package:gyaawa/shared/theme/font_style.dart';
 
-import '../../../user_routes/app_routes.dart';
+import '../../../../../routes/user_routes/user_app_routes.dart';
+
 
 class CustomCategoryBar extends StatefulWidget {
   final List<String> categories;
