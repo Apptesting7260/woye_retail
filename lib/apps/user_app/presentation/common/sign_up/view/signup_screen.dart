@@ -7,9 +7,9 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:gyaawa/apps/user_app/presentation/common/sign_up/controller/sign_up_controller.dart';
-import 'package:gyaawa/shared/widgets/custom_elevated_button.dart';
 
 import '../../../../../../Core/Constant/image_constant.dart';
+import '../../../../../../Data/response/status.dart';
 import '../../../../../../Utils/sized_box.dart';
 import '../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
@@ -17,8 +17,8 @@ import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../shared/widgets/custom_text_form_field.dart';
-
-
+import '../../../../../../shared/widgets/vendor_widgets/circular_progress_indicator.dart';
+import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
@@ -34,11 +34,14 @@ class SignupScreen extends StatelessWidget {
             Stack(
               children: [
                 Center(
-                  child: SvgPicture.asset(ImageConstants.loginSvg, height: 450.h, width: 371.w),
+                  child: SvgPicture.asset(ImageConstants.loginSvg,
+                      height: 450.h, width: 371.w),
                 ),
                 CustomAppBar(),
                 Positioned(
-                  top: 70, left: 150, right: 0,
+                  top: 70,
+                  left: 150,
+                  right: 0,
                   child: Center(
                     child: Text('SIGN UP',
                         style: AppFontStyle.text_34_500(AppColors.black,
@@ -57,92 +60,77 @@ class SignupScreen extends StatelessWidget {
                       style: AppFontStyle.text_28_500(AppColors.black,
                           fontFamily: AppFontFamily.interSemiBold)),
                   hBox(1),
-                  Text("Enter your phone number to continue. We will send you a verification code",
+                  Text(
+                      "Enter your phone number to continue. We will send you a verification code",
                       maxLines: 2,
                       style: AppFontStyle.text_15_400(AppColors.greyLightColor,
                           fontFamily: AppFontFamily.interRegular)),
                   hBox(20),
                   Obx(() => Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: signUpController.setCustomer,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: signUpController.selectedType.value == 'customer'
-                                    ? AppColors.buttonColor
-                                    : AppColors.greyLightColor,
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  signUpController.selectedType.value == 'customer'
-                                      ? Icons.check_circle
-                                      : Icons.circle_outlined,
-                                  color: signUpController.selectedType.value == 'customer'
-                                      ? AppColors.buttonColor
-                                      : AppColors.greyLightColor,
-                                  size: 20,
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: signUpController.setCustomer,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: signUpController.selectedType.value == 'customer' ? AppColors.buttonColor : AppColors.greyLightColor,
+                                  ),
                                 ),
-                                wBox(8),
-                                Text("Customer",
-                                    style: AppFontStyle.text_15_400(
-                                      signUpController.selectedType.value == 'customer'
-                                          ? AppColors.blackTextColor
-                                          : AppColors.greyLightColor,
-                                      fontFamily: AppFontFamily.interRegular,
-                                    )),
-                              ],
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      signUpController.selectedType.value == 'customer' ? Icons.check_circle : Icons.circle_outlined,
+                                      color: signUpController.selectedType.value == 'customer' ? AppColors.buttonColor : AppColors.greyLightColor,
+                                      size: 20,
+                                    ),
+                                    wBox(8),
+                                    Text("Customer",
+                                        style: AppFontStyle.text_15_400(
+                                          signUpController.selectedType.value == 'customer' ? AppColors.blackTextColor :
+                                          AppColors.greyLightColor, fontFamily: AppFontFamily.interRegular,
+                                        )),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      wBox(12),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: signUpController.setVendor,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: signUpController.selectedType.value == 'vendor'
-                                    ? AppColors.buttonColor
-                                    : AppColors.greyLightColor,
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  signUpController.selectedType.value == 'vendor'
-                                      ? Icons.check_circle
-                                      : Icons.circle_outlined,
-                                  color: signUpController.selectedType.value == 'vendor'
-                                      ? AppColors.buttonColor
-                                      : AppColors.greyLightColor,
-                                  size: 20,
+                          wBox(12),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: signUpController.setVendor,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 14, horizontal: 16),decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: signUpController.selectedType.value == 'vendor' ? AppColors.buttonColor : AppColors.greyLightColor,
+                                  ),
                                 ),
-                                wBox(8),
-                                Text("Vendor",
-                                    style: AppFontStyle.text_15_400(
+                                child: Row(
+                                  children: [
+                                    Icon(
                                       signUpController.selectedType.value == 'vendor'
-                                          ? AppColors.blackTextColor
-                                          : AppColors.greyLightColor,
-                                      fontFamily: AppFontFamily.interRegular,
-                                    )),
-                              ],
+                                          ? Icons.check_circle : Icons.circle_outlined,
+                                      color: signUpController.selectedType.value == 'vendor' ? AppColors.buttonColor : AppColors.greyLightColor,
+                                      size: 20,
+                                    ),
+                                    wBox(8),
+                                    Text("Vendor",
+                                        style: AppFontStyle.text_15_400(
+                                          signUpController.selectedType.value == 'vendor' ? AppColors.blackTextColor : AppColors.greyLightColor, fontFamily: AppFontFamily.interRegular,
+                                        )),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  )),
+                        ],
+                      )),
                   hBox(20),
-
                   Obx(() {
                     if (signUpController.selectedType.value == 'customer') {
                       return CustomTextFormField(
@@ -150,76 +138,93 @@ class SignupScreen extends StatelessWidget {
                         hintText: "Phone Number",
                         textInputType: TextInputType.phone,
                         prefixIcon: CountryCodePicker(
-                          textStyle: AppFontStyle.text_15_400(AppColors.greyTextColor,
-                              fontFamily: AppFontFamily.interRegular),
+                          textStyle: AppFontStyle.text_15_400(
+                              AppColors.greyTextColor, fontFamily: AppFontFamily.interRegular),
                           padding: const EdgeInsets.only(left: 10),
                           showFlag: false,
                           showDropDownButton: true,
                         ),
                       );
                     } else {
-                      return Column(
-                        children: [
-                          CustomTextFormField(
-                            height: 52,
-                            hintText: "Email",
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.only(left: 18, right: 10),
-                              child: Image.asset(
-                                ImageConstants.emailLogo,
-                                height: 19.h,
-                                width: 18.h,
-                                color: AppColors.hintText,
+                      return Form(
+                        key: signUpController.signUpFormKey,
+                        child: Column(
+                          children: [
+                            CustomTextFormField(
+                              controller: signUpController.emailController.value,
+                              hintText: "Email",
+                              validator: signUpController.validateEmail,
+                              textInputType: TextInputType.emailAddress,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.only(left: 18, right: 10),
+                                child: Image.asset(
+                                  ImageConstants.emailLogo, height: 19.h, width: 18.h, color: AppColors.hintText,
+                                ),
                               ),
                             ),
-                            textInputType: TextInputType.emailAddress,
-                          ),
-                          hBox(16),
-                          CustomTextFormField(
-                            height: 52,
-                            hintText: "Password",
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.only(left: 18, right: 10),
-                              child: Image.asset(
-                                ImageConstants.lockLogo,
-                                height: 19.h,
-                                width: 18.h,
-                                color: AppColors.hintText,
+                            hBox(16),
+                            CustomTextFormField(
+                                controller: signUpController.passwordController.value,
+                                hintText: "Password",
+                                validator: signUpController.validatePassword,
+                                obscureText: signUpController.isShowPassword.value,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.only(left: 18, right: 10),
+                                child: Image.asset(
+                                  ImageConstants.lockLogo, height: 14.h, width: 14.h, color: AppColors.hintText,
+                                ),
                               ),
-                            ),
-                            obscureText: true,
-                          ),
-                          hBox(16),
-                          CustomTextFormField(
-                            height: 52,
-                            hintText: "Confirm Password",
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.only(left: 18, right: 10),
-                              child: Image.asset(
-                                ImageConstants.lockLogo,
-                                height: 19.h,
-                                width: 18.h,
-                                color: AppColors.hintText,
+                              // suffix: InkWell(
+                              //   onTap: (){
+                              //       signUpController.togglePasswordVisibility(isConfirmPassword: true);},
+                              //       child: Icon(
+                              //       signUpController.isShowConfirmPassword.value ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                              //          color: AppColors.hintText,
+                              //       ),
+                              // ),
                               ),
+                            hBox(16),
+                            CustomTextFormField(
+                              controller: signUpController.confirmPasswordController.value,
+                              hintText: "Confirm Password",
+                              validator: signUpController.validateConfirmPassword,
+                              obscureText: signUpController.isShowConfirmPassword.value,
                             ),
-                            obscureText: true,
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     }
                   }),
 
                   hBox(20),
-                  CustomElevatedButton(
-                    color: AppColors.buttonColor,
+                  // CustomElevatedButton(
+                  //   color: AppColors.buttonColor,
+                  //   height: 52,
+                  //   text: "Sign Up",
+                  //   textStyle: AppFontStyle.text_18_600(AppColors.white,
+                  //       fontFamily: AppFontFamily.interSemiBold),
+                  //   onPressed: () {
+                  //     Get.toNamed(UserRoutes.verifyScreen);
+                  //   },
+                  // ),
+                  Obx(() => CustomElevatedButton(
                     height: 52,
-                    text: "Sign Up",
-                    textStyle: AppFontStyle.text_18_600(AppColors.white,
-                        fontFamily: AppFontFamily.interSemiBold),
                     onPressed: () {
-                      Get.toNamed(UserRoutes.verifyScreen);
+                      if (signUpController.rxRequestStatus.value == ApiStatus.LOADING) return;
+                      if (signUpController.signUpFormKey.currentState!.validate()) {
+                        signUpController.registerApi();
+                      }
                     },
-                  ),
+                    child: signUpController.rxRequestStatus.value == ApiStatus.LOADING
+                        ? circularProgressIndicator(size: 24, color: Colors.white,)
+                        : Text(
+                      "Sign Up",
+                      style: AppFontStyle.text_18_600(
+                        AppColors.white,
+                        fontFamily: AppFontFamily.interSemiBold,
+                      ),
+                    ),
+                  )),
                   hBox(20),
                   InkWell(
                     highlightColor: Colors.transparent,
@@ -232,12 +237,14 @@ class SignupScreen extends StatelessWidget {
                           children: [
                             TextSpan(
                               text: "Already have an account?  ",
-                              style: AppFontStyle.text_16_400(AppColors.greyLightColor,
+                              style: AppFontStyle.text_16_400(
+                                  AppColors.greyLightColor,
                                   fontFamily: AppFontFamily.onestRegular),
                             ),
                             TextSpan(
                               text: "Log In",
-                              style: AppFontStyle.text_16_400(AppColors.blackTextColor,
+                              style: AppFontStyle.text_16_400(
+                                  AppColors.blackTextColor,
                                   fontFamily: AppFontFamily.onestRegular),
                             ),
                           ],

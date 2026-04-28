@@ -5,13 +5,12 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:gyaawa/Utils/sized_box.dart';
+import 'package:gyaawa/apps/user_app/presentation/common/welcome/view/welcome_screen.dart';
 import 'package:gyaawa/shared/theme/font_style.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
-
 import '../../../../../vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
-import '../../welcome/view/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
   //   super.initState();
   //   loadData();
   // }
-
+  //
   // void loadData() async {
   //   await controller.getProfileDetailsApi();
   //

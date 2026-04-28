@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/routes/user_routes/user_app_routes.dart';
+import 'package:gyaawa/routes/vendor_routes/vendor_app_routes.dart';
 import 'package:gyaawa/shared/theme/colors.dart';
 import 'apps/user_app/presentation/common/splash/view/splash_screen.dart';
 
