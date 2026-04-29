@@ -173,7 +173,7 @@ class _RestaurantConfigurationScreenState extends State<RestaurantConfigurationS
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               header(
-                title:  "Retail Configuration",
+                title:  "Store Configuration",
                 description: "Configure opening hours, menu categories, and cuisine preferences",
               ),
               hBox(16),
@@ -238,66 +238,6 @@ class _RestaurantConfigurationScreenState extends State<RestaurantConfigurationS
     );
   }
 
-  // void validationForOpeningHours() {
-  //   bool allValid = true;
-  //   int firstInvalidIndex = -1;
-  //
-  //
-  //   for (int i = 0; i < controller.days.length; i++) {
-  //     bool isDayOn = controller.isSwitchActive[i].value;
-  //     bool isEditing = controller.isToggleList[i].value;
-  //     String start = controller.shopStartTimeControllers[i].text.trim();
-  //     String end = controller.shopClosedTimeControllers[i].text.trim();
-  //
-  //     controller.SetTimeError( "");
-  //
-  //     if (!isDayOn) {
-  //       print("Day ${controller.days[i]} is closed, skipping...");
-  //       continue;
-  //     }
-  //
-  //     final form = controller.formKeys[i].currentState;
-  //     if (form != null) {
-  //       bool formValid = form.validate();
-  //     }
-  //
-  //     if (isEditing && start.isNotEmpty && end.isNotEmpty) {
-  //       allValid = false;
-  //       if (firstInvalidIndex == -1) firstInvalidIndex = i;
-  //       controller.SetTimeError(
-  //           "Please save ${controller.days} timing before proceeding");
-  //       continue;
-  //     }
-  //
-  //     if (start.isEmpty || end.isEmpty) {
-  //       allValid = false;
-  //       if (firstInvalidIndex == -1) firstInvalidIndex = i;
-  //       controller.SetTimeError( "Please select start and close time");
-  //       continue;
-  //     }
-  //
-  //     try {
-  //       final startTime = DateFormat('hh:mm a').parse(start);
-  //       final endTime = DateFormat('hh:mm a').parse(end);
-  //
-  //       if (!startTime.isBefore(endTime)) {
-  //         allValid = false;
-  //         if (firstInvalidIndex == -1) firstInvalidIndex = i;
-  //         controller.SetTimeError( "Start time must be before close time");
-  //       }
-  //     } catch (e) {
-  //       allValid = false;
-  //       if (firstInvalidIndex == -1) firstInvalidIndex = i;
-  //       controller.SetTimeError( "Invalid time format");
-  //     }
-  //   }
-  //
-  //   if (!allValid && firstInvalidIndex != -1) {
-  //     controller.scrollToDay(firstInvalidIndex);
-  //     return;
-  //   }
-  //   controller.updateConfigurationApi();
-  // }
   void validationForOpeningHours() {
     bool allValid = true;
     int firstInvalidIndex = -1;
@@ -628,59 +568,6 @@ class _RestaurantConfigurationScreenState extends State<RestaurantConfigurationS
       ],
     );
   }
-
-
-  // Widget cuisineAndDietary() {
-  //   return Obx(() {
-  //     final cuisineOptions = controller.profileApiData.value.cuisineOptions ?? [];
-  //     return Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           "Cuisine & Dietary Options",
-  //           style: AppFontStyle.text_16_600(
-  //             AppColors.blackClr,
-  //             fontFamily: AppFontFamily.gilroyMedium,
-  //           ),
-  //         ),
-  //         const SizedBox(height: 12),
-  //
-  //         GridView.builder(
-  //           shrinkWrap: true,
-  //           physics: const NeverScrollableScrollPhysics(),
-  //           itemCount: cuisineOptions.length,
-  //           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-  //             crossAxisCount: 2,
-  //             mainAxisSpacing: 12,
-  //             crossAxisSpacing: 10,
-  //             childAspectRatio: 5,
-  //           ),
-  //           itemBuilder: (context, index) {
-  //             return Obx(
-  //               () {
-  //                 final item = cuisineOptions[index];
-  //                 RxBool isSelected = controller.selectedCuisineIds.contains(int.parse(item.id ?? "")).obs;
-  //                 return CustomCheckboxTile(
-  //                 title: item.name ?? "",
-  //                 value: isSelected,
-  //                 onChanged: (value) {
-  //                   if(value == true){
-  //                     controller.selectedCuisineIds.add(int.parse(item.id.toString()));
-  //                   }else{
-  //                     controller.selectedCuisineIds.remove(int.parse(item.id.toString()));
-  //                   }
-  //                   // pt("selectedCuisineIds>>>>>>>>>> ${controller.selectedCuisineIds}");
-  //                 },
-  //               );
-  //               },
-  //             );
-  //           },
-  //         )
-  //       ],
-  //     );
-  //   });
-  // }
-
   Widget cuisineAndDietary() {
     return Obx(() {
       final cuisineOptions = controller.profileApiData.value.cuisineOptions ?? [];

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/user_app/presentation/navigation_bar/view/user_nav_bar.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Utils/sized_box.dart';
 import '../../../../../../shared/theme/colors.dart';
@@ -10,7 +11,6 @@ import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../../shared/widgets/otp_Input_field.dart';
-import '../../../navigation_bar/view/nav_bar.dart';
 
 class VerifyScreen extends StatefulWidget {
   const VerifyScreen({super.key});

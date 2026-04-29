@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:gyaawa/Core/Constant/image_constant.dart';
 import 'package:gyaawa/Utils/sized_box.dart';
+import 'package:gyaawa/apps/user_app/presentation/navigation_bar/controller/nav_bar_controller.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/custom_dropdown.dart';
 import '../../../../../../shared/widgets/custom_product_card.dart';
+import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../common/tab_bar/common_tab_bar.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -15,6 +19,7 @@ class CategoryScreen extends StatefulWidget {
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
 }
+final navController = Get.find<NavigationController>();
 
 class _CategoryScreenState extends State<CategoryScreen> {
   @override
@@ -54,7 +59,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                     const Spacer(),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        pt("Cart icon tapped");
+
+                        navController.changeIndex(2);
+
+                        pt("Index changed to: ${navController.selectedIndex.value}");
+                      },
                       icon: SvgPicture.asset(
                         ImageConstants.cartSvg,
                         height: 35,
@@ -178,7 +189,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 0.69,
+        childAspectRatio: 0.66,
       ),
       itemBuilder: (context, index) {
         return ProductCard(

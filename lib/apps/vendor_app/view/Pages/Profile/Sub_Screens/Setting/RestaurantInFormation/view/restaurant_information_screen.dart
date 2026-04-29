@@ -114,7 +114,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       header(
-                                        title:  "Restaurant Information",
+                                        title:  "Store Information",
                                         description: "Update your restaurant's basic details and contact information",
                                       ),
                                       hBox(14.h),
@@ -143,7 +143,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                                       ),
                                       addressFromGoogleAPI(),
                                       hBox(16.h),
-                                      title("Restaurant Logo"),
+                                      title("Store Logo"),
                                       hBox(6.h),
                                       restaurantLogo(),
                                       hBox(16.h),

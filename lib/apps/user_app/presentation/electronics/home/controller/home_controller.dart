@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 class HomeController extends GetxController {
 
@@ -177,4 +179,9 @@ class HomeController extends GetxController {
       "badges": ["Best Tech Vendor 2024", "98.8% Positive Feedback", "+1 more"],
     };
   });
+
+  Color getCategoryBgColor(int index) {
+    final double hue = (index * 137.5) % 360;
+    return HSLColor.fromAHSL(1.0, hue, 0.55, 0.95).toColor();
+  }
 }

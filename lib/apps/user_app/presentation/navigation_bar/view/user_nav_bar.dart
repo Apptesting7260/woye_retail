@@ -13,8 +13,7 @@ import '../controller/nav_bar_controller.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
-
-  final NavigationController controller = Get.put(NavigationController());
+  final NavigationController controller = Get.put (NavigationController());
 
   List<Widget> get screens => [
     const HomeScreen(),

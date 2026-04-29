@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:gyaawa/Core/Constant/image_constant.dart';
 
 import '../../../../../../Utils/sized_box.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
+import '../../../navigation_bar/controller/nav_bar_controller.dart';
 
 class HomeAddressScreen extends StatelessWidget {
-  const HomeAddressScreen({super.key});
+   HomeAddressScreen({super.key});
+  final navController = Get.find<NavigationController>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Material(
-        color: AppColors.backGroundColor,
         child: Padding(
           padding: REdgeInsets.only(
               left: 16.h, top: 10.h, right: 24.h, bottom: 20.h),
@@ -65,7 +68,6 @@ class HomeAddressScreen extends StatelessWidget {
                   ],
                 ),
               ),
-      
              wBox(15),
               Container(
                 padding:
@@ -83,11 +85,13 @@ class HomeAddressScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SvgPicture.asset(
-                ImageConstants.cartSvg,
-                height: 42.h,
-                width: 42.w,
-              ),
+              InkWell(
+                child: SvgPicture.asset(
+                  ImageConstants.cartSvg,
+                  height: 42.h,
+                  width: 42.w,
+                ),
+                onTap: (){navController.changeIndex(2);},),
               wBox(4),
               SvgPicture.asset(
                 ImageConstants.notificationSvg,

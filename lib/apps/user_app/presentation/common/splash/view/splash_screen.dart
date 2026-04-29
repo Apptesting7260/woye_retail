@@ -10,7 +10,9 @@ import 'package:gyaawa/shared/theme/font_style.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
+import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../../../vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
+import '../../../../../vendor_app/view/Restaurant_navbar/view/restaurant_navbar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,37 +24,37 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final controller = Get.put( FillRestaurantDetailsController());
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   loadData();
-  // }
-  //
-  // void loadData() async {
-  //   await controller.getProfileDetailsApi();
-  //
-  //   await Future.delayed(const Duration(seconds: 2));
-  //
-  //   final step = int.tryParse(
-  //       controller.profileApiData.value.vendor?.step?.toString() ?? "0"
-  //   ) ?? 0;
-  //
-  //   pt("SPLASH STEP: $step");
-  //
-  //   if (step == 3) {
-  //     Get.offAll(() => RestaurantNavbarScreen());
-  //   } else {
-  //     // Get.offAll(() => ResProfileDetailsScreen());
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
-      Get.offAll(() => WelcomeScreen());
-    });
+    loadData();
   }
+
+  void loadData() async {
+    await controller.getProfileDetailsApi();
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    final step = int.tryParse(
+        controller.profileApiData.value.vendor?.step?.toString() ?? "0"
+    ) ?? 0;
+
+    pt("SPLASH STEP: $step");
+
+    if (step == 3) {
+      Get.offAll(() => RestaurantNavbarScreen());
+    } else {
+      // Get.offAll(() => ResProfileDetailsScreen());
+    }
+  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Future.delayed(const Duration(seconds: 2), () {
+  //     Get.offAll(() => WelcomeScreen());
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

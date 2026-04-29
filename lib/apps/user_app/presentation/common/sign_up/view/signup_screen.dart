@@ -34,8 +34,7 @@ class SignupScreen extends StatelessWidget {
             Stack(
               children: [
                 Center(
-                  child: SvgPicture.asset(ImageConstants.loginSvg,
-                      height: 450.h, width: 371.w),
+                  child: SvgPicture.asset(ImageConstants.loginSvg, height: 450.h, width: 371.w),
                 ),
                 CustomAppBar(),
                 Positioned(
@@ -44,8 +43,7 @@ class SignupScreen extends StatelessWidget {
                   right: 0,
                   child: Center(
                     child: Text('SIGN UP',
-                        style: AppFontStyle.text_34_500(AppColors.black,
-                            fontFamily: AppFontFamily.interMedium)),
+                        style: AppFontStyle.text_34_500(AppColors.black, fontFamily: AppFontFamily.interMedium)),
                   ),
                 ),
               ],
@@ -57,8 +55,7 @@ class SignupScreen extends StatelessWidget {
                 children: [
                   hBox(20),
                   Text("Create your Account",
-                      style: AppFontStyle.text_28_500(AppColors.black,
-                          fontFamily: AppFontFamily.interSemiBold)),
+                      style: AppFontStyle.text_28_500(AppColors.black, fontFamily: AppFontFamily.interSemiBold)),
                   hBox(1),
                   Text(
                       "Enter your phone number to continue. We will send you a verification code",
@@ -164,31 +161,60 @@ class SignupScreen extends StatelessWidget {
                             ),
                             hBox(16),
                             CustomTextFormField(
-                                controller: signUpController.passwordController.value,
-                                hintText: "Password",
-                                validator: signUpController.validatePassword,
-                                obscureText: signUpController.isShowPassword.value,
+                              controller: signUpController.passwordController.value,
+                              hintText: "Password",
+                              validator: signUpController.validatePassword,
+                              obscureText: signUpController.isShowPassword.value,
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.only(left: 18, right: 10),
                                 child: Image.asset(
-                                  ImageConstants.lockLogo, height: 14.h, width: 14.h, color: AppColors.hintText,
+                                  ImageConstants.lockLogo,
+                                  height: 14.h,
+                                  width: 14.h,
+                                  color: AppColors.hintText,
                                 ),
                               ),
-                              // suffix: InkWell(
-                              //   onTap: (){
-                              //       signUpController.togglePasswordVisibility(isConfirmPassword: true);},
-                              //       child: Icon(
-                              //       signUpController.isShowConfirmPassword.value ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                              //          color: AppColors.hintText,
-                              //       ),
-                              // ),
+                              suffix: GestureDetector(
+                                onTap: () {
+                                  signUpController.togglePasswordVisibility();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 12),
+                                  child: Icon(
+                                    signUpController.isShowPassword.value ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                                    color: AppColors.hintText,
+                                    size: 20,
+                                  ),
+                                ),
                               ),
+                            ),
                             hBox(16),
                             CustomTextFormField(
                               controller: signUpController.confirmPasswordController.value,
                               hintText: "Confirm Password",
                               validator: signUpController.validateConfirmPassword,
-                              obscureText: signUpController.isShowConfirmPassword.value,
+                               obscureText: signUpController.isShowConfirmPassword.value,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.only(left: 18, right: 10),
+                                child: Image.asset(
+                                  ImageConstants.lockLogo,
+                                  height: 14.h, width: 14.h,
+                                  color: AppColors.hintText,
+                                ),
+                              ),
+                              suffix: GestureDetector(
+                                onTap: () {
+                                  signUpController.togglePasswordVisibility(isConfirmPassword: true);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 12),
+                                  child: Icon(
+                                    signUpController.isShowConfirmPassword.value ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                                    color: AppColors.hintText,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -212,7 +238,7 @@ class SignupScreen extends StatelessWidget {
                     onPressed: () {
                       if (signUpController.rxRequestStatus.value == ApiStatus.LOADING) return;
                       if (signUpController.signUpFormKey.currentState!.validate()) {
-                        signUpController.registerApi();
+                        signUpController.vendorRegisterApi();
                       }
                     },
                     child: signUpController.rxRequestStatus.value == ApiStatus.LOADING

@@ -24,8 +24,8 @@ class _RestaurantSettingScreenState extends State<RestaurantSettingScreen> {
   String userRole = "";
 
   RxList<String> mapList = <String>[
-    "Restaurant Information",
-    "Restaurant Configuration",
+    "Store Information",
+    "Store Configuration",
     "Compliance & Licenses",
     "User Access Control",
     "Security",
@@ -89,11 +89,11 @@ class _RestaurantSettingScreenState extends State<RestaurantSettingScreen> {
               onTap: () {
                 switch (mapList[index]) {
 
-                  case "Restaurant Information":
+                  case "Store Information":
                     Get.toNamed(VendorAppRoutes.restaurantInformationScreens);
                     break;
 
-                  case "Restaurant Configuration":
+                  case "Store Configuration":
                     Get.toNamed(VendorAppRoutes.restaurantConfigurationScreen);
                     break;
 
