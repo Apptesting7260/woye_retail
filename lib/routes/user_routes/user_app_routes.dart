@@ -1,7 +1,9 @@
 
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:gyaawa/apps/user_app/presentation/common/home_address/sub_screen/add_new_door_delivery_address.dart';
+import 'package:gyaawa/apps/user_app/presentation/electronics/cart/binding/cart_bindings.dart';
 import 'package:gyaawa/apps/user_app/presentation/electronics/cart/sub_screen/place_order_screen.dart';
+import 'package:gyaawa/apps/user_app/presentation/navigation_bar/view/user_nav_bar.dart';
 
 import '../../apps/user_app/presentation/acccount/sub_screen/edit_profile.dart';
 import '../../apps/user_app/presentation/common/home_address/bindings/door_delivery_bindings.dart';
@@ -16,6 +18,7 @@ import '../../apps/user_app/presentation/common/tab_bar/sub_screen/view/editor_c
 import '../../apps/user_app/presentation/common/tab_bar/sub_screen/view/featured_screen.dart';
 import '../../apps/user_app/presentation/common/tab_bar/sub_screen/view/gift_screen.dart';
 import '../../apps/user_app/presentation/common/verify/view/verify_screen.dart';
+import '../../apps/user_app/presentation/electronics/cart/view/cart_screen.dart';
 import '../../apps/user_app/presentation/electronics/category/sub_category/bindings/all_category_binding.dart';
 import '../../apps/user_app/presentation/electronics/category/sub_category/bindings/departments_store_binding.dart';
 import '../../apps/user_app/presentation/electronics/category/sub_category/bindings/sub_categories_binding.dart';
@@ -30,6 +33,7 @@ import '../../apps/user_app/presentation/electronics/product_ditails/product_dit
 import '../../apps/user_app/presentation/electronics/search/sub_search_screen/bindings/search_result_bindings.dart';
 import '../../apps/user_app/presentation/electronics/search/sub_search_screen/search_result_screen.dart';
 import '../../apps/user_app/presentation/electronics/search/view/result_filter_screen.dart';
+import '../../apps/user_app/presentation/navigation_bar/binding/user_nar_bar_bindings.dart';
 class UserRoutes {
   static const String signupScreen = '/signupScreen';
   static const String loginScreen = '/loginScreen';
@@ -50,6 +54,8 @@ class UserRoutes {
   static const String selectDeliveryAddress = '/selectDeliveryAddress';
   static const String addNewDoorDeliveryAddress = '/addNewDoorDeliveryAddress';
   static const String pickupStationScreen = '/pickupStationScreen';
+  static const String cartScreen = '/cartScreen';
+  static const String mainScreen = '/mainScreen';
 
   static List<GetPage> pages = <GetPage>[
     GetPage(name: signupScreen, page: () =>  SignupScreen(),binding: SignupBinding()),
@@ -71,6 +77,8 @@ class UserRoutes {
     GetPage(name: resultFilterScreen, page: () => const ResultFilterScreen(),binding: SearchResultBindings()),
     GetPage(name: addNewDoorDeliveryAddress, page: () => const AddNewDoorDeliveryAddress(),binding: DoorDeliveryBindings()),
     GetPage(name: pickupStationScreen, page: () =>  PickupStationScreen(),binding: PickupStationBindings()),
+    GetPage(name: cartScreen, page: () =>  CartScreen(),binding: CartBindings()),
+    GetPage(name: mainScreen, page: () =>  MainScreen(),binding: MainBinding()),
 
   ];
 }

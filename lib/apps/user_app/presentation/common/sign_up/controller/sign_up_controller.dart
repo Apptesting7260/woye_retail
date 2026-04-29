@@ -71,7 +71,7 @@ class SignUpController extends GetxController {
   final apiData = SignUpResponseModel().obs;
   void signUpSet(SignUpResponseModel value) => apiData.value = value;
 
-  Future<void> registerApi() async {
+  Future<void> vendorRegisterApi() async {
     if (selectedType.value != "vendor") return;
 
     var data = {

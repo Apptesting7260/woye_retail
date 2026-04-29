@@ -121,8 +121,8 @@ class RestaurantNavbarController extends GetxController {
           screen: const RestaurantDashboardScreen(),
         ),
         NavItem(
-          title: "Menu",
-          icon: ImageConstants.menu,
+          title: "Products",
+          icon: ImageConstants.productSvg,
           screen: const RestaurantMenuScreen(),
         ),
         NavItem(

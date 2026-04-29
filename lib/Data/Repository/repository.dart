@@ -62,16 +62,11 @@ import '../user_preference_controller.dart';
 class Repository {
   final _apiService = NetworkApiServices();
 
-  String token = "";
+  String token = "5504|9UOpvgM1DT82y0p8dQsseMroA1Nivh3FjdsoOse9249b5d8d";
   UserModel userModel = UserModel();
   var pref = UserPreference();
   String tokenFcm = "";
 
-  Future<void> initializeUser() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // token = prefs.getString('auth_token') ?? '';
-       userModel = await pref.getUser();
-  }
   // Future<void> initializeUser() async {
   //   // tokenFcm = await FirebaseMessaging.instance.getToken() ?? "";
   //   userModel = await pref.getUser();
@@ -81,21 +76,21 @@ class Repository {
   // }
 
 
-  // Future<void> initializeUser() async {
-  //   // 👉 agar already static token set hai to override mat karo
-  //   if (token.isNotEmpty) {
-  //     log("⚠️ Using static token: $token");
-  //     return;
-  //   }
-  //
-  //   // 👉 warna normal flow
-  //   userModel = await pref.getUser();
-  //
-  //   token = userModel.token ?? '';
-  //
-  //   log("Token from pref: $token");
-  //   log("Step from pref: ${userModel.step}");
-  // }
+  Future<void> initializeUser() async {
+    // 👉 agar already static token set hai to override mat karo
+    if (token.isNotEmpty) {
+      log("⚠️ Using static token: $token");
+      return;
+    }
+
+    // 👉 warna normal flow
+    userModel = await pref.getUser();
+
+    token = userModel.token ?? '';
+
+    log("Token from pref: $token");
+    log("Step from pref: ${userModel.step}");
+  }
 
 
   // >>>>>>>>>>>>>>>>>>>>>>>> vendor SignUp>>>>>>>>>>>>>>>

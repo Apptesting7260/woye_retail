@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,10 +17,10 @@ import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/custom_appbar.dart';
-import '../../../../../../shared/widgets/custom_dropdown_api.dart';
 import '../../../../../../shared/widgets/vendor_widgets/circular_progress_indicator.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_checkbox.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
+import '../../../../../../shared/widgets/vendor_widgets/custom_dropdown_api.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
@@ -921,7 +919,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                   selectedValue: restaurantProductAddController.selectedCuisineType.value,
                   items: restaurantProductAddController.apiCuisineTypeData.value.cuisine ?? [],
                   borderColor: AppColors.textFieldBorder,
-                  hintText: "Cuisine",
+                  hintText: "Brand",
                   btnHeight: 50,
                   onChanged: (value) {
 
@@ -948,7 +946,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                   selectedValue: restaurantProductAddController.selectedMenuSection.value,
                   items: restaurantProductAddController.menuSection ?? [],
                   borderColor: AppColors.textFieldBorder,
-                  hintText: "Menu Section",
+                  hintText: "Department",
                   btnHeight: 50,
                   onChanged: (value) {
                     restaurantProductAddController.selectedMenuSection.value = value!;

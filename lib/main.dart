@@ -36,8 +36,8 @@ class MyApp extends StatelessWidget {
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
             ),
           ),
-          getPages: UserRoutes.pages,
-          // getPages: VendorAppRoutes.pages,
+          // getPages: UserRoutes.pages,
+          getPages: VendorAppRoutes.pages,
           home: SplashScreen(),
         );
       },

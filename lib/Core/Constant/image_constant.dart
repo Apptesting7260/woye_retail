@@ -176,6 +176,7 @@ class ImageConstants {
   static String locationOutlinedLogo = "$svgPath/location-outlined-logo.svg";
   static String dashboard = "$svgPath/Chart.svg";
   static String menu = "$svgPath/food_svgrepo.com.svg";
+  static String productSvg = "$svgPath/product.svg";
   static String productImage = "$svgPath/product_mage.svg";
   static String orders = "$svgPath/fluent--cart-20-filled 1.svg";
   static String wallet = "$svgPath/wallet.svg";

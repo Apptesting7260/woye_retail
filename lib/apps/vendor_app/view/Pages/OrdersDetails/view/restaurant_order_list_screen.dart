@@ -530,7 +530,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                           borderRadius: BorderRadius.circular(10),
                           color: AppColors.blueLightColor,
                           width: 150,
-                          height: 36,
+                          height: 40,
                           isLoading : controller.rxRequestSimulatePickup.value == ApiStatus.LOADING,
                           onPressed: (){
                             showDialog(
@@ -567,7 +567,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                         borderRadius: BorderRadius.circular(10),
                         color: AppColors.greenClrRatingBar,
                         width: 150,
-                        height: 36,
+                        height: 40,
                         onPressed: (){
                           showDialog(
                             context: context,
@@ -609,7 +609,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: AppColors.borderClr),
                         width: 67,
-                        height: 36,
+                        height: 40,
                         onPressed: () {
                           final currentOrder = recentOrders?[index];
                           final items = currentOrder?.orderItems;
@@ -1061,8 +1061,9 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
             filledClr: AppColors.white,
             border: Border.all(color: AppColors.borderClrDropdown),
             btnHeight: 40,
+            btnWidth: 150,
             selectedValue: controller.selectedPaymentType.value,
-            hintText: "All Payment Methods",
+            hintText: "All Type",
             hintStyle: AppFontStyle.text_14_400(
               AppColors.blackClr,
               fontFamily: AppFontFamily.gilroyMedium,

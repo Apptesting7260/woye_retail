@@ -96,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
   Widget categories() {
     return Column(
       children: [
@@ -113,9 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const Spacer(),
               InkWell(
-                onTap: () {
-                  Get.toNamed(UserRoutes.allCategoriesScreen);
-                },
+                onTap: () => Get.toNamed(UserRoutes.allCategoriesScreen),
                 child: Row(
                   children: [
                     Text(
@@ -137,47 +134,61 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+
         hBox(14),
+
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(controller.dummyCategories.length, (index) {
+              final Color bgColor = controller.getCategoryBgColor(index);
+
               return Padding(
                 padding: REdgeInsets.only(
-                  left: index == 0 ? 22 : 18,
-                  right:
-                      index == controller.dummyCategories.length - 1 ? 22 : 0,
+                  left:  index == 0 ? 22 : 14,
+                  right: index == controller.dummyCategories.length - 1 ? 22 : 0,
                 ),
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                       Get.toNamed(UserRoutes.categoryScreen);
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.r),
-                        child: AppImage(
-                          path: controller.dummyCategories[index]["image"]!,
-                          fit: BoxFit.cover,
-                          height: 55.h,
-                          width: 55.h,
-                        ),
+                child: GestureDetector(
+                  onTap: () => Get.toNamed(UserRoutes.categoryScreen),
+                  child: Container(
+                    width: 130.w,
+                    height: 120.h,
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppImage(
+                            path: controller.dummyCategories[index]["image"]!,
+                            fit: BoxFit.cover,
+                            height: 55.h,
+                            width: 55.w,
+                            borderRadius: 20,
+                          ),
+                          hBox(5),
+                          Text(
+                            controller.dummyCategories[index]["name"]!,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppFontStyle.text_15_400(
+                              AppColors.blueLightColor,
+                              fontFamily: AppFontFamily.onestMedium,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    hBox(10),
-                    Text(
-                      controller.dummyCategories[index]["name"]!,
-                      style: AppFontStyle.text_15_400(
-                        AppColors.blueLightColor,
-                        fontFamily: AppFontFamily.onestMedium,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               );
             }),
           ),
         ),
+
         hBox(20.h),
       ],
     );
@@ -523,20 +534,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 hBox(6),
                 Row(
-                  children: [
-                    Icon(Icons.star, color: Colors.amber, size: 15),
-                    Icon(Icons.star, color: Colors.amber, size: 15),
-                    Icon(Icons.star, color: Colors.amber, size: 15),
-                    Icon(Icons.star, color: Colors.amber, size: 15),
-                    wBox(4),
-                    Text(
-                      "${product["rating"]} (${product["reviews"]})",
-                      style: AppFontStyle.text_12_400(
-                        AppColors.buttonHideColor,
-                        fontFamily: AppFontFamily.interRegular,
-                      ),
-                    ),
-                  ],
+                  children: List.generate(5, (index) {
+                    double rating = product["rating"] ?? 0;
+
+                    return Icon(
+                      index < rating
+                          ? Icons.star
+                          : Icons.star_border,
+                      color: Colors.amber,
+                      size: 15,
+                    );
+                  }),
                 ),
                 hBox(6),
                 Row(
@@ -832,7 +840,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColors.pinkButtonClr,
                         onPressed: () {},
                         text: "Shop Gifts For Her",
-                      )
+                      ),
                     ],
                   ),
                 );
@@ -1046,7 +1054,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget techCorpSliderWidget() {
     return SizedBox(
-      height: 805,
+      height: 805.h,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: controller.productList.length,
@@ -1054,7 +1062,7 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           final product = controller.productList[index];
           return Container(
-            width: 360,
+            width: 360.h,
             margin: const EdgeInsets.only(right: 12),
             child: TechCorpStoreCard(
               brandName: product["brandName"],
@@ -1248,7 +1256,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget topProductListWidget() {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
