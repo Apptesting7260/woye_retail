@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:gyaawa/apps/user_app/presentation/common/login/model/login_model.dart';
 import 'package:gyaawa/apps/user_app/presentation/common/sign_up/model/sign_up_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/new_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/res_category_cusion_model.dart';
@@ -19,6 +20,7 @@ import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/product_delete_
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Core/Constant/app_urls.dart';
+import '../../apps/user_app/presentation/common/verify/model/verify_otp_model.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/order_accept_reject_model.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/resaurant_order_details_model.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/model/restro_order_list_model.dart';
@@ -62,42 +64,61 @@ import '../user_preference_controller.dart';
 class Repository {
   final _apiService = NetworkApiServices();
 
-  String token = "5504|9UOpvgM1DT82y0p8dQsseMroA1Nivh3FjdsoOse9249b5d8d";
+  String token = "";
   UserModel userModel = UserModel();
   var pref = UserPreference();
   String tokenFcm = "";
 
+  Future<void> initializeUser() async {
+    // tokenFcm = await FirebaseMessaging.instance.getToken() ?? "";
+    userModel = await pref.getUser();
+    token = userModel.token ?? '';
+    log("Token $token");
+    log("Step ${userModel.step}");
+    log("Step >>>>>>>>>>>>>>>>>${userModel.step}");
+  }
+
+  //
   // Future<void> initializeUser() async {
-  //   // tokenFcm = await FirebaseMessaging.instance.getToken() ?? "";
+  //   // 👉 agar already static token set hai to override mat karo
+  //   if (token.isNotEmpty) {
+  //     log("⚠️ Using static token: $token");
+  //     return;
+  //   }
+  //
+  //   // 👉 warna normal flow
   //   userModel = await pref.getUser();
+  //
   //   token = userModel.token ?? '';
-  //   log("Token $token");
-  //   log("Step ${userModel.step}");
+  //
+  //   log("Token from pref: $token");
+  //   log("Step from pref: ${userModel.step}");
   // }
 
 
-  Future<void> initializeUser() async {
-    // 👉 agar already static token set hai to override mat karo
-    if (token.isNotEmpty) {
-      log("⚠️ Using static token: $token");
-      return;
-    }
-
-    // 👉 warna normal flow
-    userModel = await pref.getUser();
-
-    token = userModel.token ?? '';
-
-    log("Token from pref: $token");
-    log("Step from pref: ${userModel.step}");
-  }
-
-
   // >>>>>>>>>>>>>>>>>>>>>>>> vendor SignUp>>>>>>>>>>>>>>>
+
   Future<dynamic> createVendorApi(var data) async {
     dynamic response =
     await _apiService.postApi(data, AppUrls.vendorSignUp, "");
     return SignUpResponseModel.fromJson(response);
+
+  }
+  Future<dynamic> verifyVendorApi(var data) async {
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.vendorVerifyOtp, "");
+    return VerifyOtpModel.fromJson(response);
+  }
+
+Future<dynamic> vendorResendOtpApi(var data) async {
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.vendorResendOtp, "");
+    return VerifyOtpModel.fromJson(response);
+  }
+
+  Future<dynamic> loginApi(var data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.vendorSignIn, token);
+    return LoginModel.fromJson(response);
   }
 
 

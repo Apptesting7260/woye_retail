@@ -324,8 +324,7 @@ class _EditorChoiceScreenState extends State<EditorChoiceScreen> {
     required String desc,
     Color? color,
     Gradient? gradient,
-  }) {
-    return Padding(
+  }) {return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       child: Column(
         children: [
@@ -359,5 +358,4 @@ class _EditorChoiceScreenState extends State<EditorChoiceScreen> {
           ),
         ],
       ),
-    );
-  }}
+    );}}

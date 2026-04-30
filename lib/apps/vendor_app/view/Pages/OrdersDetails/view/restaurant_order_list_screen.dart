@@ -5,8 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:gyaawa/apps/vendor_app/view/Restaurant_navbar/controller/restaurant_navbar_controller.dart';
-
+import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
 import 'package:gyaawa/shared/widgets/vendor_widgets/custom_checkbox.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Data/components/general_exception.dart';
@@ -43,7 +42,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
    final RestaurantOrderController controller = Get.put (RestaurantOrderController());
   // VendorAccountStatusController vendorAccountStatusController = Get.put(VendorAccountStatusController());
 
-  final navController = Get.isRegistered<RestaurantNavbarController>() ? Get.find<RestaurantNavbarController>() : Get.put(RestaurantNavbarController());
+  final navController = Get.isRegistered<VendorNavbarController>() ? Get.find<VendorNavbarController>() : Get.put(VendorNavbarController());
 
 
   @override
@@ -992,7 +991,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                   borderRadius: 10,
                   filledClr: AppColors.white,
                   border: Border.all(color: AppColors.borderClrDropdown),
-                  btnHeight: 40,
+                  btnHeight: 45,
                   selectedValue: controller.selectedOrderType.value,
                   hintText: "All Orders",
                   items: controller.orderTypeMap.keys.toList(),
@@ -1025,7 +1024,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                   borderRadius: 10,
                   filledClr: AppColors.white,
                   border: Border.all(color: AppColors.borderClrDropdown),
-                  btnHeight: 40,
+                  btnHeight: 45,
                   selectedValue:controller.selectedTime.value,
                   hintText: "Today",
                   items: controller.timeMap.keys.toList(),
@@ -1060,7 +1059,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
             borderRadius: 10,
             filledClr: AppColors.white,
             border: Border.all(color: AppColors.borderClrDropdown),
-            btnHeight: 40,
+            btnHeight: 45,
             btnWidth: 150,
             selectedValue: controller.selectedPaymentType.value,
             hintText: "All Type",

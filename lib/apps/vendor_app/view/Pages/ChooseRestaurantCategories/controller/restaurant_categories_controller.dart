@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/Data/user_preference_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/new_categories_model.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/res_category_cusion_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/update_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/controller/restaurant_category_controller.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart' hide Categories;
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 import 'package:intl/intl.dart';
 
@@ -42,9 +41,9 @@ class RestaurantCategoriesController extends GetxController {
   RxString searchQuery = ''.obs;
   RxString searchQueryCuisines = ''.obs;
   RxList<Categories> searchListCategory = RxList<Categories>([]);
-  RxList<Cuisines> searchListCuisines = RxList<Cuisines>([]);
+  // RxList<Cuisines> searchListCuisines = RxList<Cuisines>([]);
 
-  // RxList<Categories> categoryList = RxList<Categories>([]);
+  RxList<Categories> categoryList = RxList<Categories>([]);
   // RxList<Cuisines> cuisinesList = RxList<Cuisines>([]);
 
 
@@ -80,7 +79,7 @@ class RestaurantCategoriesController extends GetxController {
     userModel = await sp.getUser();
     requestNewCategoriesController.value = TextEditingController();
     fillRestaurantDetailsController.getProfileDetailsApi();
-    await getCategoriesCuisinesApi();
+    // await getCategoriesCuisinesApi();
     await getChoosesCategoriesApi();
     super.onInit();
   }
@@ -99,62 +98,38 @@ class RestaurantCategoriesController extends GetxController {
   void setError(String value) => error.value = value;
 
 
-  final categoriesData = CategoryAndCuisinesModel().obs;
-
-  void categoriesSet(CategoryAndCuisinesModel value) =>
+  Rx<CategoryModel> categoriesData =
+      CategoryModel().obs;
+  void categoriesSet(CategoryModel value) =>
       categoriesData.value = value;
 
-  getCategoriesCuisinesApi() async {
-    setRxRequestStatus1(ApiStatus.LOADING);
-    _api.getChooseCategoriesCuisinesApi().then((value) {
-      categoriesSet(value);
-      if (categoriesData.value.status == true) {
-        // if(categoriesData.value.data?.categories != null) {
-        //   categoryList.value = categoriesData.value.data!.categories!;
-        // }
-        // if(categoriesData.value.data?.cuisines != null) {
-        //   cuisinesList.value = categoriesData.value.data!.cuisines!;
-        // }
-        // for(int i=0;i<categoriesData.value.category!.length;i++){
-        //   selectedCategories.add(categoriesData.value.category?[i].id);
-        // }
-        setRxRequestStatus1(ApiStatus.COMPLETED);
-      } else {
-        setRxRequestStatus1(ApiStatus.ERROR);
-        print('Error: $error');
-      }
-    }).onError(
-      (error, stackTrace) {
-        setRxRequestStatus1(ApiStatus.ERROR);
-        // Utils.showToast('Error: $error');
-        print('Error: $error');
-      },
-    );
-  }
-
-  /*getCategoriesApi() async {
-    final data = {"role": "resto"};
-    setRxRequestStatus1(ApiStatus.LOADING);
-    _api.getChooseCategoriesApi(data).then((value) {
-      categoriesSet(value);
-      if (categoriesData.value.status == true) {
-        categoryList.value = categoriesData.value.category!;
-        // for(int i=0;i<categoriesData.value.category!.length;i++){
-        //   selectedCategories.add(categoriesData.value.category?[i].id);
-        // }
-        setRxRequestStatus1(ApiStatus.COMPLETED);
-      } else {
-        setRxRequestStatus1(ApiStatus.ERROR);
-        print('Error: $error');
-      }
-    }).onError(
-      (error, stackTrace) {
-        setRxRequestStatus1(ApiStatus.ERROR);
-        // Utils.showToast('Error: $error');
-        print('Error: $error');
-      },
-    );
-  }*/
+  // getCategoriesCuisinesApi() async {
+  //   setRxRequestStatus1(ApiStatus.LOADING);
+  //   _api.getChooseCategoriesCuisinesApi().then((value) {
+  //     categoriesSet(value);
+  //     if (categoriesData.value.status == true) {
+  //       // if(categoriesData.value.data?.categories != null) {
+  //       //   categoryList.value = categoriesData.value.data!.categories!;
+  //       // }
+  //       // if(categoriesData.value.data?.cuisines != null) {
+  //       //   cuisinesList.value = categoriesData.value.data!.cuisines!;
+  //       // }
+  //       // for(int i=0;i<categoriesData.value.category!.length;i++){
+  //       //   selectedCategories.add(categoriesData.value.category?[i].id);
+  //       // }
+  //       setRxRequestStatus1(ApiStatus.COMPLETED);
+  //     } else {
+  //       setRxRequestStatus1(ApiStatus.ERROR);
+  //       print('Error: $error');
+  //     }
+  //   }).onError(
+  //     (error, stackTrace) {
+  //       setRxRequestStatus1(ApiStatus.ERROR);
+  //       // Utils.showToast('Error: $error');
+  //       print('Error: $error');
+  //     },
+  //   );
+  // }
 
 
   //>>>>>>>>>>>>>>>>>>>Update Category <<<<<<<<<<<<\\
@@ -266,8 +241,10 @@ class RestaurantCategoriesController extends GetxController {
     setCatRxRequestStatus(ApiStatus.LOADING);
     _api.getCategoryApi().then((value) {
       choosesCategoriesSet(value);
+      categoriesData.value = value;
       if (choosesCategoriesData.value.status == true) {
         setCatRxRequestStatus(ApiStatus.COMPLETED);
+        searchListCategory.value = value.categories ?? [];
         for(int i=0;i<choosesCategoriesData.value.categories!.length;i++){
           selectedCategories.add(choosesCategoriesData.value.categories?[i].id);
           initialCategories.add(choosesCategoriesData.value.categories?[i].id);
@@ -283,6 +260,5 @@ class RestaurantCategoriesController extends GetxController {
         print('Error: $error');
       },
     );
-  }
 
-}
+  }}

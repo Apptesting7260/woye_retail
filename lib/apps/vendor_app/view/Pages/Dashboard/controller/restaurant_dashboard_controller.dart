@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Data/Repository/repository.dart';
@@ -8,7 +9,6 @@ import '../../../../../../Data/response/api_response.dart';
 import '../../../../../../Data/response/status.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../../Restaurant_navbar/controller/restaurant_navbar_controller.dart';
 import '../../../vendor_common/Models/common_response_model.dart';
 import '../../../vendor_common/Models/dashboard_model.dart';
 import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
@@ -20,7 +20,7 @@ class RestaurantDashboardController extends GetxController {
   List<Color> recentOrderCardClr = [AppColors.primary,AppColors.blueLightColor,AppColors.yellow];
 
   FillRestaurantDetailsController fillRestaurantDetailsController =  Get.put(FillRestaurantDetailsController());
-  RestaurantNavbarController restaurantNavbarController = Get.put(RestaurantNavbarController());
+  VendorNavbarController navbarController = Get.put(VendorNavbarController());
   // VendorAccountStatusController vendorAccountStatusController = Get.put(VendorAccountStatusController());
   RxBool getProfile = false.obs;
 

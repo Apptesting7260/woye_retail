@@ -23,6 +23,7 @@ import '../../../../../../Utils/snack_bar.dart';
 import '../../../../../../routes/vendor_routes/vendor_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/widgets/vendor_widgets/address_fromgoogle/modal/google_location_model.dart';
+import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/model/register_vendor_model.dart';
 import '../model/profile_details_model.dart';
 
@@ -61,6 +62,7 @@ class ResProfileDetailsDetailsController extends GetxController {
     clearHoursFields();
     await getProfileDetailsApi();
   }
+
 
   RxInt radioValue = 0.obs;
 
@@ -172,6 +174,8 @@ class ResProfileDetailsDetailsController extends GetxController {
     isValidAddress.value =true;
     rxGetProfileRequestStatus(ApiStatus.LOADING);
     api.resGetProfileApi().then((value) async {
+      print("PROFILE RESPONSE: $value");
+
       personalDetailsSet(value);
       debugPrint("profile details: $value");
       if (profileApiData.value.status == true) {
@@ -187,6 +191,8 @@ class ResProfileDetailsDetailsController extends GetxController {
         locationController.text = profileApiData.value.vendor?.address ?? "";
         latitude.value = double.parse(profileApiData.value.vendor?.latitude ?? "0.0");
         longitude.value = double.parse(profileApiData.value.vendor?.longitude ?? "0.0");
+        pt("Latitude: ${latitude.value}");
+        pt("Longitude: ${longitude.value}");
         selectedDelivery.value = profileApiData.value.vendor?.deliveryRadius ?? "";
         image.value = null;
         rxGetProfileRequestStatus(ApiStatus.COMPLETED);

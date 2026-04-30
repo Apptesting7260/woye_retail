@@ -170,7 +170,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
               Get.back();
             },
             text: "Cancel",
-            color: AppColors.darkText,
+            color: AppColors.white,
           ),
         ),
         wBox(8.w),
@@ -1361,7 +1361,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
   CustomAppBar appbar() {
     return CustomAppBar(
         title: Text(
-          "Edit Menu Item",
+          "Edit Store Item",
           style: AppFontStyle.text_22_600(
             AppColors.darkText,
             fontFamily: AppFontFamily.gilroyMedium,

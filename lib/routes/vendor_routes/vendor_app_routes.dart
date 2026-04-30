@@ -1,11 +1,13 @@
 
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/FillRestaurantDetails/view/restaurant_profile_details_screen.dart';
 
 import '../../apps/user_app/presentation/acccount/view/profile_screen.dart';
 import '../../apps/vendor_app/view/Pages/ChooseRestaurantCategories/bindings/res_category_cuisines_binding.dart';
 import '../../apps/vendor_app/view/Pages/ChooseRestaurantCategories/view/choose_restaurant_categories_screen.dart';
 import '../../apps/vendor_app/view/Pages/Dashboard/controller/restaurant_dashboard_binding.dart';
 import '../../apps/vendor_app/view/Pages/Dashboard/view/restaurant_dashboard_screen.dart';
+import '../../apps/vendor_app/view/Pages/FillRestaurantDetails/binding/res_profile_details_binding.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/view/resaurant_order_details_screen.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/view/restaurant_more_order_details_screen.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/export_orders/view/res_export_orders_screen.dart';
@@ -55,7 +57,6 @@ import '../../apps/vendor_app/view/Pages/menu/view/restaurant_menu_item_details_
 import '../../apps/vendor_app/view/Pages/review/subscreens/bulk_responds/view/res_bulk_responds_screen.dart';
 import '../../apps/vendor_app/view/Pages/review/subscreens/export_reviews/view/export_reviews_screen.dart';
 import '../../apps/vendor_app/view/Pages/review/subscreens/single_response/view/res_single_review_respose_screen.dart';
-import '../../apps/vendor_app/view/Restaurant_navbar/view/restaurant_navbar.dart';
 import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/FAQ/binding/res_faqs_binding.dart';
 import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/FAQ/view/restaurant_faq_screen.dart';
 import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/Res_Vendor_Agreement/res_vedor_areement.dart';
@@ -68,6 +69,7 @@ import '../../apps/vendor_app/view/vendor_common/Notifications/sub_screens/creat
 import '../../apps/vendor_app/view/vendor_common/Notifications/sub_screens/notification_settings/binding/res_notification_settings_bindings.dart';
 import '../../apps/vendor_app/view/vendor_common/Notifications/sub_screens/notification_settings/view/res_notification_settings_screen.dart';
 import '../../apps/vendor_app/view/vendor_common/Notifications/view/notification_screen.dart';
+import '../../apps/vendor_app/view/vendor_navbar/view/vendor_navbar.dart';
 
 class VendorAppRoutes {
   static const String splashScreen = '/splashScreen';
@@ -159,7 +161,7 @@ class VendorAppRoutes {
   //   GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
      GetPage(name: restaurantDetailsScreen, page: () => RestaurantDetailsScreen()),
     GetPage(name: restaurantDashboardScreen, page: () => const RestaurantDashboardScreen(),binding: RestaurantDashBoardBinding()),
-    GetPage(name: restaurantNavbarScreen, page: () => const RestaurantNavbarScreen(navbarInitialIndex: 0),bindings:
+    GetPage(name: restaurantNavbarScreen, page: () => const VendorNavbar(navbarInitialIndex: 0),bindings:
   [RestaurantDashBoardBinding(),RestaurantMenuBinding(),]),
       // SignOutBinding(),ResReviewBindings(),ResOrdersBinding(),ResWalletBinding(),ResInformationBindings(),]),
     // GetPage(name: restaurantWalletScreen, page: () => const WalletScreen(),bindings: [SignOutBinding(),ResWalletBinding(),ResInformationBindings()]),
@@ -213,7 +215,7 @@ class VendorAppRoutes {
     GetPage(name: resManagePaymentMethod, page: () =>  const ResManagePaymentMethod(),binding: ResPaymentMethodBinding()),
     GetPage(name: resRequestPayoutScreen, page: () =>  const ResRequestPayoutScreen(),binding: ResRequestPayloadBinding()),
     GetPage(name: resDownloadStatementScreen, page: () =>  const ResDownloadStatementScreen()),
-    // GetPage(name: resProfileDetailsScreen, page: () =>  const ResProfileDetailsScreen(),binding: ResProfileDetailsBinding()),
+     GetPage(name: resProfileDetailsScreen, page: () =>  const ResProfileDetailsScreen(),binding: ResProfileDetailsBinding()),
      GetPage(name: resCreateNotificationScreen, page: () =>  const ResCreateNotificationScreen()),
      GetPage(name: resNotificationSettingsScreen, page: () =>  const ResNotificationSettingsScreen(),binding: ResNotificationSettingsBindings()),
      GetPage(name: restaurantVendorAgreementCScreen, page: () =>  const RestaurantVendorAgreementCScreen(),binding: ResFaqsBinding()),

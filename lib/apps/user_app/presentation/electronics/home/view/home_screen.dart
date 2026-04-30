@@ -1,13 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:gyaawa/shared/widgets/Custom_brand_item.dart';
 import 'package:gyaawa/shared/widgets/custom_elevated_button.dart';
 import 'package:gyaawa/shared/widgets/image.dart';
 
+import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Utils/sized_box.dart';
 import '../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
@@ -87,6 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),SliverToBoxAdapter(child: hBox(30)),
           SliverToBoxAdapter(
             child: bestSellersWidget(),
+          ),SliverToBoxAdapter(child: hBox(30)),
+          SliverToBoxAdapter(
+            child: premiumBrandsWidget(),
+          ), SliverToBoxAdapter(
+            child: chooseMarketPlaceWidget(),
           ),
           // SliverToBoxAdapter(
           //   child: _pages[_selectedIndex],
@@ -535,7 +543,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 hBox(6),
                 Row(
                   children: List.generate(5, (index) {
-                    double rating = product["rating"] ?? 0;
+                    double rating = double.tryParse(product["rating"].toString()) ?? 0.0;
 
                     return Icon(
                       index < rating
@@ -1054,7 +1062,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget techCorpSliderWidget() {
     return SizedBox(
-      height: 805.h,
+      height: 715.h,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: controller.productList.length,
@@ -1178,7 +1186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 maxLines: 3,
                   style: AppFontStyle.text_14_400(AppColors.greyTextColor,
                       fontFamily: AppFontFamily.interRegular)),
-        
+
               hBox(10),
               Row(
                 children: [
@@ -1246,7 +1254,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: AppFontStyle.text_18_500(AppColors.blueTextColor,
           fontFamily: AppFontFamily.interBold)),
         ),
-        
+
               topProductListWidget()
             ],
           ),
@@ -1443,73 +1451,371 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
+
   Widget bestSellersWidget() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Container(
+      decoration: BoxDecoration(
+          gradient: AppColors.lightWarmY),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            hBox(60),
+            Center(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                decoration: BoxDecoration(
+                  color: AppColors.yellowLightClr, borderRadius: BorderRadius.circular(8),),
+                child: Text(
+                  "🏆 Customer Favorites",
+                  style: AppFontStyle.text_16_500(
+                    AppColors.brownLightClr, fontFamily: AppFontFamily.interMedium,
+                  ),
+                ),
+              ),
+            ),
+            hBox(10),
+            Center(
+              child: Text(
+                "Best Sellers ",
+                style: AppFontStyle.text_30_600(AppColors.blueTextColor, fontFamily: AppFontFamily.interBold,),),
+            ),hBox(10),
+            Text(
+              "The most loved products by our community, proven by thousands of satisfied customers", maxLines: 2,
+              textAlign: TextAlign.center, style: AppFontStyle.text_15_400(AppColors.buttonHideColor, fontFamily: AppFontFamily.interRegular,),),
+            hBox(20),
+            GridView.builder(
+              itemCount: 6,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              // padding: const EdgeInsets.all(10),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 0,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.65,
+              ),
+
+              itemBuilder: (context, index) {
+                return ProductCard(
+                  image: "https://picsum.photos/200", title: "Premium Wireless Laptop ", brand: "Brand",
+                  price: 1000, oldPrice: 12, rating: 4.5,
+                  reviews: 120, Seller: "Best Seller", tag: "New", discount: 10,
+                );},),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 16),
+              child: Column(
+                children: [
+                  Text(
+                    "Proven Customer Favorites",
+                    style: AppFontStyle.text_20_600(
+                      AppColors.blueTextColor,
+                      fontFamily: AppFontFamily.interBold,
+                    ),
+                  ),
+                  hBox(17),
+                  Text(
+                    "These top-rated products have earned their place through thousands of verified purchases and glowing reviews. Each item "
+                        "represents the perfect balance of quality, value, and customer satisfaction that our community loves.",
+                    maxLines: 5,
+                    style: AppFontStyle.text_15_400(AppColors.buttonHideColor, fontFamily: AppFontFamily.interRegular,),
+                  ),hBox(15),
+                  _featureRow(
+                    icon: Icons.trending_up,
+                    iconColor: AppColors.yellow,
+                    title: "Highest Rated",
+                    subtitle: "Average 4.5+ star ratings",
+                  ),
+                  hBox(16),
+                  _featureRow(
+                    icon: Icons.people_alt_outlined, iconColor: Colors.redAccent, title: "Most Purchased", subtitle: "Thousands of verified sales",),
+                  hBox(16),
+                  _featureRow(icon: Icons.all_inbox, iconColor: Colors.green, title: "Fast Delivery", subtitle: "Quick shipping & handling",),
+                ],
+              ),
+            ),
+            hBox(20),
+            Wrap(
+              runSpacing: 10, alignment: WrapAlignment.center,
+              children: [
+                _chip("Top Quality"),
+                _chip("Best Value"),
+                _chip("Customer Choice"),],),
+            hBox(20),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: CustomElevatedButton(
+                height: 45.h, width:177.w,
+                  color: AppColors.yellowButtonClr,
+                  text: "Shop All Best Sellers ->",
+                  onPressed: (){},
+              ),
+            ),
+            hBox(40),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _featureRow({IconData? icon, Color? iconColor, String? title, String? subtitle,}) {
+    return Row(
       children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-          decoration: BoxDecoration(
-            color: AppColors.yellowLightClr,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            "🏆 Customer Favorites",
-            style: AppFontStyle.text_16_500(
-              AppColors.brownLightClr,
-              fontFamily: AppFontFamily.interMedium,
-            ),
-          ),
+        CircleAvatar(
+          radius: 25,
+          backgroundColor: iconColor?.withOpacity(0.15),
+          child: Icon(icon, color: iconColor, size: 25),
         ),
-        hBox(10),
-        Text(
-          "Best Sellers ",
-          style: AppFontStyle.text_30_600(
-            AppColors.blueTextColor,
-            fontFamily: AppFontFamily.interBold,
-          ),
-        ),hBox(10),
-        Padding(
-          padding: const EdgeInsets.only(left: 16,right: 12),
-          child: Text(
-            "The most loved products by our community, proven by thousands of satisfied customers",
-            maxLines: 2,
-            textAlign: TextAlign.center,
-            style: AppFontStyle.text_15_400(
-              AppColors.buttonHideColor,
-              fontFamily: AppFontFamily.interRegular,
+       wBox(12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title ?? "",
+              style: AppFontStyle.text_14_600(
+                AppColors.black,
+                fontFamily: AppFontFamily.interSemiBold,
+              ),
             ),
-          ),
-        ),
-        hBox(20),
-        GridView.builder(
-          itemCount: 6,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(10),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 0.65,
-          ),
-          itemBuilder: (context, index) {
-            return ProductCard(
-              image: "https://picsum.photos/200",
-              title: "Premium Wireless Laptop ",
-              brand: "Brand",
-              price: 1000,
-              oldPrice: 12,
-              rating: 4.5,
-              reviews: 120,
-              Seller: "Best Seller",
-              tag: "New",
-              discount: 10,
-            );
-          },
+            const SizedBox(height: 2),
+            Text(
+              subtitle ?? "",
+              style: AppFontStyle.text_12_400(
+                AppColors.greyTextColor,
+                fontFamily: AppFontFamily.interRegular,
+              ),
+            ),
+          ],
         ),
       ],
+    );
+  }
+
+  Widget _chip(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.lightButtonClr,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          text,
+          style: AppFontStyle.text_12_500(
+            AppColors.blueTextColor,
+            fontFamily: AppFontFamily.interRegular,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget premiumBrandsWidget() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 17,vertical: 20),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                decoration: BoxDecoration(
+                  color: AppColors.purpleLightColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  "💎 Premium Brands",
+                  style: AppFontStyle.text_16_500(
+                    AppColors.purpleColor,
+                    fontFamily: AppFontFamily.interMedium,
+                  ),
+                ),
+              ),
+            ),
+            hBox(10),
+            Center(
+              child: Text(
+                "Brand Spotlight",
+                style: AppFontStyle.text_30_600(
+                  AppColors.blueTextColor,
+                  fontFamily: AppFontFamily.interBold,
+                ),
+              ),
+            ), hBox(10),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 12),
+              child: Text(
+                "Discover exceptional quality from the world's most trusted and innovative brands",
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: AppFontStyle.text_15_400(
+                  AppColors.buttonHideColor,
+                  fontFamily: AppFontFamily.interRegular,
+                ),
+              ),
+            ),
+            hBox(60),
+            GridView.builder(
+              itemCount: controller.brandList.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 20,
+                childAspectRatio: 0.9,
+              ),
+              itemBuilder: (context, index) {
+                final item = controller.brandList[index];
+
+                return BrandCard(
+                  image: item["image"] ?? "",
+                  title: item["title"] ?? "",
+                  subtitle: item["subtitle"] ?? "",
+                  onTap: () {},
+                );
+              },
+            ),
+            hBox(30),
+            Center(
+              child: CustomElevatedButton(
+                height: 45.h, width:177.w,
+                color: AppColors.pinkTextClr,
+                text: "Explore All Brands ->",
+                onPressed: (){},
+              ),
+            ),
+            hBox(30),
+          ]),
+    );
+  }
+
+  Widget  chooseMarketPlaceWidget() {
+    return Container(
+      color: AppColors.buttonColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 17,vertical: 20),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  "Why Choose Gyaawa Marketplace",
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: AppFontStyle.text_30_600(
+                    AppColors.white,
+                    fontFamily: AppFontFamily.interBold,
+                  ),
+                ),
+              ), hBox(10),
+              Text(
+                "Experience the future of online shopping with our advanced features and trusted platform designed for modern consumers",
+                maxLines: 3,
+                textAlign: TextAlign.center,
+                style: AppFontStyle.text_15_400(
+                  AppColors.white,
+                  fontFamily: AppFontFamily.interRegular,
+                ),
+              ),
+                hBox(20),
+              _processCard(
+                icon: SvgPicture.asset(ImageConstants.secureSvg, color: AppColors.white, width: 30,),
+                title: "Secure & Protected",
+                desc:
+                "Advanced encryption and buyer protection ensure your transactions are always safe and secure.",
+                gradient: AppColors.blueGradient,
+              ),
+              _processCard(
+                icon: SvgPicture.asset(ImageConstants.supportSvg, color: AppColors.white, width: 30,),
+                title: "Fast Delivery",
+                desc: "Quick and reliable shipping options with real-time tracking for all your orders.",
+                gradient: AppColors.greenGradient,
+              ),
+              _processCard(
+                icon: Icon(Icons.group_sharp,color: AppColors.white,size: 30,),
+                title: "24/7 Support",
+                desc: "Round-the-clock customer service to help you with any questions or concerns.",
+                gradient: AppColors.purpleGradient,
+              ),
+              _processCard(
+                icon: SvgPicture.asset(ImageConstants.wallet, color: AppColors.white, width: 30,),
+                title: "Easy Payments",
+                desc: "Multiple secure payment options including digital wallets and flexible payment plans.",
+                gradient: AppColors.pinkRedGradient,
+              ),
+              _processCard(
+                icon: SvgPicture.asset(ImageConstants.reloadSvg, color: AppColors.white, width: 30,),
+                title: "Easy Returns",
+                desc: "Hassle-free 30-day return policy with free return shipping on eligible items.",
+                gradient: AppColors.tealBlueGradient,
+              ),
+            ],
+        ),
+      ),
+    );}
+
+
+  Widget _processCard({
+    required Widget icon,
+    required String title,
+    required String desc,
+    Color? color,
+    Gradient? gradient,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.white.withAlpha(30),
+          borderRadius: BorderRadius.circular(10),
+
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              hBox(20),
+              Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  color: color,
+                  gradient: gradient,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(child: icon,),
+              ),
+              hBox(10),
+              Text(
+                title,
+                style: AppFontStyle.text_20_800(
+                  AppColors.white,
+                  fontFamily: AppFontFamily.interBold,
+                ),
+              ),
+              hBox(4),
+              Text(
+                desc,
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                style: AppFontStyle.text_14_400(
+                  AppColors.white,
+                  fontFamily: AppFontFamily.interRegular,
+                ),
+              ),
+              hBox(10),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

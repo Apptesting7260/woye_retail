@@ -3,16 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:gyaawa/Utils/sized_box.dart';
-import 'package:gyaawa/apps/user_app/presentation/common/welcome/view/welcome_screen.dart';
+import 'package:gyaawa/apps/user_app/presentation/common/splash/controller/splash_controller.dart';
 import 'package:gyaawa/shared/theme/font_style.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
-import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../../../vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
-import '../../../../../vendor_app/view/Restaurant_navbar/view/restaurant_navbar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,47 +21,17 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final controller = Get.put( FillRestaurantDetailsController());
 
+
+  final SplashController splashController = Get.put(SplashController());
+
   @override
   void initState() {
     super.initState();
-    loadData();
+    splashController.stepWiseRouting();
   }
-
-  void loadData() async {
-    await controller.getProfileDetailsApi();
-
-    await Future.delayed(const Duration(seconds: 2));
-
-    final step = int.tryParse(
-        controller.profileApiData.value.vendor?.step?.toString() ?? "0"
-    ) ?? 0;
-
-    pt("SPLASH STEP: $step");
-
-    if (step == 3) {
-      Get.offAll(() => RestaurantNavbarScreen());
-    } else {
-      // Get.offAll(() => ResProfileDetailsScreen());
-    }
-  }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Future.delayed(const Duration(seconds: 2), () {
-  //     Get.offAll(() => WelcomeScreen());
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
-    // Future.delayed(const Duration(seconds: 3), () {
-    //   // Get.offAll(() => SelectDeliveryAddress());
-    // Get.offAll(() => WelcomeScreen());
-    //   // Get.offAll(() => RestaurantNavbarScreen());
-    //   // Get.offAll(() => FeaturedScreen());
-    //     Get.offAll(() => ResProfileDetailsScreen());
-    // });
 
     return Scaffold(
       body: Padding(

@@ -17,6 +17,7 @@ import '../../apps/user_app/presentation/common/sign_up/view/signup_screen.dart'
 import '../../apps/user_app/presentation/common/tab_bar/sub_screen/view/editor_choice_screen.dart';
 import '../../apps/user_app/presentation/common/tab_bar/sub_screen/view/featured_screen.dart';
 import '../../apps/user_app/presentation/common/tab_bar/sub_screen/view/gift_screen.dart';
+import '../../apps/user_app/presentation/common/verify/binding/verify_bindings.dart';
 import '../../apps/user_app/presentation/common/verify/view/verify_screen.dart';
 import '../../apps/user_app/presentation/electronics/cart/view/cart_screen.dart';
 import '../../apps/user_app/presentation/electronics/category/sub_category/bindings/all_category_binding.dart';
@@ -63,7 +64,7 @@ class UserRoutes {
     GetPage(name: shippingPaymentScreen, page: () =>  PlaceOrderScreen()),
     GetPage(name: loginScreen, page: () =>  LoginScreen(),binding: LoginBinding()),
     GetPage(name: selectDeliveryAddress, page: () => const SelectDeliveryAddress()),
-    GetPage(name: verifyScreen, page: () => const VerifyScreen()),
+    GetPage(name: verifyScreen, page: () => const VerifyScreen(),binding: VerifyBinding()),
     GetPage(name: allCategoriesScreen, page: () => const AllCategoriesScreen(),binding: AllCategoryBinding()),
     GetPage(name: categoryScreen, page: () => const CategoryScreen()),
     GetPage(name: searchResultScreen, page: () => const SearchResultScreen()),

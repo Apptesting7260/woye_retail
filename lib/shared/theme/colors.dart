@@ -19,7 +19,14 @@ class AppColors {
   static Color cardBgClr = const Color(0xFFF6F6F6);
   static Color btnShadeOrange = const Color(0xFFFFEDD4);
   static Color darkRedColor = const Color(0xFF9F0712);
-
+  static const LinearGradient tealBlueGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(0, 213, 190, 1),
+      Color.fromRGBO(0, 184, 219, 1),
+    ],
+  );
   static Color red = Colors.red;
   static Color darkText = const Color.fromRGBO(24, 23, 37, 1);
   static Color mediumText = const Color.fromRGBO(106, 110, 122, 1);
@@ -97,6 +104,7 @@ class AppColors {
   static Color overlayColor = const Color(0x1A36454F);
   static Color darkBurntOrange = const Color(0xFF9F2D00);
   static Color purpleDarkColor = const Color(0xFF59168B);
+  static Color purpleLightColor = const Color(0xFFF3E8FF);
 
   static const LinearGradient lightWarmGradient = LinearGradient(
     begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color.fromRGBO(254, 242, 242, 1), Color.fromRGBO(255, 247, 237, 1),],);
@@ -194,6 +202,15 @@ class AppColors {
     colors: [
       Color.fromRGBO(251, 44, 54, 1),
       Color.fromRGBO(0, 166, 62, 1),
+    ],
+  );
+  static const LinearGradient lightWarmY = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(254, 252, 232, 1), // #FEFCE8
+      Color.fromRGBO(255, 247, 237, 1), // #FFF7ED
+      Color.fromRGBO(254, 242, 242, 1), // #FEF2F2
     ],
   );
 }

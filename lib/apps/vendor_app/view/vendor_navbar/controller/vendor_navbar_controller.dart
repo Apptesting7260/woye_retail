@@ -12,10 +12,10 @@ import '../../Pages/Wallet/view/restaurant_wallet_screen.dart';
 import '../../Pages/menu/view/restaurant_menu_screen.dart';
 import '../../Pages/review/view/res_review_screen.dart';
 
-class RestaurantNavbarController extends GetxController {
+class VendorNavbarController extends GetxController {
   int navbarCurrentIndex;
 
-  RestaurantNavbarController({this.navbarCurrentIndex = 0});
+  VendorNavbarController({this.navbarCurrentIndex = 0});
 
   NetworkController networkController = Get.put<NetworkController>(NetworkController());
   // VendorAccountStatusController vendorAccountStatusController = Get.put<VendorAccountStatusController>(VendorAccountStatusController());
