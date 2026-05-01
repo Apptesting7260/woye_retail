@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/res_category_cusion_model.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Data/response/status.dart';
 import '../../../../../../Utils/sized_box.dart';
 import '../../../../../../Utils/snack_bar.dart';
-import '../../../../../../Utils/validation.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
@@ -26,8 +25,8 @@ import '../controller/restaurant_categories_controller.dart';
 class ChooseRestaurantCategoriesScreen extends StatelessWidget {
   ChooseRestaurantCategoriesScreen({super.key});
 
-  final RestaurantCategoriesController controller = Get.find<RestaurantCategoriesController>();
-  // final RestaurantCategoriesController controller =Get.put(RestaurantCategoriesController());
+  // final RestaurantCategoriesController controller = Get.find<RestaurantCategoriesController>();
+  final RestaurantCategoriesController controller =Get.put(RestaurantCategoriesController());
   // final RestaurantCategoryController restaurantCategoryController =Get.put(RestaurantCategoryController());
 
   @override
@@ -64,29 +63,19 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
                               hBox(24.h),
                               // controller.searchQuery.value.isNotEmpty && controller.searchListCategory.isEmpty ?
                               //  CustomNoResultFound(heightBox: hBox(0)):
-                              // controller.selectedTypeIndex.value == 0 ? categoriesList(
-                              //     controller.searchQuery.value.isNotEmpty
-                              //     ? controller.searchListCategory
-                              //     : controller.categoriesData.value.categories
-                              // )
+                               categoriesList(
+                                  controller.searchQuery.value.isNotEmpty
+                                  ? controller.searchListCategory
+                                  : controller.categoriesData.value.data?.categories
+                              ),
                               //     : cuisinesList(
                               //     controller.searchQueryCuisines.value.isNotEmpty
                               //         ? controller.searchListCuisines
                               //         : controller.categoriesData.value.data?.cuisines
                               // ),
-                              categoriesList(
-                                  controller.searchQuery.value.isNotEmpty
-                                      ? controller.searchListCategory
-                                      : controller.categoriesData.value.categories ?? []
-                              ),
                               hBox(22.h),
-                              // controller.searchQueryCuisines.value.isNotEmpty && controller.searchListCategory.isEmpty ||
-                              // controller.searchQuery.value.isNotEmpty && controller.searchListCuisines.isEmpty
-                              // ? const SizedBox.shrink(): continueButton(),
-                              controller.searchQuery.value.isNotEmpty &&
-                                  controller.searchListCategory.isEmpty
-                                  ? const SizedBox.shrink()
-                                  : continueButton(),
+                              controller.searchQueryCuisines.value.isNotEmpty && controller.searchListCategory.isEmpty ?
+                                SizedBox.shrink(): continueButton(),
                              // if(controller.userModel.step == 3)...[
                              //   hBox(30.h),
                              //   _requestNewCategories(),
@@ -109,82 +98,49 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
   }
 
 
-  // AppContainer catButton() {
-  //   return AppContainer(
-  //     boxShadow: const [],
-  //     radius: 100,
-  //     color: AppColors.whiteShadow,
-  //     width: Get.width,
-  //     child: Padding(
-  //       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: List.generate(
-  //           2,
-  //               (index) => Obx(
-  //                 () => InkWell(
-  //               onTap: () {
-  //                 if(controller.selectedCategories.isEmpty){
-  //                   Utils.showToast("Please select category");
-  //                 }else {
-  //                   controller.updateSelectedType(index);
-  //                 }
-  //               },
-  //               child: AppContainer(
-  //                 color: controller.selectedTypeIndex.value == index ? AppColors.white : AppColors.transparent,
-  //                 radius: 100,
-  //                 boxShadow: const [],
-  //                 padding: EdgeInsets.symmetric(horizontal:index == 1 ? 18 : 9.5, vertical: 6),
-  //                 child: Row(
-  //                   children: [
-  //                      const Icon(Icons.check_circle_outline, size: 19),
-  //                     wBox(4),
-  //                     Text(controller.categoryLists[index], style: AppFontStyle.text_14_400(AppColors.blackClr, fontFamily: AppFontFamily.gilroySemiBold)),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-// Widget
-  Widget catButton() {
-    return InkWell(
-      onTap: () {
-        if (controller.selectedCategories.isEmpty) {
-          Utils.showToast("Please select category");
-        }
-      },
-      child: Container(
-        height: 40.h,
-        width: 200.w,
-        decoration: BoxDecoration(
-          color: AppColors.overlayColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 28, right: 12,),
-          child: Row(
-            children: [
-               Icon(Icons.check_circle_outline, size: 19,color: AppColors.blackTextColor,),
-                wBox(10),
-              Text(
-                "Select Categories",
-                style: AppFontStyle.text_14_500(
-                  AppColors.blackTextColor,
-                  fontFamily: AppFontFamily.gilroySemiBold,
+  AppContainer catButton() {
+    return AppContainer(
+      boxShadow: const [],
+      radius: 100,
+      color: AppColors.whiteShadow,
+      width: Get.width,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(
+            2,
+                (index) => Obx(
+                  () => InkWell(
+                onTap: () {
+                  if(controller.selectedCategories.isEmpty){
+                    Utils.showToast("Please select category");
+                  }else {
+                    controller.updateSelectedType(index);
+                  }
+                },
+                child: AppContainer(
+                  color: controller.selectedTypeIndex.value == index ? AppColors.white : AppColors.transparent,
+                  radius: 100,
+                  boxShadow: const [],
+                  padding: EdgeInsets.symmetric(horizontal:index == 1 ? 18 : 9.5, vertical: 6),
+                  child: Row(
+                    children: [
+                       const Icon(Icons.check_circle_outline, size: 19),
+                      wBox(4),
+                      Text(controller.categoryLists[index], style: AppFontStyle.text_14_400(AppColors.blackClr, fontFamily: AppFontFamily.gilroySemiBold)),
+                    ],
+                  ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
+
+
   Widget header() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
@@ -211,8 +167,6 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
     ]);
   }
 
-
-
    _searchBox() {
     return Obx(
       ()=> CustomTextFormField(
@@ -226,22 +180,13 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
             controller.searchQuery.value = value;
 
             if (value.isEmpty) {
-              controller.searchListCategory.value = controller.categoriesData.value.categories ?? [];
+              controller.searchListCategory.value = controller.categoriesData.value.data?.categories ?? [];
             } else {
 
-              final list = controller.categoriesData.value.categories ?? [];
+              final list = controller.categoriesData.value.data?.categories ?? [];
               controller.searchListCategory.value = list.where((entry) =>(entry.name ?? "").toLowerCase().contains(value.toLowerCase())).toList();
             }
           }
-          // else {
-          //   controller.searchQueryCuisines.value = value;
-          //   if (value.isEmpty) {
-          //     controller.searchListCuisines.value = controller.categoriesData.value.data?.cuisines ?? [];
-          //   } else {
-          //     final list = controller.categoriesData.value.data?.cuisines ?? [];
-          //     controller.searchListCuisines.value = list.where((entry) => (entry.name ?? "").toLowerCase().contains(value.toLowerCase())).toList();
-          //   }
-          // }
 
           controller.update();
         },
@@ -257,15 +202,8 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
               controller.searchQuery.value = "";
               controller.searchCategoriesController.value.clear();
               controller.searchListCategory.value =
-                  controller.categoriesData.value.categories ?? [];
+                  controller.categoriesData.value.data?.categories ?? [];
             }
-            // else {
-            //   controller.searchQueryCuisines.value = "";
-            //   controller.searchCuisinesController.value.clear();
-            //   controller.searchListCuisines.value =
-            //       controller.categoriesData.value.data?.cuisines ?? [];
-            // }
-
             controller.update();
           },
           icon: Icon(
@@ -275,9 +213,9 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
           ),
         )
             : const SizedBox.shrink(),
-        hintText: "Search Category",
-        // hintText:
-        // controller.selectedTypeIndex.value == 0 ? "Search Category" : "Search Cuisine",
+
+        hintText:
+        controller.selectedTypeIndex.value == 0 ? "Search Category" : "Search Cuisine",
       ),
     );
   }
@@ -294,12 +232,11 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
         }else if (controller.selectedCuisines.isNotEmpty && controller.selectedTypeIndex.value == 1) {
           if(controller.selectedCategories.isEmpty){
             Utils.showToast("Please choose categories");
+          }else{
+            controller.categoriesCuisinesAddApi();
           }
-          // else{
-          //   controller.categoriesCuisinesAddApi();
-          // }
         } else {
-          Utils.showToast("Please choose categories}");
+          Utils.showToast("Please choose ${controller.selectedTypeIndex.value == 0 ? "categories" : "cuisines"}");
         }
       },
       text: "Save",
@@ -401,18 +338,16 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
   // }
 
   categoriesList(List<Categories>? dataList) {
-
     return (dataList?.isEmpty ?? false) ? CustomNoResultFound(heightBox: hBox(0)) :
     ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: dataList?.length ?? 0,
       itemBuilder: (context, index) {
-
         return Obx(
               () {
-
             bool isSelected = controller.selectedCategories.contains(dataList?[index].id);
+
             return ListTile(
               contentPadding: REdgeInsets.symmetric(horizontal: 12.h),
               onTap: () {
@@ -435,6 +370,7 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
                             Get.back();
                           },
                         ),
+
                       ),
                     );
                   } else{
