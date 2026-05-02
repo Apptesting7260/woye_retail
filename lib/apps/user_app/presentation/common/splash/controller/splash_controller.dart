@@ -14,7 +14,7 @@ class SplashController extends GetxController {
 
   stepWiseRouting() async {
 
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 3));
 
     userModel = await pref.getUser();
 
@@ -39,5 +39,4 @@ class SplashController extends GetxController {
         Get.offAllNamed(VendorAppRoutes.restaurantNavbarScreen);
       }
     }
-
   }}

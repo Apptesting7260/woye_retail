@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/signout/sign_out_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
 
 import '../../../../../Core/Constant/image_constant.dart';
@@ -35,7 +36,7 @@ class _VendorNavbarState extends State<VendorNavbar> {
   FillRestaurantDetailsController fillRestaurantDetailsController =Get.isRegistered<FillRestaurantDetailsController>() ?
   Get.find<FillRestaurantDetailsController>() : Get.put(FillRestaurantDetailsController());
 
-  // SignOutController signOutController =Get.isRegistered<SignOutController>() ? Get.find<SignOutController>() : Get.put(SignOutController());
+  SignOutController signOutController =Get.isRegistered<SignOutController>() ? Get.find<SignOutController>() : Get.put(SignOutController());
 
   String userRole = "";
 
@@ -242,15 +243,13 @@ class _VendorNavbarState extends State<VendorNavbar> {
                           break;
                         case 2 :
                           Get.back();
-
-                          // showDialog(
-                          //   useSafeArea: false,
-                          //   context: context,
-                          //   // builder: (context) {
-                          //   //
-                          //   //   // return PopScope(canPop: false,child:signOutController.logoutBtn());
-                          //   // },
-                          // );
+                          showDialog(
+                            useSafeArea: false,
+                            context: context,
+                            builder: (context) {
+                              return PopScope(canPop: false,child:signOutController.logoutBtn());
+                            },
+                          );
                           navbarController.getIndex(0);
                           break;
                       }

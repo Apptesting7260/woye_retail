@@ -31,3 +31,15 @@ class VerifyOtpModel {
     return data;
   }
 }
+
+class ResendForgotPasswordModel {
+  bool? status;
+  String? message;
+
+  ResendForgotPasswordModel({this.status, this.message});
+
+  ResendForgotPasswordModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+  }
+}

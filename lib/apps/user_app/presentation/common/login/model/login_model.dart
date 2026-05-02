@@ -6,8 +6,19 @@ class LoginModel {
   String? type;
   String? logo;
 
-  LoginModel(
-      {this.status, this.token, this.message, this.step, this.type, this.logo});
+  String? action;
+  String? email;
+
+  LoginModel({
+    this.status,
+    this.token,
+    this.message,
+    this.step,
+    this.type,
+    this.logo,
+    this.action,
+    this.email,
+  });
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -16,16 +27,23 @@ class LoginModel {
     step = json['step'];
     type = json['type'];
     logo = json['logo'];
+
+    action = json['action'];
+    email = json['email'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['token'] = this.token;
-    data['message'] = this.message;
-    data['step'] = this.step;
-    data['type'] = this.type;
-    data['logo'] = this.logo;
+    final Map<String, dynamic> data = {};
+    data['status'] = status;
+    data['token'] = token;
+    data['message'] = message;
+    data['step'] = step;
+    data['type'] = type;
+    data['logo'] = logo;
+
+    data['action'] = action;
+    data['email'] = email;
+
     return data;
   }
 }

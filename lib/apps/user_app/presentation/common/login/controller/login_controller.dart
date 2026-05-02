@@ -23,6 +23,7 @@ import '../../../../../../Data/Model/user_model.dart';
 import '../../../../../../Data/response/status.dart';
 import '../../../../../../Data/user_preference_controller.dart';
 import '../../../../../../Utils/snack_bar.dart';
+import '../../../../../../routes/user_routes/user_app_routes.dart';
 import '../../../../../../routes/vendor_routes/vendor_app_routes.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 
@@ -76,6 +77,15 @@ class LoginController extends GetxController {
       loginSet(value);
       if (value.status == true) {
         setRxRequestStatus(ApiStatus.COMPLETED);
+        if (value.action == "verify_2fa") {
+          Get.toNamed(UserRoutes.verifyScreen, arguments: {
+            "email": value.email,
+            "type": "2fa"
+          });
+
+          Utils.showToast(value.message ?? "");
+          return;
+        }
         Utils.showToast(value.message ?? "");
         pref.saveToken(value.token.toString());
         pref.saveStep(int.parse(value.step ?? "1"));

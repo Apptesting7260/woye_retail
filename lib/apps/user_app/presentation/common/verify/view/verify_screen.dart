@@ -84,10 +84,12 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         child: OtpInputField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please enter OTP";
-                            }
+                              return "Please enter OTP";}
                             if (value.length < 6) {
                               return "Enter valid 6 digit OTP";
+                            }
+                            if (verifyController.otpError.value.isNotEmpty) {
+                              return verifyController.otpError.value;
                             }
                             return null;
                           },
@@ -99,7 +101,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       hBox(20),
                   Obx(() => CustomElevatedButton(
                       height: 52,
-                    child: verifyController.rxRequestStatus.value == ApiStatus.LOADING
+                    child: verifyController.rxRequestStatus.value == ApiStatus.LOADING ||
+                        verifyController.forgotOtpStatus.value == ApiStatus.LOADING ||
+                        verifyController.twoFactorOtpStatus.value == ApiStatus.LOADING
                         ? circularProgressIndicator(size: 30, color: Colors.white,)
                         : Text(
                       "Verify",
@@ -109,9 +113,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       ),
                     ),
                     onPressed: () {
+                      verifyController.otpError.value = "";
                       if (verifyController.verifyFormKey.currentState?.validate() != true) return;
                       pt("OTP value: ${verifyController.otp.value}");
-                      verifyController.otpVerifyApi();
+                      verifyController.verifyOtpApi();
                     },
                   ),
                   ),
@@ -119,8 +124,13 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       Obx(() => Center(
                         child: GestureDetector(
                           onTap: () {
-                            if (verifyController.resendTimer.value == 0) {
-                              verifyController.resendOtpApi();
+                            if (verifyController.isForgotFlow.value == true) {
+                             verifyController.resendForgotOtpApi();
+                             } else if (verifyController.type.value == "2fa") {
+                              verifyController.twoFactorResendOtpApi();
+                            }
+                            else {
+                            verifyController.resendOtpApi();
                             }
                           },
                           child: Text(

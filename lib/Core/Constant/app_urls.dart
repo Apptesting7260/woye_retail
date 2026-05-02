@@ -11,6 +11,10 @@ class AppUrls {
   static String get vendorVerifyOtp => '$baseUrl/verify-otp';
   static String get vendorResendOtp => '$baseUrl/resend-otp';
   static String get vendorSignIn => '$baseUrl/sign-in';
+  static String get vendorForgotPassword => '$baseUrl/forget-password';
+  static String get verifyForgotOtp => '$baseUrl/verify-otp-forgot-password';
+  static String get changePasswordApi => '$baseUrl/change-password';
+  static String get vendorForgotResendOtp => '$baseUrl/resend-verify-otp-forgot-password';
 
   /* ---------------- Mapbox -----------------------------------------  */
 
@@ -19,7 +23,6 @@ class AppUrls {
   /* ---------------- Authentication -----------------------------------------  */
 
   // static const String createVendor = "$baseUrl/vendor-create";
-  static const String login = "$baseUrl/sign-in";
   static const String twoFactorOtpVerify = "$baseUrl/TwoFactorOtpVerify";
   static const String twoFactorOtpResend = "$baseUrl/TwoFactorOtpResend";
   // static const String login = "$baseUrl/vendor-login";
@@ -74,13 +77,13 @@ class AppUrls {
 
 /* ------------------------------ Categories ---------------------------------  */
 
-  static const String categoryCuisineGet = "$baseUrl/category-cuisine-get";
+  static const String categoryCuisineGet = "$baseUrl/category-department-get";
   static const String getChooseCategories = "$baseUrl/get-category";
   static const String categoryUpdate = "$baseUrl/profile-category-update";
   static const String newCategoryRequest = "$baseUrl/category-request";
   static const String getCategories = "$baseUrl/get-categories";
   static const String getProductByCategory = "$baseUrl/get-product-by-category";
-  static const String categoryCuisineSave = "$baseUrl/category-cuisine-save";
+  static const String categoryCuisineSave = "$baseUrl/category-department-save";
 
 /* ------------------------------ Products ----------------------------  */
   static const String productList = "$baseUrl/product-list";

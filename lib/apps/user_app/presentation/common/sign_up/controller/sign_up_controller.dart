@@ -43,7 +43,7 @@ class SignUpController extends GetxController {
   //   super.onInit();
   // }
 
-  RxString selectedType = "customer".obs;
+  RxString selectedType = "retail".obs;
 
   void setCustomer() {
     selectedType.value = "customer";
@@ -75,6 +75,7 @@ class SignUpController extends GetxController {
     var data = {
       "email": emailController.value.text.trim(),
       "password": passwordController.value.text.trim(),
+      "type": selectedType.value,
     };
 
     debugPrint("Data body for signup : $data");

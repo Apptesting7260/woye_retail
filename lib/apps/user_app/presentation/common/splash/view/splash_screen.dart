@@ -33,43 +33,45 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 23),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                SvgPicture.asset(
-                  ImageConstants.splashSvg,
-                  height: 669.h,
-                  width: 371.w,
-                ),
-                Positioned(
-                  top: 70,
-                  left: 180,
-                  right: 0,
-                  child: Center(
-                    child: Text(
-                      'GYAAWA',
-                      style: AppFontStyle.text_34_400(
-                        AppColors.black,
-                        fontFamily: AppFontFamily.rubikRegular,
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 23),
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  SvgPicture.asset(
+                    ImageConstants.splashSvg,
+                    height: 600.h,
+                    width: 371.w,
+                  ),
+                  Positioned(
+                    top: 70,
+                    left: 180,
+                    right: 0,
+                    child: Center(
+                      child: Text(
+                        'GYAAWA',
+                        style: AppFontStyle.text_34_400(
+                          AppColors.black,
+                          fontFamily: AppFontFamily.rubikRegular,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            hBox(60),
-            Text(
-              'Everything You Need... Delivered.',
-              style: AppFontStyle.text_20_400(
-                AppColors.greyTextColor,
-                fontFamily: AppFontFamily.interRegular,
+                ],
               ),
-            ),
-          ],
+              hBox(60),
+              Text(
+                'Everything You Need... Delivered.',
+                style: AppFontStyle.text_20_400(
+                  AppColors.greyTextColor,
+                  fontFamily: AppFontFamily.interRegular,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

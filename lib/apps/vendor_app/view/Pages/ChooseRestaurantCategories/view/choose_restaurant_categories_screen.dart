@@ -20,6 +20,7 @@ import '../../../../../../shared/widgets/vendor_widgets/custom_delete_alert_dial
 import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
+import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../controller/restaurant_categories_controller.dart';
 
 class ChooseRestaurantCategoriesScreen extends StatelessWidget {
@@ -97,49 +98,39 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
     );
   }
 
-
-  AppContainer catButton() {
-    return AppContainer(
-      boxShadow: const [],
-      radius: 100,
-      color: AppColors.whiteShadow,
-      width: Get.width,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(
-            2,
-                (index) => Obx(
-                  () => InkWell(
-                onTap: () {
-                  if(controller.selectedCategories.isEmpty){
-                    Utils.showToast("Please select category");
-                  }else {
-                    controller.updateSelectedType(index);
-                  }
-                },
-                child: AppContainer(
-                  color: controller.selectedTypeIndex.value == index ? AppColors.white : AppColors.transparent,
-                  radius: 100,
-                  boxShadow: const [],
-                  padding: EdgeInsets.symmetric(horizontal:index == 1 ? 18 : 9.5, vertical: 6),
-                  child: Row(
-                    children: [
-                       const Icon(Icons.check_circle_outline, size: 19),
-                      wBox(4),
-                      Text(controller.categoryLists[index], style: AppFontStyle.text_14_400(AppColors.blackClr, fontFamily: AppFontFamily.gilroySemiBold)),
-                    ],
-                  ),
+  Widget catButton() {
+    return InkWell(
+      onTap: () {
+        if (controller.selectedCategories.isEmpty) {
+          Utils.showToast("Please select category");
+        }
+      },
+      child: Container(
+        height: 40.h,
+        width: 200.w,
+        decoration: BoxDecoration(
+          color: AppColors.overlayColor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 28, right: 12,),
+          child: Row(
+            children: [
+              Icon(Icons.check_circle_outline, size: 19,color: AppColors.blackTextColor,),
+              wBox(10),
+              Text(
+                "Select Categories",
+                style: AppFontStyle.text_14_500(
+                  AppColors.blackTextColor,
+                  fontFamily: AppFontFamily.gilroySemiBold,
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ),
     );
   }
-
 
   Widget header() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -220,30 +211,46 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
     );
   }
 
+
+  // CustomElevatedButton continueButton() {
+  //   return CustomElevatedButton(
+  //     isLoading: controller.rxRequestStatus2.value == ApiStatus.LOADING,
+  //     onPressed: () {
+  //       if (controller.selectedCategories.isNotEmpty && controller.selectedTypeIndex.value == 0) {
+  //         controller.updateSelectedType(1);
+  //         // controller.categoriesUpdateApi().then((value){
+  //         //   controller.restaurantCategoryController.getCategoriesApi();
+  //         // });
+  //       }else if (controller.selectedCuisines.isNotEmpty && controller.selectedTypeIndex.value == 1) {
+  //         if(controller.selectedCategories.isEmpty){
+  //           Utils.showToast("Please choose categories");
+  //         }else{
+  //           controller.categoriesCuisinesAddApi();
+  //         }
+  //       } else {
+  //         Utils.showToast("Please choose ${controller.selectedTypeIndex.value == 0 ? "categories" : "cuisines"}");
+  //       }
+  //     },
+  //     text: "Save",
+  //     // text:controller.userModel.step == 3 ? "Update": "Save",
+  //   );
+  // }
   CustomElevatedButton continueButton() {
     return CustomElevatedButton(
       isLoading: controller.rxRequestStatus2.value == ApiStatus.LOADING,
       onPressed: () {
-        if (controller.selectedCategories.isNotEmpty && controller.selectedTypeIndex.value == 0) {
-          controller.updateSelectedType(1);
-          // controller.categoriesUpdateApi().then((value){
-          //   controller.restaurantCategoryController.getCategoriesApi();
-          // });
-        }else if (controller.selectedCuisines.isNotEmpty && controller.selectedTypeIndex.value == 1) {
-          if(controller.selectedCategories.isEmpty){
-            Utils.showToast("Please choose categories");
-          }else{
-            controller.categoriesCuisinesAddApi();
-          }
-        } else {
-          Utils.showToast("Please choose ${controller.selectedTypeIndex.value == 0 ? "categories" : "cuisines"}");
+        pt("Selected: ${controller.selectedCategories}");
+
+        if (controller.selectedCategories.isEmpty ||
+            controller.selectedCategories.isEmpty) {
+          Utils.showToast("Please choose categories");
+          return;
         }
+        controller.categoriesCuisinesAddApi();
       },
       text: "Save",
-      // text:controller.userModel.step == 3 ? "Update": "Save",
     );
   }
-
   // cuisinesList(List<Cuisines>? dataList) {
   //   return (dataList?.isEmpty ?? false) ? CustomNoResultFound(heightBox: hBox(0)) :
   //   ListView.separated(

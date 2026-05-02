@@ -204,6 +204,7 @@ class LoginScreen extends StatelessWidget {
                             CustomTextFormField(
                               hintText: "Password",
                               controller: loginController.passwordController.value,
+                              obscureText: loginController.isShowPassword.value,
                               prefixIcon: Padding(
                                 padding:
                                     const EdgeInsets.only(left: 18, right: 10),
@@ -236,7 +237,6 @@ class LoginScreen extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              obscureText: true,
                             ),
                           ],
                         ),
@@ -268,7 +268,31 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   )),
-                  hBox(20),
+                  Obx(() {
+                    if (loginController.selectedType.value == 'vendor') {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            onTap: () {
+                               Get.toNamed(UserRoutes.forgotPasswordScreen);
+                            },
+                            child: Text(
+                              "Forgot Password?",
+                              style: AppFontStyle.text_15_500(
+                                AppColors.buttonColor,
+                                fontFamily: AppFontFamily.interMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  }),
+                  hBox(15),
                   Text("or continue with",
                       style: AppFontStyle.text_16_400(AppColors.greyLightColor,
                           fontFamily: AppFontFamily.onestRegular)),

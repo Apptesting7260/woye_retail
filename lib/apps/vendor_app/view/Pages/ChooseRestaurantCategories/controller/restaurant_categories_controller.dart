@@ -186,7 +186,7 @@ class RestaurantCategoriesController extends GetxController {
         Get.offAndToNamed(VendorAppRoutes.restaurantNavbarScreen);
         sp.saveStep(int.parse(updateCategoriesData.value.step.toString()));
         sp.saveIsLogin(true);
-        sp.saveLoginType("restaurant");
+        sp.saveLoginType("retail");
         await sp.saveUserRole(updateCategoriesData.value.role ?? "");
         print("Steps: ${updateCategoriesData.value.step}");
         update();
