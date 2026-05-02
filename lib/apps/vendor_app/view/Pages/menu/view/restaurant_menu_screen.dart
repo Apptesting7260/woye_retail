@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Data/components/general_exception.dart';
 import '../../../../../../Data/response/status.dart';
@@ -21,7 +22,6 @@ import '../../../../../../shared/widgets/vendor_widgets/custom_dropdown_api.dart
 import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
-import '../../../Restaurant_navbar/controller/restaurant_navbar_controller.dart';
 import '../../../vendor_common/common_appbar_header/common_appbar_header.dart';
 import '../controller/restaurant_menu_controller.dart';
 import '../model/restaurant_menu_model.dart';
@@ -72,7 +72,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: const CommonAppbarHeader(
-        title: "Menu",
+        title: "Product",
         // controller: Get.isRegistered<FillRestaurantDetailsController>() ?  Get.find<FillRestaurantDetailsController>() : Get.put(FillRestaurantDetailsController()),
       ),
       body: Obx(() {
@@ -422,7 +422,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
           borderRadius: 10,
           filledClr: AppColors.white,
           border: Border.all(color: AppColors.borderClrDropdown),
-          btnHeight: 38,
+          btnHeight: 45,
           selectedValue: controller.selectedShortBy.value,
           hintText: "Name  A-Z",
           hintStyle: AppFontStyle.text_14_400(
@@ -449,7 +449,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
           borderRadius: 10,
           filledClr: AppColors.white,
           border: Border.all(color: AppColors.borderClrDropdown),
-          btnHeight: 38,
+          btnHeight: 45,
           hintText: "5",
           items: controller.showList,
           selectedValue: controller.selectedShow.value,
@@ -474,7 +474,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                final categories = controller.menuData.value.data?.categories ?? [];
                return Expanded(
                  child: SizedBox(
-                   height: 40,
+                   height: 45,
                    child: CustomDropDownApi(
                      offset: const Offset(0, 0),
                      borderRadius: 10,
@@ -512,7 +512,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                  borderRadius: 10,
                  filledClr: AppColors.white,
                  border: Border.all(color: AppColors.borderClrDropdown),
-                 btnHeight: 40,
+                 btnHeight: 45,
                  selectedValue: controller.selectedStatus.value,
                  hintText: "All Status",
                  hintStyle: AppFontStyle.text_15_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium),
@@ -534,7 +534,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                  borderRadius: 10,
                  filledClr: AppColors.white,
                  border: Border.all(color: AppColors.borderClrDropdown),
-                 btnHeight: 40,
+                 btnHeight: 45,
                  hintStyle: AppFontStyle.text_15_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium),
                  selectedValue: controller.selectedPriceRange.value,
                  hintText: "Price Range",
@@ -551,7 +551,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
 
                return Expanded(
                  child: SizedBox(
-                   height: 40,
+                   height: 45,
                    child: CustomDropDownApi(
                      offset: const Offset(0, 0),
                      borderRadius: 10,
@@ -593,10 +593,10 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                    filledClr: AppColors.white,
 
                    border: Border.all(color: AppColors.borderClrDropdown),
-                   btnHeight: 40,
+                   btnHeight: 45,
                    hintStyle: AppFontStyle.text_15_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium),
                    selectedValue: controller.selectedMenuType.value,
-                   hintText: "Menu Section",
+                   hintText: "Availability",
                    items: controller.availabilityList,
                    onChanged: (availability){
                      controller.selectedMenuType.value = availability ?? "";
@@ -609,7 +609,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
              Expanded(
                child: CustomElevatedButton(
                  padding: EdgeInsets.zero,
-                 height: 40,
+                 height: 45,
                    color: AppColors.white,
                    borderRadius: BorderRadius.circular(10),
                    borderSide: BorderSide(color: AppColors.borderClrDropdown),
@@ -704,7 +704,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
           children: [
             Icon(Icons.add,color: AppColors.white,size: 28),
             wBox(5),
-            Text("Add Menu Item",style: AppFontStyle.text_17_600(AppColors.white,fontFamily: AppFontFamily.gilroyMedium),)
+            Text("Add  Product",style: AppFontStyle.text_17_600(AppColors.white,fontFamily: AppFontFamily.gilroyMedium),)
           ],
         ),
       );
@@ -725,7 +725,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
       itemBuilder: (context, index) {
         return CustomDetailsCard(
             onTap: () {
-              final navbarController = Get.find<RestaurantNavbarController>();
+              final navbarController = Get.find<VendorNavbarController>();
               if (index == 0 || index == 1) {
                 controller.scrollToFields(controller.totalMenuItemKey);
               } else if (index == 2 || index == 4) {

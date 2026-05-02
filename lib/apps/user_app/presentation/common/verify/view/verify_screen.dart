@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/apps/user_app/presentation/navigation_bar/view/user_nav_bar.dart';
+import 'package:gyaawa/shared/widgets/vendor_widgets/circular_progress_indicator.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
+import '../../../../../../Data/response/status.dart';
 import '../../../../../../Utils/sized_box.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
@@ -11,6 +13,8 @@ import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../../shared/widgets/otp_Input_field.dart';
+import '../../../../../../shared/widgets/vendor_widgets/print.dart';
+import '../controller/verify_controller.dart';
 
 class VerifyScreen extends StatefulWidget {
   const VerifyScreen({super.key});
@@ -20,6 +24,7 @@ class VerifyScreen extends StatefulWidget {
 }
 
 class _VerifyScreenState extends State<VerifyScreen> {
+  final VerifyController verifyController = Get.find<VerifyController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,35 +71,81 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     style: AppFontStyle.text_16_400(AppColors.greyLightColor,
                       fontFamily: AppFontFamily.interRegular,)),
                 hBox(6),
-                  Text("+971 12345678",style: AppFontStyle.text_15_400(AppColors.blackTextColor,
-                    fontFamily: AppFontFamily.interRegular,)),
+                      Obx(() => Text(
+                        verifyController.email.value,
+                        style: AppFontStyle.text_15_400(
+                          AppColors.blackTextColor,
+                          fontFamily: AppFontFamily.interRegular,
+                        ),
+                      )),
                       hBox(25),
-                      OtpInputField(
-                        onCompleted: (otp) {
-                          print("OTP: $otp");
-                        },
+                      Form(
+                        key: verifyController.verifyFormKey,
+                        child: OtpInputField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter OTP";}
+                            if (value.length < 6) {
+                              return "Enter valid 6 digit OTP";
+                            }
+                            if (verifyController.otpError.value.isNotEmpty) {
+                              return verifyController.otpError.value;
+                            }
+                            return null;
+                          },
+                          onCompleted: (otp) {
+                            verifyController.otp.value = otp;
+                          },
+                        ),
                       ),
                       hBox(20),
-                      CustomElevatedButton(
-                          color: AppColors.buttonColor,
-                          height: 52,
-                          text: "Verify",
-                          textStyle:
-                          AppFontStyle.text_18_600(
-                            AppColors.white,
-                            fontFamily: AppFontFamily.interSemiBold,
+                  Obx(() => CustomElevatedButton(
+                      height: 52,
+                    child: verifyController.rxRequestStatus.value == ApiStatus.LOADING ||
+                        verifyController.forgotOtpStatus.value == ApiStatus.LOADING ||
+                        verifyController.twoFactorOtpStatus.value == ApiStatus.LOADING
+                        ? circularProgressIndicator(size: 30, color: Colors.white,)
+                        : Text(
+                      "Verify",
+                      style: AppFontStyle.text_18_600(
+                        AppColors.white,
+                        fontFamily: AppFontFamily.interSemiBold,
+                      ),
+                    ),
+                    onPressed: () {
+                      verifyController.otpError.value = "";
+                      if (verifyController.verifyFormKey.currentState?.validate() != true) return;
+                      pt("OTP value: ${verifyController.otp.value}");
+                      verifyController.verifyOtpApi();
+                    },
+                  ),
+                  ),
+                      hBox(20),
+                      Obx(() => Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            if (verifyController.isForgotFlow.value == true) {
+                             verifyController.resendForgotOtpApi();
+                             } else if (verifyController.type.value == "2fa") {
+                              verifyController.twoFactorResendOtpApi();
+                            }
+                            else {
+                            verifyController.resendOtpApi();
+                            }
+                          },
+                          child: Text(
+                            verifyController.resendTimer.value > 0
+                                ? "Resend code in ${verifyController.resendTimer.value} s"
+                                : "Resend Code",
+                            style: AppFontStyle.text_18_500(
+                              verifyController.resendTimer.value > 0
+                                  ? AppColors.greyTextColor
+                                  : AppColors.primary,
+                              fontFamily: AppFontFamily.interRegular,
+                            ),
                           ),
-                          onPressed: (){
-                            Get.offAll(() => MainScreen());
-                            // Get.toNamed(AppRoutes.verifyScreen);
-                          }
-                      ),
-                      hBox(20),
-                      Center(
-                        child: Text("Resend code in 55 s",
-                            style: AppFontStyle.text_18_500(AppColors.greyTextColor,
-                              fontFamily: AppFontFamily.interRegular,)),
-                      ),
+                        ),
+                      ))
                     ],
                   ),
                 ),

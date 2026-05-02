@@ -30,14 +30,18 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            scaffoldBackgroundColor: AppColors.backGroundColor,
-            // scaffoldBackgroundColor: AppColors.backgroundClr,
+            // scaffoldBackgroundColor: AppColors.backGroundColor,
+            scaffoldBackgroundColor: AppColors.backgroundClr,
             dividerColor: Colors.transparent,
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
             ),
           ),
           // getPages: UserRoutes.pages,
-          getPages: VendorAppRoutes.pages,
+          getPages: [
+            ...UserRoutes.pages,
+            ...VendorAppRoutes.pages,
+          ],
+          // getPages: VendorAppRoutes.pages,
           home: SplashScreen(),
         );
       },

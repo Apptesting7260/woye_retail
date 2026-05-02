@@ -49,7 +49,8 @@ class NetworkApiServices extends BaseApiServices {
     try {
       final response = await http.get(Uri.parse(url), headers: {
         // "Authorization": "Bearer 3681|TpU1aTiYSTZg8TAewkRm8kAM4mci59cnodK5XkIb32fd0c6a"
-        "Authorization": "Bearer $token"
+        "Authorization": "Bearer $token",
+            "Accept": "application/json",
       }).timeout(const Duration(seconds: 50));
 
       responseJson = returnResponse(response, url);
@@ -128,6 +129,7 @@ class NetworkApiServices extends BaseApiServices {
               headers: {
             // "Authorization": "Bearer 3681|TpU1aTiYSTZg8TAewkRm8kAM4mci59cnodK5XkIb32fd0c6a",
             "Authorization": "Bearer $token",
+                "Accept": "application/json",
               }, body: data)
           .timeout(const Duration(seconds: 50));
       responseJson = returnResponse(response, url);

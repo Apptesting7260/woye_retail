@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Dashboard/controller/restaurant_dashboard_controller.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
 import 'package:gyaawa/shared/widgets/vendor_widgets/custom_details_card.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
@@ -24,9 +25,9 @@ import '../../../../../../shared/widgets/vendor_widgets/custom_switch_btn.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 
-import '../../../Restaurant_navbar/controller/restaurant_navbar_controller.dart';
 import '../../../vendor_common/chart/common_chart.dart';
 import '../../../vendor_common/common_appbar_header/common_appbar_header.dart';
+import '../../../vendor_navbar/controller/vendor_navbar_controller.dart';
 
 
 
@@ -230,7 +231,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                   overlayColor: WidgetStatePropertyAll(AppColors.transparent),
                   padding: const WidgetStatePropertyAll(EdgeInsets.zero)),
               onPressed: () {
-                controller.restaurantNavbarController.getIndex(2);
+                controller.navbarController.getIndex(2);
               },
               icon: Text(
                 "See All",
@@ -398,7 +399,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                   overlayColor: WidgetStatePropertyAll(AppColors.transparent),
                   padding: const WidgetStatePropertyAll(EdgeInsets.zero)),
               onPressed: () {
-                controller.restaurantNavbarController.getIndex(4);
+                controller.navbarController.getIndex(4);
               },
               icon: Text(
                 "See All",
@@ -1006,7 +1007,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
           //   }
           // },
           onTap: () {
-            final navbarController = Get.find<RestaurantNavbarController>();
+            final navbarController = Get.find<VendorNavbarController>();
             if (index == 0) {
               controller.scrollToFields(controller.todayRevenueKey);
             } else if (index == 1) {

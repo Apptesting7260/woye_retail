@@ -238,11 +238,11 @@ class SignupScreen extends StatelessWidget {
                     onPressed: () {
                       if (signUpController.rxRequestStatus.value == ApiStatus.LOADING) return;
                       if (signUpController.signUpFormKey.currentState!.validate()) {
-                        signUpController.vendorRegisterApi();
+                        signUpController.vendorSignUpApi();
                       }
                     },
                     child: signUpController.rxRequestStatus.value == ApiStatus.LOADING
-                        ? circularProgressIndicator(size: 24, color: Colors.white,)
+                        ? circularProgressIndicator(size: 30, color: Colors.white,)
                         : Text(
                       "Sign Up",
                       style: AppFontStyle.text_18_600(

@@ -15,7 +15,6 @@
 
 // lib/controllers/sign_up_controller.dart
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:gyaawa/Data/Repository/repository.dart';
 import 'package:gyaawa/apps/user_app/presentation/common/sign_up/model/sign_up_model.dart';
@@ -23,7 +22,6 @@ import 'package:gyaawa/routes/user_routes/user_app_routes.dart';
 import '../../../../../../Data/response/status.dart';
 import '../../../../../../Utils/snack_bar.dart';
 import '../../../../../../Utils/validation.dart';
-import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 
 class SignUpController extends GetxController {
@@ -45,7 +43,7 @@ class SignUpController extends GetxController {
   //   super.onInit();
   // }
 
-  RxString selectedType = "customer".obs;
+  RxString selectedType = "retail".obs;
 
   void setCustomer() {
     selectedType.value = "customer";
@@ -71,13 +69,13 @@ class SignUpController extends GetxController {
   final apiData = SignUpResponseModel().obs;
   void signUpSet(SignUpResponseModel value) => apiData.value = value;
 
-  Future<void> vendorRegisterApi() async {
+  Future<void> vendorSignUpApi() async {
     if (selectedType.value != "vendor") return;
 
     var data = {
       "email": emailController.value.text.trim(),
       "password": passwordController.value.text.trim(),
-      // "device_token": tokenFcm ?? "",
+      "type": selectedType.value,
     };
 
     debugPrint("Data body for signup : $data");
@@ -93,28 +91,30 @@ class SignUpController extends GetxController {
         setRxRequestStatus(ApiStatus.COMPLETED);
         Utils.showToast(apiData.value.message.toString());
 
-        Get.toNamed(UserRoutes.verifyScreen);
-
+        Get.toNamed(
+            UserRoutes.verifyScreen,
+            arguments: {'email': emailController.value.text
+            });
       } else if (apiData.value.status == false) {
         setRxRequestStatus(ApiStatus.ERROR);
 
         final email = apiData.value.message?.toLowerCase() ?? "";
 
         if (email.contains("email")) {
-          setEmailError(apiData.value.message!);
+          setEmailError(apiData.value.message.toString());
         } else {
-          Utils.showToast(apiData.value.message!, bgColor: AppColors.red);
+          Utils.showToast(apiData.value.message.toString());
         }
       } else {
         setRxRequestStatus(ApiStatus.ERROR);
-        Utils.showToast('${apiData.value.message}', bgColor: AppColors.red,);
+        Utils.showToast('${apiData.value.message}');
       }
     }).onError((error, stackTrace) {
       pt(' SignUp Error: >>>>>>>>>>>>>>>>> $error');
+      setRxRequestStatus(ApiStatus.ERROR);
     });
   }
 
-  // Toggle Password Visibility
   togglePasswordVisibility({bool? isConfirmPassword}) {
     if (isConfirmPassword == true) {
       isShowConfirmPassword.value = !isShowConfirmPassword.value;

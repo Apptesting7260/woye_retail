@@ -206,5 +206,8 @@ class ImageConstants {
   static String twitter = "$svgPath/twitter.svg";
   static String info = "$svgPath/info.svg";
   static String newCredit = "$svgPath/ new_credit.svg";
+  static String reloadSvg = "$svgPath/reload.svg";
+  static String supportSvg = "$svgPath/support2.svg";
+  static String secureSvg = "$svgPath/secure.svg";
 
 }

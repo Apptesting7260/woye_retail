@@ -179,7 +179,38 @@ class HomeController extends GetxController {
       "badges": ["Best Tech Vendor 2024", "98.8% Positive Feedback", "+1 more"],
     };
   });
-
+  final List<Map<String, String>> brandList = [
+    {
+      "image": "https://picsum.photos/200",
+      "title": "TechCorp",
+      "subtitle": "Technology Innovation",
+    },
+    {
+      "image": "https://picsum.photos/201",
+      "title": "StyleHub",
+      "subtitle": "Fashion & Style",
+    },
+    {
+      "image": "https://picsum.photos/202",
+      "title": "HomeFurn",
+      "subtitle": "Home & Living",
+    },
+    {
+      "image": "https://picsum.photos/203",
+      "title": "AudioMax",
+      "subtitle": "Premium Audio",
+    },
+    {
+      "image": "https://picsum.photos/204",
+      "title": "FitGear",
+      "subtitle": "Fitness & Sports",
+    },
+    {
+      "image": "https://picsum.photos/205",
+      "title": "BeautyEssentials",
+      "subtitle": "Beauty & Care",
+    },
+  ];
   Color getCategoryBgColor(int index) {
     final double hue = (index * 137.5) % 360;
     return HSLColor.fromAHSL(1.0, hue, 0.55, 0.95).toColor();

@@ -1,14 +1,20 @@
 class AppUrls {
   // static const String baseUrl = "https://nbttech.xyz/woy/vendor-api";
-  static const String baseUrl = "https://nbturls.in/woy/vendor-api";
+  static const String baseUrl = "https://nbttest.com/gyawaa/vendor-api";
   // static const String baseUrl = "http://127.0.0.1:8000";
   static const String baseUrlFroMaintenance = "https://nbturls.in/woy/api";
   static const String paymentBaseUrl = "https://api.paystack.co";
 
 
   // >>>>>>>>>>>>>>>>> vendor SignUp>>>>>>>>>>>>>>>>>>>>>>
-  static String get vendorSignUp => '$baseUrl/vendor-api/sign-up';
-  static String get vendorVerifyOtp => '$baseUrl/vendor-api/verify-otp';
+  static String get vendorSignUp => '$baseUrl/sign-up';
+  static String get vendorVerifyOtp => '$baseUrl/verify-otp';
+  static String get vendorResendOtp => '$baseUrl/resend-otp';
+  static String get vendorSignIn => '$baseUrl/sign-in';
+  static String get vendorForgotPassword => '$baseUrl/forget-password';
+  static String get verifyForgotOtp => '$baseUrl/verify-otp-forgot-password';
+  static String get changePasswordApi => '$baseUrl/change-password';
+  static String get vendorForgotResendOtp => '$baseUrl/resend-verify-otp-forgot-password';
 
   /* ---------------- Mapbox -----------------------------------------  */
 
@@ -17,7 +23,6 @@ class AppUrls {
   /* ---------------- Authentication -----------------------------------------  */
 
   // static const String createVendor = "$baseUrl/vendor-create";
-  static const String login = "$baseUrl/sign-in";
   static const String twoFactorOtpVerify = "$baseUrl/TwoFactorOtpVerify";
   static const String twoFactorOtpResend = "$baseUrl/TwoFactorOtpResend";
   // static const String login = "$baseUrl/vendor-login";
@@ -72,13 +77,13 @@ class AppUrls {
 
 /* ------------------------------ Categories ---------------------------------  */
 
-  static const String categoryCuisineGet = "$baseUrl/category-cuisine-get";
+  static const String categoryCuisineGet = "$baseUrl/category-department-get";
   static const String getChooseCategories = "$baseUrl/get-category";
   static const String categoryUpdate = "$baseUrl/profile-category-update";
   static const String newCategoryRequest = "$baseUrl/category-request";
   static const String getCategories = "$baseUrl/get-categories";
   static const String getProductByCategory = "$baseUrl/get-product-by-category";
-  static const String categoryCuisineSave = "$baseUrl/category-cuisine-save";
+  static const String categoryCuisineSave = "$baseUrl/category-department-save";
 
 /* ------------------------------ Products ----------------------------  */
   static const String productList = "$baseUrl/product-list";

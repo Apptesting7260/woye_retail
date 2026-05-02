@@ -2,26 +2,24 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/Data/Model/user_model.dart';
+import 'package:gyaawa/Data/Repository/repository.dart';
 import 'package:gyaawa/Data/user_preference_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/new_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/res_category_cusion_model.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/update_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/controller/restaurant_category_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart' hide Categories;
-import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
+import 'package:gyaawa/routes/vendor_routes/vendor_app_routes.dart';
+import 'package:gyaawa/shared/widgets/vendor_widgets/custom_confirm_password_dialog.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../../Data/Model/user_model.dart';
-import '../../../../../../Data/Repository/repository.dart';
 import '../../../../../../Data/response/status.dart';
 import '../../../../../../Utils/snack_bar.dart';
-import '../../../../../../routes/vendor_routes/vendor_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
-import '../../../../../../shared/widgets/vendor_widgets/custom_confirm_password_dialog.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
-
+import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
+import '../model/update_categories_model.dart';
 
 class RestaurantCategoriesController extends GetxController {
   // final FillRestaurantDetailsController fillRestaurantDetailsController = Get.put(FillRestaurantDetailsController());
@@ -42,7 +40,7 @@ class RestaurantCategoriesController extends GetxController {
   RxString searchQuery = ''.obs;
   RxString searchQueryCuisines = ''.obs;
   RxList<Categories> searchListCategory = RxList<Categories>([]);
-  RxList<Cuisines> searchListCuisines = RxList<Cuisines>([]);
+  // RxList<Cuisines> searchListCuisines = RxList<Cuisines>([]);
 
   // RxList<Categories> categoryList = RxList<Categories>([]);
   // RxList<Cuisines> cuisinesList = RxList<Cuisines>([]);
@@ -188,7 +186,7 @@ class RestaurantCategoriesController extends GetxController {
         Get.offAndToNamed(VendorAppRoutes.restaurantNavbarScreen);
         sp.saveStep(int.parse(updateCategoriesData.value.step.toString()));
         sp.saveIsLogin(true);
-        sp.saveLoginType("restaurant");
+        sp.saveLoginType("retail");
         await sp.saveUserRole(updateCategoriesData.value.role ?? "");
         print("Steps: ${updateCategoriesData.value.step}");
         update();

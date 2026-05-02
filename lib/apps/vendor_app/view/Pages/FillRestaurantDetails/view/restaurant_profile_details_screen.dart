@@ -39,8 +39,8 @@ class ResProfileDetailsScreen extends StatefulWidget {
 
 class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
 
-  // final ResProfileDetailsDetailsController controller = Get.find<ResProfileDetailsDetailsController>();
-  final ResProfileDetailsDetailsController controller = Get.put(ResProfileDetailsDetailsController());
+  final ResProfileDetailsDetailsController controller = Get.find<ResProfileDetailsDetailsController>();
+  // final ResProfileDetailsDetailsController controller = Get.put(ResProfileDetailsDetailsController());
 
   @override
   void initState() {
@@ -83,7 +83,6 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
                       },
                     );
                   }
-
                 case ApiStatus.COMPLETED:
                   return body();
               }
@@ -534,11 +533,11 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
           pt(" vendor.step: ${controller.profileApiData.value.vendor?.step}");
           pt("image path: ${controller.image.value?.path}");
           pt(" isValidAddress: ${controller.isValidAddress.value}");
-          if (controller.userModel.step != 3) {
-            controller.isImageBorderRedClr.value = true;
-            pt("Step not 3, image required");
-
-          }
+          // if (controller.userModel.step != 3) {
+          //   controller.isImageBorderRedClr.value = true;
+          //   pt("Step not 3, image required");
+          //
+          // }
           if ((controller.shopDetailsKey.currentState?.validate() ?? false)) {
 
             if ((controller.shopDetailsKey.currentState?.validate() ?? false) &&
@@ -665,6 +664,7 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
                 child: SvgPicture.asset(
                   ImageConstants.personSvg,
                   height: 18.h,
+                  color: AppColors.hintText,
                 ),
               )),
           hBox(15.h),

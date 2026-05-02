@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:gyaawa/apps/user_app/presentation/common/login/model/login_model.dart';
+import 'package:gyaawa/apps/user_app/presentation/common/login/model/two_factor_model.dart';
 import 'package:gyaawa/apps/user_app/presentation/common/sign_up/model/sign_up_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/new_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/res_category_cusion_model.dart';
@@ -19,6 +21,8 @@ import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/product_delete_
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Core/Constant/app_urls.dart';
+import '../../apps/user_app/presentation/common/forgot_password/model/change_password_model.dart';
+import '../../apps/user_app/presentation/common/verify/model/verify_otp_model.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/order_accept_reject_model.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/resaurant_order_details_model.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/model/restro_order_list_model.dart';
@@ -62,44 +66,86 @@ import '../user_preference_controller.dart';
 class Repository {
   final _apiService = NetworkApiServices();
 
-  String token = "5504|9UOpvgM1DT82y0p8dQsseMroA1Nivh3FjdsoOse9249b5d8d";
+  String token = "";
   UserModel userModel = UserModel();
   var pref = UserPreference();
   String tokenFcm = "";
 
-  // Future<void> initializeUser() async {
-  //   // tokenFcm = await FirebaseMessaging.instance.getToken() ?? "";
-  //   userModel = await pref.getUser();
-  //   token = userModel.token ?? '';
-  //   log("Token $token");
-  //   log("Step ${userModel.step}");
-  // }
-
-
   Future<void> initializeUser() async {
-    // 👉 agar already static token set hai to override mat karo
-    if (token.isNotEmpty) {
-      log("⚠️ Using static token: $token");
-      return;
-    }
-
-    // 👉 warna normal flow
+    // tokenFcm = await FirebaseMessaging.instance.getToken() ?? "";
     userModel = await pref.getUser();
-
     token = userModel.token ?? '';
-
-    log("Token from pref: $token");
-    log("Step from pref: ${userModel.step}");
+    log("Token $token");
+    log("Step ${userModel.step}");
+    log("Step >>>>>>>>>>>>>>>>>${userModel.step}");
   }
 
-
   // >>>>>>>>>>>>>>>>>>>>>>>> vendor SignUp>>>>>>>>>>>>>>>
+
   Future<dynamic> createVendorApi(var data) async {
     dynamic response =
     await _apiService.postApi(data, AppUrls.vendorSignUp, "");
     return SignUpResponseModel.fromJson(response);
+
+  }
+  Future<dynamic> verifyVendorApi(var data) async {
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.vendorVerifyOtp, "");
+    return VerifyOtpModel.fromJson(response);
+  }
+  Future<dynamic> vendorForgotOtpApi(String token, var data) async {
+    dynamic response = await _apiService.postApi(
+      data, "${AppUrls.verifyForgotOtp}/$token",
+      token,
+    );
+    return ForgotOtpVerifyModel.fromJson(response);
+  }
+  Future<dynamic> changePasswordApi(String token, var data) async {
+    dynamic response = await _apiService.postApi(
+      data, "${AppUrls.changePasswordApi}/$token",
+      token,
+    );
+    return ChangePasswordModel.fromJson(response);
   }
 
+  Future<dynamic> twoFactorOtpVerifyApi(var data) async {
+    dynamic response = await _apiService.postApi(
+        data, AppUrls.twoFactorOtpVerify, "");
+    return TwoFactorModel.fromJson(response);
+  }
+  Future<TwoFactorResendModel> vendorTwoFactorOtpResendApi(var data) async {
+    dynamic response = await _apiService.postApi(data,
+      AppUrls.twoFactorOtpResend, "",
+    );
+    return TwoFactorResendModel.fromJson(response);
+  }
+Future<dynamic> vendorResendOtpApi(var data) async {
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.vendorResendOtp, "");
+    return VerifyOtpModel.fromJson(response);
+  }
+
+  Future<dynamic> loginApi(var data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.vendorSignIn, token);
+    return LoginModel.fromJson(response);
+  }
+
+  Future<dynamic> vendorForgotApi(var data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.vendorForgotPassword, token);
+    return LoginModel.fromJson(response);
+  }
+
+  Future<dynamic> vendorForgotResendOtpApi(String token, var data) async {
+    dynamic response = await _apiService.postApi(data,
+      "${AppUrls.vendorForgotResendOtp}/$token", "",);
+    return ResendForgotPasswordModel.fromJson(response);
+  }
+
+  Future<CommonResponseModel> signOut(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.signOut, token);
+    return CommonResponseModel.fromJson(response);
+  }
 
   Future<dynamic> getProfileApi() async {
      await initializeUser();
@@ -268,7 +314,6 @@ class Repository {
     dynamic response = await _apiService.getApiWithParams(AppUrls.reviews, token,queryParameters: queryParameters);
     return ReviewsModel.fromJson(response);
   }
-  // "3540|1A2d40oqTQWkPsfBFsvPAhhnHM6lkgFL9Wn0oxm5ba252e10"
 
   Future<GetBulkReviewResModel> reviewsPendingResponse() async {
     await initializeUser();
@@ -316,13 +361,13 @@ class Repository {
   }
   //
   Future<dynamic> getChooseCategoriesApi(var data) async {
-    // await initializeUser();
+     await initializeUser();
     dynamic response =
     await _apiService.postApi(data, AppUrls.getChooseCategories, token);
     return ChooseCategoriesModel.fromJson(response);
   }
   Future<dynamic> categoriesCuisinesAddApi(var data) async {
-    // await initializeUser();
+     await initializeUser();
     dynamic response =
     await _apiService.postApi2(data, AppUrls.categoryCuisineSave, token);
     return UpdateCategoriesModel.fromJson(response);

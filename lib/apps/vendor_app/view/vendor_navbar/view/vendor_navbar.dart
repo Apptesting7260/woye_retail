@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/signout/sign_out_controller.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
 
 import '../../../../../Core/Constant/image_constant.dart';
 import '../../../../../Data/Model/user_model.dart';
@@ -16,26 +18,25 @@ import '../../../../../shared/theme/font_style.dart';
 import '../../../../../shared/widgets/image.dart';
 import '../../../../../shared/widgets/shimmer_widget.dart';
 import '../../Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
-import '../controller/restaurant_navbar_controller.dart';
 
 
-class RestaurantNavbarScreen extends StatefulWidget {
+class VendorNavbar extends StatefulWidget {
   final int navbarInitialIndex;
 
-  const RestaurantNavbarScreen({
+  const VendorNavbar({
     super.key,
     this.navbarInitialIndex = 0,
   });
 
   @override
-  State<RestaurantNavbarScreen> createState() => _RestaurantNavbarScreenState();
+  State<VendorNavbar> createState() => _VendorNavbarState();
 }
 
-class _RestaurantNavbarScreenState extends State<RestaurantNavbarScreen> {
+class _VendorNavbarState extends State<VendorNavbar> {
   FillRestaurantDetailsController fillRestaurantDetailsController =Get.isRegistered<FillRestaurantDetailsController>() ?
   Get.find<FillRestaurantDetailsController>() : Get.put(FillRestaurantDetailsController());
 
-  // SignOutController signOutController =Get.isRegistered<SignOutController>() ? Get.find<SignOutController>() : Get.put(SignOutController());
+  SignOutController signOutController =Get.isRegistered<SignOutController>() ? Get.find<SignOutController>() : Get.put(SignOutController());
 
   String userRole = "";
 
@@ -58,15 +59,15 @@ class _RestaurantNavbarScreenState extends State<RestaurantNavbarScreen> {
       userModel = await pref.getUser();
       userRole  = userModel.userRole ?? "";
       // final controller = Get.find<RestaurantNavbarController>();
-      final controller = Get.put(RestaurantNavbarController());
+      final controller = Get.put(VendorNavbarController());
       controller.setNavItemsByRole(userRole.toLowerCase());
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RestaurantNavbarController>(
-        init: RestaurantNavbarController(
+    return GetBuilder<VendorNavbarController>(
+        init: VendorNavbarController(
             navbarCurrentIndex: widget.navbarInitialIndex),
         builder: (navbarController) {
 
@@ -147,7 +148,7 @@ class _RestaurantNavbarScreenState extends State<RestaurantNavbarScreen> {
         });
   }
 
-  Widget endDrawer(BuildContext context, RestaurantNavbarController navbarController) {
+  Widget endDrawer(BuildContext context, VendorNavbarController navbarController) {
     return SizedBox(
       width: 260,
       child: Drawer(
@@ -197,18 +198,14 @@ class _RestaurantNavbarScreenState extends State<RestaurantNavbarScreen> {
                                 fillRestaurantDetailsController.profileApiData.value.vendor?.shopName ?? "",
                                 overflow: TextOverflow.ellipsis,
                                 style: AppFontStyle.text_16_600(
-                                  AppColors.black,
-                                  fontFamily: AppFontFamily.gilroyMedium,
+                                  AppColors.black, fontFamily: AppFontFamily.gilroyMedium,
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                fillRestaurantDetailsController
-                                    .profileApiData.value.vendor?.type.toString().capitalizeFirst ??
-                                    "",
+                                fillRestaurantDetailsController.profileApiData.value.vendor?.type.toString().capitalizeFirst ?? "",
                                 style: AppFontStyle.text_14_400(
-                                  AppColors.greyClr,
-                                  fontFamily: AppFontFamily.gilroyMedium,
+                                  AppColors.greyClr, fontFamily: AppFontFamily.gilroyMedium,
                                 ),
                               ),
                             ],
@@ -246,15 +243,13 @@ class _RestaurantNavbarScreenState extends State<RestaurantNavbarScreen> {
                           break;
                         case 2 :
                           Get.back();
-
-                          // showDialog(
-                          //   useSafeArea: false,
-                          //   context: context,
-                          //   // builder: (context) {
-                          //   //
-                          //   //   // return PopScope(canPop: false,child:signOutController.logoutBtn());
-                          //   // },
-                          // );
+                          showDialog(
+                            useSafeArea: false,
+                            context: context,
+                            builder: (context) {
+                              return PopScope(canPop: false,child:signOutController.logoutBtn());
+                            },
+                          );
                           navbarController.getIndex(0);
                           break;
                       }
@@ -289,7 +284,7 @@ class _RestaurantNavbarScreenState extends State<RestaurantNavbarScreen> {
     );
   }
 
-  Widget navbar(RestaurantNavbarController navbarController) {
+  Widget navbar(VendorNavbarController navbarController) {
     return Container(
       height: 65.h,
       width: Get.width,

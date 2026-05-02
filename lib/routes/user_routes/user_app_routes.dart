@@ -4,8 +4,10 @@ import 'package:gyaawa/apps/user_app/presentation/common/home_address/sub_screen
 import 'package:gyaawa/apps/user_app/presentation/electronics/cart/binding/cart_bindings.dart';
 import 'package:gyaawa/apps/user_app/presentation/electronics/cart/sub_screen/place_order_screen.dart';
 import 'package:gyaawa/apps/user_app/presentation/navigation_bar/view/user_nav_bar.dart';
-
 import '../../apps/user_app/presentation/acccount/sub_screen/edit_profile.dart';
+import '../../apps/user_app/presentation/common/forgot_password/binding/forgot_password_bindings.dart';
+import '../../apps/user_app/presentation/common/forgot_password/sub_screen/view/change_password_screen.dart';
+import '../../apps/user_app/presentation/common/forgot_password/view/forgot_password_screen.dart';
 import '../../apps/user_app/presentation/common/home_address/bindings/door_delivery_bindings.dart';
 import '../../apps/user_app/presentation/common/home_address/bindings/pickup_station_bindings.dart';
 import '../../apps/user_app/presentation/common/home_address/sub_screen/pickup_station_screen.dart';
@@ -17,7 +19,9 @@ import '../../apps/user_app/presentation/common/sign_up/view/signup_screen.dart'
 import '../../apps/user_app/presentation/common/tab_bar/sub_screen/view/editor_choice_screen.dart';
 import '../../apps/user_app/presentation/common/tab_bar/sub_screen/view/featured_screen.dart';
 import '../../apps/user_app/presentation/common/tab_bar/sub_screen/view/gift_screen.dart';
+import '../../apps/user_app/presentation/common/verify/binding/verify_bindings.dart';
 import '../../apps/user_app/presentation/common/verify/view/verify_screen.dart';
+import '../../apps/user_app/presentation/common/welcome/view/welcome_screen.dart';
 import '../../apps/user_app/presentation/electronics/cart/view/cart_screen.dart';
 import '../../apps/user_app/presentation/electronics/category/sub_category/bindings/all_category_binding.dart';
 import '../../apps/user_app/presentation/electronics/category/sub_category/bindings/departments_store_binding.dart';
@@ -36,6 +40,7 @@ import '../../apps/user_app/presentation/electronics/search/view/result_filter_s
 import '../../apps/user_app/presentation/navigation_bar/binding/user_nar_bar_bindings.dart';
 class UserRoutes {
   static const String signupScreen = '/signupScreen';
+  static const String welcomeScreen = '/welcomeScreen';
   static const String loginScreen = '/loginScreen';
   static const String verifyScreen = '/verifyScreen';
   static const String homeScreen = '/homeScreen';
@@ -56,6 +61,8 @@ class UserRoutes {
   static const String pickupStationScreen = '/pickupStationScreen';
   static const String cartScreen = '/cartScreen';
   static const String mainScreen = '/mainScreen';
+  static const String forgotPasswordScreen = '/forgotPasswordScreen';
+  static const String changePasswordScreen = '/changePasswordScreen';
 
   static List<GetPage> pages = <GetPage>[
     GetPage(name: signupScreen, page: () =>  SignupScreen(),binding: SignupBinding()),
@@ -63,7 +70,7 @@ class UserRoutes {
     GetPage(name: shippingPaymentScreen, page: () =>  PlaceOrderScreen()),
     GetPage(name: loginScreen, page: () =>  LoginScreen(),binding: LoginBinding()),
     GetPage(name: selectDeliveryAddress, page: () => const SelectDeliveryAddress()),
-    GetPage(name: verifyScreen, page: () => const VerifyScreen()),
+    GetPage(name: verifyScreen, page: () => const VerifyScreen(),binding: VerifyBinding()),
     GetPage(name: allCategoriesScreen, page: () => const AllCategoriesScreen(),binding: AllCategoryBinding()),
     GetPage(name: categoryScreen, page: () => const CategoryScreen()),
     GetPage(name: searchResultScreen, page: () => const SearchResultScreen()),
@@ -79,6 +86,9 @@ class UserRoutes {
     GetPage(name: pickupStationScreen, page: () =>  PickupStationScreen(),binding: PickupStationBindings()),
     GetPage(name: cartScreen, page: () =>  CartScreen(),binding: CartBindings()),
     GetPage(name: mainScreen, page: () =>  MainScreen(),binding: MainBinding()),
+    GetPage(name: welcomeScreen, page: () =>  WelcomeScreen()),
+    GetPage(name: forgotPasswordScreen, page: () => ForgotPasswordScreen(),binding: ForgotPasswordBindings()),
+    GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen(),),
 
   ];
 }
