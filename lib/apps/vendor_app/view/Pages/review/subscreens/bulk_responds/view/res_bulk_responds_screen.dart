@@ -18,7 +18,7 @@ import '../../../../../../../../shared/widgets/vendor_widgets/app_container.dart
 import '../../../../../../../../shared/widgets/vendor_widgets/circular_progress_indicator.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../../../Profile/Sub_Screens/Setting/RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../../../Profile/Sub_Screens/Setting/RestaurantInformation/view/restaurant_information_screen.dart';
 import '../../../controller/res_review_controller.dart';
 import '../model/get_bulk_review_res_model.dart';
 

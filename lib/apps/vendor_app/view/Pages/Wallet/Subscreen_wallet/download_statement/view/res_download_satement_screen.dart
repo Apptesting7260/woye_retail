@@ -14,7 +14,7 @@ import '../../../../../../../../shared/widgets/vendor_widgets/custom_checkbox.da
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../../../Profile/Sub_Screens/Setting/RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../../../Profile/Sub_Screens/Setting/RestaurantInformation/view/restaurant_information_screen.dart';
 import '../../../controller/restaurant_wallets_controller.dart';
 
 class ResDownloadStatementScreen extends StatefulWidget {

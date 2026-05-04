@@ -1,11 +1,12 @@
 class RestaurantCuisineTypeModel {
   bool? status;
   List<Cuisine>? cuisine;
+  List<Brands>? brands;
   List<Cuisine>? brand;
   List<Cuisine>? packaging;
   List<Application>? application;
 
-  RestaurantCuisineTypeModel({this.status, this.cuisine,this.brand,this.packaging, this.application});
+  RestaurantCuisineTypeModel({this.status, this.cuisine,this.brand,this.packaging, this.application,this.brands,});
 
   RestaurantCuisineTypeModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -13,6 +14,12 @@ class RestaurantCuisineTypeModel {
       cuisine = <Cuisine>[];
       json['cuisine'].forEach((v) {
         cuisine?.add(Cuisine.fromJson(v));
+      });
+    }
+    if (json['brands'] != null) {
+      brands = <Brands>[];
+      json['brands'].forEach((v) {
+        brands!.add(new Brands.fromJson(v));
       });
     }
     if (json['brand'] != null) {
@@ -50,6 +57,9 @@ class RestaurantCuisineTypeModel {
     if (application != null) {
       data['application'] = application!.map((v) => v.toJson()).toList();
     }
+    if (this.brands != null) {
+      data['brands'] = this.brands!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -72,7 +82,24 @@ class Application {
     return data;
   }
 }
+class Brands {
+  String? id;
+  String? name;
 
+  Brands({this.id, this.name});
+
+  Brands.fromJson(Map<String, dynamic> json) {
+    id = json['id']?.toString();
+    name = json['name']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['name'] = name;
+    return data;
+  }
+}
 class Cuisine {
   String? id;
   String? name;

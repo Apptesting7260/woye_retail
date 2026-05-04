@@ -13,7 +13,7 @@ import '../../../../../../../../shared/widgets/vendor_widgets/app_container.dart
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
-import '../../../../../Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../../../../Pages/Profile/Sub_Screens/Setting/RestaurantInformation/view/restaurant_information_screen.dart';
 import '../controller/restaurant_support_controller.dart';
 
 class RestaurantSupportScreen extends GetView<RestaurantSupportController>{

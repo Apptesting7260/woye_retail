@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/AccountStatus/controller/vendor_account_status_controller.dart';
 import '../../../../../Core/Constant/image_constant.dart';
 import '../../../../../Data/response/status.dart';
 import '../../../../../Utils/network_controller.dart';
@@ -18,7 +19,7 @@ class VendorNavbarController extends GetxController {
   VendorNavbarController({this.navbarCurrentIndex = 0});
 
   NetworkController networkController = Get.put<NetworkController>(NetworkController());
-  // VendorAccountStatusController vendorAccountStatusController = Get.put<VendorAccountStatusController>(VendorAccountStatusController());
+  VendorAccountStatusController vendorAccountStatusController = Get.put<VendorAccountStatusController>(VendorAccountStatusController());
 
   List<NavItem> navItems = [];
 
@@ -75,7 +76,7 @@ class VendorNavbarController extends GetxController {
 
   @override
   void onInit() async {
-    // vendorAccountStatusController.getAccountStatusApi();
+    vendorAccountStatusController.getAccountStatusApi();
     networkController.onInit();
     super.onInit();
   }

@@ -14,7 +14,7 @@ import '../../../../../../../../shared/widgets/image.dart';
 import '../../../../../../../../shared/widgets/shimmer_widget.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/app_container.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
-import '../../../../Profile/Sub_Screens/Setting/RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../../../Profile/Sub_Screens/Setting/RestaurantInformation/view/restaurant_information_screen.dart';
 import '../../../controller/res_review_controller.dart';
 import '../../../model/reviews_model.dart';
 

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../shared/widgets/vendor_widgets/pref_utils.dart';
-import '../Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 
 class RestaurantUserProfileController extends GetxController {
   // VendorAccountStatusController vendorAccountStatusController = Get.put(VendorAccountStatusController());

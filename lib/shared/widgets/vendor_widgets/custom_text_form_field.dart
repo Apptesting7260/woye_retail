@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../theme/colors.dart';
 import '../../theme/font_family.dart';
 import '../../theme/font_style.dart';
+
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
@@ -45,6 +46,7 @@ class CustomTextFormField extends StatelessWidget {
     this.buildCounter,
     this.readOnly,
     this.errorMaxLines,
+    this.errorText,
     // this.errorTextStyle,
     // this.errorTextClr,
   });
@@ -76,6 +78,8 @@ class CustomTextFormField extends StatelessWidget {
   final int? maxLength;
 
   final String? hintText;
+
+  final String? errorText;
 
   final TextStyle? hintStyle;
 
@@ -120,153 +124,154 @@ class CustomTextFormField extends StatelessWidget {
 
   final String? labelText;
   final AutovalidateMode? autoValidateMode;
-   final int? errorMaxLines;
+  final int? errorMaxLines;
   @override
   Widget build(BuildContext context) {
     return alignment != null
         ? Align(
-            alignment: alignment ?? Alignment.center,
-            child: textFormFieldWidget,
-          )
+      alignment: alignment ?? Alignment.center,
+      child: textFormFieldWidget,
+    )
         : textFormFieldWidget;
   }
 
   Widget get textFormFieldWidget => SizedBox(
-        width: width ?? double.maxFinite,
-        height: height,
-        child: TextFormField(
-          readOnly:readOnly ?? false,
-          buildCounter: buildCounter,
-          // expands: true,
-          onTap: onTap,
-          maxLength: maxLength,
-          onTapOutside:onTapOutside ?? (event) {
-            FocusManager.instance.primaryFocus?.unfocus();
-          },
-          onChanged: onChanged,
-          autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
-          enabled: enabled ?? true,
-          controller: controller,
-          autofocus: autofocus ?? false,
-          style: textStyle ?? AppFontStyle.text_16_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyRegular),
-          obscureText: obscureText!,
-          textInputAction: textInputAction,
-          keyboardType: textInputType,
-          maxLines: maxLines ?? 1,
-          minLines: minLines ?? 1,
-          decoration: decoration,
-          validator: validator,
-          inputFormatters: inputFormatters,
-          onEditingComplete: onEditingComplete,
-          onFieldSubmitted: onFieldSubmitted,
-        ),
-      );
+    width: width ?? double.maxFinite,
+    height: height,
+    child: TextFormField(
+      readOnly:readOnly ?? false,
+      buildCounter: buildCounter,
+      // expands: true,
+      onTap: onTap,
+      maxLength: maxLength,
+      onTapOutside:onTapOutside ?? (event) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      onChanged: onChanged,
+      autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
+      enabled: enabled ?? true,
+      controller: controller,
+      autofocus: autofocus ?? false,
+      style: textStyle ?? AppFontStyle.text_16_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyRegular),
+      obscureText: obscureText!,
+      textInputAction: textInputAction,
+      keyboardType: textInputType,
+      maxLines: maxLines ?? 1,
+      minLines: minLines ?? 1,
+      decoration: decoration,
+      validator: validator,
+      inputFormatters: inputFormatters,
+      onEditingComplete: onEditingComplete,
+      onFieldSubmitted: onFieldSubmitted,
+    ),
+  );
 
   InputDecoration get decoration => InputDecoration(
-        errorStyle:  AppFontStyle.text_12_400(
-        AppColors.errorColor,
-        fontFamily: AppFontFamily.gilroyMedium,
-       ),
-        alignLabelWithHint: true,
-        labelText: labelText,
-        errorMaxLines:errorMaxLines ?? 10,
-        hintText: hintText ?? "",
-        hintStyle: hintStyle ??
-            AppFontStyle.text_15_400(
-              AppColors.hintText,
-              fontFamily: AppFontFamily.gilroyRegular,
-            ),
-        labelStyle: hintStyle ??
-            AppFontStyle.text_15_500(
-              AppColors.hintText,
-              fontFamily: AppFontFamily.gilroyMedium,
-            ),
-        prefixIcon: prefix,
-        prefixIconConstraints: prefixConstraints ?? BoxConstraints(minWidth: 30.w),
-        suffixIcon: suffix,
-        suffixIconConstraints: suffixConstraints,
-        isDense: true,
-        contentPadding: contentPadding ?? REdgeInsets.symmetric(vertical: 16, horizontal: 10),
-        fillColor: fillColor ?? AppColors.filledClr.withAlpha(150),
-        filled: filled,
-        // errorBorder: OutlineInputBorder(
-        //   borderSide: BorderSide(color: AppColors.textFieldBorder),
-        //   borderRadius:
-        //   borderRadius ?? BorderRadius.all(Radius.circular(15.r)),
-        // ),
-        focusedErrorBorder: borderDecoration ??
-            OutlineInputBorder(
-              borderSide: BorderSide.none,
-              // borderSide: BorderSide(color: AppColors.textFieldBorder),
-              borderRadius:
-              borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
-            ) ,
-        border: borderDecoration ??
-            OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius:
-                  borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
-            ),
-        // GradientOutlineInputBorder(
-        //     borderRadius:
-        //         borderRadius ?? const BorderRadius.all(Radius.circular(60)),
-        //     gradient: AppColors.borderGradient),
-        enabledBorder: borderDecoration ??
-            OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius:
-                  borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
-            ),
-        focusedBorder: borderDecoration ??
-            OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius:
-                  borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
-            ),
-      );
+    errorText: errorText,
+    errorStyle:  AppFontStyle.text_12_400(
+      AppColors.errorColor,
+      fontFamily: AppFontFamily.gilroyMedium,
+    ),
+    alignLabelWithHint: true,
+    labelText: labelText,
+    errorMaxLines:errorMaxLines ?? 10,
+    hintText: hintText ?? "",
+    hintStyle: hintStyle ??
+        AppFontStyle.text_15_400(
+          AppColors.hintText,
+          fontFamily: AppFontFamily.gilroyRegular,
+        ),
+    labelStyle: hintStyle ??
+        AppFontStyle.text_15_500(
+          AppColors.hintText,
+          fontFamily: AppFontFamily.gilroyMedium,
+        ),
+    prefixIcon: prefix,
+    prefixIconConstraints: prefixConstraints ?? BoxConstraints(minWidth: 30.w),
+    suffixIcon: suffix,
+    suffixIconConstraints: suffixConstraints,
+    isDense: true,
+    contentPadding: contentPadding ?? REdgeInsets.symmetric(vertical: 16, horizontal: 10),
+    fillColor: fillColor ?? AppColors.filledClr.withAlpha(150),
+    filled: filled,
+    // errorBorder: OutlineInputBorder(
+    //   borderSide: BorderSide(color: AppColors.textFieldBorder),
+    //   borderRadius:
+    //   borderRadius ?? BorderRadius.all(Radius.circular(15.r)),
+    // ),
+    focusedErrorBorder: borderDecoration ??
+        OutlineInputBorder(
+          borderSide: BorderSide.none,
+          // borderSide: BorderSide(color: AppColors.textFieldBorder),
+          borderRadius:
+          borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
+        ) ,
+    border: borderDecoration ??
+        OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius:
+          borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
+        ),
+    // GradientOutlineInputBorder(
+    //     borderRadius:
+    //         borderRadius ?? const BorderRadius.all(Radius.circular(60)),
+    //     gradient: AppColors.borderGradient),
+    enabledBorder: borderDecoration ??
+        OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius:
+          borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
+        ),
+    focusedBorder: borderDecoration ??
+        OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius:
+          borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
+        ),
+  );
 }
 
 /// Extension on [CustomTextFormField] to facilitate inclusion of all types of border style etc
 extension TextFormFieldStyleHelper on CustomTextFormField {
   static OutlineInputBorder get fillPrimary => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16.h),
-        borderSide: BorderSide.none,
-      );
+    borderRadius: BorderRadius.circular(16.h),
+    borderSide: BorderSide.none,
+  );
 
   static OutlineInputBorder get fillWhiteA => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.h),
-        borderSide: BorderSide.none,
-      );
+    borderRadius: BorderRadius.circular(10.h),
+    borderSide: BorderSide.none,
+  );
 
   static OutlineInputBorder get fillPrimaryTL24 => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(24.h),
-        borderSide: BorderSide.none,
-      );
+    borderRadius: BorderRadius.circular(24.h),
+    borderSide: BorderSide.none,
+  );
 
   static UnderlineInputBorder get underLineOnError =>
-       UnderlineInputBorder(
+      UnderlineInputBorder(
         borderSide: BorderSide(
           color: AppColors.red,
         ),
       );
 
   static OutlineInputBorder get outlineBlueGrayTL20 => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(20.h),
-        borderSide: BorderSide.none,
-      );
+    borderRadius: BorderRadius.circular(20.h),
+    borderSide: BorderSide.none,
+  );
 
   static OutlineInputBorder get fillWhiteATL16 => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16.h),
-        borderSide: BorderSide.none,
-      );
+    borderRadius: BorderRadius.circular(16.h),
+    borderSide: BorderSide.none,
+  );
 
   static OutlineInputBorder get fillPrimaryTL12 => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.h),
-        borderSide: BorderSide.none,
-      );
+    borderRadius: BorderRadius.circular(12.h),
+    borderSide: BorderSide.none,
+  );
 
   static OutlineInputBorder get outlineBlueGrayTL15 => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15.h),
-        borderSide: BorderSide.none,
-      );
+    borderRadius: BorderRadius.circular(15.h),
+    borderSide: BorderSide.none,
+  );
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/profile_details_model.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../../Data/Model/user_model.dart';
@@ -23,7 +24,6 @@ import '../../../../../vendor_common/Models/common_add_product_model.dart';
 import '../../../../../vendor_common/Models/common_response_model.dart';
 import '../../../../ChooseRestaurantCategories/model/new_categories_model.dart';
 import '../AddMenuCategories/model/restaurant_get_selected_categories_model.dart';
-import '../RestaurantInFormation/model/profile_details_model.dart';
 
 class  RestaurantSettingController extends GetxController {
 
@@ -262,34 +262,6 @@ class  RestaurantSettingController extends GetxController {
   }
 
 
-  // void appendSelectedCategoriesToProfile() {
-  //   final vendor = profileApiData.value.vendor;
-  //
-  //   if (vendor == null) return;
-  //
-  //   List<CategoryIds> newItems = selectedCategories.map((e) {
-  //     return CategoryIds(
-  //       id: e["id"].toString(),
-  //       name: e["name"].toString(),
-  //       status: e["status"].toString(),
-  //       added: e["added"].toString(),
-  //     );
-  //   }).toList();
-  //
-  //   vendor.categoryIds ??= [];
-  //
-  //   for (var item in newItems) {
-  //     bool exists = vendor.categoryIds!.any((x) => x.id == item.id);
-  //     if (!exists) {
-  //       vendor.categoryIds!.add(item);
-  //     }
-  //   }
-  //
-  //   // Refresh UI
-  //   profileApiData.refresh();
-  //
-  //   pt("Updated Categories in Profile >>> ${vendor.categoryIds!.map((e) => e.toJson()).toList()}");
-  // }
   void appendSelectedCategoriesToProfile() {
     final vendor = profileApiData.value.vendor;
 

@@ -9,7 +9,6 @@ import 'package:gyaawa/shared/theme/font_style.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
-import '../../../../../vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,8 +18,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final controller = Get.put( FillRestaurantDetailsController());
-
 
   final SplashController splashController = Get.put(SplashController());
 

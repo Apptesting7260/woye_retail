@@ -8,6 +8,7 @@ import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/mapbox/view/mapbox_search_field.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../../../../Core/Constant/image_constant.dart';
@@ -31,7 +32,6 @@ import '../../../../../../../../../shared/widgets/vendor_widgets/custom_elevated
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../../../../vendor_common/Models/selected_delivery_type_model.dart';
-import '../../../../../../vendor_common/mapbox/view/mapbox_search_field.dart';
 import '../controller/restaurant_information_controller.dart';
 
 class RestaurantInformationScreens extends StatefulWidget {
@@ -53,7 +53,6 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
 
   @override
   Widget build(BuildContext context) {
-    print("controller.userModel.step${controller.userModel.step}");
     return Container(
       color: AppColors.white,
       child: SafeArea(
@@ -64,6 +63,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
             // controller.isAddressRedClr.value   = false;
             controller.image.value = null;
             controller.imageBase64.value = "";
+            controller.setPhoneNumberError("");
             // controller.clearHoursFields();
             await controller.getProfileDetailsApi();
           },
@@ -77,12 +77,14 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                   if (controller.error.value == 'No internet' || controller.error.value == 'InternetExceptionWidget') {
                     return InternetExceptionWidget(
                       onPress: () {
+                        controller.setPhoneNumberError("");
                         controller.getProfileDetailsApi();
                       },
                     );
                   } else {
                     return GeneralExceptionWidget(
                       onPress: () {
+                        controller.setPhoneNumberError("");
                         controller.getProfileDetailsApi();
                       },
                     );
@@ -100,7 +102,6 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                               CustomAppBar(
                                 isPop: controller.profileApiData.value.isProfileComplete == true ? true : false,
                                 isLeading: controller.userModel.step == 3,
-                                
                               ),
                             if (controller.userModel.step == 1 || controller.userModel.step == 2)
                             hBox(75.h),
@@ -115,7 +116,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                                     children: [
                                       header(
                                         title:  "Store Information",
-                                        description: "Update your restaurant's basic details and contact information",
+                                        description: "Update your store  basic details and contact information",
                                       ),
                                       hBox(14.h),
                                       Text(
@@ -174,13 +175,30 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                                       const Divider(height: 46),
                                       deliveryAndServiceInformation(),
                                       hBox(20.h),
-                                      CustomCheckboxTile(
-                                          title: "Pre Order",
-                                          style: AppFontStyle.text_16_400(AppColors.black,fontFamily: AppFontFamily.gilroyMedium),
-                                          value: controller.isPreOrder,
-                                          onChanged: (value) {
-                                            controller.updatePreOrderValue(value);
-                                          },
+                                      Row(
+                                        children: [
+                                          CustomCheckboxTile(
+                                              title: "Pre Order",
+                                              style: AppFontStyle.text_16_400(AppColors.black,fontFamily: AppFontFamily.gilroyMedium),
+                                              value: controller.isPreOrder,
+                                              onChanged: (value) {
+                                                controller.updatePreOrderValue(value);
+                                              },
+                                          ),
+                                          wBox(4.w),
+                                          InkWell(
+                                            onTap: () {
+                                              showInfoBottomSheet(
+                                                context: context,
+                                                title: "Take orders in advance",
+                                                description:
+                                                "If enabled, customers can place orders before your shop opens. If disabled, orders can only be placed during working hours.",
+                                              );
+                                            },
+                                            child: Icon(Icons.info_outline_rounded,size: 18,color: AppColors.grey,
+                                            ),
+                                          )
+                                        ],
                                       ),
                                       hBox(20.h),
                                       serviceType(),
@@ -213,7 +231,23 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        title("Service Type"),
+        Row(
+          children: [
+            title("Service Type"),
+            wBox(4.w),
+            InkWell(
+            onTap: () {
+              showInfoBottomSheet(
+                  context: context,
+                  title: "How customers get their order",
+                description: "Choose the services you offer, like ${controller.serviceTypesFromApi.join(", ")} etc.",
+                );
+              },
+              child: Icon(Icons.info_outline_rounded,size: 18,color: AppColors.grey,
+              ),
+            )
+          ],
+        ),
         hBox(6),
 
         Obx(() {
@@ -334,7 +368,24 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
           maxLines: 2,
         ),
         hBox(14.h),
-        title('Delivery Radius (miles)'),
+        Row(
+          children: [
+            title('Delivery Radius (miles)'),
+            wBox(4.w),
+            InkWell(
+              onTap: () {
+                showInfoBottomSheet(
+                  context: context,
+                  title: "Where You Deliver",
+                  description:
+                  "Example: 5 miles means you will deliver orders within a 5-mile distance from your store location.",
+                );
+              },
+              child: Icon(Icons.info_outline_rounded,size: 18,color: AppColors.grey.withValues(alpha: 0.8),
+              ),
+            )
+          ],
+        ),
         hBox(5.h),
         CustomTextFormField(
           key: controller.deliveryRadiusKey,
@@ -380,7 +431,23 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
           // ),
         ),
         hBox(14.h),
-        title('Minimum Order for Delivery'),
+        Row(
+          children: [
+            title('Minimum Order Amount'),
+            wBox(4.w),
+            InkWell(
+              onTap: () {
+                showInfoBottomSheet(
+                  context: context,
+                  title: "Minimum amount required to place an order.",
+                  description: "“Example: \$200 means customers must order at least \$200 to checkout.”",
+                );
+              },
+              child: Icon(Icons.info_outline_rounded,size: 18,color: AppColors.grey.withValues(alpha: 0.8),
+              ),
+            )
+          ],
+        ),
         hBox(5.h),
         CustomTextFormField(
           controller: controller.minimumOrderController.value,
@@ -423,7 +490,24 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
         ],
         hBox(14.h),
         if(controller.selectedDelivery.value == "0")...[
-          title('Minimum Amount for Free Delivery'),
+          Row(
+            children: [
+              title('Minimum Amount for Free Delivery'),
+              wBox(4.w),
+              InkWell(
+                onTap: () {
+                  showInfoBottomSheet(
+                    context: context,
+                    title: "Free Delivery Threshold",
+                    description:
+                    "Enter the minimum order amount required for customers to get free delivery. Example: \$500 means delivery will be free for orders above \$500.",
+                  );
+                },
+                child: Icon(Icons.info_outline_rounded,size: 18,color: AppColors.grey,
+                ),
+              )
+            ],
+          ),
           hBox(5.h),
           CustomTextFormField(
             key: controller.minimumOrderForFreeDeliveryKey,
@@ -466,7 +550,24 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
           ),
           hBox(14.h),
         ],
-        title('Average Preparation Time'),
+        Row(
+          children: [
+            title('Average Preparation Time'),
+            wBox(4.w),
+            InkWell(
+              onTap: () {
+                showInfoBottomSheet(
+                  context: context,
+                  title: "How long do orders take?",
+                  description:
+                  "This is the average time needed to prepare an order before it is ready for pickup or delivery.\nExample: 15 minutes means the order will usually be ready in 15 minutes after it is placed.",
+                );
+              },
+              child: Icon(Icons.info_outline_rounded,size: 18,color: AppColors.grey,
+              ),
+            )
+          ],
+        ),
         hBox(5.h),
         CustomDropDown(
             key: controller.preparationTimeKey,
@@ -486,7 +587,23 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
             },
         ),
         hBox(12.h),
-        title('Last Order Time'),
+        Row(
+          children: [
+            title('Orders Closing Time'),
+            wBox(4.w),
+            InkWell(
+              onTap: () {
+                showInfoBottomSheet(
+                  context: context,
+                  title: "Stop taking orders before shop closes",
+                  description:"Select how early you want to stop taking orders before your shop closes.\nExample: 30 minutes means no orders in the last 30 minutes before closing.",
+                );
+              },
+              child: Icon(Icons.info_outline_rounded,size: 18,color: AppColors.grey,
+              ),
+            )
+          ],
+        ),
         hBox(5.h),
         CustomDropDown(
             key: controller.orderCutoffMinutesBeforeClosing,
@@ -495,14 +612,21 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
             btnHeight: 56,
           hintText: "15 min",
             items: const ['15 min','30 min','45 min','1 hour','2 hour'],
-            validator:(value) {
-              if(controller.selectedLastOrderTime.value.isEmpty){
-                return "Please select last order time";
-              }
-              return null;
-            } ,
+            // validator:(value) {
+            //   if(controller.selectedLastOrderTime.value.isEmpty){
+            //     return "Please select last order time";
+            //   }
+            //   return null;
+            // } ,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please select last order time";
+            }
+            return null;
+          },
             onChanged: (val){
               controller.selectedLastOrderTime.value = val ?? "";
+              print("selectedLastOrderTime >>>>>>> ${controller.selectedLastOrderTime.value}");
             },
         ),
 
@@ -800,7 +924,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Upload your restaurant logo",
+                      "Upload your Store logo",
                       style: AppFontStyle.text_14_400(
                         AppColors.greyClr,
                         fontFamily: AppFontFamily.gilroyMedium,
@@ -810,7 +934,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
 
                     if (isError)
                       Text(
-                        "Please upload your restaurant logo",
+                        "Please upload your Store logo",
                         style: AppFontStyle.text_12_400(AppColors.errorColor),
                       ),
 
@@ -927,7 +1051,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
         //   return const SizedBox.shrink();
         // }),
         hBox(16.h),
-        title("Restaurant Address "),
+        title("Store Address "),
         hBox(8.h),
         MapboxSearchField(
           key: controller.addressKey,
@@ -1182,7 +1306,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
       },
       maxLines: 4,
       minLines: 4,
-      hintText: 'Restaurant Description',
+      hintText: 'Store Description',
     );
   }
 
@@ -1253,92 +1377,6 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
           () => CustomElevatedButton(
         height: 56,
         isLoading: controller.rxUpdateProfileRequestStatus.value == ApiStatus.LOADING,
-/*
-        onPressed: () {
-          debugImageStatus();
-          if (controller.locationController.value.text.isEmpty) {
-            controller.isValidAddress.value = false;
-          }
-
-          if (controller.userModel.step != 3) {
-            controller.isImageBorderRedClr.value = true;
-          }
-
-
-          // ---------- FORM VALID ----------
-          if ((controller.shopDetailsKey.currentState?.validate() ?? false)) {
-
-            bool conditionStep1 = (
-                controller.profileApiData.value.vendor?.step == "1" &&
-                    (controller.coverImage.value != null && controller.coverImage.value!.path.isNotEmpty) &&
-                    (controller.logoImage.value != null && controller.logoImage.value!.path.isNotEmpty) &&
-                    controller.isValidAddress.value != false
-            );
-            bool conditionStep3 = (
-                controller.userModel.step == 3 && controller.isValidAddress.value != false &&
-                    controller.coverImage.value?.path != null && controller.profileApiData.value.vendor?.coverPhotoUrl != null
-                    && controller.logoImage.value?.path != null && controller.profileApiData.value.vendor?.logoUrl != null
-            );
-
-
-            if (conditionStep1 || conditionStep3) {
-              pt(" CALL API HERE");
-              controller.updateProfileDetailsApi();
-
-              return;
-            }
-          }
-
-          // ---------- MANUAL FOCUS VALIDATIONS BELOW ----------
-
-          if (controller.restaurantNameController.value.text.isEmpty) {
-            controller.scrollToField(controller.restaurantNameKey);
-            pt("restaurantNameController");
-          }
-
-          else if (controller.ownerNameController.value.text.isEmpty ||
-              controller.ownerNameController.value.text.length < 3) {
-            controller.scrollToField(controller.ownerNameKey);
-            pt("ownerNameKey");
-
-          }
-
-          else if (controller.shopDescriptionController.value.text.isEmpty ||
-              controller.shopDescriptionController.value.text.length < 20) {
-            controller.scrollToField(controller.descriptionKey);
-            pt("descriptionKey");
-
-          }
-
-          else if (controller.mobNoCon.value.text.isEmpty ||
-              controller.mobNoCon.value.text.length != controller.checkCountryLength.value) {
-            controller.scrollToField(controller.phoneKey);
-            pt("phoneKey");
-
-          }
-
-          else if (controller.websiteController.value.text.isNotEmpty &&
-              !RegExp(r"^(https?://)?(www\.)?[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}(/.*)?$")
-                  .hasMatch(controller.websiteController.value.text.trim())) {
-
-            controller.scrollToField(controller.websiteKey);
-          }
-
-          else if (controller.isValidAddress.value == false ||
-              controller.locationController.value.text.isEmpty) {
-
-            controller.scrollToField(controller.addressKey, alignment: 0.05);
-          }else if (controller.logoImage.value == null &&controller.profileApiData.value.vendor?.logo == null) {
-          controller.isLogoImageBorderRedClr.value = true;
-          controller.scrollToField(controller.logoImageKey, alignment: 0.074);
-          pt("logoImageKey");
-          }else if (controller.userModel.step == 3 &&(controller.coverImage.value?.path.isEmpty ?? true)) {
-              controller.scrollToField(controller.coverImageKey, alignment: 0.074);
-              pt("coverImageKey");
-              return;
-            }
-        },
-*/
 
             onPressed: () {
               // Reset validations
@@ -1376,6 +1414,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                         controller.isValidAddress.value != false
                 );
 
+
                 bool conditionStep3 = (
                     controller.userModel.step == 3 &&
                         controller.isValidAddress.value != false
@@ -1385,7 +1424,9 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                 pt("Condition Step 1: $conditionStep1");
                 pt("Condition Step 3: $conditionStep3");
 
-                if (conditionStep1 || conditionStep3) {
+                if(controller.phoneNumberError.value.isNotEmpty){
+                  controller.scrollToField(controller.phoneKey);
+                }else if (conditionStep1 || conditionStep3) {
                   pt("✅ CALL API HERE - All validations passed");
                   controller.updateProfileDetailsApi();
                   return;
@@ -1408,8 +1449,8 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                 controller.scrollToField(controller.descriptionKey);
                 pt("❌ descriptionKey");
               }
-              else if (controller.mobNoCon.value.text.isEmpty ||
-                  controller.mobNoCon.value.text.length != controller.checkCountryLength.value) {
+              else if (controller.mobNoCon.value.text.isEmpty || controller.mobNoCon.value.text.length != controller.checkCountryLength.value
+                  ||  controller.phoneNumberError.value.isNotEmpty) {
                 controller.scrollToField(controller.phoneKey);
                 pt("❌ phoneKey");
               }
@@ -1494,14 +1535,14 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
   }
 
   void debugImageStatus() {
-    print("🔍 Image Status Debug:");
-    print("Step: ${controller.userModel.step}");
-    print("Cover Image from API: ${controller.profileApiData.value.vendor?.coverPhoto}");
-    print("New Cover Image: ${controller.coverImage.value?.path}");
-    print("Logo from API: ${controller.profileApiData.value.vendor?.logo}");
-    print("New Logo Image: ${controller.logoImage.value?.path}");
-    print("Has Cover Image: ${controller.coverImage.value != null || controller.profileApiData.value.vendor?.coverPhoto != null}");
-    print("Has Logo Image: ${controller.logoImage.value != null || controller.profileApiData.value.vendor?.logo != null}");
+    pt("🔍 Image Status Debug:");
+    pt("Step: ${controller.userModel.step}");
+    pt("Cover Image from API: ${controller.profileApiData.value.vendor?.coverPhoto}");
+    pt("New Cover Image: ${controller.coverImage.value?.path}");
+    pt("Logo from API: ${controller.profileApiData.value.vendor?.logo}");
+    pt("New Logo Image: ${controller.logoImage.value?.path}");
+    pt("Has Cover Image: ${controller.coverImage.value != null || controller.profileApiData.value.vendor?.coverPhoto != null}");
+    pt("Has Logo Image: ${controller.logoImage.value != null || controller.profileApiData.value.vendor?.logo != null}");
   }
   /*
   saveButton() {
@@ -1623,17 +1664,17 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title('Restaurant Name'),
+          title('Store Name'),
           hBox(5.h),
           CustomTextFormField(
               key: controller.restaurantNameKey,
               controller: controller.restaurantNameController.value,
-              hintText: "Restaurant Name",
+              hintText: "Store Name",
               validator: (value) {
                 if (value!.isEmpty || value == "") {
-                  return "Please enter restaurant name";
+                  return "Please enter Store name";
                 }else if(value.length < 3){
-                  return "Please enter a valid restaurant name";
+                  return "Please enter a valid Store name";
                 }
                 return null;
               },
@@ -1659,7 +1700,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                 ),
           ),
           hBox(16.h),
-          title("Restaurant Description"),
+          title("Store Description"),
           hBox(5.h),
           shopDescriptionField(),
           title("Phone Number"),
@@ -1672,6 +1713,17 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(controller.checkCountryLength.value),
                 ],
+                errorText: controller.phoneNumberError.value.isNotEmpty ? controller.phoneNumberError.value : "",
+                onChanged: (value) {
+                  // mobNoCon.value.text = profileApiData.value.vendor?.phone ?? "";
+                  // countryCode = profileApiData.value.vendor?.phoneCode ?? "";
+                  if (value.length == controller.checkCountryLength.value &&
+                      (controller.mobNoCon.value.text != controller.profileApiData.value.vendor?.phone ||controller.countryCode != controller.profileApiData.value.vendor?.phoneCode)) {
+                    controller.checkNumberValidation();
+                  } else {
+                    controller.setPhoneNumberError("");
+                  }
+                },
                 borderDecoration:  OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.all(Radius.circular(14.r)),
@@ -1691,6 +1743,12 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                               .countryPhoneDigits[countryCode.code.toString()];
                           if(countryLength != null){
                             controller.checkCountryLength.value = countryLength;
+                          }
+                          if (countryLength == controller.checkCountryLength.value &&
+                              (controller.mobNoCon.value.text != controller.profileApiData.value.vendor?.phone ||controller.countryCode != controller.profileApiData.value.vendor?.phoneCode)) {
+                            controller.checkNumberValidation();
+                          } else {
+                            controller.setPhoneNumberError("");
                           }
                         },
                         // initialSelection: "IN"
@@ -1797,7 +1855,7 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                     controller.coverImage.value?.path == null &&
                     controller.profileApiData.value.vendor?.step == "1"
                     ? AppColors.errorColor
-                    : AppColors.primary.withOpacity(0.5),
+                    : AppColors.primary.withValues(alpha: 0.5),
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: Center(
@@ -2254,6 +2312,54 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
     );
   }
 
+  void showInfoBottomSheet({required BuildContext context,required String title,required String description}) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                height: 4,
+                width: 40,
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+             Text(
+              title,
+              maxLines: 10,
+              textAlign: TextAlign.left,
+              style:AppFontStyle.text_16_500(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold),
+            ),
+
+            const SizedBox(height: 6),
+
+            /// Description
+            Text(
+              description,
+              maxLines: 20,
+              textAlign: TextAlign.left,
+                style:AppFontStyle.text_15_400(AppColors.black,fontFamily: AppFontFamily.gilroyMedium),
+            ),
+
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+      isScrollControlled: true,
+    );
+  }
 }
 Widget header({String? title, String? description}) {
   return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

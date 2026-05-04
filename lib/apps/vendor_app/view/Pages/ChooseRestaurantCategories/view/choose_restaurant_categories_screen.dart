@@ -206,51 +206,41 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
             : const SizedBox.shrink(),
 
         hintText:
-        controller.selectedTypeIndex.value == 0 ? "Search Category" : "Search Cuisine",
+        controller.selectedTypeIndex.value == 0 ? "Search Category" : "",
       ),
     );
   }
 
-
-  // CustomElevatedButton continueButton() {
-  //   return CustomElevatedButton(
-  //     isLoading: controller.rxRequestStatus2.value == ApiStatus.LOADING,
-  //     onPressed: () {
-  //       if (controller.selectedCategories.isNotEmpty && controller.selectedTypeIndex.value == 0) {
-  //         controller.updateSelectedType(1);
-  //         // controller.categoriesUpdateApi().then((value){
-  //         //   controller.restaurantCategoryController.getCategoriesApi();
-  //         // });
-  //       }else if (controller.selectedCuisines.isNotEmpty && controller.selectedTypeIndex.value == 1) {
-  //         if(controller.selectedCategories.isEmpty){
-  //           Utils.showToast("Please choose categories");
-  //         }else{
-  //           controller.categoriesCuisinesAddApi();
-  //         }
-  //       } else {
-  //         Utils.showToast("Please choose ${controller.selectedTypeIndex.value == 0 ? "categories" : "cuisines"}");
-  //       }
-  //     },
-  //     text: "Save",
-  //     // text:controller.userModel.step == 3 ? "Update": "Save",
-  //   );
-  // }
   CustomElevatedButton continueButton() {
+    print("SELECTED CATEGORIES: ${controller.selectedCategories}");
     return CustomElevatedButton(
       isLoading: controller.rxRequestStatus2.value == ApiStatus.LOADING,
       onPressed: () {
-        pt("Selected: ${controller.selectedCategories}");
-
-        if (controller.selectedCategories.isEmpty ||
-            controller.selectedCategories.isEmpty) {
+        if (controller.selectedCategories.isNotEmpty) {
+          controller.categoriesCuisinesAddApi();
+        } else {
           Utils.showToast("Please choose categories");
-          return;
         }
-        controller.categoriesCuisinesAddApi();
       },
       text: "Save",
     );
   }
+  // CustomElevatedButton continueButton() {
+  //   return CustomElevatedButton(
+  //     isLoading: controller.rxRequestStatus2.value == ApiStatus.LOADING,
+  //     onPressed: () {
+  //       pt("Selected: ${controller.selectedCategories}");
+  //
+  //       if (controller.selectedCategories.isEmpty ||
+  //           controller.selectedCategories.isEmpty) {
+  //         Utils.showToast("Please choose categories");
+  //         return;
+  //       }
+  //       controller.categoriesCuisinesAddApi();
+  //     },
+  //     text: "Save",
+  //   );
+  // }
   // cuisinesList(List<Cuisines>? dataList) {
   //   return (dataList?.isEmpty ?? false) ? CustomNoResultFound(heightBox: hBox(0)) :
   //   ListView.separated(

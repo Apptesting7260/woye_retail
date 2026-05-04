@@ -31,7 +31,6 @@ import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.d
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../vendor_common/NoTransactionFoundWidget/no_transaction_found_widget.dart';
 import '../../../vendor_common/common_appbar_header/common_appbar_header.dart';
-import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 import '../controller/restaurant_wallets_controller.dart';
 
 class WalletScreen extends StatefulWidget {

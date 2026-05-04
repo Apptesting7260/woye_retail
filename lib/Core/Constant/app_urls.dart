@@ -15,6 +15,7 @@ class AppUrls {
   static String get verifyForgotOtp => '$baseUrl/verify-otp-forgot-password';
   static String get changePasswordApi => '$baseUrl/change-password';
   static String get vendorForgotResendOtp => '$baseUrl/resend-verify-otp-forgot-password';
+  static const String numberValidation = "$baseUrl/verify-phone";
 
   /* ---------------- Mapbox -----------------------------------------  */
 

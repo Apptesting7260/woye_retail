@@ -22,14 +22,21 @@ class CustomConfirmPasswordDialog extends StatelessWidget {
   final bool? isContactBtn;
   final bool? isShowCloseBtn;
   final bool? isShowCancelCircleBtn;
+  final bool? isUploadDocs;
   final Color? isErrorIconsClr;
   final VoidCallback? isContactBtnOnTap;
+  final VoidCallback? isDocsBtnOnTap;
+
   final bool? isLoading;
+
 
   const CustomConfirmPasswordDialog({
     super.key,
     this.isTitle = true,
     this.subTitle,
+    this.isUploadDocs = false,
+    this.isDocsBtnOnTap,
+
     this.isError,
     this.title,
     this.onTap,

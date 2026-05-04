@@ -20,7 +20,7 @@ import '../../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../RestaurantInformation/view/restaurant_information_screen.dart';
 import '../controller/res_add_new_user_controller.dart';
 
 class ResAddNewUserScreen extends GetView<ResAddNewUserController>{

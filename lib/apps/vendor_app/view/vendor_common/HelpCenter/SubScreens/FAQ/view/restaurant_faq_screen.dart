@@ -11,7 +11,7 @@ import '../../../../../../../../shared/theme/font_style.dart';
 import '../../../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/app_container.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
-import '../../../../../Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../../../../Pages/Profile/Sub_Screens/Setting/RestaurantInformation/view/restaurant_information_screen.dart';
 import '../../../../Models/faq_privacy_term_condition_model.dart';
 import '../controller/restaurant_faq_controller.dart';
 

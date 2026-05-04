@@ -14,6 +14,9 @@ class UserPreference {
     sp.setString('loginType', responseModel.loginType!);
     sp.setString('role', responseModel.loginType!);
     debugPrint('token ===>>> ${sp.getString('token')}');
+    debugPrint('TOKEN SAVED ===>>> ${sp.getString('token')}');
+    debugPrint('TYPE SAVED ===>>> ${sp.getString('loginType')}');
+    debugPrint('STEP SAVED ===>>> ${sp.getInt('Step')}');
 
     return true;
   }

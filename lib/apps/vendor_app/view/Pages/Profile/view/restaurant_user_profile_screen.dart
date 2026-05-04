@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/AccountStatus/controller/vendor_account_status_controller.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../Data/response/status.dart';
 import '../../../../../../Utils/sized_box.dart';
@@ -13,7 +15,6 @@ import '../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_delete_alert_dialog.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_profile_list_tile.dart';
 import '../Sub_Screens/RestaurantCategory/controller/restaurant_category_controller.dart';
-import '../Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 import '../controller/restaurant_user_profile_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final RestaurantUserProfileController controller = Get.put(RestaurantUserProfileController());
   final RestaurantCategoryController restaurantCategoryController =   Get.put(RestaurantCategoryController());
   final FillRestaurantDetailsController _fillRestaurantDetailsController =     Get.put(FillRestaurantDetailsController());
-  // final VendorAccountStatusController vendorAccountStatusController = Get.put(VendorAccountStatusController());
+  final VendorAccountStatusController vendorAccountStatusController = Get.put(VendorAccountStatusController());
 
   @override
   Widget build(BuildContext context) {

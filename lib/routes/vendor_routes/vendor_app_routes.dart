@@ -32,7 +32,8 @@ import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/ComplianceA
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/controller/restaurant_compliance_and_licenses_binding.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/view/restaurant_compliance_and_licenses_view.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantConfiguration/view/restaurant_configuration.dart';
-import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/binding/res_information_bindings.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/view/restaurant_information_screen.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/Security/binding/res_security_settings_bindings.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/Security/view/res_security_settings_screen.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/UserAccessControl/binding/res_user_access_binding.dart';
@@ -184,7 +185,7 @@ class VendorAppRoutes {
      GetPage(name: restaurantPrivacyPolicyScreen, page: () => const RestaurantPrivacyPolicyScreen(),binding: ResFaqsBinding()),
      // GetPage(name: restaurantSupportScreen, page: () => const RestaurantSupportScreen(),binding: ResSupportBinding()),
      GetPage(name: restaurantTnCScreen, page: () => const RestaurantTncScreen(),binding: ResFaqsBinding()),
-    GetPage(name: restaurantInformationScreens, page: () => const RestaurantInformationScreens()),
+    GetPage(name: restaurantInformationScreens, page: () =>  RestaurantInformationScreens(),binding: ResInformationBindings()),
     GetPage(name: restaurantAddProductScreen, page: () => RestaurantAddProductScreen()),
     GetPage(name: restaurantMyAccountScreen, page: () => RestaurantMyAccountScreen()),
     // GetPage(name: userPasswordChangeScreen, page: () => UserPasswordChangeScreen()),
@@ -192,7 +193,6 @@ class VendorAppRoutes {
     GetPage(name: restaurantProfileScreen, page: () => const ProfileScreen()),
     GetPage(name: restaurantEditProductScreen, page: () => RestaurantEditProductScreen()),
     GetPage(name: resOrderTranHisScreen, page: () => const ResOrderTransHistoryScreen()),
-    // GetPage(name: prescriptionsScreen, page: () => const PrescriptionsScreen()),
     GetPage(name: restaurantMenuFilterScreen, page: () => const RestaurantMenuFilterScreen()),
     GetPage(name: restaurantBulkUploadMenuItems, page: () => const RestaurantBulkUploadMenuItems()),
     GetPage(name: restaurantExportMenuItemScreen, page: () => const RestaurantExportMenuItemScreen(),binding: RestaurantExportMenuBinding()),

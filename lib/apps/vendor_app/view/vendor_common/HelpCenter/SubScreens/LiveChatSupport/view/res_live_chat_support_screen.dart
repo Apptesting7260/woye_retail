@@ -11,7 +11,7 @@ import '../../../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../../../shared/widgets/image.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/app_container.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
-import '../../../../../Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../../../../Pages/Profile/Sub_Screens/Setting/RestaurantInformation/view/restaurant_information_screen.dart';
 import '../../RestaurantSupport/controller/restaurant_support_controller.dart';
 
 class ResLiveChatSupportScreen extends StatelessWidget{

@@ -6,7 +6,7 @@ import '../../../../../../../../Data/response/api_response.dart';
 import '../../../../../../../../Utils/snack_bar.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../../../vendor_common/Models/common_response_model.dart';
-import '../../../../Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
+import '../../../../Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
 import '../model/all_bank_list_model.dart';
 import '../model/bank_details_model.dart';
 

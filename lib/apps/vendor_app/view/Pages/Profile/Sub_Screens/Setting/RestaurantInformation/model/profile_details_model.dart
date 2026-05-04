@@ -59,9 +59,13 @@
 //   }
 // }
 
+import 'dart:convert';
+
 class ProfileDetailsModel {
   bool? status;
   bool? isProfileComplete;
+  bool? isRequiredUploaded;
+  bool? isRequiredVerified;
   Vendor? vendor;
   List<String>? serviceTypeOptions;
   List<CuisineOptions>? cuisineOptions;
@@ -78,12 +82,16 @@ class ProfileDetailsModel {
     this.insuranceOptions,
     this.permissions,
     this.isProfileComplete,
+    this.isRequiredUploaded,
+    this.isRequiredVerified,
   });
 
   factory ProfileDetailsModel.fromJson(Map<String, dynamic> json) {
     return ProfileDetailsModel(
       status: json['status'] ?? false,
       isProfileComplete: json['is_profilecomplete'],
+      isRequiredVerified: json['is_required_verified'],
+      isRequiredUploaded: json['is_required_uploaded'],
       vendor: json['vendor'] != null ? Vendor.fromJson(json['vendor']) : null,
       serviceTypeOptions: json['service_type_options'] != null
           ? List<String>.from(
@@ -113,6 +121,8 @@ class ProfileDetailsModel {
     return {
       'status': status,
       'is_profilecomplete' : isProfileComplete,
+      'is_required_uploaded' : isRequiredUploaded,
+      'is_required_verified' : isRequiredVerified,
       'vendor': vendor?.toJson(),
       'service_type_options': serviceTypeOptions,
       'permissions': permissions,
@@ -409,8 +419,14 @@ class Vendor {
         categoryIds!.add(CategoryIds.fromJson(v));
       });
     }
+    // openingHours = json['opening_hours'] != null
+    //     ? OpeningHours.fromJson(json['opening_hours'])
+    //     : null;
+    //
     openingHours = json['opening_hours'] != null
-        ? OpeningHours.fromJson(json['opening_hours'])
+        ? (json['opening_hours'] is String
+        ? OpeningHours.fromJson(jsonDecode(json['opening_hours']))
+        : OpeningHours.fromJson(json['opening_hours']))
         : null;
     if (json['cuisine_ids'] != null) {
       cuisineIds = <CuisineIds>[];

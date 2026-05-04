@@ -24,7 +24,7 @@ import '../../../../../../routes/vendor_routes/vendor_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/widgets/vendor_widgets/address_fromgoogle/modal/google_location_model.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/model/register_vendor_model.dart';
+import '../../Profile/Sub_Screens/Setting/RestaurantInformation/model/register_vendor_model.dart';
 import '../model/profile_details_model.dart';
 
 class ResProfileDetailsDetailsController extends GetxController {
@@ -272,7 +272,6 @@ class ResProfileDetailsDetailsController extends GetxController {
           Get.offAndToNamed(VendorAppRoutes.chooseRestaurantCategoriesScreen);
           Utils.showToast(registerData.value.message ?? "Registration successfully completed");
         }
-
         update();
       } else if (registerData.value.status == false) {
         rxUpdateProfileRequestStatus(ApiStatus.ERROR);
