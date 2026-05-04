@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/product_delete_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/product_list_model.dart';
 import '../../../../../../Data/Repository/repository.dart';
 import '../../../../../../Data/response/status.dart';
 import '../../../../../../Utils/snack_bar.dart';
-import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 
 class RestaurantProductController extends GetxController {
 

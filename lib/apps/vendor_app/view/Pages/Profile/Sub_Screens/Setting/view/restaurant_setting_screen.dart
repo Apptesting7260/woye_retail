@@ -11,6 +11,7 @@ import '../../../../../../../../shared/theme/font_family.dart';
 import '../../../../../../../../shared/theme/font_style.dart';
 import '../../../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/app_container.dart';
+import '../../../../../../../../shared/widgets/vendor_widgets/print.dart';
 class RestaurantSettingScreen extends StatefulWidget {
   const RestaurantSettingScreen({super.key});
 
@@ -39,11 +40,11 @@ class _RestaurantSettingScreenState extends State<RestaurantSettingScreen> {
       userRole = await UserPreference.getUserRole();
 
       if (userRole.toLowerCase() == UserType.accountant.name || userRole.replaceAll(" ", "").toLowerCase() == UserType.kitchenstaff.name || userRole.replaceAll(" ", "").toLowerCase() == UserType.servicestaff.name) {
-        mapList.assignAll([ "Restaurant Information","Security"]);
+        mapList.assignAll([ "Store Information","Security"]);
       }else if (userRole.replaceAll(" ", "").toLowerCase() == UserType.vendormanager.name) {
-        mapList.assignAll(["Restaurant Information","Restaurant Configuration","Compliance & Licenses","Security",]);
+        mapList.assignAll(["Store Information","Store Configuration","Compliance & Licenses","Security",]);
       } else {
-        mapList.assignAll(["Restaurant Information","Restaurant Configuration","Compliance & Licenses","User Access Control","Security",]);
+        mapList.assignAll(["Store Information","Store Configuration","Compliance & Licenses","User Access Control","Security",]);
       }
     });
   }
@@ -51,7 +52,7 @@ class _RestaurantSettingScreenState extends State<RestaurantSettingScreen> {
   @override
   Widget build(BuildContext context) {
     final arguments = Get.arguments ?? {};
-    final vendorType = arguments['vendorType'] ?? "restaurant";
+    final vendorType = arguments['vendorType'] ?? "Store";
     return Container(
       color: AppColors.backgroundClr,
       child: SafeArea(
@@ -72,44 +73,46 @@ class _RestaurantSettingScreenState extends State<RestaurantSettingScreen> {
         itemCount: mapList.length,
         itemBuilder: (context, index) {
           return InkWell(
-            // onTap: () {
-            //   switch(index){
-            //     case 0 :
-            //       Get.toNamed(AppRoutes.restaurantInformationScreens);
-            //     case 1 :
-            //       Get.toNamed(AppRoutes.restaurantConfigurationScreen);
-            //     case 2 :
-            //       Get.toNamed(AppRoutes.restaurantComplianceAndLicensesScreen);
-            //    case 3 :
-            //       Get.toNamed(AppRoutes.resUserAccessScreen);
-            //   case 4 :
-            //       Get.toNamed(AppRoutes.resSecuritySettingsScreen);
-            //   }
-            // },
-              onTap: () {
-                switch (mapList[index]) {
+            onTap: () {
+              switch(index){
+                case 0 :
+                  Get.toNamed(VendorAppRoutes.restaurantInformationScreens);
+                case 1 :
+                  Get.toNamed(VendorAppRoutes.restaurantConfigurationScreen);
+                case 2 :
+                  Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
+               case 3 :
+                  Get.toNamed(VendorAppRoutes.resUserAccessScreen);
+              case 4 :
+                  Get.toNamed(VendorAppRoutes.resSecuritySettingsScreen);
+              }
+            },
 
-                  case "Store Information":
-                    Get.toNamed(VendorAppRoutes.restaurantInformationScreens);
-                    break;
-
-                  case "Store Configuration":
-                    Get.toNamed(VendorAppRoutes.restaurantConfigurationScreen);
-                    break;
-
-                  case "Compliance & Licenses":
-                    Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
-                    break;
-
-                  case "User Access Control":
-                    Get.toNamed(VendorAppRoutes.resUserAccessScreen);
-                    break;
-
-                  case "Security":
-                    Get.toNamed(VendorAppRoutes.resSecuritySettingsScreen);
-                    break;
-                }
-              },
+            //   onTap: () {
+            //     pt("${mapList[index]} clicked>>>>>>>>>>>>>>>>>");
+            //     switch (mapList[index]) {
+            //
+            //       case "Store Information":
+            //         Get.toNamed(VendorAppRoutes.restaurantInformationScreens);
+            //         break;
+            //
+            //       case "Store Configuration":
+            //         Get.toNamed(VendorAppRoutes.restaurantConfigurationScreen);
+            //         break;
+            //
+            //       case "Compliance & Licenses":
+            //         Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
+            //         break;
+            //
+            //       case "User Access Control":
+            //         Get.toNamed(VendorAppRoutes.resUserAccessScreen);
+            //         break;
+            //
+            //       case "Security":
+            //         Get.toNamed(VendorAppRoutes.resSecuritySettingsScreen);
+            //         break;
+            //     }
+            //   },
               child: AppContainer(
               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 14),
               boxShadow: const [],

@@ -14,7 +14,7 @@ import '../../../../../../../../../shared/widgets/vendor_widgets/custom_elevated
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_switch_btn.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
-import '../../RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../RestaurantInformation/view/restaurant_information_screen.dart';
 import '../controller/res_security_settings_controller.dart';
 
 class ResSecuritySettingsScreen extends GetView<ResSecuritySettingsController> {

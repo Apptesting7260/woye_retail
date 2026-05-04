@@ -82,7 +82,6 @@ class LoginController extends GetxController {
             "email": value.email,
             "type": "2fa"
           });
-
           Utils.showToast(value.message ?? "");
           return;
         }
@@ -97,9 +96,10 @@ class LoginController extends GetxController {
         userModel.isLogin = value.status ?? false;
 
         pref.saveUser(userModel);
-        if (value.type == "retail" || selectedType.value == "vendor") {
-          Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
-        }
+        singleVendorRouting();
+        // if (value.type == "retail" || selectedType.value == "vendor") {
+        //   Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
+        // }
       } else {
         setRxRequestStatus(ApiStatus.ERROR);
         Utils.showToast(value.message ?? "Login failed");
@@ -109,7 +109,26 @@ class LoginController extends GetxController {
       pt("LOGIN ERROR: $error");
     });
   }
+  void singleVendorRouting() {
+    final step = int.tryParse(apiData.value.step.toString()) ?? 1;
 
+    switch (step) {
+      case 1:
+        Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
+        break;
+
+      case 2:
+        Get.offAllNamed(VendorAppRoutes.chooseRestaurantCategoriesScreen);
+        break;
+
+      case 3:
+        Get.offAllNamed(VendorAppRoutes.restaurantNavbarScreen);
+        break;
+
+      default:
+        Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
+    }
+  }
   void togglePassword() {
     isShowPassword.value = !isShowPassword.value;
   }

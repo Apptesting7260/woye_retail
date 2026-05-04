@@ -11,6 +11,7 @@ import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/mod
 import 'package:gyaawa/apps/vendor_app/view/Pages/FillRestaurantDetails/model/profile_details_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/menu/model/restaurant_menu_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/AccountStatus/model/vendor_account_status_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/choose_common_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_export_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_get_category_model.dart';
@@ -35,9 +36,9 @@ import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/AddMenuCate
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/AddNewUser/model/get_user_details_model.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/SubScreens/DocumentsDetail/model/res_document_details_model.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/ComplianceAndLicenses/model/get_compliance_and_licenses_model.dart';
-import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/profile_details_model.dart';
-import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/register_vendor_model.dart';
-import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/update_information_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/profile_details_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/register_vendor_model.dart';
+import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/update_information_model.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/UserAccessControl/model/res_user_access_model.dart';
 import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/Models/restaurant_get_addon_model.dart';
 import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/Models/restaurant_get_cuisine_type_model.dart';
@@ -79,7 +80,24 @@ class Repository {
     log("Step ${userModel.step}");
     log("Step >>>>>>>>>>>>>>>>>${userModel.step}");
   }
+  /*------------------- Account Status Universal -----------------------*/
+  Future<dynamic> getAccountStatusApi() async {
+    await initializeUser();
+    dynamic response;
+    if(token.isNotEmpty) {
+      response = await _apiService.getApi(AppUrls.accountStatusUrl, token);
+      return VendorAccountStatusModel.fromJson(response);
+    }
+    return VendorAccountStatusModel();
+  }
 
+  /* ------------------------------------------------ Shop Status ----------------------------------------------------*/
+
+  Future<CommonResponseModel> shopStatusApi(var data) async {
+    initializeUser();
+    dynamic response = await _apiService.postApi2(data, AppUrls.shopStatus, token);
+    return CommonResponseModel.fromJson(response);
+  }
   // >>>>>>>>>>>>>>>>>>>>>>>> vendor SignUp>>>>>>>>>>>>>>>
 
   Future<dynamic> createVendorApi(var data) async {
@@ -173,7 +191,14 @@ Future<dynamic> vendorResendOtpApi(var data) async {
     dynamic response = await _apiService.getApiWithParams(AppUrls.dashboardUrl, token,queryParameters: queryParameters);
     // log("repo dash response ====>>> $response");
     return DashboardModel.fromJson(response);
+  } /* ------------------------------------------------ number validation ----------------------------------------------------*/
+
+  Future<CommonResponseModel> phoneNumberValidation(var data) async {
+    initializeUser();
+    dynamic response = await _apiService.postApi(data,AppUrls.numberValidation, token);
+    return CommonResponseModel.fromJson(response);
   }
+
   Future<CommonResponseModel> markReadyApi(var data) async {
     await initializeUser();
     dynamic response = await _apiService.postApi2(data , AppUrls.markReadyUrl, token);

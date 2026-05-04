@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 
 class RestaurantDetailsController extends GetxController {
   final FillRestaurantDetailsController fillRestaurantDetailsController = Get.put(FillRestaurantDetailsController());

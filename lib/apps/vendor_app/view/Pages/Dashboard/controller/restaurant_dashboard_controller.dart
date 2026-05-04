@@ -1,27 +1,30 @@
-
+import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/Data/response/status.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/AccountStatus/controller/vendor_account_status_controller.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_response_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/dashboard_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Data/Repository/repository.dart';
 import '../../../../../../Data/response/api_response.dart';
-import '../../../../../../Data/response/status.dart';
+import '../../../../../../Utils/snack_bar.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../../vendor_common/Models/common_response_model.dart';
-import '../../../vendor_common/Models/dashboard_model.dart';
-import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 
 class RestaurantDashboardController extends GetxController {
   var selectedRevenueTrend =  Rxn<String>("");
   var recentOrderSelectedDay =Rxn<String>("");
 
-  List<Color> recentOrderCardClr = [AppColors.primary,AppColors.blueLightColor,AppColors.yellow];
+  List<Color> recentOrderCardClr = [AppColors.primary,AppColors.lightBleColor,AppColors.yellowClr];
 
   FillRestaurantDetailsController fillRestaurantDetailsController =  Get.put(FillRestaurantDetailsController());
-  VendorNavbarController navbarController = Get.put(VendorNavbarController());
-  // VendorAccountStatusController vendorAccountStatusController = Get.put(VendorAccountStatusController());
+  VendorNavbarController vendorNavbarController = Get.put(VendorNavbarController());
+  VendorAccountStatusController vendorAccountStatusController = Get.put(VendorAccountStatusController());
   RxBool getProfile = false.obs;
 
 
@@ -100,94 +103,38 @@ getInitData() async {
   setSwitchData(ApiResponse<CommonResponseModel> response){
     _switchBtnData.value = response;
   }
-  //
-  // Future<void> toggleShopStatus() async {
-  //
-  //   setSwitchData(ApiResponse.loading());
-  //
-  //   var data = {
-  //     "shop_status": isShopOpen.value == true ? "1" : "0",
-  //   };
-  //
-  //   await api.shopStatusApi(jsonEncode(data)).then((value) {
-  //     if(value?.status == true){
-  //       setSwitchData(ApiResponse.completed(value));
-  //       Utils.showToast(value?.message ?? "");
-  //       dashboardApi(isOrderLoading: false,isRefresh: false,isRevenueLoading: false);
-  //     }else{
-  //       setSwitchData(ApiResponse.completed(value));
-  //       Utils.showToast(value?.message ?? "");
-  //     }
-  //   },).onError((error, stackTrace) {
-  //     pt("error while updating shop status $error  $stackTrace");
-  //     Utils.showToast(error.toString());
-  //   },);
-  //
-  // }
+
+  Future<void> toggleShopStatus() async {
+
+    setSwitchData(ApiResponse.loading());
+
+    var data = {
+      "shop_status": isShopOpen.value == true ? "1" : "0",
+    };
+
+    await api.shopStatusApi(jsonEncode(data)).then((value) {
+      if(value.status == true){
+        setSwitchData(ApiResponse.completed(value));
+        Utils.showToast(value.message ?? "");
+        dashboardApi(isOrderLoading: false,isRefresh: false,isRevenueLoading: false);
+      }else{
+        setSwitchData(ApiResponse.completed(value));
+        Utils.showToast(value.message ?? "");
+      }
+    },).onError((error, stackTrace) {
+      pt("error while updating shop status $error  $stackTrace");
+      Utils.showToast(error.toString());
+    },);
+
+  }
 
   RxBool isShopOpen = false.obs;
-  //
-  // void toggleSwitch(bool value) {
-  //   isShopOpen.value = value;
-  //   toggleShopStatus();
-  // }
 
-  // calculateMinAndMaxVal({required String peak,required String totalRevenue}){
-  //   double minYValue =double.tryParse(peak ?? "0") ?? 0;
-  //   double maxYValue = double.tryParse(totalRevenue ?? "0") ?? 0;
-  //   double midYValue = (minYValue + maxYValue) / 2;
-  //
-  //   pt("minYValue $minYValue  maxYValue $maxYValue  midYValue $midYValue");
-  // }
+  void toggleSwitch(bool value) {
+    isShopOpen.value = value;
+    toggleShopStatus();
+  }
 
-
-  //-------------------------------------------- CALCULATE CHARTS --------------------------------------------
-
-  // final chartApiData = CalculateChartModel().obs;
-  // final rxChartRequestStatus = ApiStatus.COMPLETED.obs;
-
-  // void setChartRxRequestStatus(ApiStatus value) => rxChartRequestStatus.value = value;
-
-  // void chartSetData(CalculateChartModel value) => chartApiData.value = value;
-
-  // RxDouble charMaxValue = RxDouble(0);
-
-  // Future<void> chartApi() async {
-  //
-  //   var data = {
-  //     "chart" : selectedDay.value == "Weekly" ? "weekly" : selectedDay.value == "Monthly" ? "monthly" : selectedDay.value == "Yearly" ? "yearly" : null,
-  //   };
-  //
-  //   setChartRxRequestStatus(ApiStatus.LOADING);
-  //   api.calculateChartApi(data).then((value) {
-  //     chartSetData(value);
-  //     setChartRxRequestStatus(ApiStatus.COMPLETED);
-  //
-  //     if (chartApiData.value.upperCurve != null) {
-  //       for (int i = 0; i < chartApiData.value.upperCurve!.length; i++) {
-  //         if (charMaxValue.value < chartApiData.value.upperCurve![i]) {
-  //           charMaxValue.value = chartApiData.value.upperCurve![i];
-  //         }
-  //         // print("charMaxValue: ${charMaxValue.value}");
-  //       }
-  //     }
-  //     double roundUpToNext1000(double value) {
-  //       if (value < 3000) {
-  //         return ((value / 500).ceil()) * 500;
-  //       }
-  //       return ((value / 1000).ceil()) * 1000;
-  //     }
-  //
-  //     charMaxValue.value = roundUpToNext1000(charMaxValue.value < 1000 ? 1000 : charMaxValue.value );
-  //     debugPrint("Final charMaxValue: ${charMaxValue.value}");
-  //
-  //     debugPrint("chart response data $value ");
-  //   }).onError((error, stackError) {
-  //     setError(error.toString());
-  //     debugPrint(error.toString());
-  //     setChartRxRequestStatus(ApiStatus.ERROR);
-  //   });
-  // }
 
   GlobalKey todayRevenueKey = GlobalKey();
 
@@ -204,13 +151,13 @@ getInitData() async {
   }
 
   final List<String> iconList = [
-    ImageConstants.dollarImg,
-    ImageConstants.cartIcon,
-    ImageConstants.orderValue,
-    // ImageConstants.starLogo,
+    ImageConstants.revenue,
+    ImageConstants.productImage,
+    ImageConstants.save,
+    ImageConstants.starLogo,
   ];
 
-  List<Color> cardColor = [AppColors.primary,AppColors.blueClr,AppColors.purpleColor,AppColors.yellow];
+  List<Color> cardColor = [AppColors.primary,AppColors.blueClr,AppColors.purpleColor,AppColors.yellowClr];
   List<String> cardTitle = ["Today’s Revenue","Total Products","Avg Order Value","Customer Rating"];
   List<String> revenueTrend = ["Last 7 Days","Last 30 Days","Last 3 Month","Last 12 Months"];
   List<String> orderStatusList = ["Today","Week","Month","Year"];
@@ -220,11 +167,11 @@ getInitData() async {
       case "Delivered" :
        return AppColors.primary;
       case "Pending":
-        return AppColors.yellow;
+        return AppColors.yellowClr;
       case "Processing":
         return AppColors.blueClr;
       default:
-        return AppColors.greenTextClr;
+        return AppColors.greenClr;
     }
   }
 

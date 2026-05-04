@@ -3,31 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/Utils/account_type_card.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Dashboard/controller/restaurant_dashboard_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
-import 'package:gyaawa/shared/widgets/vendor_widgets/custom_details_card.dart';
+import 'package:gyaawa/routes/vendor_routes/vendor_app_routes.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Data/components/general_exception.dart';
 import '../../../../../../Data/components/internet_exception.dart';
 import '../../../../../../Data/response/status.dart';
-import '../../../../../../Utils/account_type_card.dart';
 import '../../../../../../Utils/sized_box.dart';
-import '../../../../../../routes/vendor_routes/vendor_app_routes.dart';
 import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/image.dart';
 import '../../../../../../shared/widgets/shimmer_widget.dart';
 import '../../../../../../shared/widgets/vendor_widgets/app_container.dart';
+import '../../../../../../shared/widgets/vendor_widgets/custom_details_card.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
-import '../../../../../../shared/widgets/vendor_widgets/custom_switch_btn.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
-
 import '../../../vendor_common/chart/common_chart.dart';
 import '../../../vendor_common/common_appbar_header/common_appbar_header.dart';
-import '../../../vendor_navbar/controller/vendor_navbar_controller.dart';
 
 
 
@@ -41,8 +38,7 @@ class RestaurantDashboardScreen extends StatefulWidget {
 
 class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
 
-  // final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
-  final RestaurantDashboardController controller = Get.put (RestaurantDashboardController());
+  final RestaurantDashboardController controller = Get.find<RestaurantDashboardController>();
   // final FillRestaurantDetailsController fillResController = Get.put(FillRestaurantDetailsController());
 
   @override
@@ -149,7 +145,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
       Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: AppColors.blueLightColor,
+          color: AppColors.blueLightColor
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 14),
@@ -178,7 +174,6 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                           fontFamily: AppFontFamily.gilroyMedium)),
                 ],
               ),
-
              // const Spacer(),
              // Obx(
              //   ()=> CustomWideSwitch(
@@ -189,7 +184,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
              //        value: controller.isShopOpen.value,
              //        onChanged: (value) {
              //          pt("value $value");
-             //          // controller.toggleSwitch(value);
+             //          controller.toggleSwitch(value);
              //        },
              //      ),
              // ),
@@ -223,7 +218,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
           children: [
             Text(
               "Recent Order",
-              style: AppFontStyle.text_20_400(AppColors.black,
+              style: AppFontStyle.text_20_400(AppColors.blackClr,
                   fontFamily: AppFontFamily.gilroySemiBold),
             ),
             TextButton.icon(
@@ -231,7 +226,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                   overlayColor: WidgetStatePropertyAll(AppColors.transparent),
                   padding: const WidgetStatePropertyAll(EdgeInsets.zero)),
               onPressed: () {
-                controller.navbarController.getIndex(2);
+                controller.vendorNavbarController.getIndex(2);
               },
               icon: Text(
                 "See All",
@@ -274,7 +269,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                     children: [
                       Text(
                         "#${recentOrders?.orderId ?? ""}",
-                        style: AppFontStyle.text_16_400(AppColors.black,
+                        style: AppFontStyle.text_16_400(AppColors.blackClr,
                             fontFamily: AppFontFamily.gilroyMedium),
                       ),
                       hBox(1),
@@ -318,9 +313,22 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
           children: [
             Text(
               "Top Selling Items",
-              style: AppFontStyle.text_20_400(AppColors.black,
+              style: AppFontStyle.text_20_400(AppColors.blackClr,
                   fontFamily: AppFontFamily.gilroySemiBold),
             ),
+            // TextButton.icon(
+            //   style: ButtonStyle(
+            //       overlayColor: WidgetStatePropertyAll(AppColors.transparent),
+            //       padding: const WidgetStatePropertyAll(EdgeInsets.zero)),
+            //   onPressed: () {},
+            //   icon: Text(
+            //     "See All",
+            //     style: AppFontStyle.text_16_400(AppColors.primary,
+            //         fontFamily: AppFontFamily.gilroyMedium),
+            //   ),
+            //   label: Icon(Icons.arrow_forward,
+            //       color: AppColors.primary, weight: 2, size: 18),
+            // ),
           ],
         ),
         hBox(8.h),
@@ -336,7 +344,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
               borderRadius: BorderRadius.circular(12),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               boxShadow: const [],
-              color: AppColors.black.withAlpha(6),
+              color: AppColors.blackClr.withAlpha(6),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -355,7 +363,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                     children: [
                       Text(
                         topProductData?.name ?? "",
-                        style: AppFontStyle.text_16_400(AppColors.black,
+                        style: AppFontStyle.text_16_400(AppColors.blackClr,
                             fontFamily: AppFontFamily.gilroySemiBold),
                       ),
                       hBox(4),
@@ -391,7 +399,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
           children: [
             Text(
               "Customer Reviews",
-              style: AppFontStyle.text_20_400(AppColors.black,
+              style: AppFontStyle.text_20_400(AppColors.blackClr,
                   fontFamily: AppFontFamily.gilroySemiBold),
             ),
             TextButton.icon(
@@ -399,7 +407,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                   overlayColor: WidgetStatePropertyAll(AppColors.transparent),
                   padding: const WidgetStatePropertyAll(EdgeInsets.zero)),
               onPressed: () {
-                controller.navbarController.getIndex(4);
+                controller.vendorNavbarController.getIndex(4);
               },
               icon: Text(
                 "See All",
@@ -453,7 +461,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                         Text(
                           reviews?.name ?? "",
                           style: AppFontStyle.text_16_600(
-                            AppColors.black,
+                            AppColors.blackClr,
                             fontFamily: AppFontFamily.gilroyMedium,
                           ),
                         ),
@@ -467,7 +475,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                         if (rating >= i + 1) {
                           return Padding(
                               padding: const EdgeInsets.only(left: 3),
-                              child:AppImage(path: ImageConstants.starSvg,color: AppColors.goldStar,height: 15,width: 15)
+                              child:AppImage(path: ImageConstants.starLogo,color: AppColors.goldStar,height: 15,width: 15)
                           );
                         } else if (rating >= i + 0.5) {
                           return Padding(
@@ -477,7 +485,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                         } else {
                           return Padding(
                             padding: const EdgeInsets.only(left: 3),
-                            child: AppImage(path: ImageConstants.starSvg ,color: AppColors.grey.withAlpha(65),height: 15,width: 15),
+                            child: AppImage(path: ImageConstants.starLogo ,color: AppColors.grey.withAlpha(65),height: 15,width: 15),
                           );
                         }
                       },
@@ -573,7 +581,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                       fontFamily: AppFontFamily.gilroyMedium,
                     ),
                     textStyle: AppFontStyle.text_12_400(
-                      AppColors.black,
+                      AppColors.blackClr,
                       fontFamily: AppFontFamily.gilroyMedium,
                     ),
                     btnHeight: 31.5.h,
@@ -671,7 +679,23 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                               ),
                             );
                           },
-
+                          // getTitlesWidget: (value, meta) {
+                          //   bool isClose(double a, double b) => (a - b).abs() < 2;
+                          //
+                          //   if (isClose(value, maxYValue)) {
+                          //     return _yText(maxYValue);
+                          //   }
+                          //
+                          //   if (isClose(value, midYValue)) {
+                          //     return _yText(midYValue);
+                          //   }
+                          //
+                          //   if (isClose(value, minYValue)) {
+                          //     return _yText(minYValue);
+                          //   }
+                          //
+                          //   return const SizedBox.shrink();
+                          // },
                         ),
                       ),
                       rightTitles: const AxisTitles(
@@ -773,6 +797,21 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
     );
   }
 
+
+
+
+  Widget _yText(double value) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: Text(
+        value.toStringAsFixed(0),
+        textAlign: TextAlign.right,
+        style: AppFontStyle.text_12_400(AppColors.mediumText,fontFamily: AppFontFamily.gilroyMedium),
+      ),
+    );
+  }
+
+
   Widget orderStatus() {
     return Obx(
       () {
@@ -796,7 +835,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Order Status",
-                            style: AppFontStyle.text_18_400(AppColors.black,
+                            style: AppFontStyle.text_18_400(AppColors.blackClr,
                                 fontFamily: AppFontFamily.gilroySemiBold,
                             ),
                         ),
@@ -805,17 +844,17 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                           text:  TextSpan(
                             children: [
                               TextSpan(text: "Total: ",
-                                style: AppFontStyle.text_12_400(AppColors.black,
+                                style: AppFontStyle.text_12_400(AppColors.blackClr,
                                   fontFamily: AppFontFamily.gilroyRegular,
                                 ),
                               ),
                               TextSpan(text: orderStatus?.totalOrders ?? "0",
-                                style: AppFontStyle.text_12_400(AppColors.black,
+                                style: AppFontStyle.text_12_400(AppColors.blackClr,
                                   fontFamily: AppFontFamily.gilroySemiBold,
                                 ),
                               ),
                               TextSpan(text: " orders",
-                                style: AppFontStyle.text_12_400(AppColors.black,
+                                style: AppFontStyle.text_12_400(AppColors.blackClr,
                                   fontFamily: AppFontFamily.gilroyRegular,
                                 ),
                               )
@@ -835,7 +874,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                         fontFamily: AppFontFamily.gilroyMedium,
                       ),
                       textStyle: AppFontStyle.text_12_400(
-                        AppColors.black,
+                        AppColors.blackClr,
                         fontFamily: AppFontFamily.gilroyMedium,
                       ),
                       btnHeight: 31.5.h,
@@ -956,7 +995,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(title,
-                  style: AppFontStyle.text_14_500(AppColors.black,fontFamily: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_14_500(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium),
                 ),
                 hBox(2),
                 Padding(
@@ -966,7 +1005,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
                   ),
                 ),
                 hBox(2),
-                Text("$percentage%",style: AppFontStyle.text_14_600(AppColors.black,fontFamily: AppFontFamily.gilroyMedium),textAlign: TextAlign.center),
+                Text("$percentage%",style: AppFontStyle.text_14_600(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium),textAlign: TextAlign.center),
                 ],
             ),
           ),
@@ -975,7 +1014,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
     );
   }
 
-  Text percentageText({Color? color,required String title}) => Text(title,style: AppFontStyle.text_14_600(color ?? AppColors.black,fontFamily: AppFontFamily.gilroySemiBold),textAlign: TextAlign.center);
+  Text percentageText({Color? color,required String title}) => Text(title,style: AppFontStyle.text_14_600(color ?? AppColors.blackClr,fontFamily: AppFontFamily.gilroySemiBold),textAlign: TextAlign.center);
   Text percentageTitleText({Color? color,required String title}) => Text(title,style: AppFontStyle.text_12_400(color ?? AppColors.blueLightColor,fontFamily: AppFontFamily.gilroyMedium),textAlign: TextAlign.center);
 
   productDetailsCard() {
@@ -989,7 +1028,7 @@ class _RestaurantDashboardScreenState extends State<RestaurantDashboardScreen> {
       itemCount: controller.iconList.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 1.05,
+          childAspectRatio: 1.03,
           mainAxisSpacing: 15,
           crossAxisSpacing: 15,
       ),
@@ -1201,7 +1240,7 @@ Widget revenueTextWidget(String title,String price) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(title,style: AppFontStyle.text_14_400(AppColors.greenLightClr,fontFamily: AppFontFamily.arial)),
-      Text("\$${formatWithCommas(double.tryParse(price) ?? 0)}",style: AppFontStyle.text_20_400(AppColors.black,fontFamily: AppFontFamily.arialBold)),
+      Text("\$${formatWithCommas(double.tryParse(price) ?? 0)}",style: AppFontStyle.text_20_400(AppColors.blackClr,fontFamily: AppFontFamily.arialBold)),
     ],
   );
 }

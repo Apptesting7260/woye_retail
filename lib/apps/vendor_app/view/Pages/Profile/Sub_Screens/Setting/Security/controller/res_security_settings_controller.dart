@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
 import '../../../../../../../../../Data/Repository/repository.dart';
 import '../../../../../../../../../Data/response/api_response.dart';
 import '../../../../../../../../../Data/response/status.dart';
@@ -12,7 +13,6 @@ import '../../../../../../../../../shared/widgets/vendor_widgets/pref_utils.dart
 import '../../../../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../../../../vendor_common/Models/common_response_model.dart';
 import '../../../../../../vendor_common/UserPasswordChange/UpdatePasswordModel/update_password_model.dart';
-import '../../RestaurantInFormation/controller/restaurant_information_controller.dart';
 
 class ResSecuritySettingsController extends GetxController{
 

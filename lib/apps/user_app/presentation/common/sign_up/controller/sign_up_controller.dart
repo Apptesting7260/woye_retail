@@ -43,7 +43,7 @@ class SignUpController extends GetxController {
   //   super.onInit();
   // }
 
-  RxString selectedType = "retail".obs;
+  RxString selectedType = "customer".obs;
 
   void setCustomer() {
     selectedType.value = "customer";
@@ -144,10 +144,6 @@ class SignUpController extends GetxController {
       return "Please enter password";
     }
     String errorMessage = '';
-
-    if (password.length < 8) {
-      errorMessage += 'Password must be longer than 8 characters.\n';
-    }
 
     if (!password.contains(RegExp(r'[A-Z]'))) {
       errorMessage += 'At least one uppercase letter\n';

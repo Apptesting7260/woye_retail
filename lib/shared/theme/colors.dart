@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static Color white = Colors.white;
+  static Color lightBleColor = const Color(0xFF1380D7);
+
   static Color black = Colors.black;
   static Color goldStar = const Color.fromRGBO(248, 189, 0, 1);
   static Color chartBlueClr = const Color(0xFF3B82F6);

@@ -4,6 +4,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_response_model.dart';
+import 'package:gyaawa/routes/vendor_routes/vendor_app_routes.dart';
+import 'package:gyaawa/shared/widgets/vendor_widgets/address_fromgoogle/modal/google_location_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
@@ -17,12 +20,12 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../../../../../Data/Model/user_model.dart';
 import '../../../../../../../../../Data/Repository/repository.dart';
+import '../../../../../../../../../Data/response/api_response.dart';
 import '../../../../../../../../../Data/response/status.dart';
 import '../../../../../../../../../Data/user_preference_controller.dart';
+import '../../../../../../../../../Utils/check_routes_popup.dart';
 import '../../../../../../../../../Utils/snack_bar.dart';
-import '../../../../../../../../../routes/vendor_routes/vendor_app_routes.dart';
 import '../../../../../../../../../shared/theme/colors.dart';
-import '../../../../../../../../../shared/widgets/vendor_widgets/address_fromgoogle/modal/google_location_model.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_confirm_password_dialog.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_image_cropper.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/print.dart';
@@ -111,9 +114,7 @@ class FillRestaurantDetailsController extends GetxController {
   UserModel userModel = UserModel();
   UserPreference pref = UserPreference();
 
-  RxString userRole = "3".obs;
-
-
+  RxString userRole = "".obs;
 
   void getInitData() async {
     userModel = await pref.getUser();
@@ -230,53 +231,50 @@ class FillRestaurantDetailsController extends GetxController {
     }
   }
 
-  //<<----------------------Hop hours time ------------------>>
-
- /* final List<String> days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ];
-  final RxList<RxBool> isToggleList = List.generate(7, (_) => false.obs).obs;
-  final RxList<RxBool> isSwitchActive = List.generate(7, (_) => false.obs).obs;
-  RxList<String> openingTimes = <String>[].obs;
-  RxList<String> closingTimes = <String>[].obs;
-
-  void initAllLists() {
-    print("Init called days = ${days.length}");
-
-    for (int i = 0; i < days.length; i++) {
-      isSwitchActive.add(false.obs);
-      isToggleList.add(false.obs);
-
-      shopStartTimeControllers.add(TextEditingController());
-      shopClosedTimeControllers.add(TextEditingController());
-
-      shopStartTimeKey.add(GlobalKey<FormState>());
-      shopClosedTimeKey.add(GlobalKey<FormState>());
-
-      openingTimes.add("08:00 AM");
-      closingTimes.add("08:00 PM");
-    }
-
-    print("Switch length = ${isSwitchActive.length}");
-    print("Opening = ${openingTimes.length}");
+  void scrollToTop() {
+    scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 
-  List<TextEditingController> shopStartTimeControllers =
-      List.generate(7, (index) => TextEditingController()).obs;
-  List<TextEditingController> shopClosedTimeControllers =
-      List.generate(7, (index) => TextEditingController()).obs;
+  //<<---------------------- Check Phone number ------------------>>
 
-  List<GlobalKey> shopStartTimeKey = List.generate(7, (index) => GlobalKey()).obs;
-  List<GlobalKey> shopClosedTimeKey = List.generate(7, (index) => GlobalKey()).obs;*/
+  final Rx<ApiResponse<CommonResponseModel>> _checkPhoneNumberValidation = Rx<ApiResponse<CommonResponseModel>>(ApiResponse.loading());
+  Rx<ApiResponse<CommonResponseModel>> get checkPhoneNumberValidation => _checkPhoneNumberValidation;
+  setPhoneValidation(ApiResponse<CommonResponseModel> value) => _checkPhoneNumberValidation.value = value;
 
-  // RxBool showDialog = false.obs;
-  // RxBool isSuspendedDialogShown = false.obs;
+  RxString phoneNumberError = "".obs;
+  setPhoneNumberError(String value) {
+    phoneNumberError.value = value;
+    update();
+  }
+
+  Future<void> checkNumberValidation()async{
+    setPhoneValidation(ApiResponse.loading());
+    var data  ={
+      "phone_code": countryCode,
+      "phone": mobNoCon.value.text,
+    };
+    try{
+      await api.phoneNumberValidation(data).then((value) {
+        if(value.status == true){
+          setPhoneValidation(ApiResponse.completed(value));
+          setPhoneNumberError("");
+        }else{
+          setPhoneValidation(ApiResponse.completed(value));
+          setPhoneNumberError(value.message.toString());
+        }
+      },).onError((error, stackTrace) {
+        setPhoneValidation(ApiResponse.error(error.toString()));
+      },);
+    }catch(e){
+      setPhoneValidation(ApiResponse.error(e.toString()));
+    }
+  }
+
+  //<<----------------------Hop hours time ------------------>>
 
   RxString addressError = "".obs;
   RxString apiMinOrderAmount = "".obs;
@@ -337,11 +335,44 @@ class FillRestaurantDetailsController extends GetxController {
 
         pt("profileApiData.value.isProfileComplete 11 ${profileApiData.value.isProfileComplete}  $fromUpdateProfile");
 
+        String titleDocs =  (value?.isRequiredVerified == false && value?.isRequiredUploaded == false) ? "Documents Required"  :  "Documents Submitted";
+        String subTitleDocs = (value?.isRequiredVerified == false && value?.isRequiredUploaded == false) ? "Please upload required documents. Your account will be activated after admin approval." :
+        "You have successfully uploaded your documents. They are currently under verification. Please wait for approval.";
+
+
+        if(isUploadDocsScreen()){
+          return;
+        }
         if (profileApiData.value.vendor?.step == '3' && (profileApiData.value.vendor?.status == 'suspended' || profileApiData.value.vendor?.status == 'inactive'|| profileApiData.value.vendor?.status == 'pending')) {
           await closeAllDialogs();
           pt("profileApiData.value.isProfileComplete 222 ${profileApiData.value.isProfileComplete}");
 
           if (profileApiData.value.vendor?.status == 'suspended') {
+            if(profileApiData.value.isRequiredUploaded == false || profileApiData.value.isRequiredVerified == false){
+              await closeAllDialogs().then((value) {
+                Get.dialog(
+                  CustomConfirmPasswordDialog(
+                    isUploadDocs: true,
+                    isError: true,
+                    title: titleDocs,
+                    subTitle: subTitleDocs,
+                    isContactBtn: true,
+                    isDocsBtnOnTap: () {
+                      if(profileApiData.value.vendor?.type == "restaurant"){
+                        Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
+                      }
+                    //   else if(profileApiData.value.vendor?.type == "pharmacy"){
+                    //     Get.toNamed(AppRoutes.pharmacyComplianceAndLicensesScreen);
+                    //   }else if(profileApiData.value.vendor?.type == 'grocery'){
+                    //     Get.toNamed(AppRoutes.groceryComplianceAndLicensesScreen);
+                    //   }
+                     },
+                  ),
+                  barrierDismissible: false,
+                );
+              },);
+            }
+            else {
               Get.dialog(
                 const CustomConfirmPasswordDialog(
                   isError: true,
@@ -351,28 +382,72 @@ class FillRestaurantDetailsController extends GetxController {
                 ),
                 barrierDismissible: false,
               );
+            }
             } else if (profileApiData.value.vendor?.status == 'pending') {
+            if(profileApiData.value.isRequiredUploaded == false || profileApiData.value.isRequiredVerified == false){
+              await closeAllDialogs().then((value) {
+                Get.dialog(
+                  CustomConfirmPasswordDialog(
+                    isUploadDocs: true,
+                    isError: true,
+                    title: titleDocs,
+                    subTitle: subTitleDocs,
+                    isContactBtn: true,
+                    isDocsBtnOnTap: () {
+                      if(profileApiData.value.vendor?.type == "restaurant"){
+                        Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
+                      }
+                    },
+                  ),
+                  barrierDismissible: false,
+                );
+              },);
+            }
+            else {
               Get.dialog(
                 const CustomConfirmPasswordDialog(
+                  isUploadDocs: false,
                   isError: true,
                   title: "Under Approval",
                   subTitle:
-                      "Your account is not activated, wait for admin approval",
+                  "Your account is not activated, wait for admin approval",
                   isContactBtn: false,
                 ),
                 barrierDismissible: false,
               );
+            }
             }else if ( profileApiData.value.vendor?.status == 'inactive') {
+            if(profileApiData.value.isRequiredUploaded == false || profileApiData.value.isRequiredVerified == false){
+              await closeAllDialogs().then((value) {
+                Get.dialog(
+                  CustomConfirmPasswordDialog(
+                    isUploadDocs: true,
+                    isError: true,
+                    title: titleDocs,
+                    subTitle: subTitleDocs,
+                    isContactBtn: true,
+                    isDocsBtnOnTap: () {
+                      if(profileApiData.value.vendor?.type == "restaurant"){
+                        Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
+                      }
+                    },
+                  ),
+                  barrierDismissible: false,
+                );
+              },);
+            }
+            else {
               Get.dialog(
                 const CustomConfirmPasswordDialog(
                   isError: true,
                   title: "Account Inactive",
                   subTitle:
-                      "Your account is not activated",
+                  "Your account is not activated",
                   isContactBtn: false,
                 ),
                 barrierDismissible: false,
               );
+            }
             }
         }
         else if(profileApiData.value.vendor?.step == '3' &&
@@ -381,22 +456,58 @@ class FillRestaurantDetailsController extends GetxController {
           pt("profileApiData.value.isProfileComplete inside dialog ${profileApiData.value.isProfileComplete}  $fromUpdateProfile");
           if(fromNotification == true){
             await closeAllDialogs().then((value) {
-              showProfileIncompleteDialog();
+              if(profileApiData.value.isRequiredUploaded == false || profileApiData.value.isRequiredVerified == false){
+                Get.dialog(
+                  CustomConfirmPasswordDialog(
+                    isUploadDocs: true,
+                    isError: true,
+                    title: titleDocs,
+                    subTitle: subTitleDocs,
+                    isContactBtn: true,
+                    isDocsBtnOnTap: () {
+                      if(profileApiData.value.vendor?.type == "restaurant"){
+                        Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
+                      }
+                    },
+                  ),
+                  barrierDismissible: false,
+                );
+              }
+              else {
+                showProfileIncompleteDialog();
+              }
             },);
           }else{
             await closeAllDialogs().then((value) {
-              Get.dialog(
-                const CustomConfirmPasswordDialog(
-                  isShowCancelCircleBtn: true,
-                  isError: true,
-                  title: "Profile Incomplete",
-                  subTitle: "Please complete your profile to continue.",
-                  isContactBtn: false,
-                ),
-                barrierDismissible: true,
-              );
-
-
+              if(profileApiData.value.isRequiredUploaded == false || profileApiData.value.isRequiredVerified == false){
+                Get.dialog(
+                  CustomConfirmPasswordDialog(
+                    isUploadDocs: true,
+                    isError: true,
+                    title: titleDocs,
+                    subTitle: subTitleDocs,
+                    isContactBtn: true,
+                    isDocsBtnOnTap: () {
+                      if(profileApiData.value.vendor?.type == "restaurant"){
+                        Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
+                      }
+                    },
+                  ),
+                  barrierDismissible: false,
+                );
+              }
+              else {
+                Get.dialog(
+                  const CustomConfirmPasswordDialog(
+                    isShowCancelCircleBtn: true,
+                    isError: true,
+                    title: "Profile Incomplete",
+                    subTitle: "Please complete your profile to continue.",
+                    isContactBtn: false,
+                  ),
+                  barrierDismissible: true,
+                );
+              }
               },
             );
           }
@@ -404,8 +515,28 @@ class FillRestaurantDetailsController extends GetxController {
         // } else{
         } else if(profileApiData.value.isProfileComplete == true && profileApiData.value.vendor?.status == 'active'){
           pt("profileApiData.value.isProfileComplete 33 step ${profileApiData.value.vendor?.step} >>>  ${profileApiData.value.isProfileComplete}");
-
+          if(profileApiData.value.isRequiredUploaded == false || profileApiData.value.isRequiredVerified == false){
+            await closeAllDialogs().then((value) {
+              Get.dialog(
+              CustomConfirmPasswordDialog(
+                isUploadDocs: true,
+                isError: true,
+                title: titleDocs,
+                subTitle: subTitleDocs,
+                isContactBtn: true,
+                isDocsBtnOnTap: () {
+                  if(profileApiData.value.vendor?.type == "restaurant"){
+                    Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
+                  }
+                },
+              ),
+              barrierDismissible: false,
+            );
+              },);
+          }
+          else {
           await closeAllDialogs(fromUpdateProfile: fromUpdateProfile);
+          }
         }
       }
     })
@@ -426,16 +557,36 @@ class FillRestaurantDetailsController extends GetxController {
     }
     if(profileApiData.value.vendor?.step == '3' && profileApiData.value.isProfileComplete == false && fromUpdateProfile == true){{
       await Future.delayed(const Duration(milliseconds: 200));
-      Get.dialog(
-        const CustomConfirmPasswordDialog(
-          isShowCancelCircleBtn: true,
-          isError: true,
-          title: "Profile Incomplete",
-          subTitle: "Please complete your profile to continue.",
-          isContactBtn: false,
-        ),
-        barrierDismissible: true,
-      );
+      if(profileApiData.value.isRequiredUploaded == false || profileApiData.value.isRequiredVerified == false){
+        Get.dialog(
+          CustomConfirmPasswordDialog(
+            isUploadDocs: true,
+            isError: true,
+             title : (profileApiData.value.isRequiredVerified == false && profileApiData.value.isRequiredUploaded == false) ? "Documents Required"  :  "Documents Submitted",
+              subTitle :  (profileApiData.value.isRequiredVerified == false && profileApiData.value.isRequiredUploaded == false) ?
+                        "Please upload required documents. Your account will be activated after admin approval." :
+                        "You have successfully uploaded your documents. They are currently under verification. Please wait for approval.",
+        isContactBtn: true,
+            isDocsBtnOnTap: () {
+              if(profileApiData.value.vendor?.type == "restaurant"){
+                Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
+              }
+            },
+          ),
+          barrierDismissible: false,
+        );
+      }else {
+        Get.dialog(
+          const CustomConfirmPasswordDialog(
+            isShowCancelCircleBtn: true,
+            isError: true,
+            title: "Profile Incomplete",
+            subTitle: "Please complete your profile to continue.",
+            isContactBtn: false,
+          ),
+          barrierDismissible: true,
+        );
+      }
       return;
     }}
   }
@@ -461,11 +612,6 @@ class FillRestaurantDetailsController extends GetxController {
               if (type == "restaurant") {
                 Get.toNamed(VendorAppRoutes.restaurantInformationScreens);
               }
-              // else if (type == 'pharmacy') {
-              //   Get.toNamed(AppRoutes.pharmacyInformationScreens);
-              // } else if (type == 'grocery') {
-              //   Get.toNamed(AppRoutes.groceryInformationScreens);
-              // }
             },
           ),
         ),
@@ -515,32 +661,8 @@ class FillRestaurantDetailsController extends GetxController {
 
   //<<---------------------- Update Profile Details ------------------>>
 
-  updateProfileDetailsApi(
-  // {
-    // required String firstName,
-    // required String lastName,
-    // required String personalEmailAddress,
-    // required String countryCode,
-    // required String phoneNumber,
-    // required String image,
-    // required String restaurantName,
-    // required String restaurantDescription,
-    // required String shopAddress,
-    // required List<TextEditingController> startTime,
-    // required List<TextEditingController> closeTime,
-  // }
-  ) async {
-    // for (int i = 0; i < 7; i++) {
-    //   openingHours[days[i]] = {
-    //     if (isToggleList[i].value == true) "status": "1",
-    //     "open":isToggleList[i].value ? startTime[i].value.text : "",
-    //     "close":isToggleList[i].value ? closeTime[i].value.text : "",
-    //   };
-    //   debugPrint(jsonEncode(openingHours));
-    // }
-
+  updateProfileDetailsApi() async {
     String establishDate = getEstablishDateForApi();
-
     var data = {
       "shop_name": restaurantNameController.value.text,
       "owner_name": ownerNameController.value.text,
@@ -581,42 +703,20 @@ class FillRestaurantDetailsController extends GetxController {
       if (registerData.value.status == true) {
         rxUpdateProfileRequestStatus(ApiStatus.COMPLETED);
         pref.saveStep(int.parse(registerData.value.data?.step.toString() ?? ""));
-        // if (userModel.step == 3) {
-        //   getProfileDetailsApi(isShowLoading: false,fromUpdateProfile: true);
-        //   if(value.message != "") {
-        //     Utils.showToast(value.message ?? "");
-        //   }
-        //   // Get.back();
-        //   final profileController = Get.find<CommonProfileController>();
-        //   await profileController.getProfileDetailsApi();
-        // } else {
-        //   Get.offAndToNamed(VendorAppRoutes.chooseRestaurantCategoriesScreen);
-        //   Utils.showToast("Registration successfully completed");
-        // }
-        final step = int.tryParse(
-            registerData.value.data?.step?.toString() ?? "0"
-        ) ?? 0;
-
-        print("👉 API STEP: $step");
-
-        if (step == 3) {
-          print("✅ STEP 3 → Stay on same screen");
-
-          getProfileDetailsApi(isShowLoading: false, fromUpdateProfile: true);
-
-          if (value.message != "") {
+        if (userModel.step == 3) {
+          scrollToTop();
+          getProfileDetailsApi(isShowLoading: false,fromUpdateProfile: true);
+          if(value.message != "") {
             Utils.showToast(value.message ?? "");
           }
-
+          // Get.back();
           final profileController = Get.find<CommonProfileController>();
           await profileController.getProfileDetailsApi();
-
         } else {
-          print("➡️ NOT STEP 3 → NAVIGATING");
-
           Get.offAndToNamed(VendorAppRoutes.chooseRestaurantCategoriesScreen);
           Utils.showToast("Registration successfully completed");
         }
+
         update();
       } else if (registerData.value.status == false) {
         rxUpdateProfileRequestStatus(ApiStatus.ERROR);
@@ -715,80 +815,6 @@ class FillRestaurantDetailsController extends GetxController {
       debugPrint("Error setting date from API: $e");
     }
   }
-
-
-  /*  updateProfileDetailsApi({
-    required String firstName,
-    required String lastName,
-    required String personalEmailAddress,
-    required String countryCode,
-    required String phoneNumber,
-    required String image,
-    required String restaurantName,
-    required String restaurantDescription,
-    required String shopAddress,
-    required List<TextEditingController> startTime,
-    required List<TextEditingController> closeTime,
-  }) async {
-    for (int i = 0; i < 7; i++) {
-      openingHours[days[i]] = {
-        if (isToggleList[i].value == true) "status": "1",
-        "open":isToggleList[i].value ? startTime[i].value.text : "",
-        "close":isToggleList[i].value ? closeTime[i].value.text : "",
-      };
-      debugPrint(jsonEncode(openingHours));
-    }
-    var data = {
-      "first_name": firstName,
-      "last_name": lastName,
-      "email": personalEmailAddress,
-      "country_code": countryCode,
-      "phone": phoneNumber,
-      "shop_name": restaurantName,
-      "role": "resto",
-      "shopimage": image,
-      "shop_des": restaurantDescription,
-      "shop_address": shopAddress,
-      "opening_hours": openingHours,
-      "latitude": latitude.value,
-      "longitude": longitude.value,
-      "delivery" : selectedDelivery.value,
-      "type": userModel.step == 3 ? "update" : "create",
-    };
-    debugPrint("Data body: $data");
-    rxUpdateProfileRequestStatus(ApiStatus.LOADING);
-    api.updateProfileDetailsApi(jsonEncode(data)).then((value) {
-      updateProfileData(value);
-      if (registerData.value.status == true) {
-        rxUpdateProfileRequestStatus(ApiStatus.COMPLETED);
-        pref.saveStep(int.parse(registerData.value.step.toString()));
-        if (userModel.step == 3) {
-          getProfileDetailsApi();
-          Get.back();
-        } else {
-          Get.offAndToNamed(AppRoutes.chooseRestaurantCategoriesScreen);
-          Utils.showToast("Registration successfully completed");
-        }
-
-        update();
-      } else if (registerData.value.status == false) {
-        rxUpdateProfileRequestStatus(ApiStatus.ERROR);
-        Utils.showToast(registerData.value.message.toString());
-      } else {
-        rxUpdateProfileRequestStatus(ApiStatus.ERROR);
-        Utils.showToast(registerData.value.message.toString());
-      }
-    }).onError(
-      (error, stackTrace) {
-        rxUpdateProfileRequestStatus(ApiStatus.ERROR);
-        Utils.showToast(
-          'Something went wrong please try again',
-          bgColor: AppColors.red,
-        );
-        debugPrint('Error: $error');
-      },
-    );
-  }*/
 
   void updateCountryCode(CountryCode countryCode) {
     pt("countryCode>>>>>>> $countryCode");
@@ -1093,9 +1119,10 @@ class FillRestaurantDetailsController extends GetxController {
 
     try {
       croppedFile = await ImageCropper().cropImage(
-        sourcePath: _pickedFile!.path,
+        sourcePath: _pickedFile?.path ?? "",
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
+        aspectRatio: isLogo ?  const CropAspectRatio(ratioX: 1, ratioY: 1) :  const CropAspectRatio(ratioX: 9, ratioY: 6),
         uiSettings: [
           AndroidUiSettings(
             activeControlsWidgetColor: AppColors.primary,
@@ -1103,9 +1130,13 @@ class FillRestaurantDetailsController extends GetxController {
             toolbarColor: AppColors.primary,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: initAspectRatio ?? CropAspectRatioPresetCustom9x6(),
-            statusBarColor: AppColors.primary,
             lockAspectRatio: true,
             aspectRatioPresets: aspectRatioPresets ?? [CropAspectRatioPresetCustom9x6()],
+            cropFrameStrokeWidth: 2,
+            hideBottomControls: false,
+            showCropGrid: false,
+            cropFrameColor: AppColors.white,
+            cropGridColor: AppColors.white,
           ),
           IOSUiSettings(
             title: 'Cropper',
@@ -1157,9 +1188,9 @@ class FillRestaurantDetailsController extends GetxController {
         isLogo: isLogo,
         context,
         aspectRatioPresets:
-        isLogo ? [CropAspectRatioPresetCustom1x1()] : [CropAspectRatioPresetCustom2x1()],
+        isLogo ? [CropAspectRatioPresetCustom1x1()] : [CropAspectRatioPresetCustom16x9()],
         initAspectRatio:
-        isLogo ? CropAspectRatioPresetCustom1x1() : CropAspectRatioPresetCustom2x1(),
+        isLogo ? CropAspectRatioPresetCustom1x1() : CropAspectRatioPresetCustom16x9(),
       );
 
       if (croppedFile != null) {

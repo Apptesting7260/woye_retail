@@ -187,7 +187,7 @@ class Data {
     openingHours = json['opening_hours'] != null
         ? OpeningHours.fromJson(json['opening_hours'])
         : null;
-    cuisineIds = json['cuisine_ids'].cast<int>();
+    // cuisineIds = json['cuisine_ids'].cast<int>();
     commissionRate = json['commission_rate']?.toString();
     commissionTier = json['commission_tier'];
     documentVerification = json['document_verification'] != null

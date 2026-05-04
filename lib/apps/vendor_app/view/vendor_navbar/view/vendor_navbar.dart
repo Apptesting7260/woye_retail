@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/signout/sign_out_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
 
@@ -17,7 +18,6 @@ import '../../../../../shared/theme/font_family.dart';
 import '../../../../../shared/theme/font_style.dart';
 import '../../../../../shared/widgets/image.dart';
 import '../../../../../shared/widgets/shimmer_widget.dart';
-import '../../Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 
 
 class VendorNavbar extends StatefulWidget {
@@ -363,123 +363,4 @@ class _VendorNavbarState extends State<VendorNavbar> {
   }
 
 
-/*
-  Widget navbar(RestaurantNavbarController navbarController) {
-    List<String> navbarItems = [
-      ImageConstants.dashboard,
-      ImageConstants.menu,
-      ImageConstants.orders,
-      ImageConstants.wallet,
-      ImageConstants.review,
-    ];
-
-    List<String> navbarItemsTitle = [
-      "Dashboard",
-      "Menu",
-      "Orders",
-      "Wallet",
-      "Reviews"
-    ];
-    return Container(
-        height: 65.h,
-        width: Get.width,
-        decoration: BoxDecoration(
-          color: AppColors.navbar,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
-        ),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(navbarItems.length, (index) {
-              bool isSelected = navbarController.navbarCurrentIndex == index;
-              String icon = navbarItems[index];
-              return InkWell(
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                onTap: () {
-                  navbarController.getIndex(index);
-                },
-                child: Padding(
-                  padding: REdgeInsets.symmetric(horizontal: 12),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                    // width: 44.w,
-                    child: Column(
-                      children: [
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.linear,
-                          height: 4.h,
-                          width: 44.w,
-                          decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColors.primary
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r))),
-                        ),
-                        Padding(
-                          padding: REdgeInsets.only(top: 15, bottom: 4),
-                          child: SvgPicture.asset(
-                            icon,
-                            height: index == 3 ? 21.h : 22.h,
-                            width: index == 1 || index == 2
-                                ? 26.h
-                                : index == 3
-                                    ? 20.h
-                                    : 22.w,
-                            fit: BoxFit.fill,
-                            colorFilter: ColorFilter.mode(
-                                isSelected
-                                    ? AppColors.primary
-                                    : AppColors.greyClr.withAlpha(200),
-                                BlendMode.srcIn),
-                          ),
-                        ),
-                        Text(
-                          navbarItemsTitle[index],
-                          style: AppFontStyle.text_12_400(
-                              isSelected
-                                  ? AppColors.primary
-                                  : AppColors.greyClr,
-                              fontFamily: isSelected
-                                  ? AppFontFamily.gilroyBold
-                                  : AppFontFamily.gilroyMedium),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            })
-            // navbarItems.map((icon) {
-            //   int index = navbarItems.indexOf(icon);
-            //   bool isSelected = navbarController.navbarCurrentIndex == index;
-            //   return GestureDetector(
-            //     onTap: () {
-            //       navbarController.getIndex(index);
-            //     },
-            //     child: Padding(
-            //       padding: REdgeInsets.symmetric(horizontal: 12),
-            //       child: AnimatedContainer(
-            //         duration: const Duration(milliseconds: 300),
-            //         curve: Curves.easeInOut,
-            //         height: 48.h,
-            //         width: 48.h,
-            //         child: Column(
-            //           children: [
-            //             SvgPicture.asset(
-            //               icon,
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   );
-            // }).toList(),
-            ));
-  }
-*/
 }

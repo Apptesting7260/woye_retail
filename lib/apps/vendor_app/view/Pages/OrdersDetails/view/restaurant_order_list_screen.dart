@@ -26,7 +26,6 @@ import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.d
 import '../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../vendor_common/common_appbar_header/common_appbar_header.dart';
-import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 import '../controller/restaurant_order_list_controller.dart';
 import '../model/restro_order_list_model.dart';
 

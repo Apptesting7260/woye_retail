@@ -35,3 +35,11 @@ class CropAspectRatioPresetCustom2x1 implements CropAspectRatioPresetData {
   @override
   String get name => '2x1';
 }
+
+class CropAspectRatioPresetCustom16x9 implements CropAspectRatioPresetData {
+  @override
+  (int, int)? get data => (16, 9);
+
+  @override
+  String get name => '2x1';
+}

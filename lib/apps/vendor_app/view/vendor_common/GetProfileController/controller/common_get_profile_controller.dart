@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/profile_details_model.dart';
 
 import '../../../../../../Data/Model/user_model.dart';
 import '../../../../../../Data/Repository/repository.dart';
@@ -10,7 +11,6 @@ import '../../../../../../Data/user_preference_controller.dart';
 import '../../../../../../routes/vendor_routes/vendor_app_routes.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_confirm_password_dialog.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../../Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/profile_details_model.dart';
 
 
 class CommonProfileController extends GetxController{
@@ -54,12 +54,20 @@ String token = "";
     }
 
     api.getProfileApi().then((value) async {
+      log("==== PROFILE DEBUG START ====");
+      log("STATUS: ${profileApiData.value.status}");
+      log("STEP: ${profileApiData.value.vendor?.step}");
+      log("VENDOR STATUS: ${profileApiData.value.vendor?.status}");
+      log("IS PROFILE COMPLETE: ${profileApiData.value.isProfileComplete}");
+      log("TYPE: ${profileApiData.value.vendor?.type}");
+      log("==== PROFILE DEBUG END ====");
       personalDetailsSet(value);
       debugPrint("profile detailsccc: $value");
       if (profileApiData.value.status == true) {
         log("common get profile here Step ${profileApiData.value.vendor?.step} and Status ${profileApiData.value.vendor?.status}",name: ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         rxGetProfileRequestStatus(ApiStatus.COMPLETED);
         if (profileApiData.value.vendor?.step == '3' && (profileApiData.value.vendor?.status == 'suspended' || profileApiData.value.vendor?.status == 'inactive'|| profileApiData.value.vendor?.status == 'pending')) {
+          log("⚠️ PROFILE INCOMPLETE CONDITION HIT");
           await closeAllDialogs();
           if (profileApiData.value.vendor?.status == 'suspended') {
             Get.dialog(
@@ -97,29 +105,48 @@ String token = "";
         }else if( profileApiData.value.vendor?.status == 'active' &&  profileApiData.value.vendor?.step == "3" &&  profileApiData.value.isProfileComplete == false){
           // await closeAllDialogs();
           pt(">>>>>>>>>>>>>>>>>>>>here profile is not completed");
-          CustomConfirmPasswordDialog(
-            isError: true,
-            title: "Profile Incomplete",
-            subTitle: "Please complete your profile to continue.",
-            isContactBtn: true,
-            contactBtnTitle: "OK",
-            isContactBtnOnTap: () async {
-              Get.back();
 
-              await Future.delayed(const Duration(milliseconds: 200));
+            CustomConfirmPasswordDialog(
+              isError: true,
+              title: "Profile Incomplete",
+              subTitle: "Please complete your profile to continue.",
+              isContactBtn: true,
+              contactBtnTitle: "OK",
+              isContactBtnOnTap: () async {
+                Get.back();
+                await Future.delayed(const Duration(milliseconds: 200));
 
-              final type = profileApiData.value.vendor?.type;
+                final type = profileApiData.value.vendor?.type;
+                    print(">>>>>>>>>>>>>>>>>>>>>here profile is not completed and type is $type");
+                if (type == "retail") {
+                  Get.toNamed(VendorAppRoutes.restaurantInformationScreens);
+                }
+              },
+            );
 
-              if (type == "restaurant") {
-                Get.toNamed(VendorAppRoutes.restaurantInformationScreens);
-              }
-              // else if (type == 'pharmacy') {
-              //   Get.toNamed(AppRoutes.pharmacyInformationScreens);
-              // } else if (type == 'grocery') {
-              //   Get.toNamed(AppRoutes.groceryInformationScreens);
-              // }
-            },
-          );
+          // CustomConfirmPasswordDialog(
+          //   isError: true,
+          //   title: "Profile Incomplete",
+          //   subTitle: "Please complete your profile to continue.",
+          //   isContactBtn: true,
+          //   contactBtnTitle: "OK",
+          //   isContactBtnOnTap: () async {
+          //     Get.back();
+          //
+          //     await Future.delayed(const Duration(milliseconds: 200));
+          //
+          //     final type = profileApiData.value.vendor?.type;
+          //
+          //     if (type == "retail") {
+          //       Get.toNamed(VendorAppRoutes.restaurantInformationScreens);
+          //     }
+          //     // else if (type == 'pharmacy') {
+          //     //   Get.toNamed(AppRoutes.pharmacyInformationScreens);
+          //     // } else if (type == 'grocery') {
+          //     //   Get.toNamed(AppRoutes.groceryInformationScreens);
+          //     // }
+          //   },
+          // );
         }  else if(profileApiData.value.isProfileComplete == true &&  profileApiData.value.vendor?.status?.toLowerCase() == 'active') {
           pt("closing dialog inside common profile controller");
           await closeAllDialogs();

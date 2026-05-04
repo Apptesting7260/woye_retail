@@ -5,6 +5,7 @@ import 'package:gyaawa/apps/user_app/presentation/common/forgot_password/model/c
 import 'package:gyaawa/apps/user_app/presentation/common/login/model/two_factor_model.dart';
 import 'package:gyaawa/apps/user_app/presentation/common/verify/model/verify_otp_model.dart';
 import 'package:gyaawa/routes/user_routes/user_app_routes.dart';
+import '../../../../../../Data/Model/user_model.dart';
 import '../../../../../../Data/Repository/repository.dart';
 import '../../../../../../Data/response/status.dart';
 import '../../../../../../Utils/snack_bar.dart';
@@ -49,14 +50,16 @@ class VerifyController extends GetxController {
     debugPrint("Data body: $data");
     setRxRequestStatus(ApiStatus.LOADING);
     otpError.value = "";
-    api.verifyVendorApi(data).then((value) {
+    api.verifyVendorApi(data).then((value) async {
       verifySet(value);
       if (apiData.value.status == true) {
         setRxRequestStatus(ApiStatus.COMPLETED);
-        pref.saveToken(apiData.value.token ?? "");
-        pref.saveStep(int.tryParse(apiData.value.step ?? "1") ?? 1);
-        pref.saveLoginType(apiData.value.type ?? "");
-        pref.saveIsLogin(true);
+        UserModel user = UserModel();
+        user.token = apiData.value.token ?? "";
+        user.step = int.tryParse(apiData.value.step ?? "1") ?? 1;
+        user.loginType = apiData.value.type ?? "retail";
+        user.isLogin = true;
+        await pref.saveUser(user);
         Utils.showToast(apiData.value.message ?? "");
         Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
 
@@ -194,13 +197,18 @@ class VerifyController extends GetxController {
     pt("2FA OTP DATA: $data");
     setTwoFactorStatus(ApiStatus.LOADING);
     otpError.value = "";
-    api.twoFactorOtpVerifyApi(data).then((value) {
+    api.twoFactorOtpVerifyApi(data).then((value) async {
       setTwoFactorData(value);
       if (value.status == true) {
         setTwoFactorStatus(ApiStatus.COMPLETED);
         Utils.showToast(value.message ?? "");
-        pref.saveToken(value.token ?? "");
-        pref.saveIsLogin(true);
+        UserModel user = UserModel();
+
+        user.token = value.token ?? "";
+        user.step = int.tryParse(value.step ?? "1") ?? 1;
+        user.loginType = value.type ?? "retail";
+        user.isLogin = true;
+        await pref.saveUser(user);
         Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
       } else {
         setTwoFactorStatus(ApiStatus.ERROR);

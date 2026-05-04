@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/profile_details_model.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../../../../Data/components/general_exception.dart';
@@ -27,8 +28,7 @@ import '../../../../../../../../../shared/widgets/vendor_widgets/custom_elevated
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_switch_btn.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_time_picker1.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../RestaurantInFormation/model/profile_details_model.dart';
-import '../../RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../RestaurantInformation/view/restaurant_information_screen.dart';
 import '../../controller/restaurant_setting_controller.dart';
 
 class RestaurantConfigurationScreen extends StatefulWidget {

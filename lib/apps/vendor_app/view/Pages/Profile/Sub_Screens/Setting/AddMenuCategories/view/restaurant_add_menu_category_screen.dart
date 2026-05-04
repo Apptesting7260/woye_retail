@@ -18,7 +18,7 @@ import '../../../../../../../../../shared/widgets/vendor_widgets/custom_elevated
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/image.dart';
-import '../../RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../RestaurantInformation/view/restaurant_information_screen.dart';
 import '../../controller/restaurant_setting_controller.dart';
 
 class RestaurantAddMenuCategoryScreen extends StatefulWidget{

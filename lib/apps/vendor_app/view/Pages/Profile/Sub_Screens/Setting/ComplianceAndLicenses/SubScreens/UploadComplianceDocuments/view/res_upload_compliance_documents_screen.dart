@@ -19,7 +19,7 @@ import '../../../../../../../../../../../shared/widgets/vendor_widgets/circular_
 import '../../../../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
 import '../../../../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
-import '../../../../RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../../../RestaurantInformation/view/restaurant_information_screen.dart';
 import '../controller/res_upload_compliance_document_controller.dart';
 
 class ResUploadComplianceDocumentsScreen extends GetView<ResUploadComplianceDocumentController> {

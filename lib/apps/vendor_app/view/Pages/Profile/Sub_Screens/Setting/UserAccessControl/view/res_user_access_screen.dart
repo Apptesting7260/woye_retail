@@ -17,7 +17,7 @@ import '../../../../../../../../../shared/widgets/image.dart';
 import '../../../../../../../../../shared/widgets/shimmer_widget.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/app_container.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_delete_alert_dialog.dart';
-import '../../RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../RestaurantInformation/view/restaurant_information_screen.dart';
 import '../controller/res_user_access_controller.dart';
 
 class ResUserAccessScreen extends GetView<ResUserAccessController> {

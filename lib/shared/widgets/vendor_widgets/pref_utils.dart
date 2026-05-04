@@ -1,7 +1,12 @@
 
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:gyaawa/routes/user_routes/user_app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Data/Model/user_model.dart';
 import '../../../Data/user_preference_controller.dart';
+import '../../../main.dart';
 
 
 class PrefUtils {
@@ -25,11 +30,11 @@ Future<void> logout() async {
   _sharedPreferences!.remove('permissions');
   _sharedPreferences!.clear();
   userModel.clear();
-  // scaffoldKey = null;
-  // Get.deleteAll();
-  // if (Get.currentRoute != AppRoutes.loginScreen) {
-  //   Get.offAllNamed(AppRoutes.loginScreen);
-  // }n
-  // Get.offAndToNamed(AppRoutes.loginScreen);
+  scaffoldKey = null;
+  Get.deleteAll();
+  if (Get.currentRoute != UserRoutes.loginScreen) {
+    Get.offAllNamed(UserRoutes.loginScreen);
+  }
+  Get.offAndToNamed(UserRoutes.loginScreen);
 }
 }

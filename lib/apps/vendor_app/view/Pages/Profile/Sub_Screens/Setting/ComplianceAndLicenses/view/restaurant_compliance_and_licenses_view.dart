@@ -18,7 +18,7 @@ import '../../../../../../../../../shared/widgets/vendor_widgets/app_container.d
 import '../../../../../../../../../shared/widgets/vendor_widgets/circular_progress_indicator.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
-import '../../RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../RestaurantInformation/view/restaurant_information_screen.dart';
 import '../controller/restaurant_compliance_and_licenses_controller.dart';
 
 class RestaurantComplianceAndLicensesScreen extends GetView<ComplianceAndLicensesController> {

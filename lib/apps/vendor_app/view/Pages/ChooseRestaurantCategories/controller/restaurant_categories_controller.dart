@@ -9,6 +9,7 @@ import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/mod
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/res_category_cusion_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/controller/restaurant_category_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart' hide Categories;
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
 import 'package:gyaawa/routes/vendor_routes/vendor_app_routes.dart';
 import 'package:gyaawa/shared/widgets/vendor_widgets/custom_confirm_password_dialog.dart';
 import 'package:intl/intl.dart';
@@ -18,7 +19,6 @@ import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../Profile/Sub_Screens/Setting/RestaurantInFormation/controller/restaurant_information_controller.dart';
 import '../model/update_categories_model.dart';
 
 class RestaurantCategoriesController extends GetxController {

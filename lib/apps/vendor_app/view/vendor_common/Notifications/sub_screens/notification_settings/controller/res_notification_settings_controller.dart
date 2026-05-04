@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInFormation/model/profile_details_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/profile_details_model.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../../../Data/Repository/repository.dart';
 import '../../../../../../../../Data/response/api_response.dart';

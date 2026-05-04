@@ -13,7 +13,7 @@ import '../../../../../../../../shared/widgets/vendor_widgets/circular_progress_
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_date_picker_field.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
-import '../../../../Profile/Sub_Screens/Setting/RestaurantInFormation/view/restaurant_information_screen.dart';
+import '../../../../Profile/Sub_Screens/Setting/RestaurantInformation/view/restaurant_information_screen.dart';
 import '../../../controller/restaurant_order_list_controller.dart';
 
 class ResExportOrdersScreen extends StatefulWidget {
