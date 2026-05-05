@@ -1,6 +1,7 @@
 
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/FillRestaurantDetails/view/restaurant_profile_details_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/RestaurantAddProduct/sub_screen/view/retail_product_review_screen.dart';
 
 import '../../apps/user_app/presentation/acccount/view/profile_screen.dart';
 import '../../apps/vendor_app/view/Pages/ChooseRestaurantCategories/bindings/res_category_cuisines_binding.dart';
@@ -40,6 +41,7 @@ import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/UserAccessC
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/UserAccessControl/view/res_user_access_screen.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/controller/restaurant_setting_binding.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/view/restaurant_setting_screen.dart';
+import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/sub_screen/binding/retail_product_review_binding.dart';
 import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/view/restaurant_add_product_screen.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/Restaurant_Bank_Account/Add_restaurant_bank_account/view/add_restaurant_bank_details_screen.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/download_statement/view/res_download_satement_screen.dart';
@@ -143,6 +145,7 @@ class VendorAppRoutes {
   static const String resProfileDetailsScreen = "/resProfileDetailsScreen";
   static const String resCreateNotificationScreen = "/resCreateNotificationScreen";
   static const String resNotificationSettingsScreen = "/resNotificationSettingsScreen";
+  static const String retailProductReviewScreen = "/retailProductReviewScreen";
 
 
   //---------------------------------Notification----------------------------------------
@@ -187,6 +190,7 @@ class VendorAppRoutes {
      GetPage(name: restaurantTnCScreen, page: () => const RestaurantTncScreen(),binding: ResFaqsBinding()),
     GetPage(name: restaurantInformationScreens, page: () =>  RestaurantInformationScreens(),binding: ResInformationBindings()),
     GetPage(name: restaurantAddProductScreen, page: () => RestaurantAddProductScreen()),
+    GetPage(name: retailProductReviewScreen, page: () => RetailProductReviewScreen(),binding: RetailProductReviewBinding()),
     GetPage(name: restaurantMyAccountScreen, page: () => RestaurantMyAccountScreen()),
     // GetPage(name: userPasswordChangeScreen, page: () => UserPasswordChangeScreen()),
     // GetPage(name: restaurantSupportQueryReplayScreen, page: () => RestaurantSupportQuarryReplyScreen()),
