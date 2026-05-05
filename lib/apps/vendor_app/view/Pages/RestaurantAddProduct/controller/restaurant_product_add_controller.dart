@@ -20,17 +20,33 @@ import '../Models/restaurant_get_addon_model.dart' hide Addons;
 import '../Models/restaurant_get_cuisine_type_model.dart';
 
 class RestaurantProductAddController extends GetxController {
-
   final ScrollController scrollController = ScrollController();
 
-  RxList<String> menuSection = ["Breakfast","Lunch","Dinner","Snacks","Desserts","Beverages","Appetizers","Main Course","Sides","All Day"].obs;
+  RxList<String> menuSection = [
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Snacks",
+    "Desserts",
+    "Beverages",
+    "Appetizers",
+    "Main Course",
+    "Sides",
+    "All Day"
+  ].obs;
   RxString selectedMenuSection = "".obs;
+  RxString department = ''.obs;
+  RxString category = ''.obs;
+  RxString subCategory = ''.obs;
+  RxList<String> allVariantAttributes =
+      ["Color", "Storage", "RAM", "Processor"].obs;
 
   String formatToSnakeCase(String input) {
     if (input.isEmpty) return "";
     return input.trim().replaceAll(RegExp(r'\s+'), '_');
   }
 
+  RxList<VariantModel> variantList = <VariantModel>[].obs;
   void scrollToTop(double position) {
     scrollController.animateTo(
       position,
@@ -39,17 +55,245 @@ class RestaurantProductAddController extends GetxController {
     );
   }
 
+  //
+  //
+  //
+  // // Example attribute values for demonstration
+  // RxBool hasVariants = false.obs;
+  //
+  // RxList<String> selectedVariantAttributes = <String>[].obs;
+  // RxMap<String, List<String>> attributeValues = {
+  //   "Storage": ["64GB", "128GB", "256GB"],
+  //   "RAM": ["4GB", "8GB", "16GB"],
+  // }.obs;
+  //
+  // void toggleAttribute(String attr) {
+  //   if (selectedVariantAttributes.contains(attr)) {
+  //     selectedVariantAttributes.remove(attr);
+  //   } else {
+  //     selectedVariantAttributes.add(attr);
+  //   }
+  // }
+  // void addAttributeValue(String attr) {
+  //   attributeValues[attr] ??= <String>[].obs;
+  //
+  //   // dummy value add (baad me dialog se input le lena)
+  //   attributeValues[attr]!.add("Value ${attributeValues[attr]!.length + 1}");
+  // }
+  //
+  // void removeAttributeValue(String attr, String value) {
+  //   attributeValues[attr]?.remove(value);
+  // }
+  // void generateVariants() {
+  //   variantList.clear();
+  //
+  //   if (selectedVariantAttributes.isEmpty) return;
+  //
+  //   // Step 1: values list collect karo
+  //   List<List<String>> allValues = [];
+  //
+  //   for (var attr in selectedVariantAttributes) {
+  //     final values = attributeValues[attr];
+  //     if (values == null || values.isEmpty) return;
+  //
+  //     allValues.add(values);
+  //   }
+  //
+  //   // Step 2: combinations generate karo
+  //   List<Map<String, String>> combinations = [];
+  //
+  //   void generate(int index, Map<String, String> current) {
+  //     if (index == selectedVariantAttributes.length) {
+  //       combinations.add(Map.from(current));
+  //       return;
+  //     }
+  //
+  //     String attr = selectedVariantAttributes[index];
+  //
+  //     for (String val in attributeValues[attr]!) {
+  //       current[attr] = val;
+  //       generate(index + 1, current);
+  //     }
+  //   }
+  //
+  //   generate(0, {});
+  //
+  //   // Step 3: VariantModel create karo
+  //   for (var combo in combinations) {
+  //     String sku = _generateSKU(combo);
+  //
+  //     variantList.add(
+  //       VariantModel(
+  //         values: combo,
+  //         sku: sku,
+  //       ),
+  //     );
+  //   }
+  // }
+  // String _generateSKU(Map<String, String> values) {
+  //   return values.values
+  //       .map((e) => e.replaceAll(" ", "").substring(0, 3).toUpperCase())
+  //       .join("-");
+  // }
+  // TextEditingController customAttrNameController = TextEditingController();
+  // TextEditingController customAttrValueController = TextEditingController();
+  // void addCustomAttribute() {
+  //   String name = customAttrNameController.text.trim();
+  //   String values = customAttrValueController.text.trim();
+  //
+  //   if (name.isEmpty || values.isEmpty) return;
+  //
+  //   List<String> valueList =
+  //   values.split(",").map((e) => e.trim()).toList();
+  //
+  //   if (!allVariantAttributes.contains(name)) {
+  //     allVariantAttributes.add(name);
+  //   }
+  //
+  //   if (!selectedVariantAttributes.contains(name)) {
+  //     selectedVariantAttributes.add(name);
+  //   }
+  //
+  //   attributeValues[name] = valueList.obs;
+  //
+  //   customAttrNameController.clear();
+  //   customAttrValueController.clear();
+  // }
+  //
+
+  RxBool hasVariants = false.obs;
+
+  RxList<String> selectedVariantAttributes = <String>[].obs;
+
+  RxMap<String, RxList<String>> attributeValues =
+      <String, RxList<String>>{}.obs;
+
+  RxMap<String, TextEditingController> valueControllers =
+      <String, TextEditingController>{}.obs;
+
+  TextEditingController customAttrNameController = TextEditingController();
+  TextEditingController customAttrValueController = TextEditingController();
+
+  // ✅ Select / Remove Attribute
+  void toggleAttribute(String attr) {
+    if (selectedVariantAttributes.contains(attr)) {
+      selectedVariantAttributes.remove(attr);
+      attributeValues.remove(attr);
+      valueControllers.remove(attr);
+    } else {
+      selectedVariantAttributes.add(attr);
+      attributeValues[attr] = <String>[].obs;
+      valueControllers[attr] = TextEditingController();
+    }
+  }
+
+  // ✅ Add Value manually
+  void addAttributeValue(String attr) {
+    String val = valueControllers[attr]?.text.trim() ?? "";
+    if (val.isEmpty) return;
+
+    attributeValues[attr]!.add(val);
+    valueControllers[attr]!.clear();
+  }
+
+  void removeAttributeValue(String attr, String value) {
+    attributeValues[attr]?.remove(value);
+  }
+  TextEditingController basePriceController = TextEditingController();
+  TextEditingController baseStockController = TextEditingController();
+  // ✅ Custom Attribute (same container me show hoga)
+
+  void addCustomAttribute() {
+    final name = customAttrNameController.text.trim();
+    final values = customAttrValueController.text.trim().split(',').map((e) => e.trim()).toList();
+
+    if (name.isEmpty || values.isEmpty) return;
+
+    // Sirf custom attributes list me add karo
+
+    // Input fields clear karo
+    customAttrNameController.clear();
+    customAttrValueController.clear();
+  }
+  void addCustomAttributeField() {
+    customAttributes.add(AttributeModel());
+  }
+  void removeCustomAttributeField(int index) {
+    customAttributes.removeAt(index);
+  }
+  RxList<AttributeModel> customAttributes = <AttributeModel>[].obs;
+
+  // ✅ Generate Variants
+  void generateVariants() {
+    variantList.clear();
+
+    if (selectedVariantAttributes.isEmpty) return;
+
+    List<List<String>> allValues = [];
+
+    for (var attr in selectedVariantAttributes) {
+      final values = attributeValues[attr];
+      if (values == null || values.isEmpty) return;
+      allValues.add(values);
+    }
+
+    List<Map<String, String>> combinations = [];
+
+    void generate(int index, Map<String, String> current) {
+      if (index == selectedVariantAttributes.length) {
+        combinations.add(Map.from(current));
+        return;
+      }
+
+      String attr = selectedVariantAttributes[index];
+
+      for (String val in attributeValues[attr]!) {
+        current[attr] = val;
+        generate(index + 1, current);
+      }
+    }
+
+    generate(0, {});
+
+    for (var combo in combinations) {
+      variantList.add(
+        VariantModel(
+          values: combo,
+          sku: _generateSKU(combo),
+        ),
+      );
+    }
+  }
+
+  String _generateSKU(Map<String, String> values) {
+    return values.values.map((e) {String clean = e.trim().toUpperCase();
+      if (clean.length >= 3) {return clean.substring(0, 3);} else {return clean;}}).join("-");}
+
   final GlobalKey titleKey = GlobalKey();
   final GlobalKey descriptionKey = GlobalKey();
+  final GlobalKey packageKey = GlobalKey();
+  final GlobalKey weightKey = GlobalKey();
+  final GlobalKey modelNoKey = GlobalKey();
   final GlobalKey categoryKey = GlobalKey();
   final GlobalKey regularKey = GlobalKey();
   final GlobalKey saleKey = GlobalKey();
   final GlobalKey cuisineKey = GlobalKey();
   final GlobalKey menuSectionKey = GlobalKey();
   final GlobalKey preparationKey = GlobalKey();
+  final GlobalKey barcodeKey = GlobalKey();
+  final GlobalKey promoKey = GlobalKey();
+  final GlobalKey skuKey = GlobalKey();
+  final GlobalKey stockKey = GlobalKey();
+  final GlobalKey fulfillmentKey = GlobalKey();
+  final GlobalKey brandKey = GlobalKey();
+  final GlobalKey screenSizeKey = GlobalKey();
+  final GlobalKey storageKey = GlobalKey();
+  final GlobalKey processorKey = GlobalKey();
+  final GlobalKey ramKey = GlobalKey();
+  final GlobalKey warrantyKey = GlobalKey();
+  final GlobalKey colorKey = GlobalKey();
 
-  void scrollToField(GlobalKey key,{double? allignment}) {
-
+  void scrollToField(GlobalKey key, {double? allignment}) {
     final context = key.currentContext;
     if (context != null) {
       print("Scrolling to field: ${key.toString()}");
@@ -57,7 +301,7 @@ class RestaurantProductAddController extends GetxController {
         context,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        alignment:allignment ??  0,
+        alignment: allignment ?? 0,
       );
     }
   }
@@ -74,7 +318,8 @@ class RestaurantProductAddController extends GetxController {
   // bool isCategoryValidation = false;
 
   // final RestaurantProductController restaurantProductController=Get.put(RestaurantProductController());
-  final RestaurantDashboardController restaurantDashboardController=Get.put(RestaurantDashboardController());
+  final RestaurantDashboardController restaurantDashboardController =
+      Get.put(RestaurantDashboardController());
 
   GlobalKey<FormState> publishButtonKey = GlobalKey<FormState>();
   GlobalKey<FormState> addOnButtonKey = GlobalKey<FormState>();
@@ -83,9 +328,24 @@ class RestaurantProductAddController extends GetxController {
   Rx<TextEditingController> titleController = TextEditingController().obs;
   Rx<TextEditingController> skuController = TextEditingController().obs;
   Rx<TextEditingController> descriptionController = TextEditingController().obs;
-  Rx<TextEditingController> regularPriceController = TextEditingController().obs;
+  Rx<TextEditingController> regularPriceController =
+      TextEditingController().obs;
   Rx<TextEditingController> salePriceController = TextEditingController().obs;
   Rx<TextEditingController> preparationController = TextEditingController().obs;
+  Rx<TextEditingController> promoController = TextEditingController().obs;
+  Rx<TextEditingController> barcodeController = TextEditingController().obs;
+  Rx<TextEditingController> stockController = TextEditingController().obs;
+  Rx<TextEditingController> packageController = TextEditingController().obs;
+  Rx<TextEditingController> fulfillmentController = TextEditingController().obs;
+  Rx<TextEditingController> brandController = TextEditingController().obs;
+  Rx<TextEditingController> screenSizeController = TextEditingController().obs;
+  Rx<TextEditingController> storageController = TextEditingController().obs;
+  Rx<TextEditingController> ramController = TextEditingController().obs;
+  Rx<TextEditingController> processorController = TextEditingController().obs;
+  Rx<TextEditingController> colorController = TextEditingController().obs;
+  Rx<TextEditingController> warrantController = TextEditingController().obs;
+  // Rx<TextEditingController> customAttrNameController  = TextEditingController().obs;
+  // Rx<TextEditingController> customAttrValueController   = TextEditingController().obs;
 
   RxString selectedCategoryId = "".obs;
 
@@ -93,8 +353,10 @@ class RestaurantProductAddController extends GetxController {
   RxBool isAddOn = false.obs;
   RxList<bool> isExtra = RxList<bool>([]);
 
-  RxList<List<TextEditingController>> masterNameControllerList = RxList<List<TextEditingController>>([]);
-  RxList<List<TextEditingController>> masterPriceControllerList = RxList<List<TextEditingController>>([]);
+  RxList<List<TextEditingController>> masterNameControllerList =
+      RxList<List<TextEditingController>>([]);
+  RxList<List<TextEditingController>> masterPriceControllerList =
+      RxList<List<TextEditingController>>([]);
 
   RxList<List<GlobalKey>> masterNameKeyList = RxList<List<GlobalKey>>([]);
   RxList<List<GlobalKey>> masterPriceKeyList = RxList<List<GlobalKey>>([]);
@@ -103,7 +365,8 @@ class RestaurantProductAddController extends GetxController {
 
   // options
   RxList<int> selectedOptionIndexes = <int>[].obs;
-  RxList<List<Map<String, dynamic>>> sizeConfigs = <List<Map<String, dynamic>>>[].obs;
+  RxList<List<Map<String, dynamic>>> sizeConfigs =
+      <List<Map<String, dynamic>>>[].obs;
 
   List<Map<String, dynamic>> getOptionsPayload() {
     final payload = <Map<String, dynamic>>[];
@@ -160,13 +423,14 @@ class RestaurantProductAddController extends GetxController {
   final GlobalKey<FormState> addOnFormKey = GlobalKey<FormState>();
 
 // Tracks price controllers per row
-  RxList<TextEditingController> addOnPriceControllers = <TextEditingController>[].obs;
+  RxList<TextEditingController> addOnPriceControllers =
+      <TextEditingController>[].obs;
 
 // Call this when category changes
   void filterAddOnsByCategory(String categoryId) {
     // Find category by ID
     Categories? category = apiCategoryData.value.categories?.firstWhere(
-          (cat) => cat.id == categoryId,
+      (cat) => cat.id == categoryId,
       orElse: () => Categories(), // return empty category if not found
     );
 
@@ -222,7 +486,6 @@ class RestaurantProductAddController extends GetxController {
     return payload;
   }
 
-
 //----------------------------------------------------------------------------------------
 
   void printFullProductPayload() {
@@ -236,11 +499,21 @@ class RestaurantProductAddController extends GetxController {
       "cuisineType": selectedCuisineType.value,
       "menuSection": selectedMenuSection.value,
       "preparationTime": preparationController.value.text,
-      "mainImage": imageBase64.value.isEmpty ? "No image" : "Image Base64 string (length: ${imageBase64.value.length})",
-      "image0": additionalImageBase64[0].value.isEmpty ? "No image" : "Additional Image 0 (length: ${additionalImageBase64[0].value.length})",
-      "image1": additionalImageBase64[1].value.isEmpty ? "No image" : "Additional Image 1 (length: ${additionalImageBase64[1].value.length})",
-      "image2": additionalImageBase64[2].value.isEmpty ? "No image" : "Additional Image 2 (length: ${additionalImageBase64[2].value.length})",
-      "image3": additionalImageBase64[3].value.isEmpty ? "No image" : "Additional Image 3 (length: ${additionalImageBase64[3].value.length})",
+      "mainImage": imageBase64.value.isEmpty
+          ? "No image"
+          : "Image Base64 string (length: ${imageBase64.value.length})",
+      "image0": additionalImageBase64[0].value.isEmpty
+          ? "No image"
+          : "Additional Image 0 (length: ${additionalImageBase64[0].value.length})",
+      "image1": additionalImageBase64[1].value.isEmpty
+          ? "No image"
+          : "Additional Image 1 (length: ${additionalImageBase64[1].value.length})",
+      "image2": additionalImageBase64[2].value.isEmpty
+          ? "No image"
+          : "Additional Image 2 (length: ${additionalImageBase64[2].value.length})",
+      "image3": additionalImageBase64[3].value.isEmpty
+          ? "No image"
+          : "Additional Image 3 (length: ${additionalImageBase64[3].value.length})",
     };
 
     // 🔹 Print clean formatted JSON
@@ -250,20 +523,22 @@ class RestaurantProductAddController extends GetxController {
     debugPrint("==================================================");
   }
 
-
   RxBool activeSalePriceValidation = false.obs;
 
   RxInt addOnItemCount = 0.obs;
 
-  RxList<TextEditingController> addOnControllersList = RxList<TextEditingController>([]);
+  RxList<TextEditingController> addOnControllersList =
+      RxList<TextEditingController>([]);
   RxList<GlobalKey> addOnControllersKeyList = RxList<GlobalKey>([]);
   RxList<GlobalKey> addOnDropdownKeyList = RxList<GlobalKey>([]);
 
   final ImagePicker _picker = ImagePicker();
   Rx<File?> image = Rx<File?>(null);
   RxString imageBase64 = "".obs;
-  RxList<Rx<File?>> additionalImages = RxList<Rx<File?>>.generate(4, (index) => Rx<File?>(null));
-  RxList<RxString> additionalImageBase64 = RxList<RxString>.generate(4, (index) => ''.obs);
+  RxList<Rx<File?>> additionalImages =
+      RxList<Rx<File?>>.generate(6, (index) => Rx<File?>(null));
+  RxList<RxString> additionalImageBase64 =
+      RxList<RxString>.generate(6, (index) => ''.obs);
   XFile? _pickedFile;
 
   Future<void> cropImage(Rx<File?> image, RxString imageBase64) async {
@@ -278,7 +553,7 @@ class RestaurantProductAddController extends GetxController {
             toolbarTitle: 'Image Cropper',
             toolbarColor: AppColors.primary,
             toolbarWidgetColor: Colors.white,
-            initAspectRatio:CropAspectRatioPresetCustom2x2(),
+            initAspectRatio: CropAspectRatioPresetCustom2x2(),
             statusBarColor: AppColors.primary,
             lockAspectRatio: true,
             aspectRatioPresets: [CropAspectRatioPresetCustom2x2()],
@@ -298,7 +573,8 @@ class RestaurantProductAddController extends GetxController {
         final compressedFile = await compressImage(imageFile: image.value!);
         final compressedFileAsFile = File(compressedFile.path);
 
-        final base64String = await convertImageToBase64(imageBase64,compressedFileAsFile);
+        final base64String =
+            await convertImageToBase64(imageBase64, compressedFileAsFile);
         if (base64String.isNotEmpty) {
           print("Base64 Image: --->>>$base64String<<<-----");
           imageBase64.value = base64String;
@@ -306,11 +582,11 @@ class RestaurantProductAddController extends GetxController {
           print("Failed to convert image to Base64");
         }
       }
-
     }
   }
 
-  Future<String> convertImageToBase64(RxString imageBase64, File imageFile) async {
+  Future<String> convertImageToBase64(
+      RxString imageBase64, File imageFile) async {
     try {
       final bytes = await imageFile.readAsBytes();
       imageBase64.value = base64Encode(bytes);
@@ -323,17 +599,19 @@ class RestaurantProductAddController extends GetxController {
   }
 
   Future<void> pickImage(BuildContext context) async {
-      final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
 
-      if (pickedImage != null) {
-        _pickedFile = pickedImage;
-        cropImage(image, imageBase64);
-        update();
-      }
+    if (pickedImage != null) {
+      _pickedFile = pickedImage;
+      cropImage(image, imageBase64);
+      update();
     }
+  }
 
   Future<void> pickMoreImage(int index) async {
-    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       _pickedFile = pickedImage;
@@ -349,8 +627,10 @@ class RestaurantProductAddController extends GetxController {
   }) async {
     log(imageFile.lengthSync().toString(), name: "Original size");
     try {
-      final String targetPath = p.join(Directory.systemTemp.path, 'temp.${format.name}');
-      final XFile? compressedImage = await FlutterImageCompress.compressAndGetFile(
+      final String targetPath =
+          p.join(Directory.systemTemp.path, 'temp.${format.name}');
+      final XFile? compressedImage =
+          await FlutterImageCompress.compressAndGetFile(
         imageFile.path,
         targetPath,
         quality: quality,
@@ -371,17 +651,19 @@ class RestaurantProductAddController extends GetxController {
     }
   }
 
-
-
   Rx<TextEditingController> useController = TextEditingController().obs;
+  Rx<TextEditingController> weightController = TextEditingController().obs;
   Rx<TextEditingController> dosageController = TextEditingController().obs;
   Rx<TextEditingController> overDoseController = TextEditingController().obs;
   Rx<TextEditingController> interactionController = TextEditingController().obs;
   Rx<TextEditingController> sideEffectsController = TextEditingController().obs;
   Rx<TextEditingController> adviceController = TextEditingController().obs;
   Rx<TextEditingController> notUseController = TextEditingController().obs;
-  Rx<TextEditingController> otherDetailsController = TextEditingController().obs;
+  Rx<TextEditingController> otherDetailsController =
+      TextEditingController().obs;
   Rx<TextEditingController> warningsController = TextEditingController().obs;
+  Rx<TextEditingController> conditionController = TextEditingController().obs;
+  Rx<TextEditingController> modelController = TextEditingController().obs;
 
   RxString status = "1".obs;
   // RxList<Map<String, dynamic>> extraListOfMap = RxList<Map<String, dynamic>>([]);
@@ -392,6 +674,9 @@ class RestaurantProductAddController extends GetxController {
     getCategoryApi();
     // getAddOnApi();
     getCuisineTypeApi();
+    if (customAttributes.isEmpty) {
+      customAttributes.add(AttributeModel());
+    }
     super.onInit();
   }
 
@@ -423,8 +708,7 @@ class RestaurantProductAddController extends GetxController {
     final addOns = buildAddOnPayload();
     final options = getOptionsPayload();
 
-    var data =
-    {
+    var data = {
       "title": productTitle,
       "category_id": categoryId,
       "regular_price": regularPrice,
@@ -432,11 +716,13 @@ class RestaurantProductAddController extends GetxController {
       "description": description,
       "status": status,
       "cuisine_id": cuisineType,
-      "menu_section": formatToSnakeCase(selectedMenuSection.value.toLowerCase()),
+      "menu_section":
+          formatToSnakeCase(selectedMenuSection.value.toLowerCase()),
       "preparation_time": preparationController.value.text,
       if (addOns.isNotEmpty) "addons": addOns,
       if (options.isNotEmpty) "options": options,
-      if(selectedAttributeIds.isNotEmpty) "product_attributes":  selectedAttributeIds,
+      if (selectedAttributeIds.isNotEmpty)
+        "product_attributes": selectedAttributeIds,
       "image": mainImage,
       "addimg1": image0,
       "addimg2": image1,
@@ -457,11 +743,11 @@ class RestaurantProductAddController extends GetxController {
         Get.back(result: true);
 
         Utils.showToast(apiData.value.message ?? "Something went wrong!");
-      }
-      else{
+      } else {
         setError(error.toString());
         setRxRequestStatus(ApiStatus.ERROR);
-        Utils.showToast(apiData.value.errors?.first ?? "Something went wrong!", bgColor: AppColors.red);
+        Utils.showToast(apiData.value.errors?.first ?? "Something went wrong!",
+            bgColor: AppColors.red);
       }
     }).onError((error, stackError) {
       setError(error.toString());
@@ -471,22 +757,20 @@ class RestaurantProductAddController extends GetxController {
     });
   }
 
-
-
   final rxRequestCategoryStatus = ApiStatus.COMPLETED.obs;
   RxString categoryError = ''.obs;
   final apiCategoryData = CommonGetCategoryModel().obs;
-  void setRxRequestCategoryStatus(ApiStatus value) => rxRequestCategoryStatus.value = value;
-  void categorySetData(CommonGetCategoryModel value) => apiCategoryData.value = value;
+  void setRxRequestCategoryStatus(ApiStatus value) =>
+      rxRequestCategoryStatus.value = value;
+  void categorySetData(CommonGetCategoryModel value) =>
+      apiCategoryData.value = value;
   void setCategoryError(String value) => categoryError.value = value;
-
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<get category api>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   Future<void> getCategoryApi() async {
-
     setRxRequestCategoryStatus(ApiStatus.LOADING);
-
     api.commonGetCategoryApi().then((value) {
       categorySetData(value);
-      if(apiCategoryData.value.status == true){
+      if (apiCategoryData.value.status == true) {
         // apiCategoryData.value.categories?.insert(0, Categories(id: "",name: "Choose Category"));
         // selectedCategoryId.value = apiCategoryData.value.categories![0].id!;
         // attributeList.value = apiCategoryData.value.categories![0];
@@ -494,12 +778,12 @@ class RestaurantProductAddController extends GetxController {
         if (attributeList.value.options != null) {
           sizeConfigs.value = List.generate(
             attributeList.value.options!.length,
-                (_) => [], // empty list of name/price pairs for each option
+            (_) => [], // empty list of name/price pairs for each option
           );
           selectedOptionIndexes.clear();
         }
         setRxRequestCategoryStatus(ApiStatus.COMPLETED);
-      }else{
+      } else {
         print(categoryError);
         setRxRequestCategoryStatus(ApiStatus.ERROR);
       }
@@ -510,53 +794,27 @@ class RestaurantProductAddController extends GetxController {
     });
   }
 
- /* RxString selectedAddOn = "".obs;
-  RxList<String> selectedAddOnExtra = RxList<String>([]);
-  final rxRequestAddOnStatus = ApiStatus.COMPLETED.obs;
-  RxString addOnError = ''.obs;
-  final apiAddOnData = RestaurantGetAddOnModel().obs;
-  void setRxRequestAddOnStatus(ApiStatus value) => rxRequestAddOnStatus.value = value;
-  void addOnSetData(RestaurantGetAddOnModel value) => apiAddOnData.value = value;
-  void setAddOnError(String value) => addOnError.value = value;
-
-  Future<void> getAddOnApi() async {
-
-    setRxRequestAddOnStatus(ApiStatus.LOADING);
-
-    await api.restaurantGetAddOnApi().then((value) {
-      addOnSetData(value);
-      if(apiAddOnData.value.status == true){
-        // apiAddOnData.value.addons!.insert(0,Addons(name: "Choose Addon", id: ''));
-        // selectedAddOn.value = apiAddOnData.value.addons![0].id!;
-        // addOnListOfMap[0]["id"] = apiAddOnData.value.addons![0].id!;
-        setRxRequestAddOnStatus(ApiStatus.COMPLETED);
-      }
-    }).onError((error, stackError) {
-      setAddOnError(error.toString());
-      print(error);
-      setRxRequestAddOnStatus(ApiStatus.ERROR);
-    });
-  }*/
-
   RxString selectedCuisineType = "".obs;
+  RxString selectedBrandType = "".obs;
   final rxRequestCuisineTypeStatus = ApiStatus.COMPLETED.obs;
   RxString cuisineTypeError = ''.obs;
   final apiCuisineTypeData = RestaurantCuisineTypeModel().obs;
-  void setRxRequestCuisineTypeStatus(ApiStatus value) => rxRequestCuisineTypeStatus.value = value;
-  void cuisineTypeSetData(RestaurantCuisineTypeModel value) => apiCuisineTypeData.value = value;
+  void setRxRequestCuisineTypeStatus(ApiStatus value) =>
+      rxRequestCuisineTypeStatus.value = value;
+  void cuisineTypeSetData(RestaurantCuisineTypeModel value) =>
+      apiCuisineTypeData.value = value;
   void setCuisineTypeError(String value) => cuisineTypeError.value = value;
 
   Future<void> getCuisineTypeApi() async {
-
     setRxRequestCuisineTypeStatus(ApiStatus.LOADING);
 
     api.restaurantGetCuisineTypeApi().then((value) {
       cuisineTypeSetData(value);
-      if(apiCuisineTypeData.value.status == true){
+      if (apiCuisineTypeData.value.status == true) {
         // apiCuisineTypeData.value.cuisine?.insert(0, Cuisine(name: "Choose Cuisine", id: ""));
         // selectedCuisineType.value = apiCuisineTypeData.value.cuisine![0].id!;
         setRxRequestCuisineTypeStatus(ApiStatus.COMPLETED);
-      }else{
+      } else {
         print(error);
         setRxRequestCuisineTypeStatus(ApiStatus.ERROR);
       }
@@ -567,6 +825,20 @@ class RestaurantProductAddController extends GetxController {
     });
   }
 
+  List<String> departmentList = [
+    "Mobiles",
+    "Laptops",
+    "Tablets",
+    "Television",
+    "Headphones & Earbuds",
+    "Speakers",
+    "Cameras",
+    "Smart Watches",
+    "Accessories",
+    "Gaming Consoles",
+    "Computer Accessories",
+    "Home Appliances",
+  ];
 }
 
 class StatusDropdownItem {
@@ -582,3 +854,42 @@ final statusItems = [
   StatusDropdownItem(name: "Inactive", id: "0"),
 ];
 
+class DepartmentDropdownItem {
+  final String id;
+  final String name;
+
+  DepartmentDropdownItem({required this.id, required this.name});
+}
+
+final departmentItems = [
+  DepartmentDropdownItem(name: "Mobiles", id: "1"),
+  DepartmentDropdownItem(name: "Laptops", id: "2"),
+  DepartmentDropdownItem(name: "Tablets", id: "3"),
+  DepartmentDropdownItem(name: "Television", id: "4"),
+  DepartmentDropdownItem(name: "Headphones & Earbuds", id: "5"),
+  DepartmentDropdownItem(name: "Speakers", id: "6"),
+  DepartmentDropdownItem(name: "Cameras", id: "7"),
+  DepartmentDropdownItem(name: "Smart Watches", id: "8"),
+  DepartmentDropdownItem(name: "Accessories", id: "9"),
+  DepartmentDropdownItem(name: "Gaming Consoles", id: "10"),
+  DepartmentDropdownItem(name: "Computer Accessories", id: "11"),
+  DepartmentDropdownItem(name: "Home Appliances", id: "12"),
+];
+
+class VariantModel {
+  RxBool isSelected = true.obs;
+
+  Map<String, String> values;
+  String sku;
+  RxDouble price = 0.0.obs;
+  RxInt stock = 0.obs;
+
+  VariantModel({
+    required this.values,
+    required this.sku,
+  });
+}
+class AttributeModel {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController valueController = TextEditingController();
+}
