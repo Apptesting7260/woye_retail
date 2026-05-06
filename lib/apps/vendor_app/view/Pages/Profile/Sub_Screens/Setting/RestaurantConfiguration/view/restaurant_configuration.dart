@@ -553,10 +553,10 @@ class _RestaurantConfigurationScreenState extends State<RestaurantConfigurationS
 
         // ------------------ Timer Cards ------------------
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             timerCard(title: "Set Holiday Hours", icon: ImageConstants.timer),
-            timerCard(title: "Copy to All Days", icon: ImageConstants.timer,onTap: () => controller.copyToAllDays()),
+            timerCard(title: "Senior Shopping Hours", icon: ImageConstants.timer,onTap: () => controller.copyToAllDays()),
           ],
         ),
         hBox(12),
@@ -626,8 +626,8 @@ class _RestaurantConfigurationScreenState extends State<RestaurantConfigurationS
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
              AppImage(path: icon,height: 18,width: 18),
-              wBox(title == "Reset to Default" ? 10 : 5),
-              Text(title,style: AppFontStyle.text_14_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium))
+              wBox(title == "Reset to Default" ? 15 : 5),
+              Text(title,style: AppFontStyle.text_12_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium))
             ],
           ),
         ),

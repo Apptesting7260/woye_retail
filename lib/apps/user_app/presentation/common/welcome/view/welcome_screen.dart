@@ -89,8 +89,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       AppColors.black,
                       fontFamily: AppFontFamily.onestRegular,
                     ),
-                    width: 200,
-                    color: AppColors.buttonHideColor.withAlpha(20),
+                    width: 180.w,
+                    color: AppColors.searchText,
                     borderSide: BorderSide(color: AppColors.buttonHideColor.withAlpha(50), width: 0.5),
                     onPressed: () {
                       // Get.to(() => const LoginScreen());

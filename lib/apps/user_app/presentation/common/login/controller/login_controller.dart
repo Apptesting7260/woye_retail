@@ -31,7 +31,19 @@ class LoginController extends GetxController {
   final loginFormKey = GlobalKey<FormState>();
   final UserPreference pref = UserPreference();
   UserModel userModel = UserModel();
+  @override
+  void onInit() {
+    super.onInit();
 
+    emailController.value.clear();
+    passwordController.value.clear();
+  }
+  @override
+  void onClose() {
+    emailController.value.clear();
+    passwordController.value.clear();
+    super.onClose();
+  }
   RxString selectedType = "customer".obs;
 
   void setCustomer() {

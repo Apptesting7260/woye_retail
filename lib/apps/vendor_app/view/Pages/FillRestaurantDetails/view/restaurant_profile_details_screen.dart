@@ -119,15 +119,15 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
                             ? "Update Your Personal Details"
                             : "Fill Your Personal Details",
                         description:
-                        "Fill your restaurant's basic details and contact information",
+                        "Fill your store basic details and contact information",
                       ),
                       hBox(30.h),
                       profileDetails(),
                       hBox(30.h),
                       header(
                         title: controller.userModel.step == 3
-                            ? "Update Your Shop Details"
-                            : "Fill Your Shop Details",
+                            ? "Update Your Store Details"
+                            : "Fill Your Store Details",
                         description:
                         "Lorem Ipsum is simply dummy text of the debugPrinting and typesetting industry.",
                       ),
@@ -143,7 +143,7 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
                       // selectedDelivery(),
                       hBox(30.h),
                       Text(
-                        "Shop Opening Hours",
+                        "Store Opening Hours",
                         style: AppFontStyle.customText(
                           AppColors.darkText,
                           18.sp,
@@ -169,26 +169,6 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Obx(() {
-        //   if (controller.isValidAddress.value == false) {
-        //     return  Padding(
-        //       padding: REdgeInsets.only(left: 10),
-        //       child: Text(
-        //         'Please select a valid address',
-        //         style: AppFontStyle.text_12_400(controller.isValidAddress.value  ? AppColors.darkText : AppColors.errorColor,fontFamily: AppFontFamily.gilroyMedium),
-        //       ),
-        //     );
-        //   }else if(controller.locationController.text.isEmpty && controller.isAddressRedClr.value ){
-        //     return  Padding(
-        //       padding: REdgeInsets.only(left: 5),
-        //       child: Text(
-        //         'Enter your address',
-        //         style:AppFontStyle.text_12_400( AppColors.errorColor, fontFamily: AppFontFamily.gilroyMedium),
-        //       ),
-        //     );
-        //   }
-        //   return const SizedBox.shrink();
-        // }),
         hBox(8.h),
         MapboxSearchField(
           key: controller.addressKey,
@@ -213,60 +193,6 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
             Text("Latitude: ${controller.latitude.value}, Longitude: ${controller.longitude.value}");
           },
         ),
-        /* AddressFromGoogleAPI(
-          key: controller.addressKey,
-          controller: controller.locationController,
-          onChanged: (value) {
-            // // controller.isSubmit.value = false;
-            controller.isValidAddress.value = false;
-
-            // debugPrint("SelectedLocation 1${controller.isValidAddress.value}");
-            // addressSetController.house_noController.value.clear();
-          },
-          onTapOutSide: (event) {
-            FocusManager.instance.primaryFocus?.unfocus();
-          },
-          suggestionsCallback: (query) async {
-            return await controller.searchAutocomplete(query);
-          },
-          itemBuilder: (context, Predictions suggestion) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  title: Text(
-                    suggestion.description ?? "",
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const Divider(
-                  height: 0,
-                ),
-              ],
-            );
-          },
-          onSelected: (Predictions selectedAddress) {
-            controller.locationController.text = selectedAddress.description ?? "";
-            controller.getLatLang(controller.locationController.text);
-            controller.selectedLocation = controller.locationController.text;
-            controller.isValidAddress.value = true;
-            controller.searchPlace.clear();
-            debugPrint("SelectedLocation :  ${controller.selectedLocation}");
-            debugPrint("isValidAddress 2 : ${controller.isValidAddress}");
-            return;
-          },
-          hintText: 'Address',
-
-          validator: (value) {
-            if (controller.isValidAddress.value == false) {
-              return  'Please select a valid address';
-            }else if(controller.locationController.text.isEmpty){
-              return 'Enter your address';
-            }
-            return null;
-          },
-        ),*/
       ],
     );
   }
@@ -454,7 +380,7 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
       },
       maxLines: 4,
       minLines: 4,
-      hintText: 'Shop Description',
+      hintText: 'Store Description',
     );
   }
 
@@ -474,12 +400,12 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
           // if(controller.isSubmit.value){
           //   controller.scrollToField(controller.shopNameKey);
           // }
-          return "Please enter shop name";
+          return "Please enter Store name";
         }
         return null;
 
       },
-      hintText: 'Shop Name',
+      hintText: 'Store Name',
     );
   }
 
@@ -859,13 +785,10 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
                                 key:controller.imageKey,
                                 height: 200,
                                 width: Get.width,
-                                child: controller.image.value != null
-                                    ? Image.file(
+                                child: controller.image.value != null ? Image.file(
                                   controller.image.value!,
                                   fit: BoxFit.fill,
-                                )
-                                    : controller.profileApiData.value.vendor?.step != "1" ?
-                                controller.profileApiData.value.vendor?.logoUrl != null
+                                ) : controller.profileApiData.value.vendor?.step != "1" ? controller.profileApiData.value.vendor?.logoUrl != null
                                     ? CachedNetworkImage(
                                   imageUrl: controller.profileApiData.value.vendor!.logoUrl.toString(),
                                   fit: BoxFit.fill,
@@ -905,7 +828,7 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Upload your restaurant logo",
+                            "Upload your store logo",
                             style: AppFontStyle.text_14_400(
                               AppColors.greyClr,
                               fontFamily: AppFontFamily.gilroyMedium,
@@ -962,7 +885,7 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
                   hBox(8.h),
                   Padding(
                     padding: REdgeInsets.only(left: 8.0),
-                    child: Text("Please select restaurant logo", style: AppFontStyle.text_12_200(AppColors.errorColor, fontFamily: AppFontFamily.gilroyMedium),),
+                    child: Text("Please select store logo", style: AppFontStyle.text_12_200(AppColors.errorColor, fontFamily: AppFontFamily.gilroyMedium),),
                   ),
                 ],
               ],
