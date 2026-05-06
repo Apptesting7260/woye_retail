@@ -266,8 +266,11 @@ class RestaurantCategoriesController extends GetxController {
       choosesCategoriesSet(value);
       if (choosesCategoriesData.value.status == true) {
         setCatRxRequestStatus(ApiStatus.COMPLETED);
+        // for(int i=0;i<choosesCategoriesData.value.categories!.length;i++){
+        //   selectedCategories.add(choosesCategoriesData.value.categories?[i].id);
+        //   initialCategories.add(choosesCategoriesData.value.categories?[i].id);
+        // }
         for(int i=0;i<choosesCategoriesData.value.categories!.length;i++){
-          selectedCategories.add(choosesCategoriesData.value.categories?[i].id);
           initialCategories.add(choosesCategoriesData.value.categories?[i].id);
         }
       } else {

@@ -15,19 +15,17 @@ import '../../../../../../shared/theme/font_family.dart';
 import '../../../../../../shared/theme/font_style.dart';
 import '../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../shared/widgets/shimmer_widget.dart';
-import '../../../../../../shared/widgets/vendor_widgets/app_container.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_delete_alert_dialog.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
-import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../controller/restaurant_categories_controller.dart';
 
 class ChooseRestaurantCategoriesScreen extends StatelessWidget {
   ChooseRestaurantCategoriesScreen({super.key});
 
-  // final RestaurantCategoriesController controller = Get.find<RestaurantCategoriesController>();
-  final RestaurantCategoriesController controller =Get.put(RestaurantCategoriesController());
+  final RestaurantCategoriesController controller = Get.find<RestaurantCategoriesController>();
+  // final RestaurantCategoriesController controller =Get.put(RestaurantCategoriesController());
   // final RestaurantCategoryController restaurantCategoryController =Get.put(RestaurantCategoryController());
 
   @override
@@ -65,10 +63,7 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
                               // controller.searchQuery.value.isNotEmpty && controller.searchListCategory.isEmpty ?
                               //  CustomNoResultFound(heightBox: hBox(0)):
                                categoriesList(
-                                  controller.searchQuery.value.isNotEmpty
-                                  ? controller.searchListCategory
-                                  : controller.categoriesData.value.data?.categories
-                              ),
+                                   controller.searchQuery.value.isNotEmpty ? controller.searchListCategory : controller.categoriesData.value.data?.categories),
                               //     : cuisinesList(
                               //     controller.searchQueryCuisines.value.isNotEmpty
                               //         ? controller.searchListCuisines
@@ -118,13 +113,7 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
             children: [
               Icon(Icons.check_circle_outline, size: 19,color: AppColors.blackTextColor,),
               wBox(10),
-              Text(
-                "Select Categories",
-                style: AppFontStyle.text_14_500(
-                  AppColors.blackTextColor,
-                  fontFamily: AppFontFamily.gilroySemiBold,
-                ),
-              ),
+              Text("Select Categories", style: AppFontStyle.text_14_500(AppColors.blackTextColor, fontFamily: AppFontFamily.gilroySemiBold,),),
             ],
           ),
         ),
@@ -134,79 +123,43 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
 
   Widget header() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        'Add Menu Categories and Cuisines',
-        style: AppFontStyle.customText(
-          AppColors.darkText,
-          20.sp,
-          FontWeight.w600,
-          fontFamily: AppFontFamily.gilroyMedium,
-        ),
-        maxLines: 2,
-      ),
+      Text('Add Menu Categories and Cuisines', style: AppFontStyle.customText(AppColors.darkText, 20.sp, FontWeight.w600,
+        fontFamily: AppFontFamily.gilroyMedium,), maxLines: 2,),
       hBox(6.h),
-      Text(
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-        style: AppFontStyle.customText(
-          AppColors.mediumText,
-          16.sp,
-          FontWeight.w400,
-          fontFamily: AppFontFamily.gilroyRegular,
-        ),
-        maxLines: 2,
-      ),
+      Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.", style: AppFontStyle.customText(AppColors.mediumText,
+          16.sp, FontWeight.w400, fontFamily: AppFontFamily.gilroyRegular,), maxLines: 2,),
     ]);
   }
 
    _searchBox() {
     return Obx(
       ()=> CustomTextFormField(
-        controller: controller.selectedTypeIndex.value == 0
-            ? controller.searchCategoriesController.value
-            : controller.searchCuisinesController.value,
-
+        controller: controller.selectedTypeIndex.value == 0 ? controller.searchCategoriesController.value : controller.searchCuisinesController.value,
         onChanged: (value) {
-
           if (controller.selectedTypeIndex.value == 0) {
             controller.searchQuery.value = value;
-
             if (value.isEmpty) {
               controller.searchListCategory.value = controller.categoriesData.value.data?.categories ?? [];
             } else {
-
               final list = controller.categoriesData.value.data?.categories ?? [];
               controller.searchListCategory.value = list.where((entry) =>(entry.name ?? "").toLowerCase().contains(value.toLowerCase())).toList();
             }
           }
-
           controller.update();
         },
 
-        suffix: (controller.selectedTypeIndex.value == 0 &&
-            controller.searchCategoriesController.value.text.isNotEmpty) ||
-            (controller.selectedTypeIndex.value == 1 &&
-                controller.searchCuisinesController.value.text.isNotEmpty)
-            ? IconButton(
+        suffix: (controller.selectedTypeIndex.value == 0 && controller.searchCategoriesController.value.text.isNotEmpty) ||
+            (controller.selectedTypeIndex.value == 1 && controller.searchCuisinesController.value.text.isNotEmpty) ? IconButton(
           onPressed: () {
-
             if (controller.selectedTypeIndex.value == 0) {
               controller.searchQuery.value = "";
               controller.searchCategoriesController.value.clear();
-              controller.searchListCategory.value =
-                  controller.categoriesData.value.data?.categories ?? [];
+              controller.searchListCategory.value = controller.categoriesData.value.data?.categories ?? [];
             }
             controller.update();
           },
-          icon: Icon(
-            Icons.cancel_outlined,
-            color: AppColors.grey.withAlpha(150),
-            size: 20.w,
-          ),
-        )
-            : const SizedBox.shrink(),
-
-        hintText:
-        controller.selectedTypeIndex.value == 0 ? "Search Category" : "",
+          icon: Icon(Icons.cancel_outlined, color: AppColors.grey.withAlpha(150), size: 20.w,),) : const SizedBox.shrink(),
+        hintText: controller.selectedTypeIndex.value == 0 ? "Search Category" : "",
       ),
     );
   }
@@ -216,123 +169,16 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
     return CustomElevatedButton(
       isLoading: controller.rxRequestStatus2.value == ApiStatus.LOADING,
       onPressed: () {
-        if (controller.selectedCategories.isNotEmpty) {
-          controller.categoriesCuisinesAddApi();
-        } else {
-          Utils.showToast("Please choose categories");
-        }
-      },
+              if (controller.selectedCategories.isEmpty) {
+                Utils.showToast("Please choose categories");
+                return;
+              }
+              controller.categoriesCuisinesAddApi();
+              },
       text: "Save",
     );
   }
-  // CustomElevatedButton continueButton() {
-  //   return CustomElevatedButton(
-  //     isLoading: controller.rxRequestStatus2.value == ApiStatus.LOADING,
-  //     onPressed: () {
-  //       pt("Selected: ${controller.selectedCategories}");
-  //
-  //       if (controller.selectedCategories.isEmpty ||
-  //           controller.selectedCategories.isEmpty) {
-  //         Utils.showToast("Please choose categories");
-  //         return;
-  //       }
-  //       controller.categoriesCuisinesAddApi();
-  //     },
-  //     text: "Save",
-  //   );
-  // }
-  // cuisinesList(List<Cuisines>? dataList) {
-  //   return (dataList?.isEmpty ?? false) ? CustomNoResultFound(heightBox: hBox(0)) :
-  //   ListView.separated(
-  //     physics: const NeverScrollableScrollPhysics(),
-  //     shrinkWrap: true,
-  //     itemCount: dataList?.length ?? 0,
-  //     itemBuilder: (context, index) {
-  //       return Obx(
-  //             () {
-  //           bool isSelected = controller.selectedCuisines.contains(dataList?[index].id);
-  //           return ListTile(
-  //             contentPadding: REdgeInsets.symmetric(horizontal: 12.h),
-  //             onTap: () {
-  //               if (isSelected) {
-  //                 // if(controller.initialCategories.contains(dataList[index].id)){
-  //                 //   Get.dialog(
-  //                 //     barrierDismissible: false,
-  //                 //     Padding(
-  //                 //       padding: REdgeInsets.symmetric(horizontal: 25),
-  //                 //       child: CustomDeleteAlertDialog(
-  //                 //         maxLine: 3,
-  //                 //         textAlign: TextAlign.center,
-  //                 //         title: "Warning !",
-  //                 //         titleColor: AppColors.red.withOpacity(0.8),
-  //                 //         subtitle: "All products in this category will be discontinued. Please ensure removal.",
-  //                 //         cancelOnTap: (){Get.back();},
-  //                 //         deleteOnTap: (){
-  //                 //           controller.selectedCategories.remove(dataList[index].id);
-  //                 //           Get.back();
-  //                 //         },
-  //                 //       ),
-  //                 //
-  //                 //     ),
-  //                 //   );
-  //                 // } else{
-  //                 //   controller.selectedCategories.remove(dataList[index].id);
-  //                 // }
-  //                 controller.selectedCuisines.remove(dataList[index].id);
-  //                 // controller.selectedCategories.remove(controller.categoriesData.value.category?[index].id);
-  //                 debugPrint("id remove in cuisinesList ${controller.selectedCuisines}");
-  //               } else {
-  //                 controller.selectedCuisines.add(dataList[index].id);
-  //                 debugPrint("id add in cuisinesList ${controller.selectedCuisines}");
-  //               }
-  //             },
-  //             shape: RoundedRectangleBorder(
-  //               side: BorderSide(
-  //                 color: isSelected
-  //                     ? AppColors.primary
-  //                     : AppColors.primary.withOpacity(0.2),
-  //                 width: 1,
-  //               ),
-  //               borderRadius: BorderRadius.all(Radius.circular(15.r)),
-  //             ),
-  //             leading: ClipRRect(
-  //               borderRadius: BorderRadius.circular(8.r),
-  //               child: CachedNetworkImage(
-  //                 imageUrl: dataList![index].imageUrl.toString(),
-  //                 height: 35.h,
-  //                 width: 35.w,
-  //                 fit: BoxFit.fill,
-  //                 placeholder: (context, url) => Shimmer.fromColors(
-  //                   baseColor: AppColors.bgColor,
-  //                   highlightColor: AppColors.lightText,
-  //                   child: Container(
-  //                     decoration: BoxDecoration(
-  //                       color: AppColors.grey,
-  //                       borderRadius: BorderRadius.circular(20.r),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //             title: Text(
-  //               dataList[index].name.toString(),
-  //               style: AppFontStyle.text_16_400(
-  //                 AppColors.darkText,
-  //                 fontFamily: AppFontFamily.gilroyMedium,
-  //               ),
-  //             ),
-  //             trailing: SvgPicture.asset(
-  //               isSelected ? ImageConstants.checkCircle : ImageConstants.circle,
-  //               height: 22,
-  //               width: 22,
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     },
-  //     separatorBuilder: (context, index) => hBox(12.h),
-  //   );
-  // }
+
 
   categoriesList(List<Categories>? dataList) {
     return (dataList?.isEmpty ?? false) ? CustomNoResultFound(heightBox: hBox(0)) :

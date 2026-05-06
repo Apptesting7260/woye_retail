@@ -128,24 +128,24 @@ class SignupScreen extends StatelessWidget {
                         ],
                       )),
                   hBox(20),
-                  Obx(() {
-                    if (signUpController.selectedType.value == 'customer') {
-                      return CustomTextFormField(
-                        height: 52,
-                        hintText: "Phone Number",
-                        textInputType: TextInputType.phone,
-                        prefixIcon: CountryCodePicker(
-                          textStyle: AppFontStyle.text_15_400(
-                              AppColors.greyTextColor, fontFamily: AppFontFamily.interRegular),
-                          padding: const EdgeInsets.only(left: 10),
-                          showFlag: false,
-                          showDropDownButton: true,
-                        ),
-                      );
-                    } else {
-                      return Form(
-                        key: signUpController.signUpFormKey,
-                        child: Column(
+                  Form(
+                    key: signUpController.signUpFormKey,
+                    child: Obx(() {
+                      if (signUpController.selectedType.value == 'customer') {
+                        return CustomTextFormField(
+                          height: 52,
+                          hintText: "Phone Number",
+                          textInputType: TextInputType.phone,
+                          prefixIcon: CountryCodePicker(
+                            textStyle: AppFontStyle.text_15_400(
+                                AppColors.greyTextColor, fontFamily: AppFontFamily.interRegular),
+                            padding: const EdgeInsets.only(left: 10),
+                            showFlag: false,
+                            showDropDownButton: true,
+                          ),
+                        );
+                      } else {
+                        return Column(
                           children: [
                             CustomTextFormField(
                               controller: signUpController.emailController.value,
@@ -217,10 +217,10 @@ class SignupScreen extends StatelessWidget {
                               ),
                             ),
                           ],
-                        ),
-                      );
-                    }
-                  }),
+                        );
+                      }
+                    }),
+                  ),
 
                   hBox(20),
                   // CustomElevatedButton(

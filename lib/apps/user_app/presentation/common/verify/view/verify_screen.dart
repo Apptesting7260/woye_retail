@@ -46,12 +46,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       left: 150,
                       right: 0,
                       child: Center(
-                        child: Text(
-                          'ALMOST',
-                          style: AppFontStyle.text_34_500(
-                            AppColors.black,
-                            fontFamily: AppFontFamily.interMedium,
-                          ),
+                        child: Text('ALMOST', style: AppFontStyle.text_34_500(AppColors.black, fontFamily: AppFontFamily.interMedium,),
                         ),
                       ),
                     ),
@@ -63,21 +58,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                 hBox(20),
-                Text("Verification code",
-                    style: AppFontStyle.text_28_500(AppColors.black,
-                      fontFamily: AppFontFamily.interSemiBold,)),
+                Text("Verification code", style: AppFontStyle.text_28_500(AppColors.black, fontFamily: AppFontFamily.interSemiBold,)),
                 hBox(1),
-                Text("Please enter the verification code sent to ",
-                    style: AppFontStyle.text_16_400(AppColors.greyLightColor,
-                      fontFamily: AppFontFamily.interRegular,)),
+                Text("Please enter the verification code sent to ", style: AppFontStyle.text_16_400(AppColors.greyLightColor, fontFamily: AppFontFamily.interRegular,)),
                 hBox(6),
-                      Obx(() => Text(
-                        verifyController.email.value,
-                        style: AppFontStyle.text_15_400(
-                          AppColors.blackTextColor,
-                          fontFamily: AppFontFamily.interRegular,
-                        ),
-                      )),
+                      Obx(() => Text(verifyController.email.value, style: AppFontStyle.text_15_400(AppColors.blackTextColor, fontFamily: AppFontFamily.interRegular,),)),
                       hBox(25),
                       Form(
                         key: verifyController.verifyFormKey,
@@ -105,13 +90,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         verifyController.forgotOtpStatus.value == ApiStatus.LOADING ||
                         verifyController.twoFactorOtpStatus.value == ApiStatus.LOADING
                         ? circularProgressIndicator(size: 30, color: Colors.white,)
-                        : Text(
-                      "Verify",
-                      style: AppFontStyle.text_18_600(
-                        AppColors.white,
-                        fontFamily: AppFontFamily.interSemiBold,
-                      ),
-                    ),
+                        : Text("Verify", style: AppFontStyle.text_18_600(AppColors.white, fontFamily: AppFontFamily.interSemiBold,),),
                     onPressed: () {
                       verifyController.otpError.value = "";
                       if (verifyController.verifyFormKey.currentState?.validate() != true) return;
@@ -121,27 +100,48 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   ),
                   ),
                       hBox(20),
+                      // Obx(() => Center(
+                      //   child: GestureDetector(
+                      //     onTap: () {
+                      //       if (verifyController.isForgotFlow.value == true) {
+                      //        verifyController.resendForgotOtpApi();
+                      //        } else if (verifyController.type.value == "2fa") {
+                      //         verifyController.twoFactorResendOtpApi();
+                      //       }
+                      //       else {
+                      //       verifyController.resendOtpApi();
+                      //       }
+                      //     },
+                      //     child: Text(
+                      //       verifyController.resendTimer.value > 0
+                      //           ? "Resend code in ${verifyController.resendTimer.value} s"
+                      //           : "Resend Code",
+                      //       style: AppFontStyle.text_18_500(
+                      //         verifyController.resendTimer.value > 0
+                      //             ? AppColors.greyTextColor
+                      //             : AppColors.primary,
+                      //         fontFamily: AppFontFamily.interRegular,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ))
                       Obx(() => Center(
                         child: GestureDetector(
-                          onTap: () {
+                          onTap: verifyController.resendTimer.value > 0
+                              ? null
+                              : () {
                             if (verifyController.isForgotFlow.value == true) {
-                             verifyController.resendForgotOtpApi();
-                             } else if (verifyController.type.value == "2fa") {
+                              verifyController.resendForgotOtpApi();
+                            } else if (verifyController.type.value == "2fa") {
                               verifyController.twoFactorResendOtpApi();
-                            }
-                            else {
-                            verifyController.resendOtpApi();
+                            } else {
+                              verifyController.resendOtpApi();
                             }
                           },
                           child: Text(
-                            verifyController.resendTimer.value > 0
-                                ? "Resend code in ${verifyController.resendTimer.value} s"
-                                : "Resend Code",
+                            verifyController.resendTimer.value > 0 ? "Resend code in ${verifyController.resendTimer.value} s" : "Resend Code",
                             style: AppFontStyle.text_18_500(
-                              verifyController.resendTimer.value > 0
-                                  ? AppColors.greyTextColor
-                                  : AppColors.primary,
-                              fontFamily: AppFontFamily.interRegular,
+                              verifyController.resendTimer.value > 0 ? AppColors.greyTextColor : AppColors.primary, fontFamily: AppFontFamily.interRegular,
                             ),
                           ),
                         ),

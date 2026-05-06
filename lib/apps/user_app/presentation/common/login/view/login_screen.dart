@@ -37,17 +37,14 @@ class LoginScreen extends StatelessWidget {
             Stack(
               children: [
                 Center(
-                    child: SvgPicture.asset(ImageConstants.loginSvg,
-                        height: 450.h, width: 371.w)),
+                    child: SvgPicture.asset(ImageConstants.loginSvg, height: 450.h, width: 371.w)),
                 CustomAppBar(),
                 Positioned(
                   top: 70,
                   left: 150,
                   right: 0,
                   child: Center(
-                    child: Text('LOG IN',
-                        style: AppFontStyle.text_34_500(AppColors.black,
-                            fontFamily: AppFontFamily.interMedium)),
+                    child: Text('LOG IN', style: AppFontStyle.text_34_500(AppColors.black, fontFamily: AppFontFamily.interMedium)),
                   ),
                 ),
               ],
@@ -57,9 +54,8 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 children: [
                   hBox(20),
-                  Text("Enter your registered phone number to log in",
-                      style: AppFontStyle.text_15_400(AppColors.greyLightColor,
-                          fontFamily: AppFontFamily.interRegular)),
+                  Text("Enter your registered phone number to log in", style: AppFontStyle.text_15_400(AppColors.greyLightColor,
+                      fontFamily: AppFontFamily.interRegular)),
                   hBox(25),
                   Obx(() => Row(
                         children: [
@@ -67,41 +63,23 @@ class LoginScreen extends StatelessWidget {
                             child: GestureDetector(
                               onTap: loginController.setCustomer,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 14, horizontal: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: loginController.selectedType.value ==
-                                            'customer'
-                                        ? AppColors.buttonColor
-                                        : AppColors.greyLightColor,
+                                    color: loginController.selectedType.value == 'customer' ? AppColors.buttonColor : AppColors.greyLightColor,
                                   ),
                                 ),
                                 child: Row(
                                   children: [
                                     Icon(
-                                      loginController.selectedType.value ==
-                                              'customer'
-                                          ? Icons.check_circle
-                                          : Icons.circle_outlined,
-                                      color:
-                                          loginController.selectedType.value ==
-                                                  'customer'
-                                              ? AppColors.buttonColor
-                                              : AppColors.greyLightColor,
+                                      loginController.selectedType.value == 'customer' ? Icons.check_circle : Icons.circle_outlined,
+                                      color: loginController.selectedType.value == 'customer' ? AppColors.buttonColor : AppColors.greyLightColor,
                                       size: 20,
                                     ),
                                     wBox(8),
-                                    Text("Customer",
-                                        style: AppFontStyle.text_15_400(
-                                          loginController.selectedType.value ==
-                                                  'customer'
-                                              ? AppColors.blackTextColor
-                                              : AppColors.greyLightColor,
-                                          fontFamily:
-                                              AppFontFamily.interRegular,
-                                        )),
+                                    Text("Customer", style: AppFontStyle.text_15_400(
+                                          loginController.selectedType.value == 'customer' ? AppColors.blackTextColor : AppColors.greyLightColor, fontFamily: AppFontFamily.interRegular,)),
                                   ],
                                 ),
                               ),
@@ -117,35 +95,21 @@ class LoginScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: loginController.selectedType.value ==
-                                            'vendor'
-                                        ? AppColors.buttonColor
-                                        : AppColors.greyLightColor,
+                                    color: loginController.selectedType.value == 'vendor'? AppColors.buttonColor : AppColors.greyLightColor,
                                   ),
                                 ),
                                 child: Row(
                                   children: [
                                     Icon(
-                                      loginController.selectedType.value ==
-                                              'vendor'
-                                          ? Icons.check_circle
-                                          : Icons.circle_outlined,
-                                      color:
-                                          loginController.selectedType.value ==
-                                                  'vendor'
-                                              ? AppColors.buttonColor
-                                              : AppColors.greyLightColor,
+                                      loginController.selectedType.value == 'vendor'? Icons.check_circle : Icons.circle_outlined,
+                                      color: loginController.selectedType.value == 'vendor' ? AppColors.buttonColor : AppColors.greyLightColor,
                                       size: 20,
                                     ),
                                     wBox(8),
                                     Text("Vendor",
                                         style: AppFontStyle.text_15_400(
-                                          loginController.selectedType.value ==
-                                                  'vendor'
-                                              ? AppColors.blackTextColor
-                                              : AppColors.greyLightColor,
-                                          fontFamily:
-                                              AppFontFamily.interRegular,
+                                          loginController.selectedType.value == 'vendor' ? AppColors.blackTextColor : AppColors.greyLightColor,
+                                          fontFamily: AppFontFamily.interRegular,
                                         )),
                                   ],
                                 ),
@@ -163,9 +127,7 @@ class LoginScreen extends StatelessWidget {
                         showBorder: true,
                         textInputType: TextInputType.phone,
                         prefixIcon: CountryCodePicker(
-                          textStyle: AppFontStyle.text_15_400(
-                              AppColors.greyTextColor,
-                              fontFamily: AppFontFamily.interRegular),
+                          textStyle: AppFontStyle.text_15_400(AppColors.greyTextColor, fontFamily: AppFontFamily.interRegular),
                           padding: const EdgeInsets.only(left: 10),
                           showFlag: false,
                           showDropDownButton: true,
@@ -180,8 +142,7 @@ class LoginScreen extends StatelessWidget {
                               hintText: "Email",
                               controller: loginController.emailController.value,
                               prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 18, right: 10),
+                                padding: const EdgeInsets.only(left: 18, right: 10),
                                 child: Image.asset(
                                   ImageConstants.emailLogo,
                                   height: 19.h,
@@ -293,29 +254,24 @@ class LoginScreen extends StatelessWidget {
                     }
                   }),
                   hBox(15),
-                  Text("or continue with",
-                      style: AppFontStyle.text_16_400(AppColors.greyLightColor,
-                          fontFamily: AppFontFamily.onestRegular)),
+                  Text("or continue with", style: AppFontStyle.text_16_400(AppColors.greyLightColor, fontFamily: AppFontFamily.onestRegular)),
                   hBox(20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomRoundedButton(
                         onPressed: () {},
-                        child: SvgPicture.asset(ImageConstants.fbLogo,
-                            height: 26, width: 26),
+                        child: SvgPicture.asset(ImageConstants.fbLogo, height: 26, width: 26),
                       ),
                       wBox(15),
                       CustomRoundedButton(
                         onPressed: () {},
-                        child: SvgPicture.asset(ImageConstants.googleLogo,
-                            height: 26, width: 26),
+                        child: SvgPicture.asset(ImageConstants.googleLogo, height: 26, width: 26),
                       ),
                       wBox(15),
                       CustomRoundedButton(
                         onPressed: () {},
-                        child: SvgPicture.asset(ImageConstants.appleLogo,
-                            height: 26, width: 26),
+                        child: SvgPicture.asset(ImageConstants.appleLogo, height: 26, width: 26),
                       ),
                     ],
                   ),
@@ -326,11 +282,7 @@ class LoginScreen extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "Don't have an account? ",
-                            style: AppFontStyle.text_16_400(
-                                AppColors.greyLightColor,
-                                fontFamily: AppFontFamily.onestRegular),
-                          ),
+                            text: "Don't have an account? ", style: AppFontStyle.text_16_400(AppColors.greyLightColor, fontFamily: AppFontFamily.onestRegular),),
                           TextSpan(
                             text: "Sign Up",
                             style: AppFontStyle.text_18_400(

@@ -26,6 +26,8 @@ import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 
 class SignUpController extends GetxController {
   final signUpFormKey = GlobalKey<FormState>();
+  final passwordKey = GlobalKey<FormState>();
+  final confirmPasswordFormKey = GlobalKey<FormState>();
   String? tokenFcm;
   RxString emailError = "".obs;
 
