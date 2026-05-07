@@ -58,7 +58,7 @@ class ResManagePaymentMethod extends GetView<ResManagePaymentMethodController>{
         children: [
           header(
             title: "Manage Payment Methods",
-            description: "Add or update your payment methods for receiving restaurant earnings"
+            description: "Add or update your payment methods for receiving store earnings"
           ),
           hBox(18),
           catButton(),
@@ -468,7 +468,7 @@ class ResManagePaymentMethod extends GetView<ResManagePaymentMethodController>{
             CustomTextFormField(
               key: controller.accountNameMMKey,
               controller: controller.accountNameControllerMobileM,
-              hintText: "Restaurant Business Account",
+              hintText: "store Business Account",
               validator: (value) {
                 if(value == null || value.isEmpty){
                   return "Please enter account name";
@@ -616,7 +616,7 @@ class ResManagePaymentMethod extends GetView<ResManagePaymentMethodController>{
       child: CustomCheckboxTile(
         maxLines: 10,
         style: AppFontStyle.text_14_400(AppColors.blueTextColor,fontFamily: AppFontFamily.gilroyRegular),
-        title: "I agree to the payment processing terms and conditions. I confirm that this account is owned by the registered restaurant business and will be used only for legitimate restaurant transactions.",
+        title: "I agree to the payment processing terms and conditions. I confirm that this account is owned by the registered store business and will be used only for legitimate store transactions.",
         value: controller.isAgree,
          onChanged: (status) {
           controller.updateAgree(status);
@@ -641,7 +641,7 @@ class ResManagePaymentMethod extends GetView<ResManagePaymentMethodController>{
       child: CustomCheckboxTile(
         maxLines: 10,
         style: AppFontStyle.text_14_400(AppColors.blueClr,fontFamily: AppFontFamily.gilroyRegular),
-        title: "I agree to the payment processing terms and conditions. I confirm that this account is owned by the registered restaurant business and will be used only for legitimate restaurant transactions.",
+        title: "I agree to the payment processing terms and conditions. I confirm that this account is owned by the registered store business and will be used only for legitimate store transactions.",
         value: controller.isAgreeForMobile,
          onChanged: (status) {
           controller.updateAgreeForMobile(status);

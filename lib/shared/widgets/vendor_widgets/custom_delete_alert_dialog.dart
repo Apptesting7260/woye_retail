@@ -35,18 +35,18 @@ class CustomDeleteAlertDialog extends StatelessWidget {
     return SizedBox(
       width: Get.width.h,
       child: AlertDialog(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.backgroundClr,
         surfaceTintColor: AppColors.transparent,
         insetPadding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         title: Center(
             child: Text(
           title ?? "",
           style: AppFontStyle.text_24_600(
             titleColor ?? AppColors.darkText,
-            fontFamily: AppFontFamily.gilroyRegular,
+            fontFamily: AppFontFamily.interBold,
           ),
         )),
         content: Column(
@@ -70,25 +70,27 @@ class CustomDeleteAlertDialog extends StatelessWidget {
                 CustomElevatedButton(
                   width: 120,
                   height: 42,
+                  borderRadius: BorderRadius.circular(20),
                   color: AppColors.black,
                   onPressed: cancelOnTap??(){},
                   text: "Cancel",
                   textStyle: AppFontStyle.text_16_400(
                     AppColors.white,
-                    fontFamily: AppFontFamily.gilroyMedium,
+                    fontFamily: AppFontFamily.interSemiBold,
                   ),
                 ),
                 wBox(10.h),
                 CustomElevatedButton(
                   isLoading: isLoading ?? false,
-                  width: 120,
+                  width: 140,
+                  borderRadius: BorderRadius.circular(20),
                   height: 42,
                   color: AppColors.red,
                   onPressed: deleteOnTap??(){},
                   text: "Yes, ${btnName ?? "Delete"}",
                   textStyle: AppFontStyle.text_18_400(
                     AppColors.white,
-                    fontFamily: AppFontFamily.gilroyMedium,
+                    fontFamily: AppFontFamily.interSemiBold,
                   ),
                 ),
               ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -45,13 +44,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async{
       await controller.getNotifications();
       controller.userRole.value = await UserPreference.getUserRole();
-    },);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.white,
+      color: AppColors.backgroundClr,
       child: SafeArea(
         child: Scaffold(
           backgroundColor: AppColors.backgroundClr,

@@ -51,7 +51,7 @@ class _ResProfileDetailsScreenState extends State<ResProfileDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.white,
+      color: AppColors.backgroundClr,
       child: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {

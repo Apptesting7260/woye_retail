@@ -5,13 +5,29 @@ class BankListModel {
 
   BankListModel({this.status, this.paystackBank});
 
+  // BankListModel.fromJson(Map<String, dynamic> json) {
+  //   status = json['status'];
+  //   message = json['message']?.toString();
+  //   if (json['paystackBank'] != null) {
+  //     paystackBank = <PayStackBank>[];
+  //     json['paystackBank'].forEach((v) {
+  //       paystackBank!.add(new PayStackBank.fromJson(v));
+  //     });
+  //   }
+  // }n
+
+
   BankListModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message']?.toString();
-    if (json['paystackBank'] != null) {
+
+    if (json['paystackBank'] != null &&
+        json['paystackBank']['original'] != null) {
+
       paystackBank = <PayStackBank>[];
-      json['paystackBank'].forEach((v) {
-        paystackBank!.add(new PayStackBank.fromJson(v));
+
+      json['paystackBank']['original'].forEach((v) {
+        paystackBank!.add(PayStackBank.fromJson(v));
       });
     }
   }
@@ -32,7 +48,7 @@ class PayStackBank {
   String? name;
   String? slug;
   String? code;
-  String? longcode;
+  String? longCode;
   String? gateway;
   bool? payWithBank;
   bool? supportsTransfer;
@@ -50,7 +66,7 @@ class PayStackBank {
         this.name,
         this.slug,
         this.code,
-        this.longcode,
+        this.longCode,
         this.gateway,
         this.payWithBank,
         this.supportsTransfer,
@@ -68,7 +84,7 @@ class PayStackBank {
     name = json['name']?.toString();
     slug = json['slug']?.toString();
     code = json['code']?.toString();
-    longcode = json['longcode']?.toString();
+    longCode = json['longcode']?.toString();
     gateway = json['gateway']?.toString();
     payWithBank = json['pay_with_bank'];
     supportsTransfer = json['supports_transfer'];
@@ -88,7 +104,7 @@ class PayStackBank {
     data['name'] = name;
     data['slug'] = slug;
     data['code'] = code;
-    data['longcode'] = longcode;
+    data['longcode'] = longCode;
     data['gateway'] = gateway;
     data['pay_with_bank'] = payWithBank;
     data['supports_transfer'] = supportsTransfer;

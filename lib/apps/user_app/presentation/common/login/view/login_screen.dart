@@ -36,8 +36,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Center(
-                    child: SvgPicture.asset(ImageConstants.loginSvg, height: 450.h, width: 371.w)),
+                Center(child: SvgPicture.asset(ImageConstants.loginSvg, height: 450.h, width: 371.w)),
                 CustomAppBar(),
                 Positioned(
                   top: 70,
@@ -54,8 +53,7 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 children: [
                   hBox(20),
-                  Text("Enter your registered phone number to log in", style: AppFontStyle.text_15_400(AppColors.greyLightColor,
-                      fontFamily: AppFontFamily.interRegular)),
+                  Text("Enter your registered phone number to log in", style: AppFontStyle.text_15_400(AppColors.greyLightColor, fontFamily: AppFontFamily.interRegular)),
                   hBox(25),
                   Obx(() => Row(
                         children: [
@@ -90,8 +88,7 @@ class LoginScreen extends StatelessWidget {
                             child: GestureDetector(
                               onTap: loginController.setVendor,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 14, horizontal: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
@@ -106,11 +103,8 @@ class LoginScreen extends StatelessWidget {
                                       size: 20,
                                     ),
                                     wBox(8),
-                                    Text("Vendor",
-                                        style: AppFontStyle.text_15_400(
-                                          loginController.selectedType.value == 'vendor' ? AppColors.blackTextColor : AppColors.greyLightColor,
-                                          fontFamily: AppFontFamily.interRegular,
-                                        )),
+                                    Text("Vendor", style: AppFontStyle.text_15_400(loginController.selectedType.value == 'vendor' ? AppColors.blackTextColor
+                                        : AppColors.greyLightColor, fontFamily: AppFontFamily.interRegular,)),
                                   ],
                                 ),
                               ),
@@ -167,8 +161,7 @@ class LoginScreen extends StatelessWidget {
                               controller: loginController.passwordController.value,
                               obscureText: loginController.isShowPassword.value,
                               prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 18, right: 10),
+                                padding: const EdgeInsets.only(left: 18, right: 10),
                                 child: Image.asset(
                                   ImageConstants.lockLogo,
                                   height: 19.h,
@@ -180,11 +173,9 @@ class LoginScreen extends StatelessWidget {
                                 onTap: () {
                                   loginController.togglePassword();
                                 },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 12),
+                                child: Padding( padding: const EdgeInsets.only(right: 12),
                                   child: Icon(
-                                    loginController.isShowPassword.value ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                                    color: AppColors.hintText,
+                                    loginController.isShowPassword.value ? Icons.visibility_off_outlined : Icons.visibility_outlined, color: AppColors.hintText,
                                     size: 20,
                                   ),
                                 ),
@@ -216,18 +207,10 @@ class LoginScreen extends StatelessWidget {
                         }
                       }
                     },
-                    child: loginController.rxRequestStatus.value == ApiStatus.LOADING
-                        ? circularProgressIndicator(
+                    child: loginController.rxRequestStatus.value == ApiStatus.LOADING ? circularProgressIndicator(
                       size: 30,
                       color: Colors.white,
-                    )
-                        : Text(
-                      "Log In",
-                      style: AppFontStyle.text_18_600(
-                        AppColors.white,
-                        fontFamily: AppFontFamily.interSemiBold,
-                      ),
-                    ),
+                    ) : Text("Log In", style: AppFontStyle.text_18_600(AppColors.white, fontFamily: AppFontFamily.interSemiBold)),
                   )),
                   Obx(() {
                     if (loginController.selectedType.value == 'vendor') {
@@ -285,9 +268,7 @@ class LoginScreen extends StatelessWidget {
                             text: "Don't have an account? ", style: AppFontStyle.text_16_400(AppColors.greyLightColor, fontFamily: AppFontFamily.onestRegular),),
                           TextSpan(
                             text: "Sign Up",
-                            style: AppFontStyle.text_18_400(
-                                AppColors.blackTextColor,
-                                fontFamily: AppFontFamily.onestRegular),
+                            style: AppFontStyle.text_18_400(AppColors.blackTextColor, fontFamily: AppFontFamily.onestRegular),
                           ),
                         ],
                       ),

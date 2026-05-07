@@ -19,6 +19,7 @@ import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_response
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/dashboard_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/order_list_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/product_delete_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/vendor_common/order_transaction_details/model/overview_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Core/Constant/app_urls.dart';
@@ -308,12 +309,17 @@ Future<dynamic> vendorResendOtpApi(var data) async {
     dynamic response = await _apiService.postApi(data, AppUrls.deleteAddOnUrl, token);
     return AddAddOnModel.fromJson(response);
   }
+  //wallet
   Future<dynamic> getWalletApi() async {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.getWalletUrl, token);
     return OrderTransactionHistoryModel.fromJson(response);
   }
-
+  Future<OverviewModel> overviewTransaction(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi2(data,AppUrls.overviewUrl,token);
+    return OverviewModel.fromJson(response);
+  }
 
   Future<dynamic> restaurantGetCuisineTypeApi() async {
     await initializeUser();

@@ -36,10 +36,7 @@ class RestaurantMenuScreen extends StatefulWidget {
 class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
   final ScrollController _scrollController = ScrollController();
 
-  final RestaurantMenuController controller =
-  Get.isRegistered<RestaurantMenuController>()
-      ? Get.find<RestaurantMenuController>()
-      : Get.put(RestaurantMenuController());
+  final RestaurantMenuController controller = Get.isRegistered<RestaurantMenuController>() ? Get.find<RestaurantMenuController>() : Get.put(RestaurantMenuController());
 
 
   @override
@@ -61,8 +58,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
   void _onScroll() {
     if (!controller.paginationEnabled.value) return;
 
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
       if (controller.hasMoreData.value && !controller.isLoadingMore.value) {
         controller.loadMoreData();
       }
@@ -126,10 +122,8 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                        hBox(19),
                        sortBtn(),
                        hBox(22),
-                       Text(
-                         key: controller.totalMenuItemKey,
-                         "Retail Products",style: AppFontStyle.text_20_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold),
-                       ),
+                       Text(key: controller.totalMenuItemKey,
+                         "Inventory Products",style: AppFontStyle.text_20_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold)),
                        hBox(12),
                        productListWithPagination(),
                        hBox(controller.filteredProducts.isEmpty ? 50 : 22),
@@ -559,12 +553,10 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                      borderSide: BorderSide(color: AppColors.borderClrDropdown),
                      btnHeight: 40,
                      hintStyle: AppFontStyle.text_15_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium),
-                     hintText: "All Cuisines",
+                     hintText: "All Types",
                      contentPadding:  REdgeInsets.symmetric(vertical: 10, horizontal: 10),
                      items: categories,
-                     selectedValue: controller.selectedCuisinesId.value.isEmpty
-                         ? null
-                         : controller.selectedCuisinesId.value,
+                     selectedValue: controller.selectedCuisinesId.value.isEmpty ? null : controller.selectedCuisinesId.value,
                      onChanged: (selectedId) {
                        if (selectedId != null) {
                          final selectedCategory = categories.firstWhereOrNull((e) => e.id == selectedId);
@@ -737,7 +729,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
             image: controller.cardListImage[index],
             imageClr: controller.iconClr[index],
           containerClr: controller.iconClr[index].withAlpha(20),
-            title:index == 0 ? summary?.totalProduct : index == 1 ? summary?.availableItems : index == 2 ? summary?.seasonalLimited : index == 3 ? summary?.totalOrders : index == 4 ? summary?.averageRating : "0",
+          title:index == 0 ? summary?.totalProduct : index == 1 ? summary?.availableItems ?? "0": index == 2 ? summary?.seasonalLimited ??"0" : index == 3 ? summary?.totalOrders ??"0" : index == 4 ? summary?.averageRating : "0",
             subTitle: controller.cardListTitle[index],
         );
       },
