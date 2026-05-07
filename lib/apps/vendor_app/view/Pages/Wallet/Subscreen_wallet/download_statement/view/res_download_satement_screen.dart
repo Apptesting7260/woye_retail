@@ -49,7 +49,7 @@ class _ResDownloadStatementScreenState extends State<ResDownloadStatementScreen>
               children: [
                 header(
                   title: "Download Statement",
-                  description: "Generate and download a financial statement for your restaurant with customizable date ranges and transaction types."
+                  description: "Generate and download a financial statement for your store with customizable date ranges and transaction types."
                 ),
                 hBox(20),
                 title("Statement Period",isRequired: false),
@@ -168,7 +168,7 @@ class _ResDownloadStatementScreenState extends State<ResDownloadStatementScreen>
                         fontFamily: AppFontFamily.gilroySemiBold,
                       ),
                     ),Text(
-                      "Your statement will include all selected transaction types for last 30 days. Large date ranges may take longer to generate.",
+                      "Your statement will include all selected transaction types for last 30 days. Large date ranges may take longer to generate.",
                       maxLines: 10,
                       style: AppFontStyle.text_12_400(
                        AppColors.blueClr.withAlpha(230),

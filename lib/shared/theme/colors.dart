@@ -45,6 +45,7 @@ class AppColors {
   static Color cyanClr = const Color(0xFFBEDBFF);
   static Color lightPrimary = const Color.fromRGBO(6, 132, 75, 0.2);
   static Color purpleColor = const Color(0xFF9810FA);
+  static Color textColor = const Color(0xFFDADADA);
 
   static Color primary = const Color.fromRGBO(54, 65, 83, 1);
   static Color lightText = const Color.fromRGBO(148, 148, 148, 1);

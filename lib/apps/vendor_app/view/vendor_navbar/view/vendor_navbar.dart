@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/Utils/sized_box.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/controller/restaurant_information_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/signout/sign_out_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
@@ -168,7 +169,7 @@ class _VendorNavbarState extends State<VendorNavbar> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: AppColors.primary.withAlpha(10),
+                    color: AppColors.primary,
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -195,17 +196,18 @@ class _VendorNavbarState extends State<VendorNavbar> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                fillRestaurantDetailsController.profileApiData.value.vendor?.shopName ?? "",
+                                fillRestaurantDetailsController.profileApiData.value.vendor?.ownerName ?? "",
                                 overflow: TextOverflow.ellipsis,
                                 style: AppFontStyle.text_16_600(
-                                  AppColors.black, fontFamily: AppFontFamily.gilroyMedium,
+                                  AppColors.white, fontFamily: AppFontFamily.gilroyMedium,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                            hBox(4),
                               Text(
-                                fillRestaurantDetailsController.profileApiData.value.vendor?.type.toString().capitalizeFirst ?? "",
-                                style: AppFontStyle.text_14_400(
-                                  AppColors.greyClr, fontFamily: AppFontFamily.gilroyMedium,
+                                "Owner",
+                                // fillRestaurantDetailsController.profileApiData.value.vendor?.type.toString().capitalizeFirst ?? "",
+                                style: AppFontStyle.text_14_500(
+                                  AppColors.white, fontFamily: AppFontFamily.interMedium,
                                 ),
                               ),
                             ],

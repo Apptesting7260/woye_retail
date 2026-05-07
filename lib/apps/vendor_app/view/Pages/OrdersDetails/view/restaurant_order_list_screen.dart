@@ -61,7 +61,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.white,
+      color: AppColors.backgroundClr,
       child: SafeArea(
         child: Scaffold(
           appBar: const CommonAppbarHeader(
@@ -816,7 +816,7 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                               style: AppFontStyle.text_14_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium),
                               maxLines: 3,value: false.obs, onChanged: (val){})
                         ],
-                      )
+                      ),
                   ),
                 ),
               ),
@@ -1125,10 +1125,9 @@ class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
                   wBox(8),
                   Text("Export",style: AppFontStyle.customText(AppColors.blackClr,17, FontWeight.w400,fontFamily: AppFontFamily.gilroyMedium)),
                 ],
-              )
+              ),
           ),
         ),
-
       ],
     );
   }

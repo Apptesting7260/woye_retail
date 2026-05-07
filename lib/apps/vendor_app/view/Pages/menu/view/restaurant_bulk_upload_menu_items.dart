@@ -27,9 +27,9 @@ class RestaurantBulkUploadMenuItems extends GetView<RestaurantMenuController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Bulk Upload Shop Items",style: AppFontStyle.text_20_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold)),
+              Text("Bulk Upload Store Items",style: AppFontStyle.text_20_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold)),
               hBox(2),
-              Text("Upload a CSV file with your retail items to add multiple items at once.",
+              Text("Upload a CSV file with your store items to add multiple items at once.",
                   maxLines: 3,
                   style: AppFontStyle.text_16_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyRegular,
                   ),
@@ -49,7 +49,7 @@ class RestaurantBulkUploadMenuItems extends GetView<RestaurantMenuController> {
         padding: const EdgeInsets.all(8.0),
         child: CustomElevatedButton(
           onPressed: (){},
-          text: "Upload Menu Items",
+          text: "Upload Store Items",
         ),
       ),
     );
@@ -173,21 +173,12 @@ class RestaurantBulkUploadMenuItems extends GetView<RestaurantMenuController> {
                 children: [
                   Text(
                     "Download Template",
-                    overflow: TextOverflow.ellipsis,
-                    style: AppFontStyle.text_16_600(
-                      AppColors.black.withAlpha(220),
-                      fontFamily: AppFontFamily.gilroyMedium,
-                    ),
-                  ),
+                    overflow: TextOverflow.ellipsis, style: AppFontStyle.text_16_600(AppColors.black.withAlpha(220), fontFamily: AppFontFamily.gilroyMedium)),
                   Text(
                     "Get the correct CSV format",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: AppFontStyle.text_14_400(
-                      AppColors.black.withAlpha(220),
-                      fontFamily: AppFontFamily.gilroyRegular,
-                    ),
-                  ),
+                    style: AppFontStyle.text_14_400(AppColors.black.withAlpha(220), fontFamily: AppFontFamily.gilroyRegular)),
                 ],
               ),
             ),
@@ -240,7 +231,7 @@ class RestaurantBulkUploadMenuItems extends GetView<RestaurantMenuController> {
             Padding(
               padding: const EdgeInsets.only(left: 24.0),
               child: Text(
-                "Upload a CSV file with your menu items. Make sure to include columns for name, description, category, price, status, availability, and allergens.",
+                "Upload a CSV file with your store items. Make sure to include columns for name, description, category, price, status, availability, and allergens.",
                 maxLines: 6,
                 style: AppFontStyle.text_14_400(AppColors.blueClr.withAlpha(230),fontFamily: AppFontFamily.gilroyRegular),),
             ),

@@ -21,12 +21,12 @@ class RestaurantMenuController extends GetxController{
 
   RxList<String> cardListTitle = ["Total Products","In Stock","Low Stock","Out of Stock",].obs;
   RxList<String> showList = ["5","10","50","100"].obs;
-  RxList<String> priceRangeList =  ["0-15", "15-30", "30-45", "45-60","60+"].obs;
+  RxList<String> priceRangeList =  ["0-10", "10-20", "20-30", "30-40","50+"].obs;
   RxList<String> preparationTimeList =  ["0-15", "10-20", "20-30", "30+"].obs;
   RxList<String> shortByList =  ["A-Z", "Z-A","Low to High", "High to Low", "Most Orders","Highest Rating"].obs;
-  RxList<String> availabilityList = ["Breakfast","Lunch","Dinner", "Snacks","Desserts","Beverages","Appetizers","Main Course","Sides","All Day"].obs;
+  RxList<String> availabilityList = ["Availability","This Month","Last 3 Months", "Last 6 Months","This Year"].obs;
   RxList<String> cardListImage = [ImageConstants.greenCartSvg,ImageConstants.available,ImageConstants.alertSvgLogo,ImageConstants.favoriteSvg,].obs;
-  List<Color> iconClr = [AppColors.greenLightClr,AppColors.greenTextClr,AppColors.yellow,AppColors.greenTextClr,];
+  List<Color> iconClr = [AppColors.greenLightClr,AppColors.greenTextClr,AppColors.yellow,AppColors.greenTextClr];
 
   final repo = Repository();
   RxInt currentPage = 1.obs;

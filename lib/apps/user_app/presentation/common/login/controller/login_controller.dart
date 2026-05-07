@@ -34,7 +34,6 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     emailController.value.clear();
     passwordController.value.clear();
   }
@@ -83,7 +82,7 @@ class LoginController extends GetxController {
       "password": passwordController.value.text.trim(),
       "type": selectedType.value,
     };
-    debugPrint("LOGIN DATA: $data");
+    debugPrint("LOGIN DATA:>>>>>>>>>>>>. $data");
     setRxRequestStatus(ApiStatus.LOADING);
     api.loginApi(data).then((value) {
       loginSet(value);
@@ -108,6 +107,8 @@ class LoginController extends GetxController {
         userModel.isLogin = value.status ?? false;
 
         pref.saveUser(userModel);
+
+
         singleVendorRouting();
         // if (value.type == "retail" || selectedType.value == "vendor") {
         //   Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
@@ -128,15 +129,12 @@ class LoginController extends GetxController {
       case 1:
         Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
         break;
-
       case 2:
         Get.offAllNamed(VendorAppRoutes.chooseRestaurantCategoriesScreen);
         break;
-
       case 3:
         Get.offAllNamed(VendorAppRoutes.restaurantNavbarScreen);
         break;
-
       default:
         Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
     }

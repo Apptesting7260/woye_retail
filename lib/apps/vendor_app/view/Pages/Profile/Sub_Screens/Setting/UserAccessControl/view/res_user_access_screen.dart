@@ -119,9 +119,7 @@ class ResUserAccessScreen extends GetView<ResUserAccessController> {
               child: Row(
                 children: [
                   Icon(Icons.add,color: AppColors.primary,size: 22,),
-                  Text("Add User",
-                    style: AppFontStyle.text_15_400(AppColors.primary,fontFamily: AppFontFamily.gilroyMedium),
-                  )
+                  Text("Add User", style: AppFontStyle.text_15_400(AppColors.primary,fontFamily: AppFontFamily.gilroyMedium)),
                 ],
               ),
             ),
@@ -216,7 +214,7 @@ class ResUserAccessScreen extends GetView<ResUserAccessController> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      wBox(10),
                       if(role != "Owner")
                       CustomElevatedButton(
                         padding: EdgeInsets.zero,

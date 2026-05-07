@@ -80,7 +80,7 @@ class RestaurantOrderController extends GetxController {
   };
   RxList<String> status =["All", "Pending", "Processing", "Delivered", "Cancelled"].obs;
   Map<String, String> paymentTypeMap = {
-    "All Payment Methods": "all",
+    "All Payment ": "all",
     "Credit Card": "credit_card",
     "Cash": "cash_on_delivery",
     "Digital Wallet": "wallet",
@@ -168,7 +168,8 @@ class RestaurantOrderController extends GetxController {
 
     var data ={
       "format" : selectedFormat.value == 0 ? "csv" : "excel",
-      "date_range" : selectedDateRange.value == "All Time" ? selectedDateRange.value.toLowerCase().split(" ").first.toString() : selectedDateRange.value.toLowerCase().replaceAll(" ","_"),
+      "date_range" : selectedDateRange.value == "All Time" ? selectedDateRange.value.toLowerCase().split(" ").first.toString()
+          : selectedDateRange.value.toLowerCase().replaceAll(" ","_"),
       if(selectedDateRange.value == "Custom Range" && startDateController.text.isNotEmpty)
         "start_date" : convertDate(startDateController.text),
       if(selectedDateRange.value == "Custom Range" && endDateController.text.isNotEmpty)
@@ -252,7 +253,6 @@ class RestaurantOrderController extends GetxController {
         Get.back();
       }else{
         setRxRequestSimulateDelivery(ApiStatus.COMPLETED);
-
       }
     }).onError((error, stackError) {
       setError(error.toString());

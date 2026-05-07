@@ -174,14 +174,14 @@ class _RestaurantConfigurationScreenState extends State<RestaurantConfigurationS
             children: [
               header(
                 title:  "Store Configuration",
-                description: "Configure opening hours, menu categories, and cuisine preferences",
+                description: "Configure opening hours, store categories..",
               ),
               hBox(16),
               Divider(color: AppColors.borderClr),
               hBox(10),
-              Text("Menu Categories & Departments",style: AppFontStyle.text_18_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroySemiBold)),
+              Text("Store Categories & Departments",style: AppFontStyle.text_18_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroySemiBold)),
               hBox(4),
-              Text("Organize your menu items by adding categories. Select from predefined categories or request new ones.",
+              Text("Organize your store items by adding categories. Select from predefined categories or request new ones.",
                   maxLines: 3,
                   style: AppFontStyle.text_14_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroyRegular)),
               hBox(16),

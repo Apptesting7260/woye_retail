@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: AppColors.backgroundClr,
             dividerColor: Colors.transparent,
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+
             ),
           ),
           // getPages: UserRoutes.pages,

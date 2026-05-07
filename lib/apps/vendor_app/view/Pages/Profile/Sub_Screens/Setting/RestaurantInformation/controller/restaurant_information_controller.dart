@@ -394,7 +394,7 @@ class FillRestaurantDetailsController extends GetxController {
                     subTitle: subTitleDocs,
                     isContactBtn: true,
                     isDocsBtnOnTap: () {
-                      if(profileApiData.value.vendor?.type == "restaurant"){
+                      if(profileApiData.value.vendor?.type == "retail"){
                         Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
                       }
                     },
@@ -427,7 +427,7 @@ class FillRestaurantDetailsController extends GetxController {
                     subTitle: subTitleDocs,
                     isContactBtn: true,
                     isDocsBtnOnTap: () {
-                      if(profileApiData.value.vendor?.type == "restaurant"){
+                      if(profileApiData.value.vendor?.type == "retail"){
                         Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
                       }
                     },
@@ -465,7 +465,7 @@ class FillRestaurantDetailsController extends GetxController {
                     subTitle: subTitleDocs,
                     isContactBtn: true,
                     isDocsBtnOnTap: () {
-                      if(profileApiData.value.vendor?.type == "restaurant"){
+                      if(profileApiData.value.vendor?.type == "retail"){
                         Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
                       }
                     },
@@ -488,7 +488,7 @@ class FillRestaurantDetailsController extends GetxController {
                     subTitle: subTitleDocs,
                     isContactBtn: true,
                     isDocsBtnOnTap: () {
-                      if(profileApiData.value.vendor?.type == "restaurant"){
+                      if(profileApiData.value.vendor?.type == "retail"){
                         Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
                       }
                     },
@@ -525,7 +525,7 @@ class FillRestaurantDetailsController extends GetxController {
                 subTitle: subTitleDocs,
                 isContactBtn: true,
                 isDocsBtnOnTap: () {
-                  if(profileApiData.value.vendor?.type == "restaurant"){
+                  if(profileApiData.value.vendor?.type == "retail"){
                     Get.toNamed(VendorAppRoutes.restaurantComplianceAndLicensesScreen);
                   }
                 },

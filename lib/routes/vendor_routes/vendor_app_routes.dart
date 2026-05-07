@@ -72,6 +72,8 @@ import '../../apps/vendor_app/view/vendor_common/Notifications/sub_screens/creat
 import '../../apps/vendor_app/view/vendor_common/Notifications/sub_screens/notification_settings/binding/res_notification_settings_bindings.dart';
 import '../../apps/vendor_app/view/vendor_common/Notifications/sub_screens/notification_settings/view/res_notification_settings_screen.dart';
 import '../../apps/vendor_app/view/vendor_common/Notifications/view/notification_screen.dart';
+import '../../apps/vendor_app/view/vendor_common/order_transaction_details/binding/order_transaction_details_binding.dart';
+import '../../apps/vendor_app/view/vendor_common/order_transaction_details/view/order_transaction_details_screen.dart';
 import '../../apps/vendor_app/view/vendor_navbar/view/vendor_navbar.dart';
 
 class VendorAppRoutes {
@@ -83,7 +85,6 @@ class VendorAppRoutes {
   static const String createProfileScreen = '/createProfileScreen';
   static const String selectRoleScreen = '/selectRoleScreen';
   static const String chooseRestaurantCategoriesScreen = '/chooseRestaurantCategoriesScreen';
-  static const String forgotPaswordScreen = '/forgotPaswordScreen';
   static const String otpScreen = '/otpScreen';
   static const String changePasswordScreen = '/changePasswordScreen';
   static const String restaurantDetailsScreen = '/restaurantDetailsScreen';
@@ -100,7 +101,7 @@ class VendorAppRoutes {
   static const String restaurantAddProductScreen = '/RestaurantAddProductScreen';
   static const String restaurantInformationScreens = '/restaurantInformationScreens';
   static const String restaurantProductReviewScreen = '/restaurantProductReviewScreen';
-   static const String editRestaurantDetailsScreen = '/editRestaurantDetailsScreen';
+  static const String editRestaurantDetailsScreen = '/editRestaurantDetailsScreen';
   static const String restaurantCategoryScreen = '/restaurantCategoryScreen';
   static const String resOrderTranHisScreen = '/resOrderTranHisScreen';
   static const String restaurantAllCategoryItems = '/restaurantAllCategoryItems';
@@ -151,14 +152,14 @@ class VendorAppRoutes {
   //---------------------------------Notification----------------------------------------
   static const String notificationScreen = '/notificationScreen';
 
-  //Restaurant
+  //Retail
   static List<GetPage> pages = <GetPage>[
   //
   //   GetPage(name: twoFaScreen, page: () => const TwoFaScreen()),
-  //   GetPage(name: orderTransactionDetailsScreen, page: () => const OrderTransactionDetailsScreen(),binding: OrderTransactionDetailsBinding()),
+    GetPage(name: orderTransactionDetailsScreen, page: () => const OrderTransactionDetailsScreen(),binding: OrderTransactionDetailsBinding()),
   //   GetPage(name: signUpScreen, page: () => SignUpScreen(index: Get.parameters["index"] ?? ""),binding: SignUpBinding()),
   //  GetPage(name: createProfileScreen, page: () => CreateProfileScreen()),
-  //   GetPage(name: selectRoleScreen, page: () => SelectRoleScreen()),
+  //    GetPage(name: selectRoleScreen, page: () => SelectRoleScreen()),
      GetPage(name: chooseRestaurantCategoriesScreen, page: () => ChooseRestaurantCategoriesScreen(),binding: ResCategoriesCuisinesBinding()),
   //   GetPage(name: forgotPaswordScreen, page: () => ForgotPaswordScreen()),
   //   GetPage(name: otpScreen, page: () => OtpScreen()),
@@ -227,7 +228,7 @@ class VendorAppRoutes {
     // //---------------------------------Notification----------------------------------------
     GetPage(name: notificationScreen, page: () => const NotificationScreen() , binding: NotificationsBinding()),
     //
-    // GetPage(name: maintenance, page: () => const MaintenanceModeScreen(),binding: MaintenanceBinding()),
+    //  GetPage(name: maintenance, page: () => const MaintenanceModeScreen(),binding: MaintenanceBinding()),
 
   ];
 }

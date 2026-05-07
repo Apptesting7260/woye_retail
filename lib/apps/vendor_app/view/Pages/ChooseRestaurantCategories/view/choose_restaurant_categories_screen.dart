@@ -31,7 +31,7 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.white,
+      color: AppColors.backgroundClr,
       child: SafeArea(
         child: Obx(() =>
           PopScope(
@@ -123,10 +123,10 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
 
   Widget header() {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text('Add Menu Categories and Cuisines', style: AppFontStyle.customText(AppColors.darkText, 20.sp, FontWeight.w600,
+      Text('Add Store Categories', style: AppFontStyle.customText(AppColors.darkText, 20.sp, FontWeight.w600,
         fontFamily: AppFontFamily.gilroyMedium,), maxLines: 2,),
       hBox(6.h),
-      Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.", style: AppFontStyle.customText(AppColors.mediumText,
+      Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.", style: AppFontStyle.customText(AppColors.mediumText,
           16.sp, FontWeight.w400, fontFamily: AppFontFamily.gilroyRegular,), maxLines: 2,),
     ]);
   }
@@ -230,9 +230,7 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
               },
               shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  color: isSelected
-                      ? AppColors.primary
-                      : AppColors.primary.withOpacity(0.2),
+                  color: isSelected ? AppColors.primary : AppColors.primary.withOpacity(0.2),
                   width: 1,
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(15.r)),
@@ -257,12 +255,7 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
                 ),
               ),
               title: Text(
-                dataList[index].name.toString(),
-                style: AppFontStyle.text_16_400(
-                  AppColors.darkText,
-                  fontFamily: AppFontFamily.gilroyMedium,
-                ),
-              ),
+                dataList[index].name.toString(), style: AppFontStyle.text_16_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium)),
               trailing: SvgPicture.asset(
                 isSelected ? ImageConstants.checkCircle : ImageConstants.circle,
                 height: 22,
