@@ -23,7 +23,6 @@ class AppUrls {
 
   /* ---------------- Authentication -----------------------------------------  */
 
-  // static const String createVendor = "$baseUrl/vendor-create";
   static const String twoFactorOtpVerify = "$baseUrl/TwoFactorOtpVerify";
   static const String twoFactorOtpResend = "$baseUrl/TwoFactorOtpResend";
   // static const String login = "$baseUrl/vendor-login";
@@ -91,12 +90,6 @@ class AppUrls {
   static const String vendorSingleProduct = "$baseUrl/single-product";
   static const String editRestaurantProduct = "$baseUrl/edit-product";
 
-/* ------------------------------ Address Section ----------------------------  */
-
-/* ------------------------------------------------ User Wallet ----------------------------------------------------  */
-
-/* ------------------------------ Restaurant ---------------------------------*/
-
 /* ------------------------------ Dashboard ---------------------------------*/
   static const String dashboardUrl = "$baseUrl/dashboard";
   // static const String dashboardUrl = "$baseUrl/vendor-dashboard";
@@ -122,6 +115,7 @@ class AppUrls {
 
 
   /* ------------------------------ Add Restaurant Product ---------------------------------*/
+
   static const String restaurantAddProductUrl = "$baseUrl/add-product";
   static const String getCategoryUrl = "$baseUrl/get-categories";
   static const String getAddOnUrl = "$baseUrl/get-addons";
@@ -131,11 +125,13 @@ class AppUrls {
   static const String deleteAddOnUrl = "$baseUrl/delete-addon";
 
   /* ------------------------------ FAQ AND PRIVACY POLICY AND TERM CONDITION  ---------------------------------*/
+
  static const String faqPrivacyTcUrl = "$baseUrl/get-faqs";
  static const String getSupportUrl = "$baseUrl/get-support";
  static const String createSupportUrl = "$baseUrl/create-support";
 
  /* ------------------------------ Reviews  ---------------------------------*/
+
  static const String reviews = "$baseUrl/reviews";
  static const String reviewsPendingResponse = "$baseUrl/reviews-pending-response";
  static const String reviewsUrl = "$baseUrl/order-reviews";
@@ -145,6 +141,7 @@ class AppUrls {
  static const String reviewResponse = "$baseUrl/review-response";
 
  /* ------------------------------ Wallet  ---------------------------------*/
+
  static const String getWalletUrl = "$baseUrl/get-wallet";
  static const String getVendorWallet = "$baseUrl/get-vendor-wallet";
   static const String bankListUrl = "$baseUrl/get-bank-list";
@@ -169,6 +166,7 @@ class AppUrls {
 
 
   /*---------------- grocery ---------------*/
+
   static const String getUnitTypeUrl = "$baseUrl/get-units";
   static const String addGroceryProductUrl = "$baseUrl/add-grocery-product";
   static const String editGroceryProductUrl = "$baseUrl/edit-grocery-product";
@@ -198,7 +196,6 @@ class AppUrls {
 /*----------------Notifications  ---------------*/
 
   static const String notificationsUrl = "$baseUrl/notifications";
-  // static const String notificationsUrl = "$baseUrl/get-notifications";
   static const String notificationsSeenUrl = "$baseUrl/notifications-seen";
   static const String markAllRead = "$baseUrl/mark-all-read";
   static const String markAsRead = "$baseUrl/mark-as-read";
@@ -210,18 +207,15 @@ class AppUrls {
 /*---------------- calculate-wallet-chart  ---------------*/
 
   static const String calculateWalletChartUrl = "$baseUrl/calculate-wallet-chart";
-//muje jo reponde diya h vo deta dekhana h
 
 /*---------------- Export transaction---------------*/
 
   static const String exportTransactionUrl = "$baseUrl/export-transaction";
   static const String productExportApi = "$baseUrl/product-export";
-
   //Push notification on off
-
   static const String toggleNotifications = "$baseUrl/toggle-notifications";
-
 //-------------------PAYMENT API FOR WITHDRAW
+
   static const String allBanksUrl = "$paymentBaseUrl/bank";
   static const String transferReceiptsUrl = "$paymentBaseUrl/transferrecipient";
   static const String transferUrl = "$paymentBaseUrl/transfer";

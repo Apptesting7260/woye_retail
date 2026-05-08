@@ -160,35 +160,19 @@ class LoginScreen extends StatelessWidget {
                               hintText: "Password",
                               controller: loginController.passwordController.value,
                               obscureText: loginController.isShowPassword.value,
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.only(left: 18, right: 10),
-                                child: Image.asset(
-                                  ImageConstants.lockLogo,
-                                  height: 19.h,
-                                  width: 18.h,
-                                  color: AppColors.hintText,
-                                ),
-                              ),
+                              validator: loginController.validatePassword,
+                              prefixIcon: Padding(padding: const EdgeInsets.only(left: 18, right: 10),
+                                child: Image.asset(ImageConstants.lockLogo, height: 19.h, width: 18.h, color: AppColors.hintText,),),
                               suffix: GestureDetector(
                                 onTap: () {
                                   loginController.togglePassword();
                                 },
                                 child: Padding( padding: const EdgeInsets.only(right: 12),
                                   child: Icon(
-                                    loginController.isShowPassword.value ? Icons.visibility_off_outlined : Icons.visibility_outlined, color: AppColors.hintText,
-                                    size: 20,
-                                  ),
+                                    loginController.isShowPassword.value ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                                    color: AppColors.hintText, size: 20),
                                 ),
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Password is required";
-                                }
-                                if (value.length < 6) {
-                                  return "Password must be at least 6 characters";
-                                }
-                                return null;
-                              },
                             ),
                           ],
                         ),
