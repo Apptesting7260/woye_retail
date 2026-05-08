@@ -94,28 +94,21 @@ class ChooseRestaurantCategoriesScreen extends StatelessWidget {
   }
 
   Widget catButton() {
-    return InkWell(
-      onTap: () {
-        if (controller.selectedCategories.isEmpty) {
-          Utils.showToast("Please select category");
-        }
-      },
-      child: Container(
-        height: 40.h,
-        width: 200.w,
-        decoration: BoxDecoration(
-          color: AppColors.overlayColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 28, right: 12,),
-          child: Row(
-            children: [
-              Icon(Icons.check_circle_outline, size: 19,color: AppColors.blackTextColor,),
-              wBox(10),
-              Text("Select Categories", style: AppFontStyle.text_14_500(AppColors.blackTextColor, fontFamily: AppFontFamily.gilroySemiBold,),),
-            ],
-          ),
+    return Container(
+      height: 40.h,
+      width: 200.w,
+      decoration: BoxDecoration(
+        color: AppColors.overlayColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 28, right: 12,),
+        child: Row(
+          children: [
+            Icon(Icons.check_circle_outline, size: 19,color: AppColors.blackTextColor,),
+            wBox(10),
+            Text("Select Categories", style: AppFontStyle.text_14_500(AppColors.blackTextColor, fontFamily: AppFontFamily.gilroySemiBold,),),
+          ],
         ),
       ),
     );

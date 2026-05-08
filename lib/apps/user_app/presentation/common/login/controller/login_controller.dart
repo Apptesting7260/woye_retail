@@ -31,18 +31,6 @@ class LoginController extends GetxController {
   final loginFormKey = GlobalKey<FormState>();
   final UserPreference pref = UserPreference();
   UserModel userModel = UserModel();
-  @override
-  void onInit() {
-    super.onInit();
-    emailController.value.clear();
-    passwordController.value.clear();
-  }
-  @override
-  void onClose() {
-    emailController.value.clear();
-    passwordController.value.clear();
-    super.onClose();
-  }
   RxString selectedType = "customer".obs;
 
   void setCustomer() {
@@ -65,8 +53,7 @@ class LoginController extends GetxController {
 
   final apiData = Rxn<dynamic>();
 
-  void setRxRequestStatus(ApiStatus value) =>
-      rxRequestStatus.value = value;
+  void setRxRequestStatus(ApiStatus value) => rxRequestStatus.value = value;
 
   void setError(String value) => error.value = value;
 
@@ -108,13 +95,23 @@ class LoginController extends GetxController {
 
         pref.saveUser(userModel);
 
-
+        // resetForm();
         singleVendorRouting();
         // if (value.type == "retail" || selectedType.value == "vendor") {
         //   Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
         // }
+
+
       } else {
         setRxRequestStatus(ApiStatus.ERROR);
+        if (value.action == "verify_email") {
+          Get.toNamed(UserRoutes.verifyScreen, arguments: {
+            "email": emailController.value.text.trim(),
+            "type": "email"
+          });
+          Utils.showToast(value.message ?? "");
+          return;
+        }
         Utils.showToast(value.message ?? "Login failed");
       }
     }).onError((error, stackTrace) {
@@ -122,21 +119,24 @@ class LoginController extends GetxController {
       pt("LOGIN ERROR: $error");
     });
   }
+
+
+
   void singleVendorRouting() {
     final step = int.tryParse(apiData.value.step.toString()) ?? 1;
 
     switch (step) {
-      case 1:
-        Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
+
+      case 1:    Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
+      break;
+
+      case 2:    Get.offAllNamed(VendorAppRoutes.chooseRestaurantCategoriesScreen);
         break;
-      case 2:
-        Get.offAllNamed(VendorAppRoutes.chooseRestaurantCategoriesScreen);
+
+      case 3:    Get.offAllNamed(VendorAppRoutes.restaurantNavbarScreen);
         break;
-      case 3:
-        Get.offAllNamed(VendorAppRoutes.restaurantNavbarScreen);
-        break;
-      default:
-        Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
+
+      default:   Get.offAllNamed(VendorAppRoutes.resProfileDetailsScreen);
     }
   }
   void togglePassword() {
