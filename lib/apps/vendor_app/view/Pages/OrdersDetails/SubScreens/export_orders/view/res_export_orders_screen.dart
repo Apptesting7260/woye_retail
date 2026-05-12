@@ -52,13 +52,10 @@ class _ResExportOrdersScreenState extends State<ResExportOrdersScreen> {
               children: [
                 header(
                     title: "Export Orders",
-                    description: "Export order history with customer and payment information"
+                    description: "Export order history with customer and payment information",
                 ),
                 hBox(16),
-                Text("Export Format",
-                  style: AppFontStyle.text_15_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroySemiBold,
-                  ),
-                ),
+                Text("Export Format", style: AppFontStyle.text_15_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroySemiBold)),
                 hBox(6),
                 fileTypeSelector(),
                 hBox(16),
@@ -75,10 +72,7 @@ class _ResExportOrdersScreenState extends State<ResExportOrdersScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Start Date",
-                            style: AppFontStyle.text_13_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroySemiBold,
-                            ),
-                          ),
+                          Text("Start Date", style: AppFontStyle.text_13_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroySemiBold)),
                           hBox(2),
                           SizedBox(
                             width: Get.width * 0.43,
