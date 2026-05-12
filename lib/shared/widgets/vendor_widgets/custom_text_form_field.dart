@@ -127,12 +127,7 @@ class CustomTextFormField extends StatelessWidget {
   final int? errorMaxLines;
   @override
   Widget build(BuildContext context) {
-    return alignment != null
-        ? Align(
-      alignment: alignment ?? Alignment.center,
-      child: textFormFieldWidget,
-    )
-        : textFormFieldWidget;
+    return alignment != null ? Align(alignment: alignment ?? Alignment.center, child: textFormFieldWidget) : textFormFieldWidget;
   }
 
   Widget get textFormFieldWidget => SizedBox(
@@ -168,24 +163,13 @@ class CustomTextFormField extends StatelessWidget {
 
   InputDecoration get decoration => InputDecoration(
     errorText: errorText,
-    errorStyle:  AppFontStyle.text_12_400(
-      AppColors.errorColor,
-      fontFamily: AppFontFamily.gilroyMedium,
-    ),
+    errorStyle:  AppFontStyle.text_12_400(AppColors.errorColor, fontFamily: AppFontFamily.gilroyMedium),
     alignLabelWithHint: true,
     labelText: labelText,
     errorMaxLines:errorMaxLines ?? 10,
     hintText: hintText ?? "",
-    hintStyle: hintStyle ??
-        AppFontStyle.text_15_400(
-          AppColors.hintText,
-          fontFamily: AppFontFamily.gilroyRegular,
-        ),
-    labelStyle: hintStyle ??
-        AppFontStyle.text_15_500(
-          AppColors.hintText,
-          fontFamily: AppFontFamily.gilroyMedium,
-        ),
+    hintStyle: hintStyle ?? AppFontStyle.text_15_400(AppColors.hintText, fontFamily: AppFontFamily.gilroyRegular),
+    labelStyle: hintStyle ?? AppFontStyle.text_15_500(AppColors.hintText, fontFamily: AppFontFamily.gilroyMedium),
     prefixIcon: prefix,
     prefixIconConstraints: prefixConstraints ?? BoxConstraints(minWidth: 30.w),
     suffixIcon: suffix,
@@ -194,82 +178,54 @@ class CustomTextFormField extends StatelessWidget {
     contentPadding: contentPadding ?? REdgeInsets.symmetric(vertical: 16, horizontal: 10),
     fillColor: fillColor ?? AppColors.filledClr.withAlpha(150),
     filled: filled,
-    // errorBorder: OutlineInputBorder(
-    //   borderSide: BorderSide(color: AppColors.textFieldBorder),
-    //   borderRadius:
-    //   borderRadius ?? BorderRadius.all(Radius.circular(15.r)),
-    // ),
-    focusedErrorBorder: borderDecoration ??
-        OutlineInputBorder(
-          borderSide: BorderSide.none,
-          // borderSide: BorderSide(color: AppColors.textFieldBorder),
-          borderRadius:
-          borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
+    focusedErrorBorder: borderDecoration ?? OutlineInputBorder(
+      borderSide: BorderSide.none,
+          borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
         ) ,
-    border: borderDecoration ??
-        OutlineInputBorder(
+    border: borderDecoration ?? OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius:
-          borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
+          borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
         ),
-    // GradientOutlineInputBorder(
-    //     borderRadius:
-    //         borderRadius ?? const BorderRadius.all(Radius.circular(60)),
-    //     gradient: AppColors.borderGradient),
-    enabledBorder: borderDecoration ??
-        OutlineInputBorder(
+    enabledBorder: borderDecoration ?? OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius:
-          borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
+          borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
         ),
     focusedBorder: borderDecoration ??
         OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius:
-          borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
+          borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(14.r)),
         ),
   );
 }
-
 /// Extension on [CustomTextFormField] to facilitate inclusion of all types of border style etc
 extension TextFormFieldStyleHelper on CustomTextFormField {
   static OutlineInputBorder get fillPrimary => OutlineInputBorder(
     borderRadius: BorderRadius.circular(16.h),
     borderSide: BorderSide.none,
   );
-
   static OutlineInputBorder get fillWhiteA => OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.h),
     borderSide: BorderSide.none,
   );
-
   static OutlineInputBorder get fillPrimaryTL24 => OutlineInputBorder(
     borderRadius: BorderRadius.circular(24.h),
     borderSide: BorderSide.none,
   );
-
-  static UnderlineInputBorder get underLineOnError =>
-      UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: AppColors.red,
-        ),
+  static UnderlineInputBorder get underLineOnError => UnderlineInputBorder(
+        borderSide: BorderSide(color: AppColors.red),
       );
-
   static OutlineInputBorder get outlineBlueGrayTL20 => OutlineInputBorder(
     borderRadius: BorderRadius.circular(20.h),
     borderSide: BorderSide.none,
   );
-
   static OutlineInputBorder get fillWhiteATL16 => OutlineInputBorder(
     borderRadius: BorderRadius.circular(16.h),
     borderSide: BorderSide.none,
   );
-
   static OutlineInputBorder get fillPrimaryTL12 => OutlineInputBorder(
     borderRadius: BorderRadius.circular(12.h),
     borderSide: BorderSide.none,
   );
-
   static OutlineInputBorder get outlineBlueGrayTL15 => OutlineInputBorder(
     borderRadius: BorderRadius.circular(15.h),
     borderSide: BorderSide.none,

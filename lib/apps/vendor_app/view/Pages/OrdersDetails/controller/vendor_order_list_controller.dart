@@ -37,6 +37,7 @@ class VendorOrderListController extends GetxController {
   RxString selectedDateRange = "".obs;
   RxString selectedOrderType = "".obs;
   RxString selectedTime = "".obs;
+
   RxString selectedPaymentType = "".obs;
   RxString selectedRatingExport = "".obs;
   RxString selectedQuickResponse = "".obs;

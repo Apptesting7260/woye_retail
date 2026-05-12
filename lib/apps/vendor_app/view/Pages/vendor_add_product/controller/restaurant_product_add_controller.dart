@@ -15,7 +15,6 @@ import '../../../../../../shared/theme/colors.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_image_cropper.dart';
 import '../../../vendor_common/Models/common_add_product_model.dart';
 import '../../../vendor_common/Models/common_get_category_model.dart';
-import '../Models/restaurant_get_addon_model.dart' hide Addons;
 import '../Models/restaurant_get_cuisine_type_model.dart';
 
 class RestaurantProductAddController extends GetxController {
@@ -55,6 +54,8 @@ class RestaurantProductAddController extends GetxController {
 
 
   RxBool hasVariants = false.obs;
+  RxString customAttrNameError = ''.obs;
+  RxString customAttrValueError = ''.obs;
 
   RxList<String> selectedVariantAttributes = <String>[].obs;
 
@@ -92,20 +93,35 @@ class RestaurantProductAddController extends GetxController {
   }
   TextEditingController basePriceController = TextEditingController();
   TextEditingController baseStockController = TextEditingController();
-  // ✅ Custom Attribute (same container me show hoga)
 
   void addCustomAttribute() {
     final name = customAttrNameController.text.trim();
-    final values = customAttrValueController.text.trim().split(',').map((e) => e.trim()).toList();
+    final valuesText = customAttrValueController.text.trim();
+    allVariantAttributes.any((e) => e.toLowerCase() == name.toLowerCase(),);
+    allVariantAttributes.add(name);
+    // auto selected
+    selectedVariantAttributes.add(name);
+    // create empty list
+    attributeValues[name] = <String>[].obs;
+    // controller create
+    valueControllers[name] = TextEditingController();
 
-    if (name.isEmpty || values.isEmpty) return;
+    // values add
+    if (valuesText.isNotEmpty) {
+      List<String> values = valuesText.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+      attributeValues[name]!.assignAll(values);
+    }
 
-    // Sirf custom attributes list me add karo
+    // refresh
+    allVariantAttributes.refresh();
+    selectedVariantAttributes.refresh();
+    attributeValues.refresh();
 
-    // Input fields clear karo
+    // clear
     customAttrNameController.clear();
     customAttrValueController.clear();
   }
+
   void addCustomAttributeField() {
     customAttributes.add(AttributeModel());
   }
@@ -183,6 +199,7 @@ class RestaurantProductAddController extends GetxController {
   final GlobalKey ramKey = GlobalKey();
   final GlobalKey warrantyKey = GlobalKey();
   final GlobalKey colorKey = GlobalKey();
+  final GlobalKey customAttributeFormKey  = GlobalKey();
 
   void scrollToField(GlobalKey key, {double? allignment}) {
     final context = key.currentContext;
@@ -197,6 +214,29 @@ class RestaurantProductAddController extends GetxController {
     }
   }
 
+  void validateAndAddCustomAttribute() {
+    customAttrNameError.value = '';
+    customAttrValueError.value = '';
+    final name = customAttrNameController.text.trim();
+    final value = customAttrValueController.text.trim();
+    bool hasError = false;
+    if (name.isEmpty && value.isEmpty) {
+      return;
+    }
+    if (name.isEmpty && value.isNotEmpty) {
+      customAttrNameError.value = 'Enter attribute name first';
+      hasError = true;
+    }
+    if (name.isNotEmpty && value.isEmpty) {
+      customAttrValueError.value = 'Enter at least one value';
+      hasError = true;
+    }
+    if (!hasError) {
+      addCustomAttribute();
+      customAttrNameController.clear();
+      customAttrValueController.clear();
+    }
+  }
   RxList<String> selectedAddons = RxList<String>([]);
   RxBool isExtraValidationError = false.obs;
 
@@ -204,14 +244,7 @@ class RestaurantProductAddController extends GetxController {
   // RxBool isRedColor = false.obs;
   RxBool isDropdownOpen = false.obs;
 
-  // RxBool isSubmit = false.obs;
-
-  // bool isCategoryValidation = false;
-
-  // final RestaurantProductController restaurantProductController=Get.put(RestaurantProductController());
-  final VendorDashboardController restaurantDashboardController =
-      Get.put(VendorDashboardController());
-
+  final VendorDashboardController restaurantDashboardController = Get.put(VendorDashboardController());
   GlobalKey<FormState> publishButtonKey = GlobalKey<FormState>();
   GlobalKey<FormState> addOnButtonKey = GlobalKey<FormState>();
   List<GlobalKey<FormState>> indexedKey = [];
@@ -577,8 +610,7 @@ class RestaurantProductAddController extends GetxController {
     required String image3,
     required String image4,
     required String image5,
-    // required List<Map<String, dynamic>> extraListOfMap,
-    // required List<Map<String, dynamic>> addOnListOfMap,
+
   }) async {
     final addOns = buildAddOnPayload();
     final options = getOptionsPayload();
@@ -641,7 +673,9 @@ class RestaurantProductAddController extends GetxController {
   void categorySetData(CommonGetCategoryModel value) =>
       apiCategoryData.value = value;
   void setCategoryError(String value) => categoryError.value = value;
+
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<get category api>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
   Future<void> getCategoryApi() async {
     setRxRequestCategoryStatus(ApiStatus.LOADING);
     api.commonGetCategoryApi().then((value) {

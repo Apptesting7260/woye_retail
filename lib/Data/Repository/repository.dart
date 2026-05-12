@@ -8,6 +8,7 @@ import 'package:gyaawa/apps/user_app/presentation/common/sign_up/model/sign_up_m
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/new_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/update_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/vendor_category_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/FillVendorDetails/model/profile_details_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/menu/model/vendor_menu_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/Models/restaurant_get_addon_model.dart';
@@ -177,7 +178,7 @@ Future<dynamic> vendorResendOtpApi(var data) async {
   Future<dynamic> resGetProfileApi() async {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.getProfile, token);
-    return ProfileDetailsModel.fromJson(response);
+    return VendorProfileDetailsModel.fromJson(response);
   }
   Future<CommonExportModel> exportProductApi(var data) async {
     await initializeUser();
