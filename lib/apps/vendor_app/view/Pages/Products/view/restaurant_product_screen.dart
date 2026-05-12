@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Products/controller/vendor_product_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/product_list_model.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../Data/components/general_exception.dart';
@@ -21,7 +22,6 @@ import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.d
 import '../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_product_list_tile.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
-import '../controller/restaurant_product_controller.dart';
 
 class RestaurantProductScreen extends StatefulWidget {
  const RestaurantProductScreen({super.key});
@@ -31,7 +31,7 @@ class RestaurantProductScreen extends StatefulWidget {
 }
 
 class _RestaurantProductScreenState extends State<RestaurantProductScreen> {
-  final RestaurantProductController productController = Get.put(RestaurantProductController());
+  final VendorProductController productController = Get.put(VendorProductController());
 
 
   @override

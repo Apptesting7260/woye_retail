@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/OrdersDetails/controller/vendor_order_list_controller.dart';
 import 'package:intl/intl.dart';
 import '../../../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../../../Data/response/status.dart';
@@ -14,7 +15,6 @@ import '../../../../../../../../shared/widgets/vendor_widgets/custom_date_picker
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../Profile/Sub_Screens/Setting/RestaurantInformation/view/restaurant_information_screen.dart';
-import '../../../controller/restaurant_order_list_controller.dart';
 
 class ResExportOrdersScreen extends StatefulWidget {
   const ResExportOrdersScreen({super.key});
@@ -25,7 +25,7 @@ class ResExportOrdersScreen extends StatefulWidget {
 
 class _ResExportOrdersScreenState extends State<ResExportOrdersScreen> {
 
-  RestaurantOrderController controller = Get.find<RestaurantOrderController>();
+  VendorOrderListController controller = Get.find<VendorOrderListController>();
 
   @override
   void initState() {

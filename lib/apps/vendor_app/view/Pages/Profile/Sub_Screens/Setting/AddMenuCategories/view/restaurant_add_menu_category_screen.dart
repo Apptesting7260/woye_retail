@@ -80,7 +80,7 @@ class _RestaurantAddMenuCategoryScreenState extends State<RestaurantAddMenuCateg
       child: Column(
         children: [
           header(
-            title: "Add Menu Categories",
+            title: "Add Store Categories",
             description: "Select from predefined categories or request a new category to be added to the system.",
           ),
           hBox(14),
@@ -202,7 +202,7 @@ class _RestaurantAddMenuCategoryScreenState extends State<RestaurantAddMenuCateg
                     ),
                   ],
                 ),
-                            ),
+                ),
               );
             },
           );

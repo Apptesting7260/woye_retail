@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/Products/controller/restaurant_product_controller.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Products/controller/vendor_product_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/SubScreens/model/all_category_model.dart';
 
 import '../../../../../../../../../Data/Repository/repository.dart';
@@ -9,7 +9,7 @@ import '../../../../../../../../../Data/response/status.dart';
 class RestaurantAllCategoryController extends GetxController{
   RxString categoryId = ''.obs;
   RxString title = ''.obs;
-  final RestaurantProductController productController = Get.put(RestaurantProductController());
+  final VendorProductController productController = Get.put(VendorProductController());
 
   RxString searchQuery = ''.obs;
   RxList<Products> searchListCategory = RxList<Products>([]);

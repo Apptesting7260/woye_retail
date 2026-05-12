@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/AddOn_Screens/controller/vendor_addon_controller.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/Models/restaurant_get_addon_model.dart';
 import 'package:gyaawa/shared/widgets/vendor_widgets/custom_delete_alert_dialog.dart';
 import 'package:gyaawa/shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../../../Core/Constant/image_constant.dart';
@@ -17,14 +19,12 @@ import '../../../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/circular_progress_indicator.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
-import '../controller/restaurant_addon_controller.dart';
-import '../../../../RestaurantAddProduct/Models/restaurant_get_addon_model.dart';
 
 
 class RestaurantAddAddonScreen extends StatelessWidget {
   RestaurantAddAddonScreen({super.key});
 
-  final RestaurantAddOnController restaurantAddOnController = Get.put(RestaurantAddOnController());
+  final VendorAddonController restaurantAddOnController = Get.put(VendorAddonController());
 
   @override
   Widget build(BuildContext context) {

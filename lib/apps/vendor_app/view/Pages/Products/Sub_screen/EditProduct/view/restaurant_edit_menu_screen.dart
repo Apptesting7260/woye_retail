@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Products/Sub_screen/EditProduct/controller/vendor_edit_menu_controller.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../../../Core/Constant/image_constant.dart';
 import '../../../../../../../../Data/components/general_exception.dart';
@@ -26,13 +27,11 @@ import '../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_bu
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../../../vendor_common/Models/common_get_category_model.dart';
-import '../Model/res_single_product_model.dart';
-import '../controller/restaurant_edit_menu_controller.dart';
 
 class RestaurantEditProductScreen extends StatelessWidget {
   RestaurantEditProductScreen({super.key});
 
-  final RestaurantEditMenuController restaurantProductEditController = Get.put(RestaurantEditMenuController());
+  final VendorEditMenuController restaurantProductEditController = Get.put(VendorEditMenuController());
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
         FocusManager.instance.primaryFocus!.unfocus();
       },
       child: Container(
-        color: AppColors.white,
+        color: AppColors.backgroundClr,
         child: SafeArea(
           child: Scaffold(
             appBar: appbar(),
@@ -51,21 +50,18 @@ class RestaurantEditProductScreen extends StatelessWidget {
                   case ApiStatus.LOADING:
                     return Center(child: circularProgressIndicator());
                   case ApiStatus.ERROR:
-                    if (restaurantProductEditController.error.value ==
-                        'No internet') {
+                    if (restaurantProductEditController.error.value == 'No internet') {
                       return InternetExceptionWidget(
                         onPress: () {
                           restaurantProductEditController.getSingleProductApi(
-                              productId: restaurantProductEditController
-                                  .productId.value);
+                              productId: restaurantProductEditController.productId.value);
                         },
                       );
                     } else {
                       return GeneralExceptionWidget(
                         onPress: () {
                           restaurantProductEditController.getSingleProductApi(
-                              productId: restaurantProductEditController
-                                  .productId.value);
+                              productId: restaurantProductEditController.productId.value);
                         },
                       );
                     }
@@ -1195,7 +1191,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
     );
   }
 
-  GetBuilder<RestaurantEditMenuController> _profileImagePicker(BuildContext contexts) {
+  GetBuilder<VendorEditMenuController> _profileImagePicker(BuildContext contexts) {
     return GetBuilder(
       init: restaurantProductEditController,
       builder: (context) {
