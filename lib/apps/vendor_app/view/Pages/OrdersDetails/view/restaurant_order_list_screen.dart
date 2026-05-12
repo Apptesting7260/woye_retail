@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/OrdersDetails/controller/vendor_order_list_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_navbar/controller/vendor_navbar_controller.dart';
 import 'package:gyaawa/shared/widgets/vendor_widgets/custom_checkbox.dart';
 import '../../../../../../Core/Constant/image_constant.dart';
@@ -26,7 +27,6 @@ import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.d
 import '../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../vendor_common/common_appbar_header/common_appbar_header.dart';
-import '../controller/restaurant_order_list_controller.dart';
 import '../model/restro_order_list_model.dart';
 
 class RestaurantOrderListScreen extends StatefulWidget {
@@ -38,7 +38,7 @@ class RestaurantOrderListScreen extends StatefulWidget {
 
 class _RestaurantOrderListScreenState extends State<RestaurantOrderListScreen> {
   // final RestaurantOrderController controller = Get.find<RestaurantOrderController>();
-   final RestaurantOrderController controller = Get.put (RestaurantOrderController());
+   final VendorOrderListController controller = Get.put (VendorOrderListController());
   // VendorAccountStatusController vendorAccountStatusController = Get.put(VendorAccountStatusController());
 
   final navController = Get.isRegistered<VendorNavbarController>() ? Get.find<VendorNavbarController>() : Get.put(VendorNavbarController());

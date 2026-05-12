@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/new_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/profile_details_model.dart';
 import 'package:intl/intl.dart';
 
@@ -22,7 +23,6 @@ import '../../../../../../../../shared/widgets/vendor_widgets/custom_confirm_pas
 import '../../../../../../../../shared/widgets/vendor_widgets/print.dart';
 import '../../../../../vendor_common/Models/common_add_product_model.dart';
 import '../../../../../vendor_common/Models/common_response_model.dart';
-import '../../../../ChooseRestaurantCategories/model/new_categories_model.dart';
 import '../AddMenuCategories/model/restaurant_get_selected_categories_model.dart';
 
 class  RestaurantSettingController extends GetxController {

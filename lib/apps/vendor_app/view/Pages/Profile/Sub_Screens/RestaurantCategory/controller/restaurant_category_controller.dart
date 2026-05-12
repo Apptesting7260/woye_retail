@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/new_categories_model.dart';
 
-import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/new_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart';
 
 import '../../../../../../../../Data/Repository/repository.dart';

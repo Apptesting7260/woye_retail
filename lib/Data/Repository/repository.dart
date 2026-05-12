@@ -5,12 +5,13 @@ import 'dart:io';
 import 'package:gyaawa/apps/user_app/presentation/common/login/model/login_model.dart';
 import 'package:gyaawa/apps/user_app/presentation/common/login/model/two_factor_model.dart';
 import 'package:gyaawa/apps/user_app/presentation/common/sign_up/model/sign_up_model.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/new_categories_model.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/res_category_cusion_model.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseRestaurantCategories/model/update_categories_model.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/FillRestaurantDetails/model/profile_details_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/new_categories_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/update_categories_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/vendor_category_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/menu/model/restaurant_menu_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/model/vendor_menu_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/Models/restaurant_get_addon_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/Models/restaurant_get_cuisine_type_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/AccountStatus/model/vendor_account_status_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/choose_common_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_export_model.dart';
@@ -20,13 +21,11 @@ import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/dashboard_model
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/order_list_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/product_delete_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/order_transaction_details/model/overview_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../Core/Constant/app_urls.dart';
 import '../../apps/user_app/presentation/common/forgot_password/model/change_password_model.dart';
 import '../../apps/user_app/presentation/common/verify/model/verify_otp_model.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/order_accept_reject_model.dart';
-import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/resaurant_order_details_model.dart';
+import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/vendor_order_details_model.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/model/restro_order_list_model.dart';
 import '../../apps/vendor_app/view/Pages/Products/Sub_screen/EditProduct/Model/res_single_product_model.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/OrderTransactionHistory/model/res_order_transaction_history.dart';
@@ -41,8 +40,6 @@ import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantI
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/register_vendor_model.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/RestaurantInformation/model/update_information_model.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/UserAccessControl/model/res_user_access_model.dart';
-import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/Models/restaurant_get_addon_model.dart';
-import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/Models/restaurant_get_cuisine_type_model.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/manage_payment_method/model/all_bank_list_model.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/manage_payment_method/model/bank_details_model.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/request_payout/model/res_req_payout_model.dart';
@@ -180,7 +177,7 @@ Future<dynamic> vendorResendOtpApi(var data) async {
   Future<dynamic> resGetProfileApi() async {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.getProfile, token);
-    return ResProfileDetailsModel.fromJson(response);
+    return ProfileDetailsModel.fromJson(response);
   }
   Future<CommonExportModel> exportProductApi(var data) async {
     await initializeUser();

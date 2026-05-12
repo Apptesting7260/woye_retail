@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Dashboard/view/vendor_dashboard_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/view/vendor_menu_screen.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/AccountStatus/controller/vendor_account_status_controller.dart';
 import '../../../../../Core/Constant/image_constant.dart';
 import '../../../../../Data/response/status.dart';
 import '../../../../../Utils/network_controller.dart';
-import '../../Pages/Dashboard/view/restaurant_dashboard_screen.dart';
-import '../../Pages/OrdersDetails/controller/restaurant_order_list_controller.dart';
 import '../../Pages/OrdersDetails/view/restaurant_order_list_screen.dart';
 import '../../Pages/Wallet/view/restaurant_wallet_screen.dart';
-import '../../Pages/menu/view/restaurant_menu_screen.dart';
 import '../../Pages/review/view/res_review_screen.dart';
 
 class VendorNavbarController extends GetxController {
@@ -119,12 +118,12 @@ class VendorNavbarController extends GetxController {
         NavItem(
           title: "Dashboard",
           icon: ImageConstants.dashboard,
-          screen: const RestaurantDashboardScreen(),
+          screen: const VendorDashboardScreen(),
         ),
         NavItem(
           title: "Products",
           icon: ImageConstants.productSvg,
-          screen: const RestaurantMenuScreen(),
+          screen: const VendorMenuScreen(),
         ),
         NavItem(
           title: "Orders",

@@ -1,18 +1,23 @@
-
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/FillRestaurantDetails/view/restaurant_profile_details_screen.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/RestaurantAddProduct/sub_screen/view/retail_product_review_screen.dart';
-
-import '../../apps/user_app/presentation/acccount/view/profile_screen.dart';
-import '../../apps/vendor_app/view/Pages/ChooseRestaurantCategories/bindings/res_category_cuisines_binding.dart';
-import '../../apps/vendor_app/view/Pages/ChooseRestaurantCategories/view/choose_restaurant_categories_screen.dart';
-import '../../apps/vendor_app/view/Pages/Dashboard/controller/restaurant_dashboard_binding.dart';
-import '../../apps/vendor_app/view/Pages/Dashboard/view/restaurant_dashboard_screen.dart';
-import '../../apps/vendor_app/view/Pages/FillRestaurantDetails/binding/res_profile_details_binding.dart';
-import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/view/resaurant_order_details_screen.dart';
-import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/view/restaurant_more_order_details_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/bindings/vendor_category_cuisines_binding.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/view/choose_vendor_categories_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Dashboard/controller/vendor_dashboard_binding.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Dashboard/view/vendor_dashboard_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/FillVendorDetails/binding/profile_details_binding.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/FillVendorDetails/view/profile_details_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/OrdersDetails/binding/vendor_orders_bindings.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/binding/vendor_export_menu_binding.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/binding/vendor_menu_binding.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/binding/vendor_menu_item_details_binding.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/filters/vendor_menu_filter_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/view/vendor_bulk_upload_menu_items.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/view/vendor_export_menu_item_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/menu/view/vendor_menu_item_details_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/sub_screen/view/vendor_product_review_screen.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/view/restaurant_add_product_screen.dart';
+import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/view/vendor_more_order_details_screen.dart';
+import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/view/vendor_order_details_screen.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/SubScreens/export_orders/view/res_export_orders_screen.dart';
-import '../../apps/vendor_app/view/Pages/OrdersDetails/binding/res_orders_bindings.dart';
 import '../../apps/vendor_app/view/Pages/OrdersDetails/view/restaurant_order_list_screen.dart';
 import '../../apps/vendor_app/view/Pages/Products/Sub_screen/EditProduct/view/restaurant_edit_menu_screen.dart';
 import '../../apps/vendor_app/view/Pages/Products/Sub_screen/Product_Details/view/restro_product_details_screen.dart';
@@ -41,8 +46,7 @@ import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/UserAccessC
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/UserAccessControl/view/res_user_access_screen.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/controller/restaurant_setting_binding.dart';
 import '../../apps/vendor_app/view/Pages/Profile/Sub_Screens/Setting/view/restaurant_setting_screen.dart';
-import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/sub_screen/binding/retail_product_review_binding.dart';
-import '../../apps/vendor_app/view/Pages/RestaurantAddProduct/view/restaurant_add_product_screen.dart';
+import '../../apps/vendor_app/view/Pages/Profile/view/restaurant_user_profile_screen.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/Restaurant_Bank_Account/Add_restaurant_bank_account/view/add_restaurant_bank_details_screen.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/download_statement/view/res_download_satement_screen.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/manage_payment_method/binding/res_payment_method_binding.dart';
@@ -50,16 +54,10 @@ import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/manage_payment_
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/request_payout/binding/res_request_payout_binding.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/request_payout/view/res_request_payout_screen.dart';
 import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/view/restaurant_withdraw_screen.dart';
-import '../../apps/vendor_app/view/Pages/menu/binding/restaurant_export_menu_binding.dart';
-import '../../apps/vendor_app/view/Pages/menu/binding/restaurant_menu_binding.dart';
-import '../../apps/vendor_app/view/Pages/menu/binding/restaurant_menu_item_details_binding.dart';
-import '../../apps/vendor_app/view/Pages/menu/filters/restaurant_menu_filter_screen.dart';
-import '../../apps/vendor_app/view/Pages/menu/view/restaurant_bulk_upload_menu_items.dart';
-import '../../apps/vendor_app/view/Pages/menu/view/restaurant_export_menu_item_screen.dart';
-import '../../apps/vendor_app/view/Pages/menu/view/restaurant_menu_item_details_screen.dart';
 import '../../apps/vendor_app/view/Pages/review/subscreens/bulk_responds/view/res_bulk_responds_screen.dart';
 import '../../apps/vendor_app/view/Pages/review/subscreens/export_reviews/view/export_reviews_screen.dart';
 import '../../apps/vendor_app/view/Pages/review/subscreens/single_response/view/res_single_review_respose_screen.dart';
+import '../../apps/vendor_app/view/Pages/vendor_add_product/sub_screen/binding/retail_product_review_binding.dart';
 import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/FAQ/binding/res_faqs_binding.dart';
 import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/FAQ/view/restaurant_faq_screen.dart';
 import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/Res_Vendor_Agreement/res_vedor_areement.dart';
@@ -160,23 +158,23 @@ class VendorAppRoutes {
   //   GetPage(name: signUpScreen, page: () => SignUpScreen(index: Get.parameters["index"] ?? ""),binding: SignUpBinding()),
   //  GetPage(name: createProfileScreen, page: () => CreateProfileScreen()),
   //    GetPage(name: selectRoleScreen, page: () => SelectRoleScreen()),
-     GetPage(name: chooseRestaurantCategoriesScreen, page: () => ChooseRestaurantCategoriesScreen(),binding: ResCategoriesCuisinesBinding()),
+     GetPage(name: chooseRestaurantCategoriesScreen, page: () => ChooseVendorCategoriesScreen(),binding: VendorCategoriesCuisinesBinding()),
   //   GetPage(name: forgotPaswordScreen, page: () => ForgotPaswordScreen()),
   //   GetPage(name: otpScreen, page: () => OtpScreen()),
   //   GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
      GetPage(name: restaurantDetailsScreen, page: () => RestaurantDetailsScreen()),
-    GetPage(name: restaurantDashboardScreen, page: () => const RestaurantDashboardScreen(),binding: RestaurantDashBoardBinding()),
+    GetPage(name: restaurantDashboardScreen, page: () => const VendorDashboardScreen(),binding: VendorDashboardBinding()),
     GetPage(name: restaurantNavbarScreen, page: () => const VendorNavbar(navbarInitialIndex: 0),bindings:
-  [RestaurantDashBoardBinding(),RestaurantMenuBinding(),]),
+  [VendorDashboardBinding(),VendorMenuBinding(),]),
       // SignOutBinding(),ResReviewBindings(),ResOrdersBinding(),ResWalletBinding(),ResInformationBindings(),]),
     // GetPage(name: restaurantWalletScreen, page: () => const WalletScreen(),bindings: [SignOutBinding(),ResWalletBinding(),ResInformationBindings()]),
     GetPage(name: restaurantProductDetailsScreen, page: () => RestaurantProductDetailsScreen()),
     GetPage(name: restaurantWithdrawScreen, page: () => RestaurantWithdrawScreen()),
     // GetPage(name: bankAccountDetailsScreen, page: () => RestaurantBankAccountDetailsScreen()),
     GetPage(name: addRestaurantBankDetails, page: () => AddRestaurantBankDetails()),
-    GetPage(name: restaurantOrderDetailsScreen, page: () => RestaurantOrderDetailsScreen()),
-    GetPage(name: restaurantOrderListScreen, page: () => const RestaurantOrderListScreen(),binding: ResOrdersBinding()),
-    GetPage(name: restaurantMoreOrderDetailsScreen, page: () => RestaurantMoreOrderDetailsScreen()),
+    GetPage(name: restaurantOrderDetailsScreen, page: () => VendorOrderDetailsScreen()),
+    GetPage(name: restaurantOrderListScreen, page: () => const RestaurantOrderListScreen(),binding: VendorOrdersBindings()),
+    GetPage(name: restaurantMoreOrderDetailsScreen, page: () => VendorMoreOrderDetailsScreen()),
     GetPage(name: restaurantProductReviewScreen, page: () => RestaurantProductReviewScreen()),
       // GetPage(name: editRestaurantDetailsScreen,page: () => EditRestaurantDetailsScreen()),
     GetPage(name: restaurantCategoryScreen, page: () => RestaurantCategoryScreen()),
@@ -198,10 +196,10 @@ class VendorAppRoutes {
     GetPage(name: restaurantProfileScreen, page: () => const ProfileScreen()),
     GetPage(name: restaurantEditProductScreen, page: () => RestaurantEditProductScreen()),
     GetPage(name: resOrderTranHisScreen, page: () => const ResOrderTransHistoryScreen()),
-    GetPage(name: restaurantMenuFilterScreen, page: () => const RestaurantMenuFilterScreen()),
-    GetPage(name: restaurantBulkUploadMenuItems, page: () => const RestaurantBulkUploadMenuItems()),
-    GetPage(name: restaurantExportMenuItemScreen, page: () => const RestaurantExportMenuItemScreen(),binding: RestaurantExportMenuBinding()),
-    GetPage(name: restaurantMenuItemDetailsScreen, page: () => const RestaurantMenuItemDetailsScreen(),binding: RestaurantMenuItemDetailsBinding()),
+    GetPage(name: restaurantMenuFilterScreen, page: () => const VendorMenuFilterScreen()),
+    GetPage(name: restaurantBulkUploadMenuItems, page: () => const VendorBulkUploadMenuItems()),
+    GetPage(name: restaurantExportMenuItemScreen, page: () => const VendorExportMenuItemScreen(),binding: VendorExportMenuBinding()),
+    GetPage(name: restaurantMenuItemDetailsScreen, page: () => const VendorMenuItemDetailsScreen(),binding: VendorMenuItemDetailsBinding()),
     GetPage(name: restaurantConfigurationScreen, page: () =>  const RestaurantConfigurationScreen(),binding: RestaurantSettingBinding()),
     GetPage(name: restaurantAddMenuCategoryScreen, page: () =>  RestaurantAddMenuCategoryScreen(),binding: RestaurantSettingBinding()),
     GetPage(name: restaurantComplianceAndLicensesScreen, page: () =>  const RestaurantComplianceAndLicensesScreen(),binding: ComplianceAndLicensesBinding()),
@@ -220,7 +218,7 @@ class VendorAppRoutes {
     GetPage(name: resManagePaymentMethod, page: () =>  const ResManagePaymentMethod(),binding: ResPaymentMethodBinding()),
     GetPage(name: resRequestPayoutScreen, page: () =>  const ResRequestPayoutScreen(),binding: ResRequestPayloadBinding()),
     GetPage(name: resDownloadStatementScreen, page: () =>  const ResDownloadStatementScreen()),
-     GetPage(name: resProfileDetailsScreen, page: () =>  const ResProfileDetailsScreen(),binding: ResProfileDetailsBinding()),
+     GetPage(name: resProfileDetailsScreen, page: () =>  const ProfileDetailsScreen(),binding: ProfileDetailsBinding()),
      GetPage(name: resCreateNotificationScreen, page: () =>  const ResCreateNotificationScreen()),
      GetPage(name: resNotificationSettingsScreen, page: () =>  const ResNotificationSettingsScreen(),binding: ResNotificationSettingsBindings()),
      GetPage(name: restaurantVendorAgreementCScreen, page: () =>  const RestaurantVendorAgreementCScreen(),binding: ResFaqsBinding()),

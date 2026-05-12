@@ -2,18 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:gyaawa/apps/vendor_app/view/Pages/OrdersDetails/controller/restaurant_order_list_controller.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/OrdersDetails/SubScreens/OrderDetails/model/vendor_order_details_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/OrdersDetails/controller/vendor_order_list_controller.dart';
 
 import '../../../../../../../../Data/Repository/repository.dart';
 import '../../../../../../../../Data/response/status.dart';
 import '../../../../../../../../Utils/snack_bar.dart';
-import '../model/resaurant_order_details_model.dart';
 
 
 class RestaurantOrderDetailsController extends GetxController {
   var productId = '';
   RxDouble deliveryCharges = 50.0.obs;
-  final RestaurantOrderController controller =  Get.put(RestaurantOrderController());
+  final VendorOrderListController controller =  Get.put(VendorOrderListController());
 
   GlobalKey<FormState> addCancelNotes = GlobalKey<FormState>();
 
