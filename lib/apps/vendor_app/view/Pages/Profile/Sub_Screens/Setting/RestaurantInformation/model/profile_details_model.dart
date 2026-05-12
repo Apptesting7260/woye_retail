@@ -146,7 +146,7 @@ class InsuranceOptions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['company_name'] = companyName;
     data['id'] = id;
     return data;
