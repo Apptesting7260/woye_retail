@@ -77,8 +77,11 @@ class AppUrls {
 
 /* ------------------------------ Categories ---------------------------------  */
 
-  static const String categoryCuisineGet = "$baseUrl/category-department-get";
+  static const String departmentGet = "$baseUrl/category-department-get";
   static const String getChooseCategories = "$baseUrl/get-category";
+  static const String getVendorCategories = "$baseUrl/product/get-category-list";
+  static const String getVendorSubCategories = "$baseUrl/product/get-sub-category-list";
+  static const String getProductAttribute = "$baseUrl/product/get-attributes-list";
   static const String categoryUpdate = "$baseUrl/profile-category-update";
   static const String newCategoryRequest = "$baseUrl/category-request";
   static const String getCategories = "$baseUrl/get-categories";

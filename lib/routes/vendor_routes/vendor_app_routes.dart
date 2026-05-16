@@ -144,7 +144,7 @@ class VendorAppRoutes {
   static const String resProfileDetailsScreen = "/resProfileDetailsScreen";
   static const String resCreateNotificationScreen = "/resCreateNotificationScreen";
   static const String resNotificationSettingsScreen = "/resNotificationSettingsScreen";
-  static const String retailProductReviewScreen = "/retailProductReviewScreen";
+  static const String vendorProductReviewScreen = "/retailProductReviewScreen";
 
 
   //---------------------------------Notification----------------------------------------
@@ -189,7 +189,7 @@ class VendorAppRoutes {
      GetPage(name: restaurantTnCScreen, page: () => const RestaurantTncScreen(),binding: ResFaqsBinding()),
     GetPage(name: restaurantInformationScreens, page: () =>  RestaurantInformationScreens(),binding: ResInformationBindings()),
     GetPage(name: restaurantAddProductScreen, page: () => RestaurantAddProductScreen()),
-    GetPage(name: retailProductReviewScreen, page: () => RetailProductReviewScreen(),binding: RetailProductReviewBinding()),
+    GetPage(name: vendorProductReviewScreen, page: () => RetailProductReviewScreen(),binding: RetailProductReviewBinding()),
     GetPage(name: restaurantMyAccountScreen, page: () => RestaurantMyAccountScreen()),
     // GetPage(name: userPasswordChangeScreen, page: () => UserPasswordChangeScreen()),
     // GetPage(name: restaurantSupportQueryReplayScreen, page: () => RestaurantSupportQuarryReplyScreen()),

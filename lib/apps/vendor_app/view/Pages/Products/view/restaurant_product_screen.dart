@@ -72,7 +72,7 @@ class _RestaurantProductScreenState extends State<RestaurantProductScreen> {
               productController.searchQuery.value = "";
               productController.selectedTab.value = "All Products";
               // return productController.productApi();
-                return productController.getInitData() ;
+                return productController.getInitData();
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),

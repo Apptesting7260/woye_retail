@@ -33,14 +33,9 @@ class RestaurantAllCategoryItems extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           appBar: CustomAppBar(
-            title: Text(
-              controller.title.toString(),
-              style: AppFontStyle.text_22_600(AppColors.darkText,
-                  fontFamily: AppFontFamily.gilroyRegular),
-            ),
+            title: Text(controller.title.toString(), style: AppFontStyle.text_22_600(AppColors.darkText, fontFamily: AppFontFamily.gilroyRegular)),
           ),
-          body: Obx(
-            () {
+          body: Obx(() {
               switch (controller.rxCatRequestStatus.value) {
                 case ApiStatus.LOADING:
                   return Center(child: circularProgressIndicator());
@@ -48,8 +43,7 @@ class RestaurantAllCategoryItems extends StatelessWidget {
                   if (controller.error.value == 'No internet') {
                     return InternetExceptionWidget(
                       onPress: () {
-                        controller.getAllCategoriesApi(
-                            id: controller.categoryId.value);
+                        controller.getAllCategoriesApi(id: controller.categoryId.value);
                       },
                     );
                   } else {
@@ -137,7 +131,7 @@ class RestaurantAllCategoryItems extends StatelessWidget {
                            Future.delayed(const Duration(milliseconds: 300)).then((value)async{
                             await controller.getAllCategoriesApi(id: controller.categoryId.value);
                             // await controller.productController.productApi();
-                           });
+                             });
                             });
 
                         Get.back();

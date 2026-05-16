@@ -97,9 +97,9 @@ class VendorCategoriesController extends GetxController {
   void setError(String value) => error.value = value;
 
 
-  final categoriesData = CategoryAndCuisinesModel().obs;
+  final categoriesData = GetDepartmentModel().obs;
 
-  void categoriesSet(CategoryAndCuisinesModel value) =>
+  void categoriesSet(GetDepartmentModel value) =>
       categoriesData.value = value;
 
   getCategoriesCuisinesApi() async {

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../../shared/widgets/vendor_widgets/print.dart';
 import '../components/internet_exception.dart';
 import '../app_exceptions.dart';
 import '../components/request_time_out.dart';
@@ -150,13 +151,39 @@ class NetworkApiServices extends BaseApiServices {
     }
     return responseJson;
   }
-
+  Future<dynamic> postApi3(Map<String, dynamic> data, String url, String token) async {
+    dynamic responseJson;
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.headers.addAll({"Authorization": "Bearer $token", "Accept": "application/json"});
+      data.forEach((key, value) {
+        if (value != null) {
+          request.fields[key] = value.toString();
+        }
+      });
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(
+        streamedResponse,
+      );
+      responseJson = returnResponse(response, url);
+      pt("STATUS CODE => ${response.statusCode}");
+      pt("RESPONSE => ${response.body}");
+    } on SocketException {
+      throw InternetExceptionWidget(
+        onPress: () {},
+      );
+    } on RequestTimeOut {
+      throw RequestTimeOut(
+        onPress: () {},
+      );
+    }
+    return responseJson;
+  }
   Future<dynamic> postApi2(var data, String url, String token) async {
     // if (kDebugMode) {
     //   print(url);
     //   print(data);
     // }
-
     dynamic responseJson;
     try {
       if (kDebugMode) {
@@ -165,7 +192,10 @@ class NetworkApiServices extends BaseApiServices {
       }
       final response = await http.post(Uri.parse(url),
           // headers: {"Authorization": "Bearer 3681|TpU1aTiYSTZg8TAewkRm8kAM4mci59cnodK5XkIb32fd0c6a",'Content-Type': 'application/json','Accept' : "application/json"}, body: data).timeout(const Duration(seconds: 50));
-          headers: {"Authorization": "Bearer $token",'Content-Type': 'application/json','Accept' : "application/json"}, body: data).timeout(const Duration(seconds: 50));
+          headers: {"Authorization": "Bearer $token",
+            'Content-Type': 'application/json',
+            'Accept' : "application/json"},
+          body: data).timeout(const Duration(seconds: 50));
       responseJson = returnResponse(response, url);
       if (kDebugMode) {
         print("data: $response");
