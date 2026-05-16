@@ -7,7 +7,7 @@ import '../../../../../../Data/Repository/repository.dart';
 import '../../../../../../Data/response/status.dart';
 import '../../../../../../Utils/snack_bar.dart';
 
-class VendorProductController extends GetxController {
+class VendorProductController extends GetxController{
 
   // FillRestaurantDetailsController fillRestaurantDetailsController =  Get.put(FillRestaurantDetailsController());
   FillRestaurantDetailsController fillRestaurantDetailsController =  Get.put(FillRestaurantDetailsController());

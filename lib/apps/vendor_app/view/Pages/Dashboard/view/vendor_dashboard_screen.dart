@@ -152,7 +152,7 @@ class _VendorDashboardScreenState extends State<VendorDashboardScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: [     
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: AppImage(

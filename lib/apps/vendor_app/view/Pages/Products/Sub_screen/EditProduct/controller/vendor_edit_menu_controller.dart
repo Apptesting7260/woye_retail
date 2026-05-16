@@ -83,7 +83,7 @@ class VendorEditMenuController extends GetxController {
   RxBool isErrorColor = false.obs;
   RxBool activeSalePriceValidation = false.obs;
 
-  Rx<Categories> attributeList = Rx<Categories>(Categories());
+  Rx<VendorCategories> attributeList = Rx<VendorCategories>(VendorCategories());
   RxBool isAddOn = false.obs;
   RxList<bool> isExtra = RxList<bool>([]);
   RxList<List<GlobalKey>> masterNameKeyList = RxList<List<GlobalKey>>([]);
@@ -271,12 +271,12 @@ class VendorEditMenuController extends GetxController {
     // Clear existing data first
     clearProductSelections();
 
-    api.commonGetCategoryApi().then((value) async {
+    api.commonGetDepartmentApi().then((value) async {
       categorySetData(value);
       if (apiCategoryData.value.status == true) {
         attributeList.value = apiCategoryData.value.categories!
             .where((map) => map.id.toString() == categoryId)
-            .firstOrNull ?? Categories();
+            .firstOrNull ?? VendorCategories();
 
         // Initialize structure for new category
         initializeCategoryState();
@@ -285,9 +285,9 @@ class VendorEditMenuController extends GetxController {
         final selectedCategory = apiCategoryData.value.categories
             ?.firstWhereOrNull((c) => c.id == product.categoryId);
 
-        if (selectedCategory?.addons != null) {
-          setFilteredAddOns(selectedCategory!.addons!);
-        }
+        // if (selectedCategory?.addons != null) {
+        //   setFilteredAddOns(selectedCategory!.addons!);
+        // }
 
         // Only prefill data if we're editing and this is the original category
         if (product.categoryId == categoryId) {
@@ -295,10 +295,10 @@ class VendorEditMenuController extends GetxController {
           await prefillAddOns(product);
 
           // ✅ Prefill options
-          if (attributeList.value.options != null &&
-              attributeList.value.options!.isNotEmpty) {
-            await prefillProductOptions(apiSingleProductData.value.product);
-          }
+          // if (attributeList.value.options != null &&
+          //     attributeList.value.options!.isNotEmpty) {
+          //   await prefillProductOptions(apiSingleProductData.value.product);
+          // }
 
           // ✅ Prefill attributes
           await prefillAttributes(product);
@@ -312,136 +312,6 @@ class VendorEditMenuController extends GetxController {
       setRxRequestCategoryStatus(ApiStatus.ERROR);
     });
   }
-
-  // Future<void> getCategoryApi(String categoryId) async {
-  //   setRxRequestCategoryStatus(ApiStatus.LOADING);
-  //   final product = apiSingleProductData.value.product!;
-  //   api.commonGetCategoryApi().then((value) async {
-  //     categorySetData(value);
-  //     if (apiCategoryData.value.status == true) {
-  //       log(selectedCategoryId.value.toString(), name: "category select");
-  //
-  //       if (attributeList.value.options != null &&
-  //           attributeList.value.options!.isNotEmpty) {
-  //         await prefillProductOptions(apiSingleProductData.value.product);
-  //       }
-  //
-  //       final selectedCategory = apiCategoryData.value.categories
-  //           ?.firstWhereOrNull((c) => c.id == product.categoryId);
-  //
-  //       if (selectedCategory?.addons != null) {
-  //         setFilteredAddOns(selectedCategory!.addons!);
-  //       }
-  //
-  //       // ✅ Prefill Add-ons (Now works on first load)
-  //       await prefillAddOns(product);
-  //
-  //       // ✅ Prefill options only after attribute list updates
-  //       ever(attributeList, (_) async {
-  //         if (attributeList.value.options != null &&
-  //             attributeList.value.options!.isNotEmpty) {
-  //           await prefillProductOptions(apiSingleProductData.value.product);
-  //         }
-  //       });
-  //
-  //       attributeList.value = apiCategoryData.value.categories!
-  //           .where((map) => map.id.toString() == categoryId).elementAt(0);
-  //       //------------------------------------------------
-  //       for (int i = 0; i < attributeList.value.attributes!.length; i++) {
-  //         indexedKey.add(GlobalKey<FormState>());
-  //         masterNameKeyList.add([]);
-  //         masterPriceKeyList.add([]);
-  //         bool found = false;
-  //         // for (var item in apiSingleProductData.value.product!.extra!) {
-  //         //   if (item.titleid == attributeList.value.attributes![i].id) {
-  //         //     found = true;
-  //         //     break;
-  //         //   }
-  //         // }
-  //
-  //       //   if (!found) {
-  //       //     apiSingleProductData.value.product?.extra?.insert(
-  //       //       i,
-  //       //       get_model.Extra(
-  //       //           titleid: attributeList.value.attributes?[i].id,
-  //       //           item:
-  //       //               [get_model.Item(name: "", id: '${i + 1}', price: "")].obs,
-  //       //           title: attributeList.value.attributes?[i].name),
-  //       //     );
-  //       //   }
-  //       // }
-  //       // for (int i = 0;
-  //       //     i < apiSingleProductData.value.product!.extra!.length;
-  //       //     i++) {
-  //       //   for (int j = 0;
-  //       //       j < apiSingleProductData.value.product!.extra![i].item!.length;
-  //       //       j++) {
-  //       //     masterNameKeyList[i].add(GlobalKey());
-  //       //     masterPriceKeyList[i].add(GlobalKey());
-  //       //   }
-  //       // }
-  //
-  //       // if (apiSingleProductData.value.product?.extra != null) {
-  //       //   for (int i = 0;
-  //       //       i < apiSingleProductData.value.product!.extra!.length;
-  //       //       i++) {
-  //       //     if (apiSingleProductData.value.product!.extra![i].item != null &&
-  //       //         apiSingleProductData
-  //       //             .value.product!.extra![i].item!.isNotEmpty &&
-  //       //         apiSingleProductData.value.product!.extra![i].item![0].name !=
-  //       //             "" &&
-  //       //         apiSingleProductData.value.product!.extra![i].item![0].price !=
-  //       //             "") {
-  //       //       isExtra.insert(i, true);
-  //       //     } else {
-  //       //       isExtra.insert(i, false);
-  //       //     }
-  //       //     log(isExtra.toString(), name: "extra true");
-  //       //   }
-  //       }
-  //       setRxRequestCategoryStatus(ApiStatus.COMPLETED);
-  //     }
-  //   }).onError((error, stackError) {
-  //     setCategoryError(error.toString());
-  //     print(error);
-  //     setRxRequestCategoryStatus(ApiStatus.ERROR);
-  //   });
-  // }
-
-  //------------------------------------------get AddOn Api------------------------------------------
-  //
-  // RxString selectedAddOnId = "".obs;
-  //
-  // final rxRequestAddOnStatus = ApiStatus.COMPLETED.obs;
-  // RxString addOnError = ''.obs;
-  // final apiAddOnData = RestaurantGetAddOnModel().obs;
-  //
-  // void setRxRequestAddOnStatus(ApiStatus value) =>
-  //     rxRequestAddOnStatus.value = value;
-  //
-  // void addOnSetData(RestaurantGetAddOnModel value) =>
-  //     apiAddOnData.value = value;
-  //
-  // void setAddOnError(String value) => addOnError.value = value;
-  //
-  // RxList<String> selectedAddons = RxList<String>([]);
-  //
-  // Future<void> getAddOnApi() async {
-  //   setRxRequestAddOnStatus(ApiStatus.LOADING);
-  //
-  //   api.restaurantGetAddOnApi().then((value) {
-  //     addOnSetData(value);
-  //
-  //     if (apiAddOnData.value.status == true) {
-  //       // apiAddOnData.value.addons!.insert(0,Addons(id: "", name: "Choose Addon"));
-  //     }
-  //     setRxRequestAddOnStatus(ApiStatus.COMPLETED);
-  //   }).onError((error, stackError) {
-  //     setAddOnError(error.toString());
-  //     print(error);
-  //     setRxRequestAddOnStatus(ApiStatus.ERROR);
-  //   });
-  // }
 
   //------------------------------------------get Cuisine Type Api------------------------------------------
 
@@ -477,87 +347,87 @@ class VendorEditMenuController extends GetxController {
   final selectedOptionIndexes = <int>[].obs;
   final sizeConfigs = <RxList<Map<String, dynamic>>>[].obs;
 
-  bool validateAllOptions() {
-    final options = attributeList.value.options ?? [];
-    bool hasError = false;
-
-    for (int optionIndex = 0; optionIndex < options.length; optionIndex++) {
-      // Skip unselected options
-      if (!selectedOptionIndexes.contains(optionIndex)) continue;
-
-      final configs = sizeConfigs[optionIndex];
-
-      for (int configIndex = 0; configIndex < configs.length; configIndex++) {
-        final config = configs[configIndex];
-        final name = config["name"].text.trim();
-        final price = config["price"].text.trim();
-
-        config["nameError"].value = "";
-        config["priceError"].value = "";
-
-        if (name.isEmpty) {
-          config["nameError"].value = "Please enter title";
-          if (!hasError) {
-            scrollToField(config["keyName"]);
-            hasError = true;
-          }
-        }
-        if (price.isEmpty) {
-          config["priceError"].value = "Please enter price";
-          if (!hasError) {
-            scrollToField(config["keyPrice"]);
-            hasError = true;
-          }
-        }
-
-        // If error found, stop checking further
-        if (hasError) break;
-      }
-
-      if (hasError) break;
-    }
-
-    sizeConfigs.refresh();
-    return !hasError; // returns true if all valid
-  }
+  // bool validateAllOptions() {
+  //   final options = attributeList.value.options ?? [];
+  //   bool hasError = false;
+  //
+  //   for (int optionIndex = 0; optionIndex < options.length; optionIndex++) {
+  //     // Skip unselected options
+  //     if (!selectedOptionIndexes.contains(optionIndex)) continue;
+  //
+  //     final configs = sizeConfigs[optionIndex];
+  //
+  //     for (int configIndex = 0; configIndex < configs.length; configIndex++) {
+  //       final config = configs[configIndex];
+  //       final name = config["name"].text.trim();
+  //       final price = config["price"].text.trim();
+  //
+  //       config["nameError"].value = "";
+  //       config["priceError"].value = "";
+  //
+  //       if (name.isEmpty) {
+  //         config["nameError"].value = "Please enter title";
+  //         if (!hasError) {
+  //           scrollToField(config["keyName"]);
+  //           hasError = true;
+  //         }
+  //       }
+  //       if (price.isEmpty) {
+  //         config["priceError"].value = "Please enter price";
+  //         if (!hasError) {
+  //           scrollToField(config["keyPrice"]);
+  //           hasError = true;
+  //         }
+  //       }
+  //
+  //       // If error found, stop checking further
+  //       if (hasError) break;
+  //     }
+  //
+  //     if (hasError) break;
+  //   }
+  //
+  //   sizeConfigs.refresh();
+  //   return !hasError; // returns true if all valid
+  // }n
 
   /// Prefill options from fetched product
   Future<void> prefillProductOptions(Product? product) async {
     final fetchedOptions = product?.options ?? [];
-    final allAvailableOptions = attributeList.value.options ?? [];
+    // final allAvailableOptions = attributeList.value.options ?? [];n
 
-    pt("🧩 Prefill: fetched=${fetchedOptions.length}, available=${allAvailableOptions.length}");
+    // pt("🧩 Prefill: fetched=${fetchedOptions.length}, available=${allAvailableOptions.length}");
 
     selectedOptionIndexes.clear();
     sizeConfigs.clear();
 
-    for (int i = 0; i < allAvailableOptions.length; i++) {
-      final option = allAvailableOptions[i];
-      final matchedOption = fetchedOptions.firstWhereOrNull(
-            (opt) => opt.optionId.toString() == option.id.toString(),
-      );
-
-      final configs = <Map<String, dynamic>>[].obs;
-
-      if (matchedOption != null) {
-        selectedOptionIndexes.add(i);
-
-        for (var choice in matchedOption.choices ?? []) {
-          configs.add({
-            "name": TextEditingController(text: choice.name ?? ""),
-            "price": TextEditingController(text: choice.price ?? ""),
-            "nameError": RxString(""),
-            "priceError": RxString(""),
-            "keyName": GlobalKey(),
-            "keyPrice": GlobalKey(),
-          });
-        }
-
-        if (configs.isEmpty) configs.add(createNewConfig());
-      }
-
-      sizeConfigs.add(configs);
-    }
+    // for (int i = 0; i < allAvailableOptions.length; i++) {
+    //   final option = allAvailableOptions[i];
+    //   final matchedOption = fetchedOptions.firstWhereOrNull(
+    //         (opt) => opt.optionId.toString() == option.id.toString(),
+    //   );
+    //
+    //   final configs = <Map<String, dynamic>>[].obs;
+    //
+    //   if (matchedOption != null) {
+    //     selectedOptionIndexes.add(i);
+    //
+    //     for (var choice in matchedOption.choices ?? []) {
+    //       configs.add({
+    //         "name": TextEditingController(text: choice.name ?? ""),
+    //         "price": TextEditingController(text: choice.price ?? ""),
+    //         "nameError": RxString(""),
+    //         "priceError": RxString(""),
+    //         "keyName": GlobalKey(),
+    //         "keyPrice": GlobalKey(),
+    //       });
+    //     }
+    //
+    //     if (configs.isEmpty) configs.add(createNewConfig());
+    //   }
+    //
+    //   sizeConfigs.add(configs);
+    // }
 
     sizeConfigs.refresh();
     selectedOptionIndexes.refresh();
@@ -583,7 +453,7 @@ class VendorEditMenuController extends GetxController {
 
     for (int i = 0; i < selectedOptionIndexes.length; i++) {
       final index = selectedOptionIndexes[i];
-      final option = attributeList.value.options?[index];
+      // final option = attributeList.value.options?[index];
       final configs = sizeConfigs[index];
 
       // Convert configs → JSON choices
@@ -600,10 +470,10 @@ class VendorEditMenuController extends GetxController {
       // Skip if no valid choice
       if (choices.isEmpty) continue;
 
-      optionsJson.add({
-        "option_id": option?.id.toString(), // ensure it's a string
-        "choices": choices,
-      });
+      // optionsJson.add({
+      //   "option_id": option?.id.toString(), // ensure it's a string
+      //   "choices": choices,
+      // });
     }
 
     final formattedJson = const JsonEncoder.withIndent('  ').convert(optionsJson);
@@ -614,43 +484,43 @@ class VendorEditMenuController extends GetxController {
 
   //------------------------------------------addons------------------------------------------
   /// 🔹 Reactive Add-on fields
-  RxList<Addons> openedAddOnRows = <Addons>[].obs;
+  // RxList<Addons> openedAddOnRows = <Addons>[].obs;
   RxList<String> selectedAddOnIds = <String>[].obs;
   RxList<TextEditingController> addOnPriceControllers = <TextEditingController>[].obs;
   RxList<Map<String, dynamic>> addOnFieldKeys = <Map<String, dynamic>>[].obs;
 
-  RxList<Addons> filteredAddOns = <Addons>[].obs;
+  // RxList<Addons> filteredAddOns = <Addons>[].obs;
 
-  void setFilteredAddOns(List<Addons> addOns) {
-    filteredAddOns.assignAll(addOns);
-  }
+  // void setFilteredAddOns(List<Addons> addOns) {
+  //   filteredAddOns.assignAll(addOns);
+  // }
 
   /// Prefill Add-ons when editing product
   Future<void> prefillAddOns(Product product) async {
     final existingAddOns = product.addOns ?? [];
-    final availableAddOns = filteredAddOns;
+    // final availableAddOns = filteredAddOns;
 
-    openedAddOnRows.clear();
+    // openedAddOnRows.clear();
     selectedAddOnIds.clear();
     addOnPriceControllers.clear();
     addOnFieldKeys.clear();
 
     for (var addon in existingAddOns) {
-      final match = availableAddOns.firstWhereOrNull((a) => a.id == addon.id);
-      if (match != null) {
-        openedAddOnRows.add(Addons(id: match.id, name: match.name));
-        selectedAddOnIds.add(match.id!);
-
-        final controller = TextEditingController(text: addon.price ?? "");
-        addOnPriceControllers.add(controller);
-
-        addOnFieldKeys.add({
-          "dropdownKey": GlobalKey(),
-          "priceKey": GlobalKey(),
-          "dropdownError": RxString(""),
-          "priceError": RxString(""),
-        });
-      }
+      // final match = availableAddOns.firstWhereOrNull((a) => a.id == addon.id);
+      // if (match != null) {
+      //   openedAddOnRows.add(Addons(id: match.id, name: match.name));
+      //   selectedAddOnIds.add(match.id!);
+      //
+      //   final controller = TextEditingController(text: addon.price ?? "");
+      //   addOnPriceControllers.add(controller);
+      //
+      //   addOnFieldKeys.add({
+      //     "dropdownKey": GlobalKey(),
+      //     "priceKey": GlobalKey(),
+      //     "dropdownError": RxString(""),
+      //     "priceError": RxString(""),
+      //   });
+      // }
     }
 
     // REMOVE this block — do not add an empty row by default
@@ -668,44 +538,44 @@ class VendorEditMenuController extends GetxController {
   */
   }
 
-  bool validateAllAddons() {
-    bool hasError = false;
-
-    for (int i = 0; i < openedAddOnRows.length; i++) {
-      final keys = addOnFieldKeys[i];
-      final selectedIds = selectedAddOnIds;
-      final priceControllers = addOnPriceControllers;
-
-      final dropdownId = selectedIds.length > i ? selectedIds[i] : null;
-      final price = priceControllers[i].text.trim();
-
-      // Reset previous errors
-      keys["dropdownError"].value = "";
-      keys["priceError"].value = "";
-
-      // Validate dropdown
-      if (dropdownId == null || dropdownId.isEmpty) {
-        keys["dropdownError"].value = "Please select add-on";
-        if (!hasError) {
-          scrollToField(keys["dropdownKey"]);
-          hasError = true;
-        }
-      }
-
-      // Validate price
-      if (price.isEmpty) {
-        keys["priceError"].value = "Please enter price";
-        if (!hasError) {
-          scrollToField(keys["priceKey"]);
-          hasError = true;
-        }
-      }
-
-      if (hasError) break; // Stop at first invalid row
-    }
-
-    return !hasError; // true if all valid
-  }
+  // bool validateAllAddons() {
+  //   bool hasError = false;
+  //
+  //   for (int i = 0; i < openedAddOnRows.length; i++) {
+  //     final keys = addOnFieldKeys[i];
+  //     final selectedIds = selectedAddOnIds;
+  //     final priceControllers = addOnPriceControllers;
+  //
+  //     final dropdownId = selectedIds.length > i ? selectedIds[i] : null;
+  //     final price = priceControllers[i].text.trim();
+  //
+  //     // Reset previous errors
+  //     keys["dropdownError"].value = "";
+  //     keys["priceError"].value = "";
+  //
+  //     // Validate dropdown
+  //     if (dropdownId == null || dropdownId.isEmpty) {
+  //       keys["dropdownError"].value = "Please select add-on";
+  //       if (!hasError) {
+  //         scrollToField(keys["dropdownKey"]);
+  //         hasError = true;
+  //       }
+  //     }
+  //
+  //     // Validate price
+  //     if (price.isEmpty) {
+  //       keys["priceError"].value = "Please enter price";
+  //       if (!hasError) {
+  //         scrollToField(keys["priceKey"]);
+  //         hasError = true;
+  //       }
+  //     }
+  //
+  //     if (hasError) break; // Stop at first invalid row
+  //   }
+  //
+  //   return !hasError; // true if all valid
+  // }
 
   List<Map<String, dynamic>> buildAddonsPayload() {
     final List<Map<String, dynamic>> addonsPayload = [];
@@ -782,20 +652,8 @@ class VendorEditMenuController extends GetxController {
         preparationController.value.text = product.preparationTime ?? "";
         pt("options ${apiSingleProductData.value.product?.options}");
         pt("prefillAttributes ${apiSingleProductData.value.product?.productAttributes}");
-        // setSelectedAttributes(product.productAttributes);
         await prefillAttributes(product);
-        // if (product.addOnWithNames != null && product.addOnWithNames!.isNotEmpty) {
-        //   selectedAddOnId.value = product.addOnWithNames?[0].id?.value ??
-        //       apiAddOnData.value.addons![0].id!;
-        //   isAddOn.value = true;
-        // }
 
-        // for (int i = 0;
-        //     i < apiSingleProductData.value.product!.addOnWithNames!.length;
-        //     i++) {
-        //   addOnDropdownKeyList.add(GlobalKey());
-        //   addOnControllersKeyList.add(GlobalKey());
-        // }
 
         skuController.value.text = product.sku ?? "";
 
@@ -924,12 +782,12 @@ class VendorEditMenuController extends GetxController {
     sizeConfigs.clear();
 
     // Clear add-ons
-    openedAddOnRows.clear();
+    // openedAddOnRows.clear();
     selectedAddOnIds.clear();
     addOnPriceControllers.forEach((controller) => controller.dispose());
     addOnPriceControllers.clear();
     addOnFieldKeys.clear();
-    filteredAddOns.clear();
+    // filteredAddOns.clear();
 
     // Clear attributes
     selectedAttributeIds.clear();
@@ -958,26 +816,26 @@ class VendorEditMenuController extends GetxController {
 
   /// Initialize state for new category
   void initializeCategoryState() {
-    final attributes = attributeList.value.attributes ?? [];
+    // final attributes = attributeList.value.attributes ?? [];
 
-    // Initialize attribute structure if needed
-    for (int i = 0; i < attributes.length; i++) {
-      indexedKey.add(GlobalKey<FormState>());
-      masterNameKeyList.add([]);
-      masterPriceKeyList.add([]);
-      isExtra.insert(i, false);
-    }
+    // // Initialize attribute structure if needed
+    // for (int i = 0; i < attributes.length; i++) {
+    //   indexedKey.add(GlobalKey<FormState>());
+    //   masterNameKeyList.add([]);
+    //   masterPriceKeyList.add([]);
+    //   isExtra.insert(i, false);
+    // }
 
     // Initialize options if category has them
-    final options = attributeList.value.options ?? [];
-    for (int i = 0; i < options.length; i++) {
-      sizeConfigs.add(<Map<String, dynamic>>[].obs);
-    }
+    // final options = attributeList.value.options ?? [];
+    // for (int i = 0; i < options.length; i++) {
+    //   sizeConfigs.add(<Map<String, dynamic>>[].obs);
+    // }
 
     // Set filtered add-ons from new category
-    if (attributeList.value.addons != null) {
-      setFilteredAddOns(attributeList.value.addons!);
-    }
+    // if (attributeList.value.addons != null) {
+    //   setFilteredAddOns(attributeList.value.addons!);
+    // }
 
     debugPrint("✅ Initialized state for category: ${attributeList.value.name}");
   }
@@ -998,31 +856,31 @@ class VendorEditMenuController extends GetxController {
     sizeConfigs.clear();
 
     // Reset add-ons
-    clearAddOns();
+    // clearAddOns();
 
     // Reset attributes
     selectedAttributeIds.clear();
     isAttributesPrefilled.value = false;
   }
-
-  /// Clear add-ons specifically
-  void clearAddOns() {
-    // Dispose all controllers
-    addOnPriceControllers.forEach((controller) => controller.dispose());
-
-    // Clear all lists
-    openedAddOnRows.clear();
-    selectedAddOnIds.clear();
-    addOnPriceControllers.clear();
-    addOnFieldKeys.clear();
-
-    // Reset filtered add-ons based on current category
-    if (attributeList.value.addons != null) {
-      setFilteredAddOns(attributeList.value.addons!);
-    }
-
-    debugPrint("🧹 Cleared all add-ons");
-  }
+  //
+  // /// Clear add-ons specifically
+  // void clearAddOns() {
+  //   // Dispose all controllers
+  //   addOnPriceControllers.forEach((controller) => controller.dispose());
+  //
+  //   // Clear all lists
+  //   openedAddOnRows.clear();
+  //   selectedAddOnIds.clear();
+  //   addOnPriceControllers.clear();
+  //   addOnFieldKeys.clear();
+  //
+  //   // Reset filtered add-ons based on current category
+  //   if (attributeList.value.addons != null) {
+  //     setFilteredAddOns(attributeList.value.addons!);
+  //   }
+  //
+  //   debugPrint("🧹 Cleared all add-ons");
+  // }
   //------------------------------------------convert Url Image To Base64------------------------------------------
 
   Future<String> convertUrlImageToBase64(String imageUrl) async {

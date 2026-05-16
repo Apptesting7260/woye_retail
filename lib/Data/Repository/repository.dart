@@ -13,6 +13,7 @@ import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/Restaurant
 import 'package:gyaawa/apps/vendor_app/view/Pages/menu/model/vendor_menu_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/Models/restaurant_get_addon_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/Models/restaurant_get_cuisine_type_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/Models/vendor_product_attribute_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/AccountStatus/model/vendor_account_status_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/choose_common_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/vendor_common/Models/common_export_model.dart';
@@ -47,6 +48,7 @@ import '../../apps/vendor_app/view/Pages/Wallet/Subscreen_wallet/request_payout/
 import '../../apps/vendor_app/view/Pages/Wallet/model/vender_wallet_model.dart';
 import '../../apps/vendor_app/view/Pages/review/model/reviews_model.dart';
 import '../../apps/vendor_app/view/Pages/review/subscreens/bulk_responds/model/get_bulk_review_res_model.dart';
+import '../../apps/vendor_app/view/Pages/vendor_add_product/Models/vendor_sub_categories_model.dart';
 import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/FAQ/model/faq_model.dart';
 import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/RestaurantSupport/model/create_support_model.dart';
 import '../../apps/vendor_app/view/vendor_common/HelpCenter/SubScreens/RestaurantSupport/model/restaurant_get_support_model.dart';
@@ -269,11 +271,11 @@ Future<dynamic> vendorResendOtpApi(var data) async {
   );
   return MenuModel.fromJson(response);
   }
-  Future<dynamic> commonGetCategoryApi() async {
+  Future<dynamic> commonGetDepartmentApi() async {
     await initializeUser();
-    dynamic response = await _apiService.getApi(AppUrls.getCategoryUrl, token);
+    dynamic response = await _apiService.getApi(AppUrls.departmentGet, token);
     log("repo category response ====>>> $response");
-    return CommonGetCategoryModel.fromJson(response);
+    return GetDepartmentModel.fromJson(response);
   }
 
 
@@ -378,10 +380,10 @@ Future<dynamic> vendorResendOtpApi(var data) async {
     dynamic response = await _apiService.postApi(data,AppUrls.getUserDetail,token);
     return GetUserDetailsModel.fromJson(response);
   }
-  Future<CategoryAndCuisinesModel> getChooseCategoriesCuisinesApi() async {
+  Future<GetDepartmentModel> getChooseCategoriesCuisinesApi() async {
     await initializeUser();
-    dynamic response = await _apiService.getApi(AppUrls.categoryCuisineGet, token);
-    return CategoryAndCuisinesModel.fromJson(response);
+    dynamic response = await _apiService.getApi(AppUrls.departmentGet, token);
+    return GetDepartmentModel.fromJson(response);
   }
   Future<CommonResponseModel> createUpdateUser(var data) async {
     await initializeUser();
@@ -393,7 +395,27 @@ Future<dynamic> vendorResendOtpApi(var data) async {
      await initializeUser();
     dynamic response =
     await _apiService.postApi(data, AppUrls.getChooseCategories, token);
-    return ChooseCategoriesModel.fromJson(response);
+     return ChooseCategoriesModel.fromJson(response);
+  }
+
+  Future<dynamic> getVendorCategoriesApi({Map<String, dynamic>? queryParameters}) async {
+     await initializeUser();
+    dynamic response =
+    await _apiService.getApiWithParams(AppUrls.getVendorCategories, token,queryParameters: queryParameters);
+     return CommonGetCategoryModel.fromJson(response);
+  }
+
+  Future<dynamic> getVendorSubCategoriesApi({Map<String, dynamic>? queryParameters}) async {
+     await initializeUser();
+    dynamic response =
+    await _apiService.getApiWithParams(AppUrls.getVendorSubCategories, token,queryParameters: queryParameters);
+     return VendorSubCategoriesModel.fromJson(response);
+  }
+  Future<dynamic> getVendorProductAttributeApi({Map<String, dynamic>? queryParameters}) async {
+     await initializeUser();
+    dynamic response =
+    await _apiService.getApiWithParams(AppUrls.getProductAttribute, token,queryParameters: queryParameters);
+     return VendorProductAttributeModel.fromJson(response);
   }
   Future<dynamic> categoriesCuisinesAddApi(var data) async {
      await initializeUser();
@@ -504,7 +526,7 @@ Future<dynamic> vendorResendOtpApi(var data) async {
   /*----------------Add Product---------------------------*/
   Future<dynamic> restaurantAddProductApi(var data) async {
     await initializeUser();
-    dynamic response = await _apiService.postApi2(data, AppUrls.restaurantAddProductUrl, token);
+    dynamic response = await _apiService.postApi3(data, AppUrls.restaurantAddProductUrl, token);
     return CommonAddProductModel.fromJson(response);
   }
   Future<CommonExportModel> downloadStatement(var data) async {
