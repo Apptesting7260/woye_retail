@@ -31,6 +31,7 @@ class ImageConstants {
   static String man = "$imagePath/man.png";
   static String mountainDew = "$imagePath/mountain-dew.png";
   static String csvImage = "$imagePath/csv_image.png";
+  static String saveSvg = "$imagePath/save.svg.svg";
 
   static String standardBank = "$imagePath/standard-bank.png";
   static String pdfPng = "$imagePath/pdf.png";

@@ -33,7 +33,7 @@ class VendorExportMenuItemScreen extends GetView<VendorExportMenuItemController>
           case ApiStatus.COMPLETED :
             return  body();
           }
-      },),
+      }),
       bottomNavigationBar: exportBtn(),
     );
   }
@@ -61,9 +61,9 @@ class VendorExportMenuItemScreen extends GetView<VendorExportMenuItemController>
           hBox(16),
           Row(
             children: [
-              AppImage(path: ImageConstants.filter,height: 17,width: 17,),
+              AppImage(path: ImageConstants.filter,height: 17,width: 17),
               wBox(8),
-              Text("Filters", style: AppFontStyle.text_16_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold,)),
+              Text("Filters", style: AppFontStyle.text_16_400(AppColors.black,fontFamily: AppFontFamily.gilroySemiBold)),
             ],
           ),
           hBox(18),

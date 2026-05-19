@@ -39,7 +39,7 @@ class VendorBulkUploadMenuItems extends GetView<VendorMenuController> {
             hBox(20),
             downloadTemplete(),
             hBox(10),
-            uploadCsvWidget(),
+            // uploadCsvWidget(),
             hBox(50),
             ],
           ),
@@ -55,102 +55,102 @@ class VendorBulkUploadMenuItems extends GetView<VendorMenuController> {
     );
   }
 
-  Widget uploadCsvWidget() {
-    return Obx(() {
-      return Stack(
-        children: [
-          DottedBorder(
-            strokeCap: StrokeCap.square,
-            borderType: BorderType.RRect,
-            radius: const Radius.circular(12),
-            padding: const EdgeInsets.all(6),
-            dashPattern: const [5],
-            strokeWidth: 1.5,
-            color: AppColors.borderClr,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-              child: SizedBox(
-                height: 210,
-                width: Get.width,
-                child: controller.fileName.isNotEmpty
-                    ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppImage(path: ImageConstants.csvImage,height: 100,),
-                    hBox(10),
-                    Text(
-                      controller.fileName.value,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppFontStyle.text_14_500(
-                        AppColors.blackTextColor,
-                        fontFamily: AppFontFamily.gilroyMedium,
-                      ),
-                    ),
-                  ],
-                )
-                    : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      ImageConstants.uploadImage,
-                      height: 40,
-                      width: 40,
-                    ),
-                    hBox(20),
-                    Text(
-                      "Drop your CSV file here, or click to browse",
-                      style: AppFontStyle.text_14_500(
-                        AppColors.lightBlackClr,
-                        fontFamily: AppFontFamily.gilroyMedium,
-                      ),
-                    ),
-                    hBox(5),
-                    Text(
-                      "Supports CSV files up to 10MB",
-                      style: AppFontStyle.text_14_400(
-                        AppColors.hintText,
-                        fontFamily: AppFontFamily.gilroyMedium,
-                      ),
-                    ),
-                    hBox(16),
-                    CustomElevatedButton(
-                      borderSide: BorderSide(color: AppColors.borderClr),
-                      borderRadius: BorderRadius.circular(10),
-                      width: 110.w,
-                      height: 36.h,
-                      color: AppColors.transparent,
-                      onPressed: () => controller.pickCsvFile(),
-                      text: "Choose File",
-                      textStyle: AppFontStyle.text_15_400(
-                        AppColors.lightBlackClr,
-                        fontFamily: AppFontFamily.gilroySemiBold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // REMOVE BUTTON
-          if (controller.fileName.isNotEmpty)
-            Positioned(
-              right: 3.w,
-              top: 5.h,
-              child: GestureDetector(
-                onTap: () => controller.removeCsv(),
-                child: Icon(
-                  Icons.cancel_outlined,
-                  size: 25,
-                  color: AppColors.red,
-                ),
-              ),
-            ),
-        ],
-      );
-    });
-  }
+  // Widget uploadCsvWidget() {
+  //   return Obx(() {
+  //     return Stack(
+  //       children: [
+  //         DottedBorder(
+  //           strokeCap: StrokeCap.square,
+  //           borderType: BorderType.RRect,
+  //           radius: const Radius.circular(12),
+  //           padding: const EdgeInsets.all(6),
+  //           dashPattern: const [5],
+  //           strokeWidth: 1.5,
+  //           color: AppColors.borderClr,
+  //           child: ClipRRect(
+  //             borderRadius: const BorderRadius.all(Radius.circular(12)),
+  //             child: SizedBox(
+  //               height: 210,
+  //               width: Get.width,
+  //               child: controller.fileName.isNotEmpty
+  //                   ? Column(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   AppImage(path: ImageConstants.csvImage,height: 100,),
+  //                   hBox(10),
+  //                   Text(
+  //                     controller.fileName.value,
+  //                     maxLines: 1,
+  //                     overflow: TextOverflow.ellipsis,
+  //                     style: AppFontStyle.text_14_500(
+  //                       AppColors.blackTextColor,
+  //                       fontFamily: AppFontFamily.gilroyMedium,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               )
+  //                   : Column(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   SvgPicture.asset(
+  //                     ImageConstants.uploadImage,
+  //                     height: 40,
+  //                     width: 40,
+  //                   ),
+  //                   hBox(20),
+  //                   Text(
+  //                     "Drop your CSV file here, or click to browse",
+  //                     style: AppFontStyle.text_14_500(
+  //                       AppColors.lightBlackClr,
+  //                       fontFamily: AppFontFamily.gilroyMedium,
+  //                     ),
+  //                   ),
+  //                   hBox(5),
+  //                   Text(
+  //                     "Supports CSV files up to 10MB",
+  //                     style: AppFontStyle.text_14_400(
+  //                       AppColors.hintText,
+  //                       fontFamily: AppFontFamily.gilroyMedium,
+  //                     ),
+  //                   ),
+  //                   hBox(16),
+  //                   CustomElevatedButton(
+  //                     borderSide: BorderSide(color: AppColors.borderClr),
+  //                     borderRadius: BorderRadius.circular(10),
+  //                     width: 110.w,
+  //                     height: 36.h,
+  //                     color: AppColors.transparent,
+  //                     onPressed: () => controller.pickCsvFile(),
+  //                     text: "Choose File",
+  //                     textStyle: AppFontStyle.text_15_400(
+  //                       AppColors.lightBlackClr,
+  //                       fontFamily: AppFontFamily.gilroySemiBold,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //
+  //         // REMOVE BUTTON
+  //         if (controller.fileName.isNotEmpty)
+  //           Positioned(
+  //             right: 3.w,
+  //             top: 5.h,
+  //             child: GestureDetector(
+  //               onTap: () => controller.removeCsv(),
+  //               child: Icon(
+  //                 Icons.cancel_outlined,
+  //                 size: 25,
+  //                 color: AppColors.red,
+  //               ),
+  //             ),
+  //           ),
+  //       ],
+  //     );
+  //   });
+  // }
 
   Widget downloadTemplete() {
     return Container(

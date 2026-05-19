@@ -205,7 +205,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                     controller: restaurantProductAddController.weightController.value,
                     textInputType: TextInputType.number,
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(20),
+                      LengthLimitingTextInputFormatter(10),
                     ],
                     onTapOutside: (event) {
                       FocusManager.instance.primaryFocus?.unfocus();
@@ -216,7 +216,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                       }
                       return null;
                     },
-                    hintText: '13 (Kg)',
+                    hintText: '13 (Kg,Gm)',
                   ),
                 ],
               ),
@@ -255,7 +255,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Order Preparation Time", style: AppFontStyle.text_14_500(AppColors.lightBlackClr, fontFamily: AppFontFamily.interMedium,)),
+                  Text("Preparation Time", style: AppFontStyle.text_14_500(AppColors.lightBlackClr, fontFamily: AppFontFamily.interMedium)),
                   hBox(5.h),
                   CustomTextFormField(
                     key: restaurantProductAddController.preparationKey,
@@ -263,7 +263,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(r'[\d\-a-zA-Z]'))
                     ],
-                    hintText: "e.g, 15den or 1 month",
+                    hintText: "e.g, 2 days",
                        validator: (value) {
                          if (value == null || value.trim().isEmpty) {
                            return "Please enter preparation time";
@@ -283,7 +283,8 @@ class RestaurantAddProductScreen extends StatelessWidget {
             Text("Department", style: AppFontStyle.text_14_500(AppColors.lightBlackClr, fontFamily: AppFontFamily.interMedium)),
             hBox(5),
             CustomDropDownApi(
-              selectedValue: restaurantProductAddController.department.value,
+              // selectedValue: restaurantProductAddController.department.value,
+              selectedValue: restaurantProductAddController.selectedDepartmentId.value,
               items: restaurantProductAddController.apiCategoryData.value.data?.categories ?? [],
               borderColor: AppColors.textFieldBorder,
               hintText: "Select Department",
@@ -307,6 +308,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                 }
                 pt("Selected Department Found: ${selectedDepartment != null}");
                 if (selectedDepartment != null) {
+                  restaurantProductAddController.department.value = selectedDepartment.name ?? "";
                   restaurantProductAddController.selectedDepartmentId.value = selectedDepartment.id ?? "";
                   pt("Department ID: ${restaurantProductAddController.selectedDepartmentId.value}");
                   if (restaurantProductAddController.selectedDepartmentId.value.isNotEmpty) {
@@ -335,8 +337,9 @@ class RestaurantAddProductScreen extends StatelessWidget {
                       Obx(() {
                         final categoryList = restaurantProductAddController.categoriesData.value.categories ?? [];
                         return CustomDropDownApi(
-                          selectedValue:
-                          restaurantProductAddController.selectedCategoryId.value,
+                          // selectedValue:
+                          // restaurantProductAddController.selectedCategoryId.value,
+                          selectedValue: restaurantProductAddController.selectedCategoryId.value,
                           items: categoryList,
                           borderColor: AppColors.textFieldBorder,
                           hintText: "Category",
@@ -372,7 +375,8 @@ class RestaurantAddProductScreen extends StatelessWidget {
                       Obx(() {
                         final subCategoryList = restaurantProductAddController.subCategoriesData.value.data ?? [];
                         return CustomDropDownApi(
-                          selectedValue: restaurantProductAddController.subCategory.value,
+                          // selectedValue: restaurantProductAddController.subCategory.value,
+                          selectedValue: restaurantProductAddController.selectedAttributeId.value,
                           items: subCategoryList,
                           borderColor: AppColors.textFieldBorder,
                           hintText: "Sub Category",
@@ -382,6 +386,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                             final selectedSubCategory = subCategoryList.firstWhere((e) => e.id.toString() == value.toString(),
                               orElse: () => subCategoryList.first,
                             );
+                            restaurantProductAddController.subCategory.value = selectedSubCategory.name ?? "";
                             restaurantProductAddController.selectedAttributeId.value = selectedSubCategory.id.toString();
                             pt("SubCategory ID = ${selectedSubCategory.id}");
                             pt("SubCategory Name = ${selectedSubCategory.name}");
@@ -417,9 +422,25 @@ class RestaurantAddProductScreen extends StatelessWidget {
       children: [
         Divider(color: AppColors.greyTextColor.withAlpha(70)),
         hBox(10.h),
-        Center(
-          child: Text("Additional Details",
-              style: AppFontStyle.text_12_500(AppColors.blueLightColor, fontFamily: AppFontFamily.interSemiBold,))),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "${restaurantProductAddController.department.value}"
+                  " - ${restaurantProductAddController.category.value}"
+                  " - ${restaurantProductAddController.subCategory.value } -",
+              style: AppFontStyle.text_13_500(
+                AppColors.blueLightColor,
+                fontFamily: AppFontFamily.interSemiBold,
+              ),
+            ),
+            Text(
+              " Additional Details",
+              overflow:TextOverflow.ellipsis, style: AppFontStyle.text_13_500(
+                AppColors.blueLightColor, fontFamily: AppFontFamily.interSemiBold),
+            ),
+          ],
+        ),
         hBox(20.h),
         ...List.generate(
           (additionalDetails.length / 2).ceil(), (rowIndex) {
@@ -443,6 +464,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                         Text(firstItem.title ?? "", style: AppFontStyle.text_14_500(AppColors.lightBlackClr, fontFamily: AppFontFamily.interMedium)),
                         hBox(5.h),
                         CustomTextFormField(
+                          key: ValueKey(firstItem.slug),
                           controller: restaurantProductAddController.additionalControllers[firstItem.slug ?? ""],
                           textInputType: TextInputType.text,
                           inputFormatters: [
@@ -488,7 +510,6 @@ class RestaurantAddProductScreen extends StatelessWidget {
     );
   }
 
-
   Text title({String? title}) {
     return Text(title ?? "", style: AppFontStyle.text_18_400(AppColors.lightBlackClr, fontFamily: AppFontFamily.gilroySemiBold));}
 
@@ -496,14 +517,19 @@ class RestaurantAddProductScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        hBox(10),
         CustomCheckboxTile(
-          title: "This product has variants (e.g., different sizes, colors)",
+            scale: 1.2,
+          title: " This product has variants (e.g. different sizes)",style: AppFontStyle.text_13_500(
+            AppColors.black,
+            fontFamily: AppFontFamily.interMedium,
+         ),
           value: controller.hasVariants,
           onChanged: (val) {
             controller.hasVariants.value = val;
           },
         ),
-        hBox(12),
+        hBox(16),
         Obx(() {
           if (!controller.hasVariants.value) {
             return SizedBox();
@@ -520,8 +546,8 @@ class RestaurantAddProductScreen extends StatelessWidget {
                       children: [
                         stepCircle("1"),
                         wBox(10),
-                        Text("Select Variant Attributes", style: AppFontStyle.text_14_500(AppColors.lightBlackClr,
-                            fontFamily: AppFontFamily.interMedium)),
+                        Text("Select Variant Attributes", style: AppFontStyle.text_14_500(AppColors.black,
+                            fontFamily: AppFontFamily.interSemiBold)),
                       ],
                     ),
                     hBox(12),
@@ -534,7 +560,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                           return GestureDetector(
                             onTap: () => controller.toggleAttribute(attr),
                             child: AppContainer(
-                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                               color: selected ? AppColors.primary : AppColors.white,
                               border: Border.all(color: AppColors.borderClr),
                               borderRadius: BorderRadius.circular(8),
@@ -553,6 +579,8 @@ class RestaurantAddProductScreen extends StatelessWidget {
                         }).toList(),
                       );
                     }),
+                    hBox(15),
+                    Divider(color: AppColors.borderClr,height: 1),
                     hBox(15),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -608,8 +636,8 @@ class RestaurantAddProductScreen extends StatelessWidget {
                         children: [
                           stepCircle("2"),
                           wBox(10),
-                          Text("Configure Attribute Values", style: AppFontStyle.text_14_500(AppColors.lightBlackClr,
-                            fontFamily: AppFontFamily.interMedium)),
+                          Text("Configure Attribute Values", style: AppFontStyle.text_14_500(AppColors.black,
+                            fontFamily: AppFontFamily.interSemiBold)),
                         ],
                       ),
                       hBox(12),
@@ -668,7 +696,8 @@ class RestaurantAddProductScreen extends StatelessWidget {
                                   ...controller.attributeValues[attr]!.map((val) {
                                     return AppContainer(
                                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                      color: AppColors.searchText,
+                                      // color: AppColors.searchText,
+                                      border: Border.all(color: AppColors.borderClr),
                                       borderRadius: BorderRadius.circular(6),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
@@ -689,35 +718,53 @@ class RestaurantAddProductScreen extends StatelessWidget {
                                     final show = controller.showValueField[attr]?.value ?? false;
                                     if (!show) return SizedBox();
 
-                                    return Container(
-                                      width: 120,
-                                      height: 34,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(color: AppColors.borderClr),
-                                        color: Colors.white,
-                                      ),
-                                      child: TextField(
-                                        controller: controller.valueControllers[attr],
-                                        autofocus: true,
-                                        style: AppFontStyle.text_13_400(AppColors.greyTextColor, fontFamily: AppFontFamily.interMedium),
-                                        decoration: InputDecoration(
-                                          isDense: true,
-                                          border: InputBorder.none,
-                                          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                                          suffixIcon: GestureDetector(
+                                    return AppContainer(
+                                      width: 100.w,
+                                      height: 30.h,
+
+                                      child: Row(
+                                        children: [
+                                          wBox(4),
+                                          Expanded(
+                                            child: TextField(
+                                              controller: controller.valueControllers[attr],
+                                              autofocus: true,
+                                              style: AppFontStyle.text_13_400(
+                                                  AppColors.greyTextColor,
+                                                  fontFamily: AppFontFamily.interMedium
+                                              ),
+                                              decoration: InputDecoration(
+                                                isDense: true,
+                                                filled: true,
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(6),
+                                                  borderSide: BorderSide.none,
+                                                ),
+                                                fillColor:AppColors.searchText,
+                                                contentPadding: EdgeInsets.symmetric(vertical: 2),
+                                              ),
+                                              onSubmitted: (val) {
+                                                if (val.trim().isNotEmpty) {
+                                                  controller.addAttributeValue(attr);
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                          GestureDetector(
                                             onTap: () {
                                               controller.valueControllers[attr]?.clear();
                                               controller.showValueField[attr]?.value = false;
                                             },
-                                            child: Icon(Icons.close, size: 16, color: AppColors.red),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                                              child: Icon(
+                                                Icons.close,
+                                                size: 16,
+                                                color: AppColors.red,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                        onSubmitted: (val) {
-                                          if (val.trim().isNotEmpty) {
-                                            controller.addAttributeValue(attr);
-                                          }
-                                        },
+                                        ],
                                       ),
                                     );
                                   }),
@@ -733,14 +780,14 @@ class RestaurantAddProductScreen extends StatelessWidget {
                         height: 46,
                         borderRadius: BorderRadius.circular(8),
                         onPressed: controller.generateVariants,
-                        child: Text("Generate Variant Matrix", style: AppFontStyle.text_14_500(Colors.white, fontFamily: AppFontFamily.interMedium)),
+                        child: Text("Generate Variant Matrix", style: AppFontStyle.text_14_500(AppColors.white, fontFamily: AppFontFamily.interMedium)),
                       ),
                     ],
                   ),
                 );
               }),
               hBox(12),
-              // >>>>>>>>>>>>>>>>>>>>>>>> VARIANT TABLE <<<<<<<<<<<<<<<<<<<<<<<<<
+
               Obx(() {
                 if (controller.variantList.isEmpty) {
                   return SizedBox();
@@ -748,17 +795,19 @@ class RestaurantAddProductScreen extends StatelessWidget {
                 final tableAttributes = controller.selectedVariantAttributes;
                 final selectedVariants = controller.variantList.where((variant) => variant.isSelected.value).toList();
                 return AppContainer(
-                  borderRadius:BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(15),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14,vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Variant Matrix (${selectedVariants.length})", style: AppFontStyle.text_14_500(AppColors.lightBlackClr,
-                              fontFamily: AppFontFamily.interMedium)),
+                            stepCircle("3"),
+                            Text("Variant Matrix (${selectedVariants.length})",
+                                style: AppFontStyle.text_14_500(AppColors.lightBlackClr,
+                                    fontFamily: AppFontFamily.interMedium)),
                             AppContainer(
                               height: 30,
                               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -774,8 +823,9 @@ class RestaurantAddProductScreen extends StatelessWidget {
 
                                 controller.update();
                               },
-                              child: Text("Apply Base Price to All", style: AppFontStyle.text_14_500(AppColors.lightBlackClr,
-                                fontFamily: AppFontFamily.interMedium,
+                              child: Text("Apply Base Price to All",
+                                style: AppFontStyle.text_12_500(AppColors.lightBlackClr,
+                                  fontFamily: AppFontFamily.interMedium,
                                 ),
                               ),
                             ),
@@ -788,13 +838,14 @@ class RestaurantAddProductScreen extends StatelessWidget {
                             constraints: BoxConstraints(minWidth: Get.width),
                             child: Table(
                               border: TableBorder.all(color: AppColors.borderClr),
-                              defaultVerticalAlignment:TableCellVerticalAlignment.middle,
+                              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                               columnWidths: {
                                 0: const IntrinsicColumnWidth(),
                                 for (int i = 1; i < tableAttributes.length + 4; i++)
                                   i: const IntrinsicColumnWidth(),
                               },
                               children: [
+                                // Header Row
                                 TableRow(
                                   children: [
                                     cell("Select"),
@@ -804,123 +855,154 @@ class RestaurantAddProductScreen extends StatelessWidget {
                                     cell("Stock"),
                                   ],
                                 ),
-                     ...controller.variantList.map((variant) {
-                                    return TableRow(
-                                      children: [
-                                        Center(
-                                          child: Padding(padding:const EdgeInsets.symmetric(vertical: 8,horizontal: 15),
-                                           child: CustomCheckboxTile(
-                                              value:variant.isSelected,
-                                              onChanged: (v) {
-                                                variant.isSelected.value =v;
-                                              },
-                                              title: '',
-                                            ),
+                                // Data Rows
+                                ...controller.variantList.map((variant) {
+                                  return TableRow(
+                                    children: [
+                                      Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                                          child: CustomCheckboxTile(
+                                            value: variant.isSelected,
+                                            onChanged: (v) {
+                                              variant.isSelected.value = v;
+                                            },
+                                            title: '',
                                           ),
                                         ),
-                                        ...tableAttributes.map((attr) => cell(variant.values[attr] ??"")),
-                                        cell("PRD-${variant.sku}"),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.all(8),
-                                        //   child: TextFormField(
-                                        //     initialValue: variant.sku.replaceAll("PRD-", ""),
-                                        //     onChanged: (val) {
-                                        //       variant.sku = val.trim();
-                                        //     },
-                                        //     style: AppFontStyle.text_12_500(
-                                        //       AppColors.blackTextColor,
-                                        //       fontFamily: AppFontFamily.interMedium,
-                                        //     ),
-                                        //     decoration: const InputDecoration(
-                                        //       isDense: true,
-                                        //       border: InputBorder.none,
-                                        //       contentPadding: EdgeInsets.zero,
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        cell(variant.price.value.toStringAsFixed(2)),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.all(8),
-                                        //   child: TextFormField(
-                                        //     initialValue: variant.price.value.toString(),
-                                        //     keyboardType: TextInputType.number,
-                                        //     onChanged: (val) {
-                                        //       variant.price.value = double.tryParse(val) ?? 0;
-                                        //     },
-                                        //     style: AppFontStyle.text_12_500(
-                                        //       AppColors.blackTextColor,
-                                        //       fontFamily: AppFontFamily.interMedium,
-                                        //     ),
-                                        //     decoration: const InputDecoration(
-                                        //       isDense: true,
-                                        //       border: InputBorder.none,
-                                        //       contentPadding: EdgeInsets.zero,
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        cell(variant.stock.value.toString(),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.all(8),
-                                        //   child: TextFormField(
-                                        //     initialValue: variant.stock.value.toString(),
-                                        //     keyboardType: TextInputType.number,
-                                        //     onChanged: (val) {
-                                        //       variant.stock.value = int.tryParse(val) ?? 0;
-                                        //     },
-                                        //     style: AppFontStyle.text_12_500(
-                                        //       AppColors.blackTextColor,
-                                        //       fontFamily: AppFontFamily.interMedium,
-                                        //     ),
-                                        //     decoration: const InputDecoration(
-                                        //       isDense: true,
-                                        //       border: InputBorder.none,
-                                        //       contentPadding: EdgeInsets.zero,
-                                        //     ),
-                                        //   ),
-                                         ),
-                                      ],
-                                    );
-                                  },
-                                ),
+                                      ),
+                                      ...tableAttributes.map((attr) => cell(variant.values[attr] ?? "")),
+
+                                      // Editable SKU
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: TextFormField(
+                                          initialValue: variant.sku,
+                                          onChanged: (val) {
+                                            variant.sku = val.trim();
+                                          },
+                                          style: AppFontStyle.text_12_500(
+                                            AppColors.blackTextColor,
+                                            fontFamily: AppFontFamily.interMedium,
+                                          ),
+                                          decoration:  InputDecoration(
+                                            isDense: true,
+                                            filled: true,
+                                            fillColor: AppColors.searchText,
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(6),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+
+                                          ),
+                                        ),
+                                      ),
+
+                                      // Editable Price
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Obx(() {
+                                          return TextFormField(
+                                            key: ValueKey(variant.price.value),
+                                            initialValue: variant.price.value.toStringAsFixed(0),
+                                            keyboardType: TextInputType.number,
+                                            onChanged: (val) {
+                                              variant.price.value = double.tryParse(val) ?? variant.price.value;
+                                            },
+                                            style: AppFontStyle.text_12_500(
+                                              AppColors.blackTextColor,
+                                              fontFamily: AppFontFamily.interMedium,
+                                            ),
+                                            decoration: InputDecoration(
+                                              isDense: true,
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(6),
+                                                borderSide: BorderSide.none,
+                                              ),
+                                              filled: true,
+                                              fillColor: AppColors.searchText,
+                                              contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: TextFormField(
+                                          initialValue: variant.stock.value.toString(),
+                                          keyboardType: TextInputType.number,
+                                          onChanged: (val) {
+                                            variant.stock.value = int.tryParse(val) ?? variant.stock.value;
+                                          },
+                                          style: AppFontStyle.text_12_500(
+                                            AppColors.blackTextColor,
+                                            fontFamily: AppFontFamily.interMedium,
+                                          ),
+                                          decoration:  InputDecoration(
+                                            isDense: true,
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(6),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            fillColor: AppColors.searchText,
+                                            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }),
                               ],
                             ),
-                        ),
+                          ),
                         ),
                         hBox(16),
-                        Padding(padding: const EdgeInsets.only(left: 120),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 120),
                           child: Obx(() {
                             return CustomElevatedButton(
                               color: AppColors.black,
                               height: 45.h,
                               borderRadius: BorderRadius.circular(8),
-                                onPressed: () async {
+                              onPressed: () async {
+                                if (restaurantProductAddController.rxRequestStatus.value == ApiStatus.LOADING) {
+                                  return;
+                                }
 
-                                  if (restaurantProductAddController.rxRequestStatus.value == ApiStatus.LOADING) {
-                                    return;
-                                  }
+                                bool isValid = await restaurantProductAddController.validateBeforeReview();
 
-                                  bool isValid =
-                                  await restaurantProductAddController.validateBeforeReview();
+                                if (!isValid) return;
 
-                                  if (!isValid) return;
+                                await Future.delayed(const Duration(milliseconds: 200));
 
-                                  await Future.delayed(Duration(milliseconds: 200));
-
-                                  await Get.toNamed(
-                                    VendorAppRoutes.vendorProductReviewScreen,
-                                  );
-                                },
-                              child: restaurantProductAddController.rxRequestStatus.value == ApiStatus.LOADING ? Center(
-                                child: circularProgressIndicator2(size: 30, color: AppColors.white)) : Row(
+                                await Get.toNamed(
+                                  VendorAppRoutes.vendorProductReviewScreen,
+                                );
+                              },
+                              child: restaurantProductAddController.rxRequestStatus.value == ApiStatus.LOADING
+                                  ? Center(
+                                child: circularProgressIndicator2(
+                                  size: 30,
+                                  color: AppColors.white,
+                                ),
+                              )
+                                  : Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Continue To Review', style: AppFontStyle.text_15_500(AppColors.white, fontFamily: AppFontFamily.interMedium),
+                                  Text(
+                                    'Continue To Review',
+                                    style: AppFontStyle.text_15_500(
+                                      AppColors.white,
+                                      fontFamily: AppFontFamily.interMedium,
+                                    ),
                                   ),
                                 ],
                               ),
                             );
                           }),
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -987,7 +1069,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                       if (!isValidNumberFormat(value)) return "Invalid format";
                       return null;
                     },
-                    hintText: 'Regular Price',
+                    hintText: 'eg. GHC 1,300',
                   ),
                 ],
               ),
@@ -1006,7 +1088,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                     onTapOutside: (event) {
                       FocusManager.instance.primaryFocus?.unfocus();
                     },
-                    hintText: 'Promo Code',
+                    hintText: 'eg. GHC 1,110',
                   ),
                 ],
               ),
@@ -1046,7 +1128,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                       }
                       return null;
                     },
-                    hintText: 'Quantity',
+                    hintText: 'eg. 32',
                   ),
                 ],
               ),
@@ -1064,7 +1146,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                         selectedValue: restaurantProductAddController.selectedStockSection.value.toUpperCase(),
                         items: restaurantProductAddController.stockUnitSection.map((e) => e.toUpperCase()).toList(),
                         borderColor: AppColors.textFieldBorder,
-                        hintText: "Units (Kg)",
+                        hintText: "eg.Units,kg",
                         btnHeight: 50,
                         onChanged: (value) {
                           restaurantProductAddController.selectedStockSection.value = value!.toLowerCase();
@@ -1109,7 +1191,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                       }
                       return null;
                     },
-                    hintText: 'Seller SKU',
+                    hintText: 'eg. SM-A55-1-BLK',
                   ),
                 ],
               ),
@@ -1134,7 +1216,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                     onTapOutside: (event) {
                       FocusManager.instance.primaryFocus?.unfocus();
                     },
-                    hintText: 'Barcode',
+                    hintText: 'eg. EAN 8806091',
                   ),
                 ],
               ),
@@ -1440,94 +1522,93 @@ class RestaurantAddProductScreen extends StatelessWidget {
             width: 160.w,
             isLoading: restaurantProductAddController.rxRequestStatus.value == ApiStatus.LOADING,
             onPressed: () async {
-              bool publishValidate = restaurantProductAddController.publishButtonKey.currentState?.validate() ?? false;
-              bool dynamicValidate = true;
-              for (GlobalKey<FormState> key in restaurantProductAddController.indexedKey) {
-                if (!(key.currentState?.validate() ?? false)) {
-                  dynamicValidate = false;
-                  break;
-                }
-              }
-              if (restaurantProductAddController.imageBase64.value.isEmpty) {
-              restaurantProductAddController.isErrorColor.value = true;
-              restaurantProductAddController.scrollToTop(0);
-              return;
-            }
-              if (restaurantProductAddController.titleController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.titleKey,);
-                return;
-              }
-              if (restaurantProductAddController.descriptionController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.descriptionKey,);
-                return;
-              }
-              if (restaurantProductAddController.regularPriceController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.regularKey,);
-                return;
-              }
-              if (restaurantProductAddController.stockController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.stockKey,);
-                return;
-              }
-              if (restaurantProductAddController.selectedStockSection.value.isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.stockSectionKey);
-                return;
-              }
-              if (restaurantProductAddController.skuController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.skuKey,);
-                return;
-              }
-              if (restaurantProductAddController.barcodeController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.barcodeKey,);
-                return;
-              }
-              if (restaurantProductAddController.conditionController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.conditionKey,);
-                return;
-              }
-              if (restaurantProductAddController.packageController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.packageKey,);
-                return;
-              }
-              if (restaurantProductAddController.weightController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.weightKey,);
-                return;
-              }
-              if (restaurantProductAddController.fulfillmentController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.fulfillmentKey,);
-                return;
-              }
-              if (restaurantProductAddController.preparationController.value.text.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.preparationKey,);
-                return;
-              }
-              if (restaurantProductAddController.department.value.isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.departmentKey);
-                return;
-              }
-              if (restaurantProductAddController.category.value.isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.categoryKey);
-                return;
-              }
-              if (restaurantProductAddController.subCategory.value.isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.subCategoryKey);
-                return;
-              }
-              if (restaurantProductAddController.selectedCategoryId.value.trim().isEmpty) {
-                restaurantProductAddController. scrollToField(restaurantProductAddController.categoryKey,);
-                return;
-              }
-              if (restaurantProductAddController.stockController.value.text.trim().isEmpty) {
-                restaurantProductAddController. scrollToField(
-                  restaurantProductAddController.stockKey,
-                );
-                return;
-              }
-              if (restaurantProductAddController.status.value.trim().isEmpty) {
-                restaurantProductAddController.scrollToField(restaurantProductAddController.stockSectionKey,);
-                return;
-              }
-
+              bool isValid = await restaurantProductAddController.validateBeforeReview();
+              if (!isValid) return;
+              //
+            //   for (GlobalKey<FormState> key in restaurantProductAddController.indexedKey) {
+            //     if (!(key.currentState?.validate() ?? false)) {
+            //       break;
+            //     }
+            //   }
+            //   if (restaurantProductAddController.imageBase64.value.isEmpty) {
+            //   restaurantProductAddController.isErrorColor.value = true;
+            //   restaurantProductAddController.scrollToTop(0);
+            //   return;
+            // }
+            //   if (restaurantProductAddController.titleController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.titleKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.descriptionController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.descriptionKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.regularPriceController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.regularKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.stockController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.stockKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.selectedStockSection.value.isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.stockSectionKey);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.skuController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.skuKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.barcodeController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.barcodeKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.conditionController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.conditionKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.packageController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.packageKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.weightController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.weightKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.fulfillmentController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.fulfillmentKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.preparationController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.preparationKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.department.value.isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.departmentKey);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.category.value.isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.categoryKey);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.subCategory.value.isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.subCategoryKey);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.selectedCategoryId.value.trim().isEmpty) {
+            //     restaurantProductAddController. scrollToField(restaurantProductAddController.categoryKey,);
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.stockController.value.text.trim().isEmpty) {
+            //     restaurantProductAddController. scrollToField(
+            //       restaurantProductAddController.stockKey,
+            //     );
+            //     return;
+            //   }
+            //   if (restaurantProductAddController.status.value.trim().isEmpty) {
+            //     restaurantProductAddController.scrollToField(restaurantProductAddController.stockSectionKey,);
+            //     return;
+            //   }
               await restaurantProductAddController.restaurantAddProductApi(
                 productTitle: restaurantProductAddController.titleController.value.text,
                 stockQty: restaurantProductAddController.stockController.value.text,

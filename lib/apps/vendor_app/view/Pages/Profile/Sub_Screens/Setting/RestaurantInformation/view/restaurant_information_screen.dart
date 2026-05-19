@@ -121,17 +121,14 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                                       hBox(14.h),
                                       Text(
                                         'Basic Details',
-                                        style: AppFontStyle.customText(
-                                          AppColors.darkText,
-                                          20.sp,
-                                          FontWeight.w600,
+                                        style: AppFontStyle.customText(AppColors.darkText, 20.sp, FontWeight.w600,
                                           fontFamily: AppFontFamily.gilroyMedium,
                                         ),
                                         maxLines: 2,
                                       ),
                                       hBox(20.h),
                                       profileDetails(),
-                                      const Divider(height: 46),
+                                       Divider(color: AppColors.borderClr,height: 46),
                                       Text(
                                         "Address & Visual Assets",
                                         style: AppFontStyle.customText(
@@ -168,11 +165,11 @@ class _RestaurantInformationScreensState extends State<RestaurantInformationScre
                                       //   ),
                                       // ),
                                       // shopOpeningHoursBtn(),
-                                      const Divider(height: 46),
+                                      Divider(color: AppColors.borderClr,height: 46),
                                       businessInformation(),
-                                      const Divider(height: 46),
+                                      Divider(color: AppColors.borderClr,height: 46),
                                       socialMedia(),
-                                      const Divider(height: 46),
+                                      Divider(color: AppColors.borderClr,height: 46),
                                       deliveryAndServiceInformation(),
                                       hBox(20.h),
                                       Row(

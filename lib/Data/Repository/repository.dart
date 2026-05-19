@@ -234,10 +234,17 @@ Future<dynamic> vendorResendOtpApi(var data) async {
     await _apiService.postApi(data, AppUrls.productDeleteUrl, token);
     return ProductDeleteModel.fromJson(response);
   }
-  Future<dynamic> getSingleProductsApi(var data) async {
+  // Future<dynamic> getSingleProductsApi({Map<String, dynamic>? queryParameters}) async {
+  //   await initializeUser();
+  //   dynamic response =
+  //   await _apiService.getApiWithParams(AppUrls.vendorSingleProduct, token,queryParameters: queryParameters);
+  //   return ResSingleProductModel.fromJson(response);
+  // }
+
+
+  Future<dynamic> getSingleProductsApi({required String productId}) async {
     await initializeUser();
-    dynamic response =
-    await _apiService.postApi(data, AppUrls.vendorSingleProduct, token);
+    dynamic response = await _apiService.getApi("${AppUrls.vendorSingleProduct}/$productId", token);
     return ResSingleProductModel.fromJson(response);
   }
   Future<dynamic> getOrderApi() async {  // remove it

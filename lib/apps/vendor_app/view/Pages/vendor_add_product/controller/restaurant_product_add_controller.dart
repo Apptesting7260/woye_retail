@@ -36,6 +36,8 @@ class RestaurantProductAddController extends GetxController {
   RxString department = ''.obs;
   RxString category = ''.obs;
   RxString subCategory = ''.obs;
+  RxString selectedSubCategory = ''.obs;
+  RxString selectedCategory = ''.obs;
   RxList<String> apiVariantAttributes = <String>[].obs;
 
   RxList<String> customVariantAttributes = <String>[].obs;
@@ -120,14 +122,7 @@ class RestaurantProductAddController extends GetxController {
   TextEditingController basePriceController = TextEditingController();
   TextEditingController baseStockController = TextEditingController();
 
-  void onAttributeSelected(String attr) {
-    if (!selectedVariantAttributes.contains(attr)) {
-      selectedVariantAttributes.add(attr);
-      attributeValues[attr] = <String>[].obs;
-      showValueField[attr] = false.obs;
-      valueControllers[attr] = TextEditingController();
-    }
-  }
+
   void toggleValueField(String attr) {
     if (showValueField[attr]?.value == true) {
       String currentVal = valueControllers[attr]?.text.trim() ?? "";
@@ -330,8 +325,7 @@ class RestaurantProductAddController extends GetxController {
   Rx<TextEditingController> titleController = TextEditingController().obs;
   Rx<TextEditingController> skuController = TextEditingController().obs;
   Rx<TextEditingController> descriptionController = TextEditingController().obs;
-  Rx<TextEditingController> regularPriceController = TextEditingController()
-      .obs;
+  Rx<TextEditingController> regularPriceController = TextEditingController().obs;
   Rx<TextEditingController> salePriceController = TextEditingController().obs;
   Rx<TextEditingController> preparationController = TextEditingController().obs;
   Rx<TextEditingController> promoController = TextEditingController().obs;
@@ -353,7 +347,6 @@ class RestaurantProductAddController extends GetxController {
   RxString selectedCategoryId = "".obs;
   RxString selectedDepartmentId = "".obs;
   RxString selectedAttributeId = "".obs;
-  RxString selectedSubCategory = "".obs;
   RxMap<String, TextEditingController> additionalControllers = <String, TextEditingController>{}.obs;
 
   Rx<VendorCategories> attributeList = Rx<VendorCategories>(VendorCategories());
@@ -386,14 +379,10 @@ class RestaurantProductAddController extends GetxController {
 //----------------------------------------------------------------------------------------
 
   RxBool activeSalePriceValidation = false.obs;
-
   RxInt addOnItemCount = 0.obs;
-
-  RxList<TextEditingController> addOnControllersList = RxList<
-      TextEditingController>([]);
+  RxList<TextEditingController> addOnControllersList = RxList<TextEditingController>([]);
   RxList<GlobalKey> addOnControllersKeyList = RxList<GlobalKey>([]);
   RxList<GlobalKey> addOnDropdownKeyList = RxList<GlobalKey>([]);
-
   final ImagePicker _picker = ImagePicker();
   Rx<File?> image = Rx<File?>(null);
   RxString imageBase64 = "".obs;
@@ -763,110 +752,122 @@ final  rxRequestStatus3 = ApiStatus.COMPLETED.obs;
        }
      }).onError((error, stackTrace) {
        setRxRequestStatus3(ApiStatus.ERROR);
-       print(error);
+       pt("$error");
      }
      );
    }
-
-
+  Map<String, GlobalKey> additionalFieldKeys = {};
+  Rx<VendorProductAttributeModel> vendorProductAttributeModel =
+      VendorProductAttributeModel().obs;
+  Map<String, FocusNode> additionalFocusNodes = {};
   Future<bool> validateBeforeReview() async {
 
-    // Image check
+     bool isValid = publishButtonKey.currentState?.validate() ?? false;
+    if (!isValid) {
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      if (titleController.value.text.trim().isEmpty) {
+        scrollToField(titleKey);
+        return false;
+      }
+      if (descriptionController.value.text.trim().isEmpty) {
+        scrollToField(descriptionKey);
+        return false;
+      }
+      if (regularPriceController.value.text.trim().isEmpty) {
+        scrollToField(regularKey);
+        return false;
+      }
+      if (stockController.value.text.trim().isEmpty) {
+        scrollToField(stockKey);
+        return false;
+      }
+      if (skuController.value.text.trim().isEmpty) {
+        scrollToField(skuKey);
+        return false;
+      }
+      if (barcodeController.value.text.trim().isEmpty) {
+        scrollToField(barcodeKey);
+        return false;
+      }
+      if (conditionController.value.text.trim().isEmpty) {
+        scrollToField(conditionKey);
+        return false;
+      }
+      if (packageController.value.text.trim().isEmpty) {
+        scrollToField(packageKey);
+        return false;
+      }
+      if (weightController.value.text.trim().isEmpty) {
+        scrollToField(weightKey);
+        return false;
+      }
+      if (fulfillmentController.value.text.trim().isEmpty) {
+        scrollToField(fulfillmentKey);
+        return false;
+      }
+      if (preparationController.value.text.trim().isEmpty) {
+        scrollToField(preparationKey);
+        return false;
+      }
+      return false;
+    }
     if (imageBase64.value.isEmpty) {
       isErrorColor.value = true;
       scrollToTop(0);
       return false;
     }
-
-    // Field validations with scroll
-    if (titleController.value.text.trim().isEmpty) {
-      scrollToField(titleKey);
-      return false;
-    }
-
-    if (descriptionController.value.text.trim().isEmpty) {
-      scrollToField(descriptionKey);
-      return false;
-    }
-
-    if (regularPriceController.value.text.trim().isEmpty) {
-      scrollToField(regularKey);
-      return false;
-    }
-
-    if (stockController.value.text.trim().isEmpty) {
-      scrollToField(stockKey);
-      return false;
-    }
-
     if (selectedStockSection.value.isEmpty) {
       scrollToField(stockSectionKey);
       return false;
     }
-
-    if (skuController.value.text.trim().isEmpty) {
-      scrollToField(skuKey);
-      return false;
-    }
-
-    if (barcodeController.value.text.trim().isEmpty) {
-      scrollToField(barcodeKey);
-      return false;
-    }
-
-    if (conditionController.value.text.trim().isEmpty) {
-      scrollToField(conditionKey);
-      return false;
-    }
-
-    if (packageController.value.text.trim().isEmpty) {
-      scrollToField(packageKey);
-      return false;
-    }
-
-    if (weightController.value.text.trim().isEmpty) {
-      scrollToField(weightKey);
-      return false;
-    }
-
-    if (fulfillmentController.value.text.trim().isEmpty) {
-      scrollToField(fulfillmentKey);
-      return false;
-    }
-
-    if (preparationController.value.text.trim().isEmpty) {
-      scrollToField(preparationKey);
-      return false;
-    }
-
     if (department.value.isEmpty) {
       scrollToField(departmentKey);
       return false;
     }
-
     if (category.value.isEmpty) {
       scrollToField(categoryKey);
       return false;
     }
-
     if (subCategory.value.isEmpty) {
       scrollToField(subCategoryKey);
       return false;
     }
-
     if (selectedCategoryId.value.trim().isEmpty) {
       scrollToField(categoryKey);
       return false;
     }
 
+     for (var item
+     in vendorProductAttributeModel.value.additionalDetails ?? []) {
+
+       String slug = item.slug ?? "";
+
+       String value =
+           additionalControllers[slug]?.text.trim() ?? "";
+
+       if (value.isEmpty) {
+
+         GlobalKey? fieldKey = additionalFieldKeys[slug];
+
+         if (fieldKey != null) {
+
+           await Future.delayed(
+             const Duration(milliseconds: 100),
+           );
+
+           scrollToField(fieldKey);
+         }
+
+         return false;
+       }
+     }
     if (status.value.trim().isEmpty) {
       scrollToField(stockSectionKey);
       return false;
     }
-
     return true;
-  }
-}
+  }}
 
 class StatusDropdownItem {
   final String name;

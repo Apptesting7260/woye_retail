@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:gyaawa/Core/Constant/image_constant.dart';
 import 'package:gyaawa/Utils/sized_box.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/controller/restaurant_product_add_controller.dart';
 import 'package:gyaawa/shared/widgets/vendor_widgets/app_container.dart';
@@ -35,8 +36,8 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildProductSummary(),
-              hBox(20),
-              buildVariantsTable(),
+              // hBox(20),
+              // buildVariantsTable(),
               hBox(20),
               buildBottomButtons(),
               hBox(16),
@@ -48,7 +49,9 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
   }
 
   Widget buildProductSummary() {
+    final selectedVariants = controller.variantList.where((variant) => variant.isSelected.value).toList();
     return AppContainer(
+      color: AppColors.backgroundClr,
       borderRadius: BorderRadius.circular(8),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -57,8 +60,7 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
           Text('Product Summary', style: AppFontStyle.text_16_400(AppColors.darkText, fontFamily: AppFontFamily.gilroySemiBold,),),
           hBox(16),
           Text('Product Name:', style: AppFontStyle.text_14_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium,),),
-          Text(  controller.titleController.value.text.isEmpty
-              ? '-'
+          Text(  controller.titleController.value.text.isEmpty ? '-'
                 : controller.titleController.value.text, style: AppFontStyle.text_14_400(AppColors.greyTextColor)),
           hBox(12),
           Row(
@@ -70,12 +72,9 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
                     Text('Department:', style: AppFontStyle.text_14_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium)),
                     Obx(() {
                       return Text(
-                        controller.department.value.isEmpty
-                            ? "-"
-                            : controller.department.value,
+                        controller.department.value.isEmpty ? "-" : controller.department.value,
                         style: AppFontStyle.text_14_400(
-                          AppColors.greyTextColor,
-                          fontFamily: AppFontFamily.interRegular,
+                          AppColors.greyTextColor, fontFamily: AppFontFamily.interRegular,
                         ),
                       );
                     }),
@@ -95,22 +94,21 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
             ],
           ),
           hBox(12),
-          Text('Sub Category:', style: AppFontStyle.text_14_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium,),),
+          Text('Sub Category:', style: AppFontStyle.text_14_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium)),
           Text(
-            controller.subCategory.value.isEmpty ? "-" : controller.subCategory.value, style: AppFontStyle.text_14_400(AppColors.greyTextColor,),),
+            controller.subCategory.value.isEmpty ? "-" : controller.subCategory.value, style: AppFontStyle.text_14_400(AppColors.greyTextColor)),
           hBox(12),
 
-          Text('Description:', style: AppFontStyle.text_14_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium,),),
+          Text('Description:', style: AppFontStyle.text_14_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium)),
           Text(
             controller.descriptionController.value.text.isEmpty ?
-            '-'
-                : controller.descriptionController.value.text, style: AppFontStyle.text_14_400(AppColors.greyTextColor,),),
+            '-' : controller.descriptionController.value.text, style: AppFontStyle.text_14_400(AppColors.greyTextColor)),
           hBox(14),
           buildBasePriceSection(),
           hBox(8),
           Divider(color: AppColors.borderClr),
           hBox(8),
-          Text('If you continue to save this product, you will add 9 Variants as shown in the table below. You can go back to make changes.',
+          Text('If you continue to save this product, you will add ${selectedVariants.length} Variants as shown in the table below. You can go back to make changes.',
             maxLines: 5, textAlign: TextAlign.center, style: AppFontStyle.text_12_500(AppColors.black, fontFamily: AppFontFamily.interMedium,),),
           hBox(16),
           SizedBox(
@@ -123,9 +121,11 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Go Back', style: AppFontStyle.text_15_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium,),),
+              child: Text('Go Back', style: AppFontStyle.text_15_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium)),
             ),
           ),
+          hBox(20),
+          buildVariantsTable(),
         ],
       ),
     );
@@ -136,17 +136,12 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Base Price:',
-          style: AppFontStyle.text_14_400(
-            AppColors.darkText,
-            fontFamily: AppFontFamily.gilroyMedium,
-          ),
+          'Base Price:', style: AppFontStyle.text_14_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium),
         ),
         hBox(4),
         Text(
         controller.regularPriceController.value.text.isEmpty
-           ? 'GHC 0.00'
-             : 'GHC ${controller.regularPriceController.value.text}',
+           ? 'GHC 0.0' : 'GHC ${controller.regularPriceController.value.text}',
             style: AppFontStyle.text_14_400(
             AppColors.greyTextColor,
             fontFamily: AppFontFamily.interRegular,
@@ -156,235 +151,90 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
     );
   }
 
-  // Widget buildVariantsTable() {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //       border: Border.all(color: AppColors.borderClr),
-  //       borderRadius: BorderRadius.circular(8),
-  //     ),
-  //     child: Column(
-  //       children: [
-  //         ListView.separated(
-  //           shrinkWrap: true,
-  //           physics: const NeverScrollableScrollPhysics(),
-  //           itemCount:controller.variants.length,
-  //           separatorBuilder: (context, index) => Divider(
-  //             height: 1,
-  //             endIndent: 10,
-  //             indent: 10,
-  //             color: AppColors.borderClr,
-  //           ),
-  //           itemBuilder: (context, index) {
-  //             final variant =controller.variants[index];
-  //             return Container(
-  //               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-  //               child: Row(
-  //                 children: [
-  //                   Expanded(
-  //                     flex: 2,
-  //                     child: AppContainer(
-  //                       padding: const EdgeInsets.symmetric(
-  //                           horizontal: 6, vertical: 2),
-  //                       borderRadius: BorderRadius.circular(8),
-  //                       child: Text(
-  //                         variant['color']!,
-  //                         style: AppFontStyle.text_13_400(
-  //                           AppColors.darkText,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   wBox(8),
-  //                   Expanded(
-  //                     child: AppContainer(
-  //                       padding: const EdgeInsets.symmetric(
-  //                           horizontal: 3, vertical: 2),
-  //                       borderRadius: BorderRadius.circular(8),
-  //                       child: Text(
-  //                         variant['storage']!,
-  //                         style: AppFontStyle.text_13_400(
-  //                           AppColors.darkText,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   wBox(8),
-  //                   Expanded(
-  //                     child: AppContainer(
-  //                       padding: const EdgeInsets.symmetric(
-  //                           horizontal: 6, vertical: 2),
-  //                       borderRadius: BorderRadius.circular(8),
-  //                       child: Text(
-  //                         variant['ram']!,
-  //                         style: AppFontStyle.text_13_400(
-  //                           AppColors.darkText,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   wBox(8),
-  //                   Expanded(
-  //                     flex: 3,
-  //                     child: Text(
-  //                       '${variant['price']!} | ${variant['stock']!}',
-  //                       textAlign: TextAlign.right,
-  //                       style: AppFontStyle.text_13_400(
-  //                         AppColors.greyTextColor,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             );
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget buildVariantsTable() {
     return Obx(() {
+      final selectedVariants = controller.variantList.where((e) => e.isSelected.value).toList();
 
-      if (controller.variantList.isEmpty) {
-        return const SizedBox();
-      }
-
-      // ✅ ONLY SELECTED VARIANTS
-      final selectedVariants = controller.variantList
-          .where((variant) => variant.isSelected.value)
-          .toList();
-
-      // ✅ ATTRIBUTES
-      final tableAttributes =
-          controller.selectedVariantAttributes;
-
-      // ✅ IF NOTHING SELECTED
       if (selectedVariants.isEmpty) {
         return const SizedBox();
       }
 
-      return AppContainer(
-        borderRadius: BorderRadius.circular(15),
+      final tableAttributes = controller.selectedVariantAttributes;
 
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 10,
-          ),
-
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-
-            children: [
-
-              Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-
-                children: [
-                  Text(
-                    "Variant Matrix (${selectedVariants.length})",
-
-                    style: AppFontStyle.text_14_500(
-                      AppColors.lightBlackClr,
-                      fontFamily:
-                      AppFontFamily.interMedium,
-                    ),
-                  ),
-                ],
-              ),
-
-              hBox(12),
-
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-
-                child: ConstrainedBox(
-                  constraints:
-                  BoxConstraints(minWidth: Get.width),
-
-                  child: Table(
-
-                    border: TableBorder.all(
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(selectedVariants.length * 2 - 1, (index) {
+                if (index.isOdd) {
+                  return Container(
+                    width: constraints.maxWidth,
+                    padding: const EdgeInsets.symmetric(horizontal: 1),
+                    child: Divider(
+                      height: 1,
+                      thickness: 1,
                       color: AppColors.borderClr,
                     ),
+                  );
+                }
 
-                    defaultVerticalAlignment:
-                    TableCellVerticalAlignment.middle,
+                final itemIndex = index ~/ 2;
+                final variant = selectedVariants[itemIndex];
 
-                    columnWidths: {
-                      for (int i = 0; i < tableAttributes.length + 3; i++)
-                        i: const IntrinsicColumnWidth(),
-                    },
-
+                return Container(
+                  padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-
-                      // ✅ HEADER ROW
-                      TableRow(
-                        children: [
-
-                          // ATTRIBUTES
-                          ...tableAttributes.map(
-                                (attr) => cell(attr),
-                          ),
-
-                          // SKU
-                          cell("SKU"),
-
-                          // PRICE
-                          cell("Price"),
-
-                          // STOCK
-                          cell("Stock"),
-                        ],
-                      ),
-
-                      // ✅ DATA ROWS
-                      ...selectedVariants.map((variant) {
-
-                        return TableRow(
-                          children: [
-
-                            // ATTRIBUTES
-                            ...tableAttributes.map((attr) {
-
-                              return cell(
+                      ...tableAttributes.map((attr) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: AppContainer(
+                            border: Border.all(color: AppColors.borderClr),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                            child: Text(
                                 variant.values[attr] ?? "-",
-                              );
-
-                            }),
-                            cell(
-                              "PRD-${variant.sku}",
-                            ),
-
-                            cell(
-                              variant.price.value == 0
-                                  ? controller.regularPriceController.value.text
-                                  : variant.price.value.toStringAsFixed(2),
-                            ),
-                            cell( variant.stock.value.toString(), ),
-                          ],
+                                style: AppFontStyle.text_13_500(AppColors.black, fontFamily: AppFontFamily.interMedium)),
+                          ),
                         );
                       }),
+
+                      SizedBox(width: 55),
+                      Text(
+                        'GHC ${variant.price.value.toStringAsFixed(0)} | Stock: ${variant.stock.value}',
+                        textAlign: TextAlign.right,
+                        style: AppFontStyle.text_13_400(AppColors.greyTextColor),
+                      ),
                     ],
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                );
+              }),
+            ),
+          );
+        },
       );
     });
   }
 
 
 
-  Widget cell(String text) {
-    return Padding(padding: EdgeInsets.all(8),
-      child: Text(text, style: AppFontStyle.text_12_500(AppColors.blackTextColor, fontFamily: AppFontFamily.interMedium)),
-    );
-  }
+
+
+
+
+
+
+
+
+
+
   Widget buildBottomButtons() {
     return Padding(
       padding: const EdgeInsets.only(left: 60),
@@ -399,13 +249,7 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text(
-              'Cancel',
-              style: AppFontStyle.text_15_400(
-                AppColors.darkText,
-                fontFamily: AppFontFamily.gilroyMedium,
-              ),
-            ),
+            child: Text('Cancel', style: AppFontStyle.text_15_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium)),
           ),
           wBox(12),
           Expanded(
@@ -415,7 +259,6 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
               onPressed: () async {
                 bool isValid = await controller.validateBeforeReview();
                 if (!isValid) return;
-
                 await controller.restaurantAddProductApi(
                   productTitle: controller.titleController.value.text,
                   stockQty: controller.stockController.value.text,
@@ -434,22 +277,14 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
               },
 
               child: controller.rxRequestStatus.value == ApiStatus.LOADING
-                  ? circularProgressIndicator(
-                size: 30,
-                color: AppColors.white,
-              )
-                  : Row(
+                  ? circularProgressIndicator(size: 30, color: AppColors.white,
+              ) : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.save_outlined,
-                      color: Colors.white, size: 18),
+                  SvgPicture.asset(ImageConstants.saveSvg),
                   wBox(8),
                   Text(
-                    'Save Product',
-                    style: AppFontStyle.text_15_500(
-                      AppColors.white,
-                      fontFamily: AppFontFamily.interMedium,
-                    ),
+                    'Save Product', style: AppFontStyle.text_15_500(AppColors.white, fontFamily: AppFontFamily.interMedium),
                   ),
                 ],
               ),

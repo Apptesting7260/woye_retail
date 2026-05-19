@@ -45,7 +45,9 @@ class ProductDetailsController extends GetxController {
   Future<void> getSingleProductApi({required String productId}) async {
     final data = {"product_id": productId};
     setRxSingleProductStatus(ApiStatus.LOADING);
-    api.getSingleProductsApi(data).then((value) async {
+    api.getSingleProductsApi(
+      productId: productId
+    ).then((value) async {
       singleProductSetData(value);
       setRxSingleProductStatus(ApiStatus.COMPLETED);
     }

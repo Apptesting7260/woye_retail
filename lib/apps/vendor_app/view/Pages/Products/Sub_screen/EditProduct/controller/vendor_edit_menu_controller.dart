@@ -159,11 +159,7 @@ class VendorEditMenuController extends GetxController {
 
   //------------------------------------------compress Image------------------------------------------
 
-  static Future<XFile> compressImage({
-    required File imageFile,
-    int quality = 25,
-    CompressFormat format = CompressFormat.jpeg,
-  }) async {
+  static Future<XFile> compressImage({required File imageFile, int quality = 25, CompressFormat format = CompressFormat.jpeg}) async {
     log(imageFile.lengthSync().toString(), name: "Original size");
     try {
       final String targetPath =
@@ -192,8 +188,7 @@ class VendorEditMenuController extends GetxController {
 
   //------------------------------------------convert Image To Base64------------------------------------------
 
-  Future<String> convertImageToBase64(
-      RxString imageBase64, File imageFile) async {
+  Future<String> convertImageToBase64(RxString imageBase64, File imageFile) async {
     try {
       final bytes = await imageFile.readAsBytes();
       imageBase64.value = base64Encode(bytes);
@@ -277,30 +272,10 @@ class VendorEditMenuController extends GetxController {
         attributeList.value = apiCategoryData.value.categories!
             .where((map) => map.id.toString() == categoryId)
             .firstOrNull ?? VendorCategories();
-
-        // Initialize structure for new category
         initializeCategoryState();
-
-        // Get add-ons for this category
-        final selectedCategory = apiCategoryData.value.categories
-            ?.firstWhereOrNull((c) => c.id == product.categoryId);
-
-        // if (selectedCategory?.addons != null) {
-        //   setFilteredAddOns(selectedCategory!.addons!);
-        // }
-
-        // Only prefill data if we're editing and this is the original category
         if (product.categoryId == categoryId) {
           // ✅ Prefill Add-ons
-          await prefillAddOns(product);
 
-          // ✅ Prefill options
-          // if (attributeList.value.options != null &&
-          //     attributeList.value.options!.isNotEmpty) {
-          //   await prefillProductOptions(apiSingleProductData.value.product);
-          // }
-
-          // ✅ Prefill attributes
           await prefillAttributes(product);
         }
 
@@ -347,95 +322,19 @@ class VendorEditMenuController extends GetxController {
   final selectedOptionIndexes = <int>[].obs;
   final sizeConfigs = <RxList<Map<String, dynamic>>>[].obs;
 
-  // bool validateAllOptions() {
-  //   final options = attributeList.value.options ?? [];
-  //   bool hasError = false;
-  //
-  //   for (int optionIndex = 0; optionIndex < options.length; optionIndex++) {
-  //     // Skip unselected options
-  //     if (!selectedOptionIndexes.contains(optionIndex)) continue;
-  //
-  //     final configs = sizeConfigs[optionIndex];
-  //
-  //     for (int configIndex = 0; configIndex < configs.length; configIndex++) {
-  //       final config = configs[configIndex];
-  //       final name = config["name"].text.trim();
-  //       final price = config["price"].text.trim();
-  //
-  //       config["nameError"].value = "";
-  //       config["priceError"].value = "";
-  //
-  //       if (name.isEmpty) {
-  //         config["nameError"].value = "Please enter title";
-  //         if (!hasError) {
-  //           scrollToField(config["keyName"]);
-  //           hasError = true;
-  //         }
-  //       }
-  //       if (price.isEmpty) {
-  //         config["priceError"].value = "Please enter price";
-  //         if (!hasError) {
-  //           scrollToField(config["keyPrice"]);
-  //           hasError = true;
-  //         }
-  //       }
-  //
-  //       // If error found, stop checking further
-  //       if (hasError) break;
-  //     }
-  //
-  //     if (hasError) break;
-  //   }
-  //
-  //   sizeConfigs.refresh();
-  //   return !hasError; // returns true if all valid
-  // }n
 
-  /// Prefill options from fetched product
+
+
+
   Future<void> prefillProductOptions(Product? product) async {
-    final fetchedOptions = product?.options ?? [];
-    // final allAvailableOptions = attributeList.value.options ?? [];n
-
-    // pt("🧩 Prefill: fetched=${fetchedOptions.length}, available=${allAvailableOptions.length}");
-
     selectedOptionIndexes.clear();
     sizeConfigs.clear();
-
-    // for (int i = 0; i < allAvailableOptions.length; i++) {
-    //   final option = allAvailableOptions[i];
-    //   final matchedOption = fetchedOptions.firstWhereOrNull(
-    //         (opt) => opt.optionId.toString() == option.id.toString(),
-    //   );
-    //
-    //   final configs = <Map<String, dynamic>>[].obs;
-    //
-    //   if (matchedOption != null) {
-    //     selectedOptionIndexes.add(i);
-    //
-    //     for (var choice in matchedOption.choices ?? []) {
-    //       configs.add({
-    //         "name": TextEditingController(text: choice.name ?? ""),
-    //         "price": TextEditingController(text: choice.price ?? ""),
-    //         "nameError": RxString(""),
-    //         "priceError": RxString(""),
-    //         "keyName": GlobalKey(),
-    //         "keyPrice": GlobalKey(),
-    //       });
-    //     }
-    //
-    //     if (configs.isEmpty) configs.add(createNewConfig());
-    //   }
-    //
-    //   sizeConfigs.add(configs);
-    // }
-
     sizeConfigs.refresh();
     selectedOptionIndexes.refresh();
 
     pt("✅ Prefilled ${selectedOptionIndexes.length} options with configs");
   }
 
-  /// Creates new blank config
   Map<String, dynamic> createNewConfig() {
     return {
       "name": TextEditingController(),
@@ -447,7 +346,6 @@ class VendorEditMenuController extends GetxController {
     };
   }
 
-  /// Converts current UI state to JSON for API
   List<Map<String, dynamic>> buildOptionsJson() {
     final List<Map<String, dynamic>> optionsJson = [];
 
@@ -466,14 +364,8 @@ class VendorEditMenuController extends GetxController {
         "price": cfg["price"].text.trim(),
       })
           .toList();
-
-      // Skip if no valid choice
       if (choices.isEmpty) continue;
 
-      // optionsJson.add({
-      //   "option_id": option?.id.toString(), // ensure it's a string
-      //   "choices": choices,
-      // });
     }
 
     final formattedJson = const JsonEncoder.withIndent('  ').convert(optionsJson);
@@ -481,132 +373,6 @@ class VendorEditMenuController extends GetxController {
 
     return optionsJson;
   }
-
-  //------------------------------------------addons------------------------------------------
-  /// 🔹 Reactive Add-on fields
-  // RxList<Addons> openedAddOnRows = <Addons>[].obs;
-  RxList<String> selectedAddOnIds = <String>[].obs;
-  RxList<TextEditingController> addOnPriceControllers = <TextEditingController>[].obs;
-  RxList<Map<String, dynamic>> addOnFieldKeys = <Map<String, dynamic>>[].obs;
-
-  // RxList<Addons> filteredAddOns = <Addons>[].obs;
-
-  // void setFilteredAddOns(List<Addons> addOns) {
-  //   filteredAddOns.assignAll(addOns);
-  // }
-
-  /// Prefill Add-ons when editing product
-  Future<void> prefillAddOns(Product product) async {
-    final existingAddOns = product.addOns ?? [];
-    // final availableAddOns = filteredAddOns;
-
-    // openedAddOnRows.clear();
-    selectedAddOnIds.clear();
-    addOnPriceControllers.clear();
-    addOnFieldKeys.clear();
-
-    for (var addon in existingAddOns) {
-      // final match = availableAddOns.firstWhereOrNull((a) => a.id == addon.id);
-      // if (match != null) {
-      //   openedAddOnRows.add(Addons(id: match.id, name: match.name));
-      //   selectedAddOnIds.add(match.id!);
-      //
-      //   final controller = TextEditingController(text: addon.price ?? "");
-      //   addOnPriceControllers.add(controller);
-      //
-      //   addOnFieldKeys.add({
-      //     "dropdownKey": GlobalKey(),
-      //     "priceKey": GlobalKey(),
-      //     "dropdownError": RxString(""),
-      //     "priceError": RxString(""),
-      //   });
-      // }
-    }
-
-    // REMOVE this block — do not add an empty row by default
-    /*
-  if (openedAddOnRows.isEmpty) {
-    openedAddOnRows.add(Addons(id: '', name: ''));
-    addOnPriceControllers.add(TextEditingController());
-    addOnFieldKeys.add({
-      "dropdownKey": GlobalKey(),
-      "priceKey": GlobalKey(),
-      "dropdownError": RxString(""),
-      "priceError": RxString(""),
-    });
-  }
-  */
-  }
-
-  // bool validateAllAddons() {
-  //   bool hasError = false;
-  //
-  //   for (int i = 0; i < openedAddOnRows.length; i++) {
-  //     final keys = addOnFieldKeys[i];
-  //     final selectedIds = selectedAddOnIds;
-  //     final priceControllers = addOnPriceControllers;
-  //
-  //     final dropdownId = selectedIds.length > i ? selectedIds[i] : null;
-  //     final price = priceControllers[i].text.trim();
-  //
-  //     // Reset previous errors
-  //     keys["dropdownError"].value = "";
-  //     keys["priceError"].value = "";
-  //
-  //     // Validate dropdown
-  //     if (dropdownId == null || dropdownId.isEmpty) {
-  //       keys["dropdownError"].value = "Please select add-on";
-  //       if (!hasError) {
-  //         scrollToField(keys["dropdownKey"]);
-  //         hasError = true;
-  //       }
-  //     }
-  //
-  //     // Validate price
-  //     if (price.isEmpty) {
-  //       keys["priceError"].value = "Please enter price";
-  //       if (!hasError) {
-  //         scrollToField(keys["priceKey"]);
-  //         hasError = true;
-  //       }
-  //     }
-  //
-  //     if (hasError) break; // Stop at first invalid row
-  //   }
-  //
-  //   return !hasError; // true if all valid
-  // }
-
-  List<Map<String, dynamic>> buildAddonsPayload() {
-    final List<Map<String, dynamic>> addonsPayload = [];
-
-    for (int i = 0; i < selectedAddOnIds.length; i++) {
-      final id = selectedAddOnIds[i];
-      final price = addOnPriceControllers[i].text.trim();
-
-      // only include valid items
-      if (id.isNotEmpty && price.isNotEmpty) {
-        addonsPayload.add({
-          "id": id,
-          "price": price,
-        });
-      }
-    }
-
-    // 🔹 Print each item for debugging
-    print("🧾 ==== Add-ons Payload (${addonsPayload.length}) ====");
-    for (var item in addonsPayload) {
-      print("➡️ id: ${item['id']} | price: ${item['price']}");
-    }
-
-    // 🔹 Print full JSON structure (pretty formatted)
-    pt("📦 Full JSON Payload:");
-    pt(const JsonEncoder.withIndent('  ').convert(addonsPayload));
-    ("🧾 ===============================");
-
-    return addonsPayload;
-  }
-
 
 
   //------------------------------------------attributes------------------------------------------
@@ -638,7 +404,9 @@ class VendorEditMenuController extends GetxController {
   Future<void> getSingleProductApi({required String productId}) async {
     final data = {"product_id": productId};
     setRxRequestCategoryStatus(ApiStatus.LOADING);
-    api.getSingleProductsApi(data).then((value) async {
+    api.getSingleProductsApi(
+      productId: productId
+    ).then((value) async {
       singleProductSetData(value);
       if (apiSingleProductData.value.status == true) {
         final product = apiSingleProductData.value.product;
@@ -706,7 +474,6 @@ class VendorEditMenuController extends GetxController {
 
   Future<void> editProductApi() async {
     final product = apiSingleProductData.value.product;
-    final addonsList = buildAddonsPayload();
     final options = buildOptionsJson();
 
     Map<String, dynamic> dataForSubmit = {
@@ -725,7 +492,6 @@ class VendorEditMenuController extends GetxController {
       "addimg": additionalImageBase64.map((image) =>image.value.contains(".jpg") ||image.value.isEmpty ? null : image.value).toList(),
       //old images
       "data_image": additionalImageBase64.map((image) => image.value.contains(".jpg") ? ImageUrlFormater.extractFilename(image.value): null).toList(),
-      if(addonsList.isNotEmpty) "addons": addonsList,
       if(options.isNotEmpty) "options":options,
       if(selectedAttributeIds.isNotEmpty) "product_attributes": selectedAttributeIds
     };
@@ -781,15 +547,6 @@ class VendorEditMenuController extends GetxController {
     selectedOptionIndexes.clear();
     sizeConfigs.clear();
 
-    // Clear add-ons
-    // openedAddOnRows.clear();
-    selectedAddOnIds.clear();
-    addOnPriceControllers.forEach((controller) => controller.dispose());
-    addOnPriceControllers.clear();
-    addOnFieldKeys.clear();
-    // filteredAddOns.clear();
-
-    // Clear attributes
     selectedAttributeIds.clear();
     isAttributesPrefilled.value = false;
 

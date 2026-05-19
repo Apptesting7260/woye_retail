@@ -90,7 +90,7 @@ class AppUrls {
 
 /* ------------------------------ Products ----------------------------  */
   static const String productList = "$baseUrl/product-list";
-  static const String vendorSingleProduct = "$baseUrl/single-product";
+  static const String vendorSingleProduct = "$baseUrl/edit-product";
   static const String editRestaurantProduct = "$baseUrl/edit-product";
 
 /* ------------------------------ Dashboard ---------------------------------*/
