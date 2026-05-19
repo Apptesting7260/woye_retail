@@ -63,8 +63,13 @@ class RestaurantProductAddController extends GetxController {
   RxString customAttrNameError = ''.obs;
   RxString customAttrValueError = ''.obs;
   RxList<String> selectedVariantAttributes = <String>[].obs;
+  RxList<String> generatedTableAttributes = <String>[].obs;
+  RxMap<String, String> attributeIdMap = <String, String>{}.obs; // attr name → attr id
   RxMap<String, RxList<String>> attributeValues = <String, RxList<String>>{}.obs;
   RxMap<String, TextEditingController> valueControllers = <String, TextEditingController>{}.obs;
+  // ✅ Editable controllers for each saved value: attr → (oldValue → controller)
+  RxMap<String, RxMap<String, TextEditingController>> savedValueControllers =
+      <String, RxMap<String, TextEditingController>>{}.obs;
   TextEditingController customAttrNameController = TextEditingController();
   TextEditingController customAttrValueController = TextEditingController();
   RxMap<String, RxBool> showValueField = <String, RxBool>{}.obs;
@@ -81,6 +86,7 @@ class RestaurantProductAddController extends GetxController {
       selectedVariantAttributes.remove(attr);
       valueControllers.remove(attr);
       showValueField.remove(attr);
+      attributeIdMap.remove(attr);
       return;
     }
     selectedVariantAttributes.add(attr);
@@ -91,9 +97,18 @@ class RestaurantProductAddController extends GetxController {
     } catch (e) {
       apiAttr = null;
     }
+    // ✅ Store the real attribute ID from API
+    if (apiAttr?.id != null) {
+      attributeIdMap[attr] = apiAttr!.id!;
+    }
     final apiValues = apiAttr?.separateAttrValues ?? [];
     if (!attributeValues.containsKey(attr)) {
       attributeValues[attr] = apiValues.toSet().toList().obs;
+    }
+    // ✅ Initialize saved value controllers for existing values
+    savedValueControllers.putIfAbsent(attr, () => <String, TextEditingController>{}.obs);
+    for (var v in attributeValues[attr]!) {
+      savedValueControllers[attr]!.putIfAbsent(v, () => TextEditingController(text: v));
     }
     valueControllers[attr] = TextEditingController();
     showValueField[attr] = false.obs;
@@ -110,14 +125,35 @@ class RestaurantProductAddController extends GetxController {
       return;
     }
     attributeValues[attr]!.add(val);
+    // ✅ Create editable controller for this saved value
+    savedValueControllers.putIfAbsent(attr, () => <String, TextEditingController>{}.obs);
+    savedValueControllers[attr]![val] = TextEditingController(text: val);
     valueControllers[attr]!.clear();
     // ⭐ Force refresh
     attributeValues.refresh();
     showValueField.refresh();
   }
 
+  /// Update a saved value in-place
+  void updateAttributeValue(String attr, String oldVal, String newVal) {
+    final list = attributeValues[attr];
+    if (list == null) return;
+    final idx = list.indexOf(oldVal);
+    if (idx == -1) return;
+    list[idx] = newVal;
+    // update controller key
+    final ctrlMap = savedValueControllers[attr];
+    if (ctrlMap != null) {
+      final ctrl = ctrlMap.remove(oldVal);
+      if (ctrl != null) ctrlMap[newVal] = ctrl;
+    }
+    attributeValues.refresh();
+  }
+
   void removeAttributeValue(String attr, String value) {
     attributeValues[attr]?.remove(value);
+    savedValueControllers[attr]?.remove(value);
+    attributeValues.refresh();
   }
   TextEditingController basePriceController = TextEditingController();
   TextEditingController baseStockController = TextEditingController();
@@ -153,10 +189,17 @@ class RestaurantProductAddController extends GetxController {
     // ⭐ YE LINE ADD KARO - BAHUT ZAROORI HAI ⭐
     showValueField[name] = false.obs;
 
+    // ✅ savedValueControllers initialize
+    savedValueControllers.putIfAbsent(name, () => <String, TextEditingController>{}.obs);
+
     // values add
     if (valuesText.isNotEmpty) {
       List<String> values = valuesText.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
       attributeValues[name]!.assignAll(values);
+      // ✅ Create saved controllers for each value
+      for (var v in values) {
+        savedValueControllers[name]!.putIfAbsent(v, () => TextEditingController(text: v));
+      }
     }
 
     // refresh
@@ -192,55 +235,157 @@ class RestaurantProductAddController extends GetxController {
       }
     }
   }
-  // ✅ Generate Variants
+  // ✅ Generate Variants — same logic as JS generateVariants
   void generateVariants() {
+    // Save existing variants before clearing
+    final List<VariantModel> existingVariants = List.from(variantList);
+    
     variantList.clear();
 
     if (selectedVariantAttributes.isEmpty) return;
 
-    List<List<String>> allValues = [];
+    generatedTableAttributes.value = List.from(selectedVariantAttributes);
 
+    // Step 1: Build ordered attribute list (deduplicated by name, same as JS uniqueAttributes Map)
+    final List<Map<String, dynamic>> attributes = [];
+    final Set<String> seenNames = {};
     for (var attr in selectedVariantAttributes) {
-      final values = attributeValues[attr];
-      if (values == null || values.isEmpty) return;
-      allValues.add(values);
+      final name = attr.trim();
+      if (seenNames.contains(name)) continue;
+      seenNames.add(name);
+      final values = attributeValues[attr]?.toList() ?? [];
+      if (values.isEmpty) continue;
+      attributes.add({
+        'id': attributeIdMap[attr] ?? '0',
+        'name': name,
+        'values': values,
+      });
     }
 
-    List<Map<String, String>> combinations = [];
+    if (attributes.isEmpty) return;
 
-    void generate(int index, Map<String, String> current) {
-      if (index == selectedVariantAttributes.length) {
-        combinations.add(Map.from(current));
-        return;
+    // Step 2: Cartesian product (same as JS getCartesianProduct)
+    List<List<Map<String, String>>> combinations = [[]];
+    for (var attr in attributes) {
+      final List<String> vals = List<String>.from(attr['values']);
+      final List<List<Map<String, String>>> newCombinations = [];
+      for (var combo in combinations) {
+        for (var val in vals) {
+          newCombinations.add([
+            ...combo,
+            {
+              'attribute_id': attr['id'] as String,
+              'attribute_name': attr['name'] as String,
+              'attribute_value': val,
+            }
+          ]);
+        }
       }
+      combinations = newCombinations;
+    }
 
-      String attr = selectedVariantAttributes[index];
+    // Step 3: Build existing variant lookup maps
+    final Map<String, VariantModel> exactKeyMap = {};
+    final Map<String, VariantModel> baseKeyMap = {};
 
-      for (String val in attributeValues[attr]!) {
-        current[attr] = val;
-        generate(index + 1, current);
+    for (var v in existingVariants) {
+      if (v.values.isEmpty) continue;
+      
+      final exactKey = v.values.values
+          .map((val) => val.trim().toUpperCase())
+          .join('|');
+          
+      exactKeyMap[exactKey] = v;
+      baseKeyMap[exactKey] = v;
+      
+      if (v.sku.isNotEmpty) {
+        exactKeyMap[v.sku.toUpperCase()] = v;
+        baseKeyMap[v.sku.replaceAll('PRD-', '')] = v;
       }
     }
 
-    generate(0, {});
+    final Set<String> assignedBaseKeys = {};
 
+    // Step 4: Build each variant
     for (var combo in combinations) {
-      variantList.add(
-        VariantModel(
-          values: combo,
-          sku: _generateSKU(combo),
-        ),
+      final skuParts = combo.map((c) => c['attribute_value']!.trim().toUpperCase()).join('-');
+      final sku = 'PRD-$skuParts';
+      
+      double price = 0.0;
+      int stock = 0;
+      bool enabled = true;
+      String variantId = '';
+
+      final exactKey = combo
+          .map((c) => c['attribute_value']!.trim().toUpperCase())
+          .join('|');
+
+      if (exactKeyMap.containsKey(exactKey)) {
+        final ev = exactKeyMap[exactKey]!;
+        price = ev.price.value;
+        stock = ev.stock.value;
+        enabled = ev.isSelected.value;
+        variantId = ev.variantId;
+      } else {
+        VariantModel? bestMatch;
+        int bestScore = 0;
+        String? bestMatchKey;
+
+        for (var entry in baseKeyMap.entries) {
+          final storedValues = entry.key
+              .split('|')
+              .map((v) => v.trim().toUpperCase())
+              .toList();
+          final currentValues = combo
+              .map((c) => c['attribute_value']!.trim().toUpperCase())
+              .toList();
+
+          final isSubset = currentValues.every((v) => storedValues.contains(v));
+          final isSuperset = storedValues.every((v) => currentValues.contains(v));
+
+          if (isSubset || isSuperset) {
+            final matchCount = currentValues
+                .where((v) => storedValues.contains(v))
+                .length;
+            if (matchCount > bestScore) {
+              bestScore = matchCount;
+              bestMatch = entry.value;
+              bestMatchKey = entry.key;
+            }
+          }
+        }
+
+        if (bestMatch != null) {
+          price = bestMatch.price.value;
+          stock = bestMatch.stock.value;
+          enabled = bestMatch.isSelected.value;
+
+          final currentAttrCount = combo.length;
+          final matchAttrCount = bestMatch.values.length;
+
+          if (currentAttrCount < matchAttrCount) {
+            variantId = bestMatch.variantId;
+          } else if (currentAttrCount > matchAttrCount) {
+            if (!assignedBaseKeys.contains(bestMatchKey)) {
+              variantId = bestMatch.variantId;
+              assignedBaseKeys.add(bestMatchKey!);
+            }
+          } else {
+            variantId = bestMatch.variantId;
+          }
+        }
+      }
+
+      final vm = VariantModel(
+        values: {for (var c in combo) c['attribute_name']!: c['attribute_value']!},
+        sku: sku,
+        variantId: variantId,
       );
+      vm.isSelected.value = enabled;
+      vm.price.value = price;
+      vm.stock.value = stock;
+      variantList.add(vm);
     }
-  }
-
-  String _generateSKU(Map<String, String> values) {
-
-    return "PRD-${values.values.map((e) {
-
-      return e.trim().toUpperCase();
-
-    }).join("-")}";
   }
 
   final GlobalKey titleKey = GlobalKey();
@@ -611,7 +756,10 @@ class RestaurantProductAddController extends GetxController {
       data["variants[$i][stock]"] = (variant.stock.value <= 0 ? 1 : variant.stock.value).toString();
       int attrIndex = 0;
       variant.values.forEach((key, value) {
-        data["variants[$i][attributes][$attrIndex][attribute_id]"] = (attrIndex + 1).toString();
+        // ✅ Use real attribute ID from map, fallback to "0" if custom attribute
+        final attrId = attributeIdMap[key] ?? "0";
+        data["variants[$i][attributes][$attrIndex][attribute_id]"] = attrId;
+        data["variants[$i][attributes][$attrIndex][attribute_name]"] = key;
         data["variants[$i][attributes][$attrIndex][attribute_value]"] = value;
         attrIndex++;
       });
@@ -895,10 +1043,12 @@ class VariantModel {
   String sku;
   RxDouble price = 0.0.obs;
   RxInt stock = 0.obs;
+  String variantId; // existing variant ID for edit mode
 
   VariantModel({
     required this.values,
     required this.sku,
+    this.variantId = '',
   });
 }
 class AttributeModel {

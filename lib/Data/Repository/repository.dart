@@ -337,7 +337,7 @@ Future<dynamic> vendorResendOtpApi(var data) async {
   Future<dynamic> editProductsApi(var data) async {
     await initializeUser();
     dynamic response =
-    await _apiService.postApi2(jsonEncode(data), AppUrls.editRestaurantProduct, token);
+    await _apiService.postApi3(data, AppUrls.editRestaurantProduct, token);
     return CommonAddProductModel.fromJson(response);
   }
 //review

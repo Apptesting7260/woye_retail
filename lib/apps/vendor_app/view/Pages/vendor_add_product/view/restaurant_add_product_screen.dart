@@ -694,16 +694,41 @@ class RestaurantAddProductScreen extends StatelessWidget {
                                 runSpacing: 8,
                                 children: [
                                   ...controller.attributeValues[attr]!.map((val) {
+                                    // ✅ Editable saved value
+                                    final savedCtrl = controller.savedValueControllers[attr]?[val]
+                                        ?? TextEditingController(text: val);
                                     return AppContainer(
-                                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                      // color: AppColors.searchText,
+                                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                                       border: Border.all(color: AppColors.borderClr),
                                       borderRadius: BorderRadius.circular(6),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text(val, style: AppFontStyle.text_12_400(AppColors.blackTextColor, fontFamily: AppFontFamily.interMedium)),
-                                          wBox(5),
+                                          SizedBox(
+                                            width: 70.w,
+                                            height: 28.h,
+                                            child: TextField(
+                                              controller: savedCtrl,
+                                              style: AppFontStyle.text_13_400(AppColors.greyTextColor,
+                                                  fontFamily: AppFontFamily.interMedium),
+                                              decoration: InputDecoration(
+                                                isDense: true,
+                                                filled: true,
+                                                border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(6),
+                                                    borderSide: BorderSide.none),
+                                                fillColor: AppColors.searchText,
+                                                contentPadding: const EdgeInsets.symmetric(
+                                                    vertical: 2, horizontal: 3),
+                                              ),
+                                              onChanged: (newVal) {
+                                                if (newVal.trim().isNotEmpty) {
+                                                  controller.updateAttributeValue(
+                                                      attr, val, newVal.trim());
+                                                }
+                                              },
+                                            ),
+                                          ),
                                           GestureDetector(
                                             onTap: () {
                                               controller.removeAttributeValue(attr, val);
@@ -792,7 +817,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                 if (controller.variantList.isEmpty) {
                   return SizedBox();
                 }
-                final tableAttributes = controller.selectedVariantAttributes;
+                final tableAttributes = controller.generatedTableAttributes;
                 final selectedVariants = controller.variantList.where((variant) => variant.isSelected.value).toList();
                 return AppContainer(
                   borderRadius: BorderRadius.circular(15),
