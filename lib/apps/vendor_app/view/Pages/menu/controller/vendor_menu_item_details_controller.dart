@@ -15,10 +15,9 @@ class VendorMenuItemDetailsController extends GetxController{
   void onInit() {
     productId.value = Get.arguments;
     getSingleProductApi(productId:productId.value);
-    print("✅ onInit called with arguments: ${Get.arguments}");
+    pt("✅ onInit called with arguments: ${Get.arguments}");
     super.onInit();
   }
-
   final Rx<ApiResponse<ResSingleProductModel>> _apiData = ApiResponse<ResSingleProductModel>.completed(null).obs;
   Rx<ApiResponse<ResSingleProductModel>> get apiData => _apiData;
   setProductDetailsApiData(ApiResponse<ResSingleProductModel> response)=> _apiData.value = response;
@@ -29,9 +28,10 @@ class VendorMenuItemDetailsController extends GetxController{
     if(isShowLoading == true) {
       setProductDetailsApiData(ApiResponse.loading());
     }
-    final data = {"product_id": productId};
     try{
-      await repo.getSingleProductsApi(data).then((value) {
+      await repo.getSingleProductsApi(
+          productId: productId
+      ).then((value) {
         if(value.status == true){
           setProductDetailsApiData(ApiResponse.completed(value));
         }else if(value.status == false){
@@ -55,5 +55,4 @@ class VendorMenuItemDetailsController extends GetxController{
       setError(e.toString());
     }
   }
-
 }

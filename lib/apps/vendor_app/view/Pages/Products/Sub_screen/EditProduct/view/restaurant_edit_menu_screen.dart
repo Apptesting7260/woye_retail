@@ -20,13 +20,11 @@ import '../../../../../../../../shared/theme/font_family.dart';
 import '../../../../../../../../shared/theme/font_style.dart';
 import '../../../../../../../../shared/widgets/custom_appbar.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/circular_progress_indicator.dart';
-import '../../../../../../../../shared/widgets/vendor_widgets/custom_checkbox.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_dropdown_api.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
 import '../../../../../../../../shared/widgets/vendor_widgets/print.dart';
-import '../../../../../vendor_common/Models/common_get_category_model.dart';
 
 class RestaurantEditProductScreen extends StatelessWidget {
   RestaurantEditProductScreen({super.key});
@@ -186,69 +184,15 @@ class RestaurantEditProductScreen extends StatelessWidget {
                 ){
                   restaurantProductEditController.scrollToField(restaurantProductEditController.descriptionKey);
                 }
-
-                // bool optionsValid = restaurantProductEditController.validateAllOptions();
-                // if (!optionsValid) {
-                //   return;
-                // }
-
-                // bool addonsValid = restaurantProductEditController.validateAllAddons();
-                // if (!addonsValid) {
-                //   return;
-                // }
-
                 if ((restaurantProductEditController.publishButtonKey.currentState?.validate() ?? false) &&
                     (restaurantProductEditController.mainUrlImage.value != '' || restaurantProductEditController.imageBase64.value != '')
                     /* && (restaurantProductEditController.addOnButtonKey.currentState?.validate() ?? false)*/ && isAllValidate) {
                   restaurantProductEditController.buildOptionsJson();
-                  restaurantProductEditController.buildAddonsPayload();
+                  // restaurantProductEditController.buildAddonsPayload();
                   pt("selected Attributes-------------------------------> ${restaurantProductEditController.selectedAttributeIds}");
 
                   restaurantProductEditController.editProductApi(/*dataForSubmit*/);
                 }
-
-                // else if(restaurantProductEditController.apiSingleProductData.value.product?.cuisineType == null || (restaurantProductEditController.apiSingleProductData.value.product?.cuisineType?.isEmpty ?? false)
-                //     || restaurantProductEditController.apiSingleProductData.value.product?.cuisineType == ''){
-                //   restaurantProductEditController.scrollToField(restaurantProductEditController.cuisineKey);
-                // }
-                // else {
-                //   for(int i = 0; i < restaurantProductEditController.attributeList.value.attributes!.length; i++){
-                //     for(int j = 0; j < restaurantProductEditController.apiSingleProductData.value.product!.extra![i].item!.length; j++){
-                //       if(restaurantProductEditController.isExtra[i] && (restaurantProductEditController.apiSingleProductData.value.product!.extra![i].item![j].name == null || restaurantProductEditController.apiSingleProductData.value.product!.extra![i].item![j].name == "") ){
-                //         log(i.toString(), name: "index");
-                //         log(restaurantProductEditController.masterNameKeyList.length.toString(), name: "index kay");
-                //         restaurantProductEditController.scrollToField(restaurantProductEditController.masterNameKeyList[i][j]);
-                //
-                //         restaurantProductEditController.isExtraValidationError.value = true;
-                //         log(restaurantProductEditController.isExtraValidationError.value.toString(), name: "namefgbf");
-                //         return;
-                //       }
-                //       if(restaurantProductEditController.isExtra[i] && (restaurantProductEditController.apiSingleProductData.value.product!.extra![i].item![j].price == null || restaurantProductEditController.apiSingleProductData.value.product!.extra![i].item![j].price == "" )){
-                //         restaurantProductEditController.scrollToField(restaurantProductEditController.masterPriceKeyList[i][j]);
-                //         restaurantProductEditController.isExtraValidationError.value = true;
-                //         log(restaurantProductEditController.isExtraValidationError.value.toString(), name: "price");
-                //         return;
-                //       }
-                //     }
-                //   }
-
-                  // if (restaurantProductEditController.apiSingleProductData.value.product!.addOnWithNames != null) {
-                  //   for (int i = 0; i < restaurantProductEditController.apiSingleProductData.value.product!.addOnWithNames!.length; i++) {
-                  //     String? addOnId = restaurantProductEditController.apiSingleProductData.value.product!.addOnWithNames![i].id?.value;
-                  //     String? addOnPrice = restaurantProductEditController.apiSingleProductData.value.product!.addOnWithNames![i].price;
-                  //
-                  //     if (addOnId == null || addOnId.trim().isEmpty) {
-                  //       restaurantProductEditController.scrollToField(restaurantProductEditController.addOnDropdownKeyList[i]);
-                  //       return;
-                  //     }
-                  //     else if (addOnPrice == null || addOnPrice.trim().isEmpty) {
-                  //       restaurantProductEditController.scrollToField(restaurantProductEditController.addOnControllersKeyList[i]);
-                  //       return;
-                  //     }
-                  //   }
-                  // }
-                // }
-
               },
               text: "Update",
             ),
@@ -323,42 +267,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
                 c.apiSingleProductData.value.product?.options?.clear();
                 c.apiSingleProductData.value.product?.addOns?.clear();
               },
-              // onChanged: (value) {
-              //   final c = restaurantProductEditController;
-              //
-              //   c.apiSingleProductData.value.product?.categoryId = value;
-              //   c.selectedCategoryId.value = value!;
-              //   c.attributeList.value = c.apiCategoryData.value.categories!.firstWhere((category) =>
-              //       category.id == value);
-              //   // restaurantProductEditController.apiSingleProductData.value.product?.extra = <Extra>[].obs;
-              //   c.isExtra.value = [];
-              //   c.indexedKey = [];
-              //   c.masterNameKeyList.value = [];
-              //   c.masterPriceKeyList.value = [];
-              //   for (int i = 0; i < c.attributeList.value.attributes!.length; i++) {
-              //     c.indexedKey.add(GlobalKey<FormState>());
-              //     c.masterNameKeyList.add([]);
-              //     c.masterPriceKeyList.add([]);
-              //     c.isExtra.insert(i, false);
-              //     // c.apiSingleProductData.value.product?.extra?.add(Extra(
-              //     //     titleid: c.attributeList.value.attributes?[i].id,
-              //     //     item: <Item>[].obs,
-              //     //     title: c.attributeList.value.attributes?[i].name),
-              //     // );
-              //     c.openedAddOnRows.clear();
-              //     c.selectedAddOnIds.clear();
-              //     c.addOnPriceControllers.clear();
-              //     c.addOnFieldKeys.clear();
-              //     c.filteredAddOns.clear();
-              //
-              //     c.selectedAttributeIds.clear();
-              //     c.isAttributesPrefilled.value = false;
-              //     // Optional: reset any error flags or colors
-              //     c.isErrorColor.value = false;
-              //
-              //     debugPrint("🧹 Category changed → Cleared all add-ons");
-              //   }
-              // },
+
               validator: (value) {
                 if (value == null || value == '' || value.trim().isEmpty) {
                   return "Please select category";
@@ -450,9 +359,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
                 },
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    // if (restaurantProductEditController.isSubmit.value) {
-                    //   restaurantProductEditController.scrollToField(restaurantProductEditController.regularKey);
-                    // }
+
                     return "Please enter regular price";
                   }
                   double sale = 0;
@@ -474,24 +381,18 @@ class RestaurantEditProductScreen extends StatelessWidget {
                     debugPrint(e.toString());
                   }
                   if (sale >= regular) {
-                    // if (restaurantProductEditController.isSubmit.value) {
-                    //   restaurantProductEditController.scrollToField(restaurantProductEditController.regularKey);
-                    // }
+
                     return restaurantProductEditController
                         .activeSalePriceValidation.value
                         ? null
                         : "Regular price must\nbe grater than the\nsale price.";
                   }
                   if (regular <= 0) {
-                    // if (restaurantProductEditController.isSubmit.value) {
-                    //   restaurantProductEditController.scrollToField(restaurantProductEditController.regularKey);
-                    // }
+
                     return "Amount 0 not\nacceptable";
                   }
                   if (!isValidNumberFormat(value)) {
-                    // if (restaurantProductEditController.isSubmit.value) {
-                    //   restaurantProductEditController.scrollToField(restaurantProductEditController.regularKey);
-                    // }
+
                     return "Please enter a valid amount";
                   }
                   return null;
@@ -504,24 +405,20 @@ class RestaurantEditProductScreen extends StatelessWidget {
               child: CustomTextFormField(
                 key: restaurantProductEditController.saleKey,
                 labelText: "Sale Price",
-                // errorTextClr: restaurantProductEditController.isRedColor.value ? AppColors.red : AppColors.darkText,
                 controller: TextEditingController(
                     text: restaurantProductEditController
                         .apiSingleProductData.value.product?.salePrice ??
                         ''),
                 textInputType: const TextInputType.numberWithOptions(decimal: true),
                 onTap: () {
-                  // restaurantProductEditController.isSubmit.value = false;
                   restaurantProductEditController.activeSalePriceValidation
                       .value = true;
-                  // restaurantProductEditController.isRedColor.value = false;
                 },
                 onChanged: (value) {
                   restaurantProductEditController
                       .apiSingleProductData.value.product?.salePrice = value;
                 },
                 inputFormatters: [
-                  // FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(6),
                   DecimalTextInputFormatter(),
                 ],
@@ -548,15 +445,10 @@ class RestaurantEditProductScreen extends StatelessWidget {
                     debugPrint(e.toString());
                   }
                   if (sale <= 0 && value!.isNotEmpty && value != '') {
-                    // if (restaurantProductEditController.isSubmit.value) {
-                    //   restaurantProductEditController.scrollToField(restaurantProductEditController.saleKey);
-                    // }
+
                     return "Amount 0 not\nacceptable";
                   }
                   if (sale >= regular) {
-                    // if (restaurantProductEditController.isSubmit.value) {
-                    //   restaurantProductEditController.scrollToField(restaurantProductEditController.saleKey);
-                    // }
                     return restaurantProductEditController
                         .activeSalePriceValidation.value
                         ? "sale price must be\nless than the\nRegular price."
@@ -564,9 +456,6 @@ class RestaurantEditProductScreen extends StatelessWidget {
                   }
                   if (value != null && value != '' &&
                       !isValidNumberFormat(value)) {
-                    // if (restaurantProductEditController.isSubmit.value) {
-                    //   restaurantProductEditController.scrollToField(restaurantProductEditController.saleKey);
-                    // }
                     return "Please enter a valid amount";
                   }
                   return null;
@@ -581,63 +470,6 @@ class RestaurantEditProductScreen extends StatelessWidget {
     );
   }
 
-
-  // CustomTextFormField preparationTime() {
-  //   return CustomTextFormField(
-  //     key: restaurantProductEditController.preparationKey,
-  //     controller: restaurantProductEditController.preparationController.value,
-  //     inputFormatters: [
-  //       FilteringTextInputFormatter.allow(RegExp(r'[\d\-a-zA-Z]')),
-  //     ],
-  //     onChanged: (value) {
-  //       final controller = restaurantProductEditController.preparationController.value;
-  //
-  //       if (value.contains("min")) {
-  //         final newValue = value.replaceAll("min", "Min");
-  //         controller.value = controller.value.copyWith(
-  //           text: newValue,
-  //           selection: TextSelection.collapsed(offset: newValue.length),
-  //         );
-  //       }
-  //     },
-  //     onTapOutside: (event) {
-  //       FocusManager.instance.primaryFocus?.unfocus();
-  //     },
-  //     labelText: "Preparation Time (e.g, 15-20Min)",
-  //     validator: (value) {
-  //       if (value == null || value.trim().isEmpty) {
-  //         return "Please enter preparation time";
-  //       }
-  //
-  //       final trimmed = value.trim();
-  //
-  //       final validPattern = RegExp(r'^(?:\d{1,3}|\d{1,3}-\d{1,3}Min)$');
-  //
-  //       if (validPattern.hasMatch(trimmed)) {
-  //         return null;
-  //       }
-  //
-  //       if (RegExp(r'^\d{1,3}-$').hasMatch(trimmed)) {
-  //         return "Please complete the range (e.g, 15-20Min)";
-  //       }
-  //
-  //       if (RegExp(r'^\d{1,3}-\d{1,3}$').hasMatch(trimmed)) {
-  //         return "Please include 'Min' at the end (e.g, 15-20Min)";
-  //       }
-  //
-  //       if (trimmed.contains('min')) {
-  //         return "Please use uppercase 'Min' (e.g, 15-20Min)";
-  //       }
-  //
-  //       if (RegExp(r'^\d{1,3}Min$').hasMatch(trimmed)) {
-  //         return "Single value cannot include 'Min' (use 15 or 15-20Min)";
-  //       }
-  //
-  //       return "Invalid format. Use 15 or 15-20Min.";
-  //     },
-  //     hintText: 'Preparation Time (e.g, 15-20Min)',
-  //   );
-  // }
 
 
   CustomTextFormField preparationTime() {
@@ -667,31 +499,6 @@ class RestaurantEditProductScreen extends StatelessWidget {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       labelText: "Preparation Time (e.g, 15-20min or 1-2hr)",
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return "Please enter preparation time";
-        }
-
-        final trimmed = value.trim().toLowerCase();
-
-        // Match patterns like 10-20min, 1-2hr, 2-3hrs, 60-90min, 1-24hr
-        final validPattern = RegExp(r'^\d{1,3}-\d{1,3}(min|hr|hrs)$');
-
-        if (validPattern.hasMatch(trimmed)) {
-          return null;
-        }
-
-        // Common error hints
-        if (RegExp(r'^\d{1,3}-\d{1,3}$').hasMatch(trimmed)) {
-          return "Please include time unit (min/hr/hrs) at the end";
-        }
-
-        if (RegExp(r'^\d{1,3}$').hasMatch(trimmed)) {
-          return "Please use range format with unit (e.g, 10-20min)";
-        }
-
-        return "Invalid format. Use 10-20min, 1-2hr, or 2-3hrs.";
-      },
       hintText: 'Preparation Time (e.g, 10-20min or 1-2hr)',
     );
   }
@@ -707,7 +514,6 @@ class RestaurantEditProductScreen extends StatelessWidget {
         FocusManager.instance.primaryFocus!.unfocus();
       },
       maxLines: 8,
-      // errorTextClr: restaurantProductEditController.isRedColor.value ? AppColors.red : AppColors.darkText,
       controller: TextEditingController(text: restaurantProductEditController.apiSingleProductData.value.product?.description ?? ''),
       buildCounter: (context, {required currentLength, required isFocused, required maxLength}) {
         int actualLength = restaurantProductEditController.apiSingleProductData.value.product?.description?.trim().length ?? 0;
@@ -718,15 +524,9 @@ class RestaurantEditProductScreen extends StatelessWidget {
       },
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          // if (restaurantProductEditController.isSubmit.value) {
-          //   restaurantProductEditController.scrollToField(restaurantProductEditController.descriptionKey);
-          // }
           return "Please enter product description";
         }
         if (value.trim().length < 20) {
-          // if (restaurantProductEditController.isSubmit.value) {
-          //   restaurantProductEditController.scrollToField(restaurantProductEditController.descriptionKey);
-          // }
           return "Please enter minimum 20 character";
         }
         return null;
@@ -741,10 +541,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
       key: restaurantProductEditController.titleKey,
       labelText: "Title",
       onTap: () {
-        // restaurantProductEditController.isSubmit.value = false;
-        // restaurantProductEditController.isRedColor.value = false;
       },
-      // errorTextClr: restaurantProductEditController.isRedColor.value ? AppColors.red : AppColors.darkText,
       controller: TextEditingController(text: restaurantProductEditController.apiSingleProductData.value.product?.title ?? ''),
       onTapOutside: (event) {
         FocusManager.instance.primaryFocus!.unfocus();
@@ -755,15 +552,11 @@ class RestaurantEditProductScreen extends StatelessWidget {
       },
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          // if (restaurantProductEditController.isSubmit.value) {
-          //   restaurantProductEditController.scrollToField(restaurantProductEditController.titleKey);
-          // }
+
           return "Please enter product title";
         }
         if (!isValidCharacters(value)) {
-          // if (restaurantProductEditController.isSubmit.value) {
-          //   restaurantProductEditController.scrollToField(restaurantProductEditController.titleKey);
-          // }
+
           return "Please enter a valid character";
         }
         return null;
@@ -926,7 +719,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
                 if(restaurantProductEditController.isErrorColor.value) ...[
                   hBox(8.h),
                   Text("Please select image", style: AppFontStyle.text_12_200(
-                      AppColors.red, fontFamily: AppFontFamily.gilroyMedium),),
+                      AppColors.red, fontFamily: AppFontFamily.gilroyMedium)),
                 ],
               ],
             ),

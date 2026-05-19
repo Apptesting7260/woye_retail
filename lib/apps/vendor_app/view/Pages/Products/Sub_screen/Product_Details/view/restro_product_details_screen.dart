@@ -77,32 +77,32 @@ class RestaurantProductDetailsScreen extends StatelessWidget {
           ),
         ),
         wBox(13.h),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 180),
-              child: Text(
-                productDetailsController.apiSingleProductData.value.product?.title
-                    .toString() ?? "",
-                style: AppFontStyle.text_16_400(
-                  AppColors.darkText,
-                  fontFamily: AppFontFamily.gilroySemiBold,
-                ),
-              ),
-            ),
-            hBox(2),
-            Text(
-              "\$${productDetailsController.apiSingleProductData.value.product?.salePrice ?? productDetailsController.apiSingleProductData.value.product?.regularPrice}",
-              style: AppFontStyle.text_15_400(
-                AppColors.mediumText,
-                fontFamily: AppFontFamily.gilroyMedium,
-              ),
-            ),
-            hBox(3),
-          ],
-        ),
+        // Column(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     ConstrainedBox(
+        //       constraints: const BoxConstraints(maxWidth: 180),
+        //       child: Text(
+        //         productDetailsController.apiSingleProductData.value.product?.title
+        //             .toString() ?? "",
+        //         style: AppFontStyle.text_16_400(
+        //           AppColors.darkText,
+        //           fontFamily: AppFontFamily.gilroySemiBold,
+        //         ),
+        //       ),
+        //     ),
+        //     hBox(2),
+        //     Text(
+        //       "\$${productDetailsController.apiSingleProductData.value.product?.salePrice ?? productDetailsController.apiSingleProductData.value.product?.regularPrice}",
+        //       style: AppFontStyle.text_15_400(
+        //         AppColors.mediumText,
+        //         fontFamily: AppFontFamily.gilroyMedium,
+        //       ),
+        //     ),
+        //     hBox(3),
+        //   ],
+        // ),
       ],
     );
   }
