@@ -108,6 +108,7 @@ class VendorEditMenuController extends GetxController {
   RxList<String> apiVariantAttributes = <String>[].obs;
   RxList<String> customVariantAttributes = <String>[].obs;
   RxList<String> selectedVariantAttributes = <String>[].obs;
+  RxList<String> generatedTableAttributes = <String>[].obs;
   RxMap<String, String> attributeIdMap = <String, String>{}.obs;
   RxMap<String, RxList<String>> attributeValues = <String, RxList<String>>{}.obs;
   RxMap<String, TextEditingController> valueControllers = <String, TextEditingController>{}.obs;
@@ -336,7 +337,7 @@ class VendorEditMenuController extends GetxController {
               stock: v.stock,
               isEnabled: v.isEnabled,
               attrs: (v.attributes ?? [])
-                  .map((a) => _AttrProxy(a.attributeId, a.attributeValue))
+                  .map((a) => _AttrProxy(a.attributeId, a.attributeName, a.attributeValue))
                   .toList(),
             )).toList()
         : detailVariants.map((v) => _VariantProxy(
@@ -346,39 +347,44 @@ class VendorEditMenuController extends GetxController {
               stock: v.stock,
               isEnabled: v.isEnabled,
               attrs: (v.attributes ?? [])
-                  .map((a) => _AttrProxy(a.attributeId, a.attributeValue))
+                  .map((a) => _AttrProxy(a.attributeId, a.attribute?.name, a.attributeValue))
                   .toList(),
             )).toList();
 
     if (sourceVariants.isEmpty) return;
 
-    // Collect unique values per attrId
-    final Map<String, Set<String>> attrIdToValues = {};
+    // Collect unique values per attrName
+    final Map<String, Set<String>> attrNameToValues = {};
     for (var v in sourceVariants) {
       for (var attr in v.attrs) {
         final id = attr.id ?? '';
+        final fallbackName = attr.name ?? '';
+        final name = attrIdToName[id] ?? (fallbackName.isNotEmpty ? fallbackName : 'Attribute_$id');
         final val = attr.value ?? '';
-        if (val.isNotEmpty) {
-          attrIdToValues.putIfAbsent(id, () => <String>{});
-          attrIdToValues[id]!.add(val);
+        if (val.isNotEmpty && name.isNotEmpty) {
+          attrNameToValues.putIfAbsent(name, () => <String>{});
+          attrNameToValues[name]!.add(val);
+          if (id.isNotEmpty && !attributeIdMap.containsKey(name)) {
+            attributeIdMap[name] = id;
+          }
         }
       }
     }
 
     // Build selectedVariantAttributes from first variant's attribute order
     selectedVariantAttributes.clear();
-    attributeIdMap.clear();
     attributeValues.clear();
     valueControllers.clear();
     showValueField.clear();
 
     for (var attr in sourceVariants.first.attrs) {
       final id = attr.id ?? '';
-      final name = attrIdToName[id] ?? 'Attribute_$id';
-      if (!selectedVariantAttributes.contains(name)) {
+      final fallbackName = attr.name ?? '';
+      final name = attrIdToName[id] ?? (fallbackName.isNotEmpty ? fallbackName : 'Attribute_$id');
+      
+      if (name.isNotEmpty && !selectedVariantAttributes.contains(name)) {
         selectedVariantAttributes.add(name);
-        attributeIdMap[name] = id;
-        attributeValues[name] = (attrIdToValues[id]?.toList() ?? []).obs;
+        attributeValues[name] = (attrNameToValues[name]?.toList() ?? []).obs;
         valueControllers[name] = TextEditingController();
         showValueField[name] = false.obs;
 
@@ -401,7 +407,8 @@ class VendorEditMenuController extends GetxController {
       final Map<String, String> combo = {};
       for (var attr in sv.attrs) {
         final id = attr.id ?? '';
-        final name = attrIdToName[id] ?? 'Attribute_$id';
+        final fallbackName = attr.name ?? '';
+        final name = attrIdToName[id] ?? (fallbackName.isNotEmpty ? fallbackName : 'Attribute_$id');
         combo[name] = attr.value ?? '';
       }
       final vm = VariantModel(values: combo, sku: sv.sku ?? '', variantId: sv.id ?? '');
@@ -412,6 +419,7 @@ class VendorEditMenuController extends GetxController {
     }
 
     selectedVariantAttributes.refresh();
+    generatedTableAttributes.value = List.from(selectedVariantAttributes);
     attributeValues.refresh();
     variantList.refresh();
     apiVariantAttributes.refresh();
@@ -482,7 +490,14 @@ class VendorEditMenuController extends GetxController {
     savedValueControllers[attr]?.remove(value);
     attributeValues.refresh();
   }
+  void removeAttribute(String attr) {
+    attributeValues.remove(attr);
+    savedValueControllers.remove(attr);
+    showValueField.remove(attr);
+    valueControllers.remove(attr);
 
+    attributeValues.refresh();
+  }
   void toggleValueField(String attr) {
     if (showValueField[attr]?.value == true) {
       String currentVal = valueControllers[attr]?.text.trim() ?? "";
@@ -527,8 +542,13 @@ class VendorEditMenuController extends GetxController {
   }
 
   void generateVariants() {
+    // Save existing variants before clearing so user edits are not lost
+    final List<VariantModel> existingVariants = List.from(variantList);
+    
     variantList.clear();
     if (selectedVariantAttributes.isEmpty) return;
+    
+    generatedTableAttributes.value = List.from(selectedVariantAttributes);
 
     // Step 1: Build ordered attribute list (deduplicated by name)
     final List<Map<String, dynamic>> attributes = [];
@@ -567,12 +587,12 @@ class VendorEditMenuController extends GetxController {
       combinations = newCombinations;
     }
 
-    // Step 3: Build existing variant lookup maps (same as JS)
-    // Use getProductVariantsList (has attribute_name) or details.variants
-    final variantItems = apiSingleProductData.value.getProductVariantsList ?? [];
-    final Map<String, dynamic> exactKeyMap = {};   // exactKey → variant
-    final Map<String, dynamic> baseKeyMap = {};    // valueKey → variant
+    // Step 3: Build existing variant lookup maps
+    final Map<String, dynamic> exactKeyMap = {};
+    final Map<String, dynamic> baseKeyMap = {};
 
+    // 3a. First load from API data (so we have backend variants for mapping original IDs)
+    final variantItems = apiSingleProductData.value.getProductVariantsList ?? [];
     for (var v in variantItems) {
       final attrs = v.attributes ?? [];
       if (attrs.isEmpty) continue;
@@ -584,6 +604,23 @@ class VendorEditMenuController extends GetxController {
       if (v.sku != null) {
         exactKeyMap[v.sku!.toUpperCase()] = v;
         baseKeyMap[v.sku!.replaceAll('PRD-', '')] = v;
+      }
+    }
+
+    // 3b. Then override with any CURRENT values from the UI (so user edits aren't lost)
+    for (var v in existingVariants) {
+      if (v.values.isEmpty) continue;
+      final exactKey = v.values.values
+          .map((val) => val.trim().toUpperCase())
+          .join('|');
+          
+      // Overwrite map with the VariantModel from the UI to preserve user typed prices/stock
+      exactKeyMap[exactKey] = v;
+      baseKeyMap[exactKey] = v;
+      
+      if (v.sku.isNotEmpty) {
+        exactKeyMap[v.sku.toUpperCase()] = v;
+        baseKeyMap[v.sku.replaceAll('PRD-', '')] = v;
       }
     }
 
@@ -606,12 +643,20 @@ class VendorEditMenuController extends GetxController {
       if (exactKeyMap.containsKey(exactKey)) {
         // Exact match
         final ev = exactKeyMap[exactKey];
-        price = double.tryParse(ev.price ?? '0') ?? 0;
-        stock = int.tryParse(ev.stock ?? '0') ?? 0;
-        enabled = ev.isEnabled ?? true;
-        variantId = ev.id ?? '';
+        if (ev is VariantModel) {
+          price = ev.price.value;
+          stock = ev.stock.value;
+          enabled = ev.isSelected.value;
+          variantId = ev.variantId;
+        } else {
+          // From API data
+          price = double.tryParse(ev.price ?? '0') ?? 0;
+          stock = int.tryParse(ev.stock ?? '0') ?? 0;
+          enabled = ev.isEnabled ?? true;
+          variantId = ev.id ?? '';
+        }
       } else {
-        // Subset/superset match (same as JS bestMatch logic)
+        // Subset/superset match
         dynamic bestMatch;
         int bestScore = 0;
         String? bestMatchKey;
@@ -639,24 +684,41 @@ class VendorEditMenuController extends GetxController {
         }
 
         if (bestMatch != null) {
-          price = double.tryParse(bestMatch.price ?? '0') ?? 0;
-          stock = int.tryParse(bestMatch.stock ?? '0') ?? 0;
-          enabled = bestMatch.isEnabled ?? true;
+          int currentAttrCount = combo.length;
+          int matchAttrCount = 0;
 
-          final currentAttrCount = combo.length;
-          final matchAttrCount = (bestMatch.attributes ?? []).length;
-
-          if (currentAttrCount < matchAttrCount) {
-            // Removing an attribute
-            variantId = bestMatch.id ?? '';
-          } else if (currentAttrCount > matchAttrCount) {
-            // Adding an attribute
-            if (!assignedBaseKeys.contains(bestMatchKey)) {
-              variantId = bestMatch.id ?? '';
-              assignedBaseKeys.add(bestMatchKey!);
+          if (bestMatch is VariantModel) {
+            price = bestMatch.price.value;
+            stock = bestMatch.stock.value;
+            enabled = bestMatch.isSelected.value;
+            matchAttrCount = bestMatch.values.length;
+            
+            if (currentAttrCount < matchAttrCount) {
+              variantId = bestMatch.variantId;
+            } else if (currentAttrCount > matchAttrCount) {
+              if (!assignedBaseKeys.contains(bestMatchKey)) {
+                variantId = bestMatch.variantId;
+                assignedBaseKeys.add(bestMatchKey!);
+              }
+            } else {
+              variantId = bestMatch.variantId;
             }
           } else {
-            variantId = bestMatch.id ?? '';
+            price = double.tryParse(bestMatch.price ?? '0') ?? 0;
+            stock = int.tryParse(bestMatch.stock ?? '0') ?? 0;
+            enabled = bestMatch.isEnabled ?? true;
+            matchAttrCount = (bestMatch.attributes ?? []).length;
+            
+            if (currentAttrCount < matchAttrCount) {
+              variantId = bestMatch.id ?? '';
+            } else if (currentAttrCount > matchAttrCount) {
+              if (!assignedBaseKeys.contains(bestMatchKey)) {
+                variantId = bestMatch.id ?? '';
+                assignedBaseKeys.add(bestMatchKey!);
+              }
+            } else {
+              variantId = bestMatch.id ?? '';
+            }
           }
         }
       }
@@ -931,6 +993,7 @@ class _VariantProxy {
 
 class _AttrProxy {
   final String? id;
+  final String? name;
   final String? value;
-  _AttrProxy(this.id, this.value);
+  _AttrProxy(this.id, this.name, this.value);
 }

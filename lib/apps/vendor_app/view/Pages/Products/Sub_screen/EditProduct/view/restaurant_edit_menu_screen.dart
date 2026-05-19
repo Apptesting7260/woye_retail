@@ -824,20 +824,39 @@ class RestaurantEditProductScreen extends StatelessWidget {
                         Text(attr,
                             style: AppFontStyle.text_13_500(AppColors.blackTextColor,
                                 fontFamily: AppFontFamily.interMedium)),
-                        GestureDetector(
-                          onTap: () => c.toggleValueField(attr),
-                          child: AppContainer(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(color: AppColors.borderClr),
-                            child: Row(mainAxisSize: MainAxisSize.min, children: [
-                              const Icon(Icons.add, size: 14),
-                              wBox(5),
-                              Text('Add Value',
-                                  style: AppFontStyle.text_12_500(AppColors.primary,
-                                      fontFamily: AppFontFamily.interMedium)),
-                            ]),
-                          ),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () => c.toggleValueField(attr),
+                              child: AppContainer(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: AppColors.borderClr),
+                                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                  const Icon(Icons.add, size: 14),
+                                  wBox(5),
+                                  Text('Add Value',
+                                      style: AppFontStyle.text_12_500(AppColors.primary,
+                                          fontFamily: AppFontFamily.interMedium)),
+                                ]),
+                              ),
+                            ),
+                            wBox(5),
+                            // GestureDetector(
+                            //   onTap: () => c.removeAttribute(attr),
+                            //   child: AppContainer(
+                            //     margin: const EdgeInsets.only(right: 8),
+                            //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            //     borderRadius: BorderRadius.circular(6),
+                            //     border: Border.all(color: AppColors.borderClr),
+                            //     child: Icon(
+                            //       Icons.delete_outline,
+                            //       size: 18,
+                            //       color: AppColors.primary,
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
                         ),
                       ]),
                       hBox(15),
@@ -846,32 +865,44 @@ class RestaurantEditProductScreen extends StatelessWidget {
                           final savedCtrl = c.savedValueControllers[attr]?[val]
                               ?? TextEditingController(text: val);
                           return AppContainer(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                            width: 90.w,
+                            height: 30.h,
                             border: Border.all(color: AppColors.borderClr),
                             borderRadius: BorderRadius.circular(6),
-                            child: Row(mainAxisSize: MainAxisSize.min, children: [
-                              SizedBox(
-                                width: 70.w,
-                                height: 28.h,
-                                child: TextField(
-                                  controller: savedCtrl,
-                                  style: AppFontStyle.text_12_400(
-                                      AppColors.blackTextColor,
-                                      fontFamily: AppFontFamily.interMedium),
-                                  decoration: const InputDecoration(
-                                    isDense: true,
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 4, vertical: 4),
+                            child: Row(
+                                children: [
+                                  wBox(4),
+                                  Expanded(
+                                    child: TextField(
+                                      controller: savedCtrl,
+                                      autofocus: true,
+                                      style: AppFontStyle.text_13_400(
+                                        AppColors.greyTextColor,
+                                        fontFamily: AppFontFamily.interMedium,
+                                      ),
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(6),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        fillColor: AppColors.searchText,
+                                        contentPadding:
+                                        const EdgeInsets.symmetric(vertical: 2),
+                                      ),
+                                      onChanged: (newVal) {
+                                        if (newVal.trim().isNotEmpty) {
+                                          c.updateAttributeValue(
+                                            attr,
+                                            val,
+                                            newVal.trim(),
+                                          );
+                                        }
+                                      },
+                                    ),
                                   ),
-                                  onChanged: (newVal) {
-                                    if (newVal.trim().isNotEmpty) {
-                                      c.updateAttributeValue(attr, val, newVal.trim());
-                                    }
-                                  },
-                                ),
-                              ),
-                              GestureDetector(
+                                  GestureDetector(
                                 onTap: () => c.removeAttributeValue(attr, val),
                                 child: Icon(Icons.close, size: 16, color: AppColors.red),
                               ),
@@ -899,8 +930,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(6),
                                       borderSide: BorderSide.none),
                                   fillColor: AppColors.searchText,
-                                  contentPadding:
-                                      const EdgeInsets.symmetric(vertical: 2),
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 2),
                                 ),
                                 onSubmitted: (val) {
                                   if (val.trim().isNotEmpty) c.addAttributeValue(attr);
@@ -940,7 +970,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
           // ── Step 3: Variant Matrix Table ───────────────────────────────
             Obx(() {
               if (c.variantList.isEmpty) return const SizedBox();
-              final tableAttributes = c.selectedVariantAttributes;
+              final tableAttributes = c.generatedTableAttributes;
               final selectedVariants =
                   c.variantList.where((v) => v.isSelected.value).toList();
               return AppContainer(

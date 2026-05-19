@@ -63,6 +63,7 @@ class RestaurantProductAddController extends GetxController {
   RxString customAttrNameError = ''.obs;
   RxString customAttrValueError = ''.obs;
   RxList<String> selectedVariantAttributes = <String>[].obs;
+  RxList<String> generatedTableAttributes = <String>[].obs;
   RxMap<String, String> attributeIdMap = <String, String>{}.obs; // attr name → attr id
   RxMap<String, RxList<String>> attributeValues = <String, RxList<String>>{}.obs;
   RxMap<String, TextEditingController> valueControllers = <String, TextEditingController>{}.obs;
@@ -236,9 +237,14 @@ class RestaurantProductAddController extends GetxController {
   }
   // ✅ Generate Variants — same logic as JS generateVariants
   void generateVariants() {
+    // Save existing variants before clearing
+    final List<VariantModel> existingVariants = List.from(variantList);
+    
     variantList.clear();
 
     if (selectedVariantAttributes.isEmpty) return;
+
+    generatedTableAttributes.value = List.from(selectedVariantAttributes);
 
     // Step 1: Build ordered attribute list (deduplicated by name, same as JS uniqueAttributes Map)
     final List<Map<String, dynamic>> attributes = [];
@@ -278,13 +284,107 @@ class RestaurantProductAddController extends GetxController {
       combinations = newCombinations;
     }
 
-    // Step 3: Build each variant
+    // Step 3: Build existing variant lookup maps
+    final Map<String, VariantModel> exactKeyMap = {};
+    final Map<String, VariantModel> baseKeyMap = {};
+
+    for (var v in existingVariants) {
+      if (v.values.isEmpty) continue;
+      
+      final exactKey = v.values.values
+          .map((val) => val.trim().toUpperCase())
+          .join('|');
+          
+      exactKeyMap[exactKey] = v;
+      baseKeyMap[exactKey] = v;
+      
+      if (v.sku.isNotEmpty) {
+        exactKeyMap[v.sku.toUpperCase()] = v;
+        baseKeyMap[v.sku.replaceAll('PRD-', '')] = v;
+      }
+    }
+
+    final Set<String> assignedBaseKeys = {};
+
+    // Step 4: Build each variant
     for (var combo in combinations) {
       final skuParts = combo.map((c) => c['attribute_value']!.trim().toUpperCase()).join('-');
       final sku = 'PRD-$skuParts';
-      variantList.add(VariantModel(values: {
-        for (var c in combo) c['attribute_name']!: c['attribute_value']!
-      }, sku: sku));
+      
+      double price = 0.0;
+      int stock = 0;
+      bool enabled = true;
+      String variantId = '';
+
+      final exactKey = combo
+          .map((c) => c['attribute_value']!.trim().toUpperCase())
+          .join('|');
+
+      if (exactKeyMap.containsKey(exactKey)) {
+        final ev = exactKeyMap[exactKey]!;
+        price = ev.price.value;
+        stock = ev.stock.value;
+        enabled = ev.isSelected.value;
+        variantId = ev.variantId;
+      } else {
+        VariantModel? bestMatch;
+        int bestScore = 0;
+        String? bestMatchKey;
+
+        for (var entry in baseKeyMap.entries) {
+          final storedValues = entry.key
+              .split('|')
+              .map((v) => v.trim().toUpperCase())
+              .toList();
+          final currentValues = combo
+              .map((c) => c['attribute_value']!.trim().toUpperCase())
+              .toList();
+
+          final isSubset = currentValues.every((v) => storedValues.contains(v));
+          final isSuperset = storedValues.every((v) => currentValues.contains(v));
+
+          if (isSubset || isSuperset) {
+            final matchCount = currentValues
+                .where((v) => storedValues.contains(v))
+                .length;
+            if (matchCount > bestScore) {
+              bestScore = matchCount;
+              bestMatch = entry.value;
+              bestMatchKey = entry.key;
+            }
+          }
+        }
+
+        if (bestMatch != null) {
+          price = bestMatch.price.value;
+          stock = bestMatch.stock.value;
+          enabled = bestMatch.isSelected.value;
+
+          final currentAttrCount = combo.length;
+          final matchAttrCount = bestMatch.values.length;
+
+          if (currentAttrCount < matchAttrCount) {
+            variantId = bestMatch.variantId;
+          } else if (currentAttrCount > matchAttrCount) {
+            if (!assignedBaseKeys.contains(bestMatchKey)) {
+              variantId = bestMatch.variantId;
+              assignedBaseKeys.add(bestMatchKey!);
+            }
+          } else {
+            variantId = bestMatch.variantId;
+          }
+        }
+      }
+
+      final vm = VariantModel(
+        values: {for (var c in combo) c['attribute_name']!: c['attribute_value']!},
+        sku: sku,
+        variantId: variantId,
+      );
+      vm.isSelected.value = enabled;
+      vm.price.value = price;
+      vm.stock.value = stock;
+      variantList.add(vm);
     }
   }
 

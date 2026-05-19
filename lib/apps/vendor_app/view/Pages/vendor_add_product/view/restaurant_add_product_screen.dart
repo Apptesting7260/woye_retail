@@ -709,14 +709,17 @@ class RestaurantAddProductScreen extends StatelessWidget {
                                             height: 28.h,
                                             child: TextField(
                                               controller: savedCtrl,
-                                              style: AppFontStyle.text_12_400(
-                                                  AppColors.blackTextColor,
+                                              style: AppFontStyle.text_13_400(AppColors.greyTextColor,
                                                   fontFamily: AppFontFamily.interMedium),
-                                              decoration: const InputDecoration(
+                                              decoration: InputDecoration(
                                                 isDense: true,
-                                                border: InputBorder.none,
-                                                contentPadding: EdgeInsets.symmetric(
-                                                    horizontal: 4, vertical: 4),
+                                                filled: true,
+                                                border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(6),
+                                                    borderSide: BorderSide.none),
+                                                fillColor: AppColors.searchText,
+                                                contentPadding: const EdgeInsets.symmetric(
+                                                    vertical: 2, horizontal: 3),
                                               ),
                                               onChanged: (newVal) {
                                                 if (newVal.trim().isNotEmpty) {
@@ -814,7 +817,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                 if (controller.variantList.isEmpty) {
                   return SizedBox();
                 }
-                final tableAttributes = controller.selectedVariantAttributes;
+                final tableAttributes = controller.generatedTableAttributes;
                 final selectedVariants = controller.variantList.where((variant) => variant.isSelected.value).toList();
                 return AppContainer(
                   borderRadius: BorderRadius.circular(15),
