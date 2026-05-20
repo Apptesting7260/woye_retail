@@ -786,11 +786,40 @@ class VendorEditMenuController extends GetxController {
     if (picked != null) { _pickedFile = picked; cropImage(image, imageBase64); update(); }
   }
 
-  Future<void> pickMoreImage(int index) async {
-    final XFile? picked = await _picker.pickImage(source: ImageSource.gallery);
-    if (picked != null) { _pickedFile = picked; cropImage(additionalImages[index], additionalImageBase64[index]); update(); }
-  }
+  // Future<void> pickMoreImage(int index) async {
+  //   final XFile? picked = await _picker.pickImage(source: ImageSource.gallery);
+  //   if (picked != null) { _pickedFile = picked; cropImage(additionalImages[index], additionalImageBase64[index]); update(); }
+  // }
+  // Future<void> pickMoreImage(int index) async {
+  //   final XFile? pickedImage = await _picker.pickImage(
+  //       source: ImageSource.gallery);
+  //
+  //   if (pickedImage != null) {
+  //     _pickedFile = pickedImage;
+  //     cropImage(additionalImages[index], additionalImageBase64[index]);
+  //     update();
+  //   }
+  // }
 
+  Future<void> pickMoreImage(int index) async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+
+      // ✅ OLD API IMAGE CLEAR
+      additionalImageFromApi[index].value = '';
+
+      _pickedFile = pickedImage;
+
+      await cropImage(
+        additionalImages[index],
+        additionalImageBase64[index],
+      );
+
+      update();
+    }
+  }
   // ─── Validate before update (same flow as add product) ──────────────────
   Future<bool> validateBeforeUpdate() async {
     // 1. Image check
@@ -864,52 +893,56 @@ class VendorEditMenuController extends GetxController {
 
     return true;
   }
-  Future<void> editProductApi() async {
-    Map<String, dynamic> data = {
-      "product_id": productId.value,
-      "title": titleController.value.text,
-      "description": descriptionController.value.text,
-      "regular_price": regularPriceController.value.text,
-      "promo_price": promoController.value.text,
-      "seller_sku": skuController.value.text,
-      "department": selectedDepartmentId.value,
-      "category": selectedCategoryId.value,
-      "sub_category": selectedSubCategoryId.value,
-      "quantity_in_stock": stockController.value.text,
-      "stock_unit": selectedStockSection.value.toLowerCase(),
-      "bar_code": barcodeController.value.text,
-      "conditions": conditionController.value.text,
-      "package_dimension": packageController.value.text,
-      "weight": weightController.value.text,
-      "fullfillment_type": fulfillmentController.value.text,
-      "order_preparation_time": preparationController.value.text,
-      "status": status.value,
-      "has_variants": hasVariants.value ? "1" : "0",
-    };
 
-    // Additional details
-    attributeData.value.additionalDetails?.forEach((detail) {
-      final key = detail.slug ?? "";
-      data["additional_details[$key]"] = additionalControllers[key]?.text.trim() ?? "";
-    });
+    Future<void> editProductApi() async {
 
-    // Image — only send if new image picked
-    if (image.value != null) {
-      data["image"] = imageBase64.value;
-    }
+      Map<String, dynamic> data = {
+        "product_id": productId.value,
+        "title": titleController.value.text,
+        "description": descriptionController.value.text,
+        "regular_price": regularPriceController.value.text,
+        "promo_price": promoController.value.text,
+        "seller_sku": skuController.value.text,
+        "department": selectedDepartmentId.value,
+        "category": selectedCategoryId.value,
+        "sub_category": selectedSubCategoryId.value,
+        "quantity_in_stock": stockController.value.text,
+        "stock_unit": selectedStockSection.value.toLowerCase(),
+        "bar_code": barcodeController.value.text,
+        "conditions": conditionController.value.text,
+        "package_dimension": packageController.value.text,
+        "weight": weightController.value.text,
+        "fullfillment_type": fulfillmentController.value.text,
+        "order_preparation_time": preparationController.value.text,
+        "status": status.value,
+        "has_variants": hasVariants.value ? "1" : "0",
+      };
 
-    // Additional images
-    for (int i = 0; i < additionalImageBase64.length; i++) {
-      final val = additionalImageBase64[i].value;
-      if (val.isEmpty) continue;
-      if (val.startsWith('http')) {
-        // existing image — send filename
-        data["addimg${i + 1}"] = ImageUrlFormater.extractFilename(val);
-      } else {
-        // new base64 image
-        data["addimg${i + 1}"] = val;
+      // Additional details
+      attributeData.value.additionalDetails?.forEach((detail) {
+        final key = detail.slug ?? "";
+        data["additional_details[$key]"] = additionalControllers[key]?.text.trim() ?? "";
+      });
+
+      if (image.value != null) {
+        data["image"] = imageBase64.value;
       }
-    }
+      for (int i = 0; i < additionalImageBase64.length; i++) {
+
+        final base64Val = additionalImageBase64[i].value;
+        final apiUrl = additionalImageFromApi[i].value;
+        if (base64Val.isNotEmpty && !base64Val.startsWith("http")) {
+
+          data["addimg${i + 1}"] = base64Val;
+
+          print("✅ New Image => addimg${i + 1}");
+        }
+        else if (apiUrl.isNotEmpty) {
+          final fileName = ImageUrlFormater.extractFilename(apiUrl);
+          data["existing_addimg[${i + 1}]"] = fileName;
+          print("✅ Existing Image => existing_addimg[${i + 1}]");
+        }
+      }
 
     for (int i = 0; i < selectedVariantAttributes.length; i++) {
       data["variant_attribute[$i]"] = selectedVariantAttributes[i];

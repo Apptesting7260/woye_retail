@@ -912,8 +912,11 @@ final  rxRequestStatus3 = ApiStatus.COMPLETED.obs;
 
      bool isValid = publishButtonKey.currentState?.validate() ?? false;
     if (!isValid) {
-      await Future.delayed(const Duration(milliseconds: 100));
-
+      if (imageBase64.value.isEmpty && image.value == null) {
+        isErrorColor.value = true;
+        scrollToTop(0);
+        return false;
+      }
       if (titleController.value.text.trim().isEmpty) {
         scrollToField(titleKey);
         return false;
