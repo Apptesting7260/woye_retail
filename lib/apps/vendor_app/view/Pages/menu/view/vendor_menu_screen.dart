@@ -94,7 +94,6 @@ class _VendorMenuScreenState extends State<VendorMenuScreen> {
   }
 
    Widget body() {
-
      return Padding(
        padding: const EdgeInsets.symmetric(horizontal: 20),
        child: RefreshIndicator(
@@ -366,10 +365,10 @@ class _VendorMenuScreenState extends State<VendorMenuScreen> {
                            child: AppImage(path: ImageConstants.addOnDelete,color: AppColors.red,svgColor: ColorFilter.mode(AppColors.red, BlendMode.srcIn),height: 18,width: 18),
                          ),
                          wBox(6),
-                         Text("Delete",style: AppFontStyle.text_16_400(AppColors.red,fontFamily: AppFontFamily.gilroyMedium),),
+                         Text("Delete",style: AppFontStyle.text_16_400(AppColors.red,fontFamily: AppFontFamily.gilroyMedium)),
                        ],
                      ),
-                   )
+                   ),
                  ],
                ),
                hBox(6),
@@ -477,7 +476,7 @@ class _VendorMenuScreenState extends State<VendorMenuScreen> {
                      filledClr: AppColors.white,
                      borderSide: BorderSide(color: AppColors.borderClrDropdown),
                      contentPadding:  REdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                     hintText: "All Categories",
+                     hintText: "All Department",
                      items: categories,
                      selectedValue: controller.selectedCategoryId.value.isEmpty
                          ? null
@@ -516,7 +515,7 @@ class _VendorMenuScreenState extends State<VendorMenuScreen> {
                 controller.getProductListApi(isShowLoading: false,isShowLoadingFilter: true);
                },
                ),
-             )
+             ),
            ],
          ),
          hBox(10),
@@ -574,7 +573,8 @@ class _VendorMenuScreenState extends State<VendorMenuScreen> {
                );
              }),
            ],
-         ), hBox(10),
+         ),
+         hBox(10),
          Row(
            children: [
              Obx(
@@ -583,7 +583,6 @@ class _VendorMenuScreenState extends State<VendorMenuScreen> {
                    showClearButton: true,
                    borderRadius: 10,
                    filledClr: AppColors.white,
-
                    border: Border.all(color: AppColors.borderClrDropdown),
                    btnHeight: 45,
                    hintStyle: AppFontStyle.text_15_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroyMedium),
@@ -606,7 +605,7 @@ class _VendorMenuScreenState extends State<VendorMenuScreen> {
                    borderRadius: BorderRadius.circular(10),
                    borderSide: BorderSide(color: AppColors.borderClrDropdown),
                    onPressed: () {
-                   Get.toNamed(VendorAppRoutes.restaurantMenuFilterScreen);
+                   // Get.toNamed(VendorAppRoutes.restaurantMenuFilterScreen);
                    },
                    child: Row(
                      mainAxisAlignment: MainAxisAlignment.start,
@@ -652,7 +651,7 @@ class _VendorMenuScreenState extends State<VendorMenuScreen> {
                         wBox(6),
                         Text("Bulk Upload",style: AppFontStyle.customText(AppColors.blackClr,17, FontWeight.w400,fontFamily: AppFontFamily.gilroyMedium)),
                       ],
-                    )
+                    ),
                   ),
                 ),
                 wBox(14),

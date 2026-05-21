@@ -21,10 +21,10 @@ class VendorMenuController extends GetxController{
 
   RxList<String> cardListTitle = ["Total Products","In Stock","Low Stock","Out of Stock",].obs;
   RxList<String> showList = ["5","10","50","100"].obs;
-  RxList<String> priceRangeList =  ["0-10", "10-20", "20-30", "30-40","50+"].obs;
+  RxList<String> priceRangeList =  ["under_500", "500-1500", "1500-4500", "4500-6000","6000+"].obs;
   RxList<String> preparationTimeList =  ["0-15", "10-20", "20-30", "30+"].obs;
   RxList<String> shortByList =  ["A-Z", "Z-A","Low to High", "High to Low", "Most Orders","Highest Rating"].obs;
-  RxList<String> availabilityList = ["Availability","This Month","Last 3 Months", "Last 6 Months","This Year"].obs;
+  RxList<String> availabilityList = ["This Month","Last 3 Months", "Last 6 Months","This Year"].obs;
   RxList<String> cardListImage = [ImageConstants.greenCartSvg,ImageConstants.available,ImageConstants.alertSvgLogo,ImageConstants.favoriteSvg,].obs;
   List<Color> iconClr = [AppColors.greenLightClr,AppColors.greenTextClr,AppColors.yellow,AppColors.greenTextClr];
 

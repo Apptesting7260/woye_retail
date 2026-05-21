@@ -179,11 +179,18 @@ class Product {
     regularPrice = json['regular_price']?.toString();
     sellerSku = json['seller_sku']?.toString();
     image = json['image']?.toString();
-
+    //
+    // if (json['addimg'] != null && json['addimg'] is List) {
+    //   addimg = List<String>.from(json['addimg']);
+    // }
     if (json['addimg'] != null && json['addimg'] is List) {
-      addimg = List<String>.from(json['addimg']);
+      addimg = (json['addimg'] as List)
+          .where((e) => e != null)
+          .map((e) => e.toString())
+          .toList();
+    } else {
+      addimg = [];
     }
-
     updatedDate = json['updated_date']?.toString();
     vendorId = json['vendor_id']?.toString();
     department = json['department']?.toString();

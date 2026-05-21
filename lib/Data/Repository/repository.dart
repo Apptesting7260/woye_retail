@@ -9,6 +9,8 @@ import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/n
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/update_categories_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/model/vendor_category_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/FillVendorDetails/model/profile_details_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Products/model/bulk_upload_response_model.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Products/model/bulk_upload_template_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Profile/Sub_Screens/RestaurantCategory/model/category_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/menu/model/vendor_menu_model.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/Models/restaurant_get_addon_model.dart';
@@ -678,6 +680,16 @@ Future<dynamic> vendorResendOtpApi(var data) async {
     dynamic response = await _apiService.postApi(data, AppUrls.markAsClosedChatReplyUrl, token);
     return SupportChatReplyModel.fromJson(response);
   }
-
-
+  /* -------------------- Product Bulk Upload -------------------- */
+  Future<BulkUploadTemplateModel> getProductBulkUploadTemplateApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.productBulkUploadTemplate, token);
+    return BulkUploadTemplateModel.fromJson(response);
+  }
+  Future<BulkUploadResponseModel> productBulkUploadApi({required File file}) async {
+    await initializeUser();
+    dynamic response = await _apiService.multipartApi(
+      url: AppUrls.productBulkUpload, token: token, files: {"product_bulk_file": file});
+    return BulkUploadResponseModel.fromJson(response);
+  }
 }

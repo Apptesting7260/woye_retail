@@ -995,7 +995,6 @@ class RestaurantAddProductScreen extends StatelessWidget {
                                 if (restaurantProductAddController.rxRequestStatus.value == ApiStatus.LOADING) {
                                   return;
                                 }
-
                                 bool isValid = await restaurantProductAddController.validateBeforeReview();
 
                                 if (!isValid) return;

@@ -21,6 +21,7 @@ class AppColors {
   static Color cardBgClr = const Color(0xFFF6F6F6);
   static Color btnShadeOrange = const Color(0xFFFFEDD4);
   static Color darkRedColor = const Color(0xFF9F0712);
+  static Color pdfIconColor = const Color(0xFFA1A1A1);
   static const LinearGradient tealBlueGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
