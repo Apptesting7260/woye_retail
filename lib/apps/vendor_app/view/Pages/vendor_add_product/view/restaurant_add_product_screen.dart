@@ -706,7 +706,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                                         children: [
                                           SizedBox(
                                             width: 70.w,
-                                            height: 28.h,
+                                            height: 25.h,
                                             child: TextField(
                                               controller: savedCtrl,
                                               style: AppFontStyle.text_13_400(AppColors.greyTextColor,
@@ -753,7 +753,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                                           Expanded(
                                             child: TextField(
                                               controller: controller.valueControllers[attr],
-                                              autofocus: true,
+                                              autofocus: false,
                                               style: AppFontStyle.text_13_400(
                                                   AppColors.greyTextColor,
                                                   fontFamily: AppFontFamily.interMedium
@@ -995,7 +995,6 @@ class RestaurantAddProductScreen extends StatelessWidget {
                                 if (restaurantProductAddController.rxRequestStatus.value == ApiStatus.LOADING) {
                                   return;
                                 }
-
                                 bool isValid = await restaurantProductAddController.validateBeforeReview();
 
                                 if (!isValid) return;
@@ -1515,7 +1514,7 @@ class RestaurantAddProductScreen extends StatelessWidget {
                         restaurantProductAddController.additionalImageBase64[index].value = '';
                       }
                     },
-                    child: Icon(Icons.cancel_outlined, size: 25, color: AppColors.red,),
+                    child: Icon(Icons.cancel_outlined, size: 25, color: AppColors.red),
                   ),
                 ),
             ],
@@ -1655,8 +1654,8 @@ class RestaurantAddProductScreen extends StatelessWidget {
             restaurantProductAddController.rxRequestStatus.value == ApiStatus.LOADING ?
             circularProgressIndicator(size: 30, color: AppColors.white) : Row(
               children: [
-                const Icon(Icons.save_outlined, color: Colors.white, size: 18),
-                wBox(8),
+                // const Icon(Icons.save_outlined, color: Colors.white, size: 18),
+                // wBox(8),
                 Text('Save Product', style: AppFontStyle.text_15_500(AppColors.white, fontFamily: AppFontFamily.interMedium),
                 ),
               ],

@@ -461,8 +461,7 @@ class RestaurantProductAddController extends GetxController {
   // RxBool isRedColor = false.obs;
   RxBool isDropdownOpen = false.obs;
 
-  final VendorDashboardController restaurantDashboardController = Get.put(
-      VendorDashboardController());
+  final VendorDashboardController restaurantDashboardController = Get.put(VendorDashboardController());
   GlobalKey<FormState> publishButtonKey = GlobalKey<FormState>();
   GlobalKey<FormState> addOnButtonKey = GlobalKey<FormState>();
   List<GlobalKey<FormState>> indexedKey = [];
@@ -878,13 +877,32 @@ class RestaurantProductAddController extends GetxController {
     });
   }
 
+  void clearVariantData() {
 
+    apiVariantAttributes.clear();
+    customVariantAttributes.clear();
+
+    selectedVariantAttributes.clear();
+    generatedTableAttributes.clear();
+
+    attributeValues.clear();
+    valueControllers.clear();
+    savedValueControllers.clear();
+    showValueField.clear();
+
+    attributeIdMap.clear();
+
+    variantList.clear();
+    customAttrNameController.clear();
+    customAttrValueController.clear();
+  }
 
 final  rxRequestStatus3 = ApiStatus.COMPLETED.obs;
   void setRxRequestStatus3(ApiStatus value) => rxRequestStatus3.value = value;
   final attributeData = VendorProductAttributeModel().obs;
    void attributeSet (VendorProductAttributeModel value) => attributeData.value = value;
    getVendorProductAttributeApi() async {
+     clearVariantData();
      setRxRequestStatus3(ApiStatus.LOADING);
      api.getVendorProductAttributeApi(
        queryParameters: {
@@ -912,8 +930,11 @@ final  rxRequestStatus3 = ApiStatus.COMPLETED.obs;
 
      bool isValid = publishButtonKey.currentState?.validate() ?? false;
     if (!isValid) {
-      await Future.delayed(const Duration(milliseconds: 100));
-
+      if (imageBase64.value.isEmpty && image.value == null) {
+        isErrorColor.value = true;
+        scrollToTop(0);
+        return false;
+      }
       if (titleController.value.text.trim().isEmpty) {
         scrollToField(titleKey);
         return false;

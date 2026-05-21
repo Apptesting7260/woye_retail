@@ -38,7 +38,7 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
               buildProductSummary(),
               // hBox(20),
               // buildVariantsTable(),
-              hBox(20),
+              hBox(40),
               buildBottomButtons(),
               hBox(16),
             ],
@@ -121,7 +121,7 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Go Back', style: AppFontStyle.text_15_400(AppColors.darkText, fontFamily: AppFontFamily.gilroyMedium)),
+              child: Text('Go Back', style: AppFontStyle.text_15_400(AppColors.black, fontFamily: AppFontFamily.interMedium)),
             ),
           ),
           hBox(20),
@@ -161,77 +161,59 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
 
       final tableAttributes = controller.selectedVariantAttributes;
 
-      return LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(selectedVariants.length * 2 - 1, (index) {
-                if (index.isOdd) {
-                  return Container(
-                    width: constraints.maxWidth,
-                    padding: const EdgeInsets.symmetric(horizontal: 1),
-                    child: Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: AppColors.borderClr,
-                    ),
-                  );
-                }
-
-                final itemIndex = index ~/ 2;
-                final variant = selectedVariants[itemIndex];
-
-                return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ...tableAttributes.map((attr) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: AppContainer(
-                            border: Border.all(color: AppColors.borderClr),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 15,
-                              vertical: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                            child: Text(
-                                variant.values[attr] ?? "-",
-                                style: AppFontStyle.text_13_500(AppColors.black, fontFamily: AppFontFamily.interMedium)),
-                          ),
-                        );
-                      }),
-
-                      SizedBox(width: 55),
-                      Text(
-                        'GHC ${variant.price.value.toStringAsFixed(0)} | Stock: ${variant.stock.value}',
-                        textAlign: TextAlign.right,
-                        style: AppFontStyle.text_13_400(AppColors.greyTextColor),
-                      ),
-                    ],
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: selectedVariants.length,
+        separatorBuilder: (_, __) => Divider(
+          height: 1,
+          thickness: 1,
+          color: AppColors.borderClr,
+        ),
+        itemBuilder: (context, itemIndex) {
+          final variant = selectedVariants[itemIndex];
+          return Obx(() => Container(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+            child: Row(
+              children: [
+                // Attribute chips
+                Expanded(
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
+                    children: tableAttributes.map((attr) {
+                      final val = variant.values[attr] ?? '-';
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 1),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              color: AppColors.borderClr, width: 1),
+                        ),
+                        child: Text(
+                          val,
+                          style: AppFontStyle.text_12_500(
+                              AppColors.black,
+                              fontFamily: AppFontFamily.interMedium),
+                        ),
+                      );
+                    }).toList(),
                   ),
-                );
-              }),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'GHC ${variant.price.value.toStringAsFixed(0)} | Stock: ${variant.stock.value}',
+                  style: AppFontStyle.text_12_400(AppColors.greyTextColor,fontFamily: AppFontFamily.interRegular),
+                ),
+              ],
             ),
-          );
+          ));
         },
       );
     });
   }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -277,14 +259,14 @@ class _RetailProductReviewScreenState extends State<RetailProductReviewScreen> {
               },
 
               child: controller.rxRequestStatus.value == ApiStatus.LOADING
-                  ? circularProgressIndicator(size: 30, color: AppColors.white,
+                  ? circularProgressIndicator(size: 25, color: AppColors.white,
               ) : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(ImageConstants.saveSvg),
                   wBox(8),
                   Text(
-                    'Save Product', style: AppFontStyle.text_15_500(AppColors.white, fontFamily: AppFontFamily.interMedium),
+                    'Save Product', style: AppFontStyle.text_14_500(AppColors.white, fontFamily: AppFontFamily.interMedium),
                   ),
                 ],
               ),

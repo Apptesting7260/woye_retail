@@ -215,6 +215,11 @@ class AppUrls {
 
   static const String exportTransactionUrl = "$baseUrl/export-transaction";
   static const String productExportApi = "$baseUrl/product-export";
+
+  /* ------------------------------ Bulk Upload Products ---------------------------------*/
+  static const String productBulkUploadTemplate = "$baseUrl/product/download-product-template";
+  static const String productBulkUpload = "$baseUrl/product/bulk-upload";
+
   //Push notification on off
   static const String toggleNotifications = "$baseUrl/toggle-notifications";
 //-------------------PAYMENT API FOR WITHDRAW

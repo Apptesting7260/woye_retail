@@ -106,6 +106,10 @@ class Product {
   String? productAttributeName;
   String? menuSection;
   String? preparationTime;
+  String? updatedDate;
+  String? allOrdersCount;
+  String? totaProductRevenues;
+  String? avgReviews;
   PerformanceStats? performanceStats;
 
   Product({
@@ -158,9 +162,13 @@ class Product {
     this.salePrice,
     this.productAttributes,
     this.productAttributeName,
+    this.totaProductRevenues,
     this.menuSection,
     this.preparationTime,
     this.performanceStats,
+    this.updatedDate,
+    this.allOrdersCount,
+    this.avgReviews,
   });
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -171,11 +179,19 @@ class Product {
     regularPrice = json['regular_price']?.toString();
     sellerSku = json['seller_sku']?.toString();
     image = json['image']?.toString();
-
+    //
+    // if (json['addimg'] != null && json['addimg'] is List) {
+    //   addimg = List<String>.from(json['addimg']);
+    // }
     if (json['addimg'] != null && json['addimg'] is List) {
-      addimg = List<String>.from(json['addimg']);
+      addimg = (json['addimg'] as List)
+          .where((e) => e != null)
+          .map((e) => e.toString())
+          .toList();
+    } else {
+      addimg = [];
     }
-
+    updatedDate = json['updated_date']?.toString();
     vendorId = json['vendor_id']?.toString();
     department = json['department']?.toString();
     category = json['category']?.toString();
@@ -198,6 +214,8 @@ class Product {
     createdAt = json['created_at']?.toString();
     updatedAt = json['updated_at']?.toString();
     deletedAt = json['deleted_at']?.toString();
+    allOrdersCount = json['all_orders_count']?.toString();
+    totaProductRevenues = json['total_product_revenues']?.toString();
 
     if (json['addimg_url'] != null) {
       addimgUrl = List<String>.from(json['addimg_url']);
@@ -215,6 +233,7 @@ class Product {
     applicationName = json['application_name']?.toString();
     productPercentDiscount = json['product_precent_discount']?.toString();
     productRealPrice = json['product_real_price']?.toString();
+    avgReviews = json['avg_reviews']?.toString();
 
     if (json['variants'] != null) {
       variants = <Variant>[];
@@ -254,6 +273,7 @@ class Product {
     data['image'] = image;
     data['addimg'] = addimg;
     data['vendor_id'] = vendorId;
+    data['updated_date'] = updatedDate;
     data['department'] = department;
     data['category'] = category;
     data['sub_category'] = subCategory;
@@ -266,6 +286,9 @@ class Product {
     data['weight'] = weight;
     data['fullfillment_type'] = fullfillmentType;
     data['order_preparation_time'] = orderPreparationTime;
+    data['total_product_revenues'] = totaProductRevenues;
+    data['avg_reviews'] = avgReviews;
+    data['all_orders_count'] = allOrdersCount;
     data['rating'] = rating;
     data['is_recommended'] = isRecommended;
     data['additional_details'] = additionalDetails;

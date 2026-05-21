@@ -22,7 +22,6 @@ import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.d
 import '../../../../../../shared/widgets/vendor_widgets/custom_no_result_found.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_product_list_tile.dart';
 import '../../../../../../shared/widgets/vendor_widgets/custom_text_form_field.dart';
-
 class RestaurantProductScreen extends StatefulWidget {
  const RestaurantProductScreen({super.key});
 
@@ -158,9 +157,33 @@ class _RestaurantProductScreenState extends State<RestaurantProductScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Products List", style: AppFontStyle.text_20_600(AppColors.darkText, fontFamily: AppFontFamily.gilroyRegular,),),
-            wBox(95.h),
-            if(productController.selectedTab.value == "All Products" || productController.selectedTab.value == "Stock Running Low" ) ...[
-            ]
+            // Bulk Upload Button
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(VendorAppRoutes.productBulkUploadScreen);
+              },
+              child: Container(
+                padding: REdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.upload_file_outlined, color: AppColors.white, size: 16.r),
+                    wBox(5.w),
+                    Text(
+                      "Bulk Upload",
+                      style: AppFontStyle.text_13_400(
+                        AppColors.white,
+                        fontFamily: AppFontFamily.gilroySemiBold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
         hBox(15.h),

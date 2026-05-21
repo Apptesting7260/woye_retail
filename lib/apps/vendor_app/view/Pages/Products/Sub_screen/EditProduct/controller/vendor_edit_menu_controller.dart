@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gyaawa/Data/Repository/repository.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Dashboard/controller/vendor_dashboard_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Products/controller/vendor_product_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/menu/controller/vendor_menu_controller.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/vendor_add_product/Models/vendor_product_attribute_model.dart';
@@ -28,6 +29,7 @@ class VendorEditMenuController extends GetxController {
   final VendorProductController restaurantProductController = Get.put(VendorProductController());
   final VendorMenuController restaurantMenuController =
       Get.isRegistered<VendorMenuController>() ? Get.find<VendorMenuController>() : Get.put(VendorMenuController());
+  final VendorDashboardController restaurantDashboardController = Get.put(VendorDashboardController());
 
   final ScrollController scrollController = ScrollController();
   GlobalKey<FormState> publishButtonKey = GlobalKey<FormState>();
@@ -786,11 +788,40 @@ class VendorEditMenuController extends GetxController {
     if (picked != null) { _pickedFile = picked; cropImage(image, imageBase64); update(); }
   }
 
-  Future<void> pickMoreImage(int index) async {
-    final XFile? picked = await _picker.pickImage(source: ImageSource.gallery);
-    if (picked != null) { _pickedFile = picked; cropImage(additionalImages[index], additionalImageBase64[index]); update(); }
-  }
+  // Future<void> pickMoreImage(int index) async {
+  //   final XFile? picked = await _picker.pickImage(source: ImageSource.gallery);
+  //   if (picked != null) { _pickedFile = picked; cropImage(additionalImages[index], additionalImageBase64[index]); update(); }
+  // }
+  // Future<void> pickMoreImage(int index) async {
+  //   final XFile? pickedImage = await _picker.pickImage(
+  //       source: ImageSource.gallery);
+  //
+  //   if (pickedImage != null) {
+  //     _pickedFile = pickedImage;
+  //     cropImage(additionalImages[index], additionalImageBase64[index]);
+  //     update();
+  //   }
+  // }
 
+  Future<void> pickMoreImage(int index) async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+
+      // ✅ OLD API IMAGE CLEAR
+      additionalImageFromApi[index].value = '';
+
+      _pickedFile = pickedImage;
+
+      await cropImage(
+        additionalImages[index],
+        additionalImageBase64[index],
+      );
+
+      update();
+    }
+  }
   // ─── Validate before update (same flow as add product) ──────────────────
   Future<bool> validateBeforeUpdate() async {
     // 1. Image check
@@ -845,12 +876,10 @@ class VendorEditMenuController extends GetxController {
     if (selectedStockSection.value.isEmpty) {
       scrollToField(stockSectionKey); return false;
     }
-
     // 4. Status
     if (status.value.trim().isEmpty) {
       scrollToField(stockSectionKey); return false;
     }
-
     // 5. Department / Category / SubCategory
     if (department.value.isEmpty) {
       scrollToField(departmentKey); return false;
@@ -861,56 +890,63 @@ class VendorEditMenuController extends GetxController {
     if (subCategory.value.isEmpty) {
       scrollToField(subCategoryKey); return false;
     }
-
     return true;
   }
-  Future<void> editProductApi() async {
-    Map<String, dynamic> data = {
-      "product_id": productId.value,
-      "title": titleController.value.text,
-      "description": descriptionController.value.text,
-      "regular_price": regularPriceController.value.text,
-      "promo_price": promoController.value.text,
-      "seller_sku": skuController.value.text,
-      "department": selectedDepartmentId.value,
-      "category": selectedCategoryId.value,
-      "sub_category": selectedSubCategoryId.value,
-      "quantity_in_stock": stockController.value.text,
-      "stock_unit": selectedStockSection.value.toLowerCase(),
-      "bar_code": barcodeController.value.text,
-      "conditions": conditionController.value.text,
-      "package_dimension": packageController.value.text,
-      "weight": weightController.value.text,
-      "fullfillment_type": fulfillmentController.value.text,
-      "order_preparation_time": preparationController.value.text,
-      "status": status.value,
-      "has_variants": hasVariants.value ? "1" : "0",
-    };
+    Future<void> editProductApi() async {
 
-    // Additional details
-    attributeData.value.additionalDetails?.forEach((detail) {
-      final key = detail.slug ?? "";
-      data["additional_details[$key]"] = additionalControllers[key]?.text.trim() ?? "";
-    });
+      Map<String, dynamic> data = {
+        "product_id": productId.value,
+        "title": titleController.value.text,
+        "description": descriptionController.value.text,
+        "regular_price": regularPriceController.value.text,
+        "promo_price": promoController.value.text,
+        "seller_sku": skuController.value.text,
+        "department": selectedDepartmentId.value,
+        "category": selectedCategoryId.value,
+        "sub_category": selectedSubCategoryId.value,
+        "quantity_in_stock": stockController.value.text,
+        "stock_unit": selectedStockSection.value.toLowerCase(),
+        "bar_code": barcodeController.value.text,
+        "conditions": conditionController.value.text,
+        "package_dimension": packageController.value.text,
+        "weight": weightController.value.text,
+        "fullfillment_type": fulfillmentController.value.text,
+        "order_preparation_time": preparationController.value.text,
+        "status": status.value,
+        "has_variants": hasVariants.value ? "1" : "0",
+      };
 
-    // Image — only send if new image picked
-    if (image.value != null) {
-      data["image"] = imageBase64.value;
-    }
 
-    // Additional images
-    for (int i = 0; i < additionalImageBase64.length; i++) {
-      final val = additionalImageBase64[i].value;
-      if (val.isEmpty) continue;
-      if (val.startsWith('http')) {
-        // existing image — send filename
-        data["addimg${i + 1}"] = ImageUrlFormater.extractFilename(val);
-      } else {
-        // new base64 image
-        data["addimg${i + 1}"] = val;
+      attributeData.value.additionalDetails?.forEach((detail) {
+        final key = detail.slug ?? "";
+        data["additional_details[$key]"] = additionalControllers[key]?.text.trim() ?? "";
+      });
+
+      if (image.value != null &&
+          imageBase64.value.isNotEmpty &&
+          !imageBase64.value.startsWith("http")) {
+        data["cropped_image"] = imageBase64.value;
       }
-    }
 
+      for (int i = 0; i < additionalImageBase64.length; i++) {
+
+        final base64Val = additionalImageBase64[i].value;
+        final apiUrl = additionalImageFromApi[i].value;
+
+        if (base64Val.isNotEmpty &&
+            !base64Val.startsWith("http")) {
+
+          data["addimg[$i]"] =
+          "data:image/jpeg;base64,$base64Val";
+
+          print("✅ addimg[$i] => sent");
+        }
+        else if (apiUrl.isNotEmpty) {
+          final fileName = ImageUrlFormater.extractFilename(apiUrl);
+          data["data_image[$i]"] = fileName;
+          print("✅ data_image[$i] => $fileName");
+        }
+      }
     for (int i = 0; i < selectedVariantAttributes.length; i++) {
       data["variant_attribute[$i]"] = selectedVariantAttributes[i];
     }
@@ -948,6 +984,7 @@ class VendorEditMenuController extends GetxController {
       apiData.value = value;
       if (value.status == true) {
         setRxRequestStatus(ApiStatus.COMPLETED);
+        restaurantDashboardController.dashboardApi();
         restaurantMenuController.getProductListApi(isShowLoading: true);
         Get.back(result: true);
         Utils.showToast(apiData.value.message ?? "Product Updated Successfully");

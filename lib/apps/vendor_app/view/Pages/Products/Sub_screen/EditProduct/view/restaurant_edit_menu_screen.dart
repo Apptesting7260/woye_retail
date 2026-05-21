@@ -395,9 +395,10 @@ class RestaurantEditProductScreen extends StatelessWidget {
                   hintText: 'eg.Units,kg',
                   btnHeight: 50,
                   onChanged: (v) => c.selectedStockSection.value = v!.toLowerCase(),
-                  validator: (v) =>
-                      (v == null || v.isEmpty) ? 'Please select unit' : null,
-                )),
+                  // validator: (v) =>
+                  //     (v == null || v.isEmpty) ? 'Please select unit' : null,
+                )
+            ),
           ),
         ])),
       ]),
@@ -847,7 +848,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
                             //   child: AppContainer(
                             //     margin: const EdgeInsets.only(right: 8),
                             //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                            //     borderRadius: BorderRadius.circular(6),
+                            //
                             //     border: Border.all(color: AppColors.borderClr),
                             //     child: Icon(
                             //       Icons.delete_outline,
@@ -875,7 +876,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
                                   Expanded(
                                     child: TextField(
                                       controller: savedCtrl,
-                                      autofocus: true,
+                                      autofocus: false,
                                       style: AppFontStyle.text_13_400(
                                         AppColors.greyTextColor,
                                         fontFamily: AppFontFamily.interMedium,
@@ -920,7 +921,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
                               Expanded(
                                   child: TextField(
                                 controller: c.valueControllers[attr],
-                                autofocus: true,
+                                autofocus: false,
                                 style: AppFontStyle.text_13_400(AppColors.greyTextColor,
                                     fontFamily: AppFontFamily.interMedium),
                                 decoration: InputDecoration(
@@ -1018,7 +1019,7 @@ class RestaurantEditProductScreen extends StatelessWidget {
                             TableRow(children: [
                               _cell('Select'),
                               ...tableAttributes.map((attr) => _cell(attr)),
-                              _cell('SKU'),
+                              Center(child: _cell('SKU')),
                               _cell('Price'),
                               _cell('Stock'),
                             ]),
@@ -1118,14 +1119,6 @@ class RestaurantEditProductScreen extends StatelessWidget {
 
   Widget _publishButton() {
     return Row(children: [
-      Expanded(
-          child: CustomElevatedButton(
-        height: 52,
-        onPressed: () => Get.back(),
-        text: 'Cancel',
-        color: AppColors.white,
-      )),
-      wBox(8.w),
       Expanded(
           child: Obx(() => CustomElevatedButton(
                 height: 52,

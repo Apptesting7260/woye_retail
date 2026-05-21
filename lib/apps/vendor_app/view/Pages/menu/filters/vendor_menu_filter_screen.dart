@@ -15,8 +15,9 @@ import '../../../../../../shared/widgets/vendor_widgets/custom_elevated_button.d
 import '../../../../../../shared/widgets/vendor_widgets/print.dart';
 
 class VendorMenuFilterScreen extends GetView<VendorMenuController> {
-  const VendorMenuFilterScreen({super.key});
-
+   VendorMenuFilterScreen({super.key});
+  @override
+  final VendorMenuController controller = Get.put(VendorMenuController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

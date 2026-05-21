@@ -92,30 +92,12 @@ class VendorMenuItemDetailsScreen  extends GetView<VendorMenuItemDetailsControll
         hBox(20),
         categoryCuisine(product),
         hBox(20),
-        availabilityPreparation(product),
+        condition(product),
         hBox(20),
-        Text("Dietary Information",style: AppFontStyle.text_15_400(AppColors.black,fontFamily: AppFontFamily.gilroyMedium)),
-        hBox(2),
-        Text(product?.productAttributeName ?? "No special dietary attributes",maxLines: 10,style: AppFontStyle.text_14_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyMedium)),
+        inventoryPricing(product),
         hBox(20),
-        // Text("Allergen Information",style: AppFontStyle.text_16_400(AppColors.blackClr,fontFamily: AppFontFamily.gilroySemiBold)),
-        // hBox(8),
-        // Container(
-        //   decoration: BoxDecoration(
-        //       borderRadius: BorderRadius.circular(40),
-        //       color:AppColors.yellowClr.withAlpha(20),
-        //     border: Border.all(color: AppColors.yellowClr,width: 1)
-        //   ),
-        //   padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 4),
-        //   child: Text(
-        //     "Fish",
-        //     style: AppFontStyle.text_13_400(
-        //        AppColors.yellowClr,
-        //       fontFamily: AppFontFamily.gilroyMedium,
-        //     ),
-        //   ),
-        // ),
-        // hBox(25),
+        variants(product),
+        hBox(20),
         performanceStatics(),
         hBox(50),
       ],
@@ -148,7 +130,7 @@ class VendorMenuItemDetailsScreen  extends GetView<VendorMenuItemDetailsControll
                   ),
                   child:  Column(
                     children: [
-                      Text( controller.apiData.value.data?.product?.performanceStats?.totalOrders ?? "",style: AppFontStyle.text_20_600(AppColors.primary,fontFamily: AppFontFamily.gilroyMedium)),
+                      Text( controller.apiData.value.data?.product?.allOrdersCount ?? "0",style: AppFontStyle.text_20_600(AppColors.primary,fontFamily: AppFontFamily.gilroyMedium)),
                       Text("Total Orders",style: AppFontStyle.text_14_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyMedium)),
                     ],
                   ),
@@ -159,7 +141,7 @@ class VendorMenuItemDetailsScreen  extends GetView<VendorMenuItemDetailsControll
                   ),
                   child:  Column(
                     children: [
-                      Text(controller.apiData.value.data?.product?.performanceStats?.averageRating ?? "",style: AppFontStyle.text_20_600(AppColors.primary,fontFamily: AppFontFamily.gilroyMedium)),
+                      Text(controller.apiData.value.data?.product?.avgReviews ?? "0",style: AppFontStyle.text_20_600(AppColors.primary,fontFamily: AppFontFamily.gilroyMedium)),
                       Text("Average Rating",style: AppFontStyle.text_14_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyMedium)),
                     ],
                   ),
@@ -172,7 +154,7 @@ class VendorMenuItemDetailsScreen  extends GetView<VendorMenuItemDetailsControll
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("\$${double.tryParse(controller.apiData.value.data?.product?.performanceStats?.totalRevenue ?? "0")?.toStringAsFixed(2) ?? ""}",style: AppFontStyle.text_20_600(AppColors.primary,fontFamily: AppFontFamily.gilroyMedium)),
+                  Text("GHC ${double.tryParse(controller.apiData.value.data?.product?.totaProductRevenues ?? "0")?.toStringAsFixed(2) ?? ""}",style: AppFontStyle.text_20_600(AppColors.primary,fontFamily: AppFontFamily.gilroyMedium)),
                   Text("Total Revenue",style: AppFontStyle.text_14_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyMedium)),
                 ],
               ),
@@ -183,55 +165,451 @@ class VendorMenuItemDetailsScreen  extends GetView<VendorMenuItemDetailsControll
     );
   }
 
-  Widget availabilityPreparation(Product? product) {
-    return Row(
+  Widget variants(Product? product) {
+
+    Map<String, List<String>> groupedAttributes = {};
+
+    /// Get all variants
+    for (var variant in product?.variants ?? []) {
+
+      for (var attr in variant.attributes ?? []) {
+
+        final key = attr.attribute?.name ?? "";
+
+        final value = attr.attributeValue ?? "";
+
+        if (key.isEmpty || value.isEmpty) continue;
+
+        if (!groupedAttributes.containsKey(key)) {
+          groupedAttributes[key] = [];
+        }
+
+        /// avoid duplicate values
+        if (!groupedAttributes[key]!.contains(value)) {
+          groupedAttributes[key]!.add(value);
+        }
+      }
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Availability",style: AppFontStyle.text_14_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyMedium)),
-              Text(product?.menuSection?.capitalizeFirst.toString() ?? "",style: AppFontStyle.text_16_400(AppColors.black,fontFamily: AppFontFamily.gilroyMedium)),
-            ],
+
+        Text(
+          "Variants",
+          style: AppFontStyle.text_24_500(
+            AppColors.black,
+            fontFamily: AppFontFamily.interMedium,
           ),
         ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Preparation Time",style: AppFontStyle.text_14_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyMedium)),
-              Text(product?.preparationTime?.capitalizeFirst.toString() ?? "",style: AppFontStyle.text_16_400(AppColors.black,fontFamily: AppFontFamily.gilroyMedium)),
-            ],
-          ),
-        ),
+
+        hBox(10),
+
+        ...groupedAttributes.entries.map((entry) {
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 18),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                /// Attribute Name
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.borderClr),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    "${entry.key}:",
+                    style: AppFontStyle.text_14_400(
+                      AppColors.black,
+                      fontFamily: AppFontFamily.gilroyMedium,
+                    ),
+                  ),
+                ),
+
+                wBox(12),
+
+                /// Values
+                Expanded(
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: entry.value.map((value) {
+
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.borderClr,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          value,
+                          style: AppFontStyle.text_14_400(
+                            AppColors.black,
+                            fontFamily: AppFontFamily.gilroyMedium,
+                          ),
+                        ),
+                      );
+
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          );
+
+        }).toList(),
       ],
     );
   }
 
   Widget categoryCuisine(Product? product) {
-    return Row(
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Department",
+                  style: AppFontStyle.text_14_400(
+                    AppColors.greyClr,
+                    fontFamily: AppFontFamily.gilroyMedium,
+                  ),
+                ),
+                hBox(4),
+                Text(
+                  product?.departmentName ?? "",
+                  style: AppFontStyle.text_16_500(
+                    AppColors.black,
+                    fontFamily: AppFontFamily.interMedium,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Category",
+                  style: AppFontStyle.text_14_400(
+                    AppColors.greyClr,
+                    fontFamily: AppFontFamily.gilroyMedium,
+                  ),
+                ),
+                hBox(4),
+                Text(
+                  product?.categoryName ?? "",
+                  style: AppFontStyle.text_16_500(
+                    AppColors.black,
+                    fontFamily: AppFontFamily.interMedium,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  "Sub Category",
+                  style: AppFontStyle.text_14_400(
+                    AppColors.greyClr,
+                    fontFamily: AppFontFamily.gilroyMedium,
+                  ),
+                ),
+                hBox(4),
+                Text(
+                  product?.subCategoryName ?? "",
+                  textAlign: TextAlign.end,
+                  style: AppFontStyle.text_16_500(
+                    AppColors.black,
+                    fontFamily: AppFontFamily.interMedium,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  Widget condition(Product? product) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Category",style: AppFontStyle.text_14_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyMedium)),
-              Text(product?.categoryName ?? "",style: AppFontStyle.text_16_400(AppColors.black,fontFamily: AppFontFamily.gilroyMedium)),
-            ],
+        Text(
+          "Basic Information",
+          style: AppFontStyle.text_18_400(
+            AppColors.blueButtonColor,
+            fontFamily: AppFontFamily.interMedium,
           ),
         ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Cuisine Type",style: AppFontStyle.text_14_400(AppColors.greyClr,fontFamily: AppFontFamily.gilroyMedium)),
-              Text(product?.cuisineName ?? "",style: AppFontStyle.text_16_400(AppColors.black,fontFamily: AppFontFamily.gilroyMedium)),
-            ],
-          ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Condition",
+              style: AppFontStyle.text_14_500(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.interMedium,
+              ),
+            ),
+            Text(
+              product?.conditions ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Package Dimension",
+              style: AppFontStyle.text_14_400(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+            Text(
+              product?.packageDimension ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Weight",
+              style: AppFontStyle.text_14_400(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+            Text(
+              product?.weight ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Fulfillment Type",
+              style: AppFontStyle.text_14_400(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+            Text(
+              product?.fullfillmentType ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Order Preparation Time",
+              style: AppFontStyle.text_14_400(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+            Text(
+              product?.preparationTime ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Stock Unit",
+              style: AppFontStyle.text_14_400(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+            Text(
+              product?.preparationTime ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
+
+  Widget inventoryPricing(Product? product) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Inventory & Pricing",
+          style: AppFontStyle.text_18_400(
+            AppColors.blueButtonColor,
+            fontFamily: AppFontFamily.interMedium,
+          ),
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Current Stock:",
+              style: AppFontStyle.text_14_500(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.interMedium,
+              ),
+            ),
+            Text(
+              product?.stockUnit ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Unit Price",
+              style: AppFontStyle.text_14_400(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+            Text(
+              product?.productRealPrice?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "GSTIN/Barcode",
+              style: AppFontStyle.text_14_400(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+            Text(
+              product?.barCode ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Sku",
+              style: AppFontStyle.text_14_400(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+            Text(
+              product?.sellerSku ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+        hBox(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Updated",
+              style: AppFontStyle.text_14_400(
+                AppColors.greyClr,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+            Text(
+              product?.updatedDate ?? "",
+              style: AppFontStyle.text_16_400(
+                AppColors.black,
+                fontFamily: AppFontFamily.gilroyMedium,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+
 
   Widget statusAndAmount(Product? product) {
     return Row(
@@ -296,12 +674,12 @@ class VendorMenuItemDetailsScreen  extends GetView<VendorMenuItemDetailsControll
 
   GridView additionalImage(Product? product) {
     return GridView.builder(
-      itemCount: 4,
+      itemCount: 6,
       // always 4 boxes
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 3,
         crossAxisSpacing: 14,
         mainAxisSpacing: 14,
       ),

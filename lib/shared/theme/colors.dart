@@ -21,6 +21,7 @@ class AppColors {
   static Color cardBgClr = const Color(0xFFF6F6F6);
   static Color btnShadeOrange = const Color(0xFFFFEDD4);
   static Color darkRedColor = const Color(0xFF9F0712);
+  static Color pdfIconColor = const Color(0xFFA1A1A1);
   static const LinearGradient tealBlueGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -108,6 +109,7 @@ class AppColors {
   static Color darkBurntOrange = const Color(0xFF9F2D00);
   static Color purpleDarkColor = const Color(0xFF59168B);
   static Color purpleLightColor = const Color(0xFFF3E8FF);
+  static Color textClr = const Color(0xFF6A6E7A);
 
   static const LinearGradient lightWarmGradient = LinearGradient(
     begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color.fromRGBO(254, 242, 242, 1), Color.fromRGBO(255, 247, 237, 1),],);

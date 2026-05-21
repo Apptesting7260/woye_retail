@@ -1,4 +1,5 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:gyaawa/apps/vendor_app/view/Pages/Products/view/product_bulk_upload_screen.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/bindings/vendor_category_cuisines_binding.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/ChooseVendorCategories/view/choose_vendor_categories_screen.dart';
 import 'package:gyaawa/apps/vendor_app/view/Pages/Dashboard/controller/vendor_dashboard_binding.dart';
@@ -146,6 +147,9 @@ class VendorAppRoutes {
   static const String resNotificationSettingsScreen = "/resNotificationSettingsScreen";
   static const String vendorProductReviewScreen = "/retailProductReviewScreen";
 
+  // Bulk Upload Products
+  static const String productBulkUploadScreen = "/productBulkUploadScreen";
+
 
   //---------------------------------Notification----------------------------------------
   static const String notificationScreen = '/notificationScreen';
@@ -196,8 +200,8 @@ class VendorAppRoutes {
     GetPage(name: restaurantProfileScreen, page: () => const ProfileScreen()),
     GetPage(name: restaurantEditProductScreen, page: () => RestaurantEditProductScreen()),
     GetPage(name: resOrderTranHisScreen, page: () => const ResOrderTransHistoryScreen()),
-    GetPage(name: restaurantMenuFilterScreen, page: () => const VendorMenuFilterScreen()),
-    GetPage(name: restaurantBulkUploadMenuItems, page: () => const VendorBulkUploadMenuItems()),
+    GetPage(name: restaurantMenuFilterScreen, page: () =>  VendorMenuFilterScreen()),
+    GetPage(name: restaurantBulkUploadMenuItems, page: () => const ProductBulkUploadScreen()),
     GetPage(name: restaurantExportMenuItemScreen, page: () => const VendorExportMenuItemScreen(),binding: VendorExportMenuBinding()),
     GetPage(name: restaurantMenuItemDetailsScreen, page: () => const VendorMenuItemDetailsScreen(),binding: VendorMenuItemDetailsBinding()),
     GetPage(name: restaurantConfigurationScreen, page: () =>  const RestaurantConfigurationScreen(),binding: RestaurantSettingBinding()),
@@ -222,6 +226,7 @@ class VendorAppRoutes {
      GetPage(name: resCreateNotificationScreen, page: () =>  const ResCreateNotificationScreen()),
      GetPage(name: resNotificationSettingsScreen, page: () =>  const ResNotificationSettingsScreen(),binding: ResNotificationSettingsBindings()),
      GetPage(name: restaurantVendorAgreementCScreen, page: () =>  const RestaurantVendorAgreementCScreen(),binding: ResFaqsBinding()),
+     GetPage(name: productBulkUploadScreen, page: () => const ProductBulkUploadScreen()),
   //
     // //---------------------------------Notification----------------------------------------
     GetPage(name: notificationScreen, page: () => const NotificationScreen() , binding: NotificationsBinding()),
